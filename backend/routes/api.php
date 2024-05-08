@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\api\usersController;
 
+use App\Http\Controllers\api\AvailabilityController;
+use App\Http\Controllers\api\HotelsController;
+use App\Http\Controllers\api\RoomtypesController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -51,3 +55,9 @@ Route::resource('users', usersController::class);
 // ->middleware('auth:sanctum');
 
 
+Route::resource('hotels', HotelsController::class);
+Route::resource('roomtype', RoomtypesController::class);
+Route::resource('availability', AvailabilityController::class);
+
+
+Route::post('/availability/search', [AvailabilityController::class, 'searchBetweenDates'])->name('availability.search');
