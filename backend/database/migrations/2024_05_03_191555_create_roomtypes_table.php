@@ -19,7 +19,6 @@ return new class extends Migration
             $table->text('description')->nullable(); 
             $table->unsignedInteger('capacity')->default(2); 
             $table->decimal('price', 8, 2)->default(0.00);
-            $table->decimal('average_rate', 8, 2)->default(0.00);
             $table->timestamps();
         });
     }

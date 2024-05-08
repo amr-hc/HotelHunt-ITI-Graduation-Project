@@ -18,8 +18,11 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('country');
             $table->string('city');
+            $table->string('address');
             $table->enum('status', ['active', 'inactive', 'suspend'])->default('inactive');
             $table->unsignedInteger('star_rating')->default(1);
+            $table->decimal('balance', 8, 2)->default(0.00);
+            $table->decimal('average_rate', 8, 2)->default(0.00);
             $table->text('description')->nullable();
             $table->timestamps();
         });
