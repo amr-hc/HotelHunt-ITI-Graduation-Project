@@ -5,6 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 
 use App\Models\Availability;
+use App\Models\Roomtype;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -83,14 +84,40 @@ class AvailabilityController extends Controller
         ]);
 
         $city = $request->city;
-        // Retrieve availability records between the specified dates
-        $availabilities = Availability::whereHas('roomType.hotel', function ($query) use ($city) {
-            $query->where('city', $city);
-        })->whereBetween('date', [$request->start_date, $request->end_date])
-        ->groupBy('room_type_id')
-        ->select('room_type_id', DB::raw('MIN(stock) as min_stock'))//->havingRaw('min_stock > 0')
+        $start_date = $request->start_date;
+        $end_date = $request->end_date;
+
+    //     $query = "
+    //     SELECT roomtypes.id , roomtypes.hotel_id
+    //     FROM availabilities
+    //     INNER JOIN roomtypes ON roomtypes.id = availabilities.room_type_id
+    //     INNER JOIN hotels ON roomtypes.hotel_id = hotels.id
+    //     WHERE availabilities.stock > 0 AND availabilities.date BETWEEN '$start_date' AND '$end_date' AND hotels.city='$city'
+    //     GROUP by roomtypes.id ,roomtypes.hotel_id
+    //     HAVING COUNT(*) > DATEDIFF('$end_date', '$start_date')
+    //     ORDER BY roomtypes.hotel_id, roomtypes.price        
+    //     limit 10 offset 0;        
+    //     ";
+    
+    // $availabilities = DB::select($query);
+        // return $availabilities;
+
+
+        $availabilities = RoomType::select('roomtypes.id','roomtypes.name','roomtypes.price', 'roomtypes.hotel_id')
+        ->join('availabilities', 'roomtypes.id', '=', 'availabilities.room_type_id')
+        ->join('hotels', 'roomtypes.hotel_id', '=', 'hotels.id')
+        ->where('availabilities.stock', '>', 0)
+        ->whereBetween('availabilities.date', [$start_date, $end_date])
+        ->where('hotels.city', $city)
+        ->groupBy('roomtypes.id', 'roomtypes.hotel_id','roomtypes.name','roomtypes.price')
+        ->havingRaw('COUNT(*) > DATEDIFF(?, ?)', [$end_date, $start_date])
+        ->orderBy('roomtypes.hotel_id')
+        ->orderBy('roomtypes.price')
+        ->take(10)
+        ->offset(0)
         ->get();
-        
+
+        // return $availabilities;
 
         return AvailabilityResource::collection($availabilities);
 
