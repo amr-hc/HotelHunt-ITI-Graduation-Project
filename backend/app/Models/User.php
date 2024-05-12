@@ -48,4 +48,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    function hotels(){
+        return $this->hasMany(Hotel::class);
+    }
 }
+
+

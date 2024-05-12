@@ -10,6 +10,10 @@ class Hotel extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name','owner_id','country','city'
+        'name','country','city','address','status','balance','average_rate','text','owner_id','description'
     ];
+
+    function user(){
+        return $this->belongsTo(User::class , 'owner_id');
+    }
 }
