@@ -16,4 +16,8 @@ class Hotel extends Model
     function user(){
         return $this->belongsTo(User::class , 'owner_id');
     }
+
+    function rates(){
+        return $this->hasMany(Rate::class);
+    }
 }
