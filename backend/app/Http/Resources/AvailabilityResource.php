@@ -16,13 +16,14 @@ class AvailabilityResource extends JsonResource
     {
 
         return [
-            // 'room' => $this->roomtype,
-            // 'hotel' => $this->roomtype->hotel_id,
-            'hotel_id' => $this->hotel,
-            'id' => $this->id,
-            'name' => $this->name,
-            'price' => $this->price,
-            // 'min_stock' => $this->min_stock
+            "id"=> $this->id,
+            "stock"=> $this->stock,
+            "date"=> $this->date,
+            "room_type_id"=> $this->room_type_id,
+            "room_type"=> $this->roomtype->name,
+            "hotel_id"=> $this->hotel->id,
+            "hotel_name"=> $this->hotel->name,
+
         ];
 
         // return parent::toArray($request);
