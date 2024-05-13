@@ -23,10 +23,7 @@ class AvailabilityResource extends JsonResource
             "room_type"=> $this->roomtype->name,
             "hotel_id"=> $this->hotel->id,
             "hotel_name"=> $this->hotel->name,
-
         ];
-
-        // return parent::toArray($request);
 
 
     }

@@ -37,7 +37,7 @@ class usersController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreUserRequest $request)
-    {
+    {   
         $validatedData = $request->validated();
         $validatedData['password'] = Hash::make($validatedData['password']);
 

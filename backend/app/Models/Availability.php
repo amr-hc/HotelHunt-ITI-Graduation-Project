@@ -12,6 +12,10 @@ class Availability extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'total_rooms','room_type_id','date','stock'
+    ];
+
     public function roomtype(): BelongsTo
     {
         

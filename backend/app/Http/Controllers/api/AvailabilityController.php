@@ -5,11 +5,11 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 
 use App\Models\Availability;
-use App\Models\Roomtype;
+// use App\Models\Roomtype;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
+// use Carbon\Carbon;
 
-use Illuminate\Support\Facades\DB;
+// use Illuminate\Support\Facades\DB;
 
 use App\Http\Resources\AvailabilityResource;
 
@@ -43,15 +43,15 @@ class AvailabilityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Availability $availability)
+    public function show(string $id)
     {
-        //
+        return new AvailabilityResource(Availability::findOrFail($id)); 
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Availability $availability)
+    public function edit(string $id)
     {
         //
     }
@@ -59,15 +59,17 @@ class AvailabilityController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Availability $availability)
+    public function update(Request $request, string $id)
     {
-        //
+        $Availability=Availability::findOrFail($id);
+        $Availability->update($request->all());
+        return ["message"=> "updated"];
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Availability $availability)
+    public function destroy(string $id)
     {
         //
     }
