@@ -8,6 +8,7 @@ use App\Http\Controllers\api\usersController;
 use App\Http\Controllers\api\AvailabilityController;
 use App\Http\Controllers\api\HotelsController;
 use App\Http\Controllers\api\RoomtypesController;
+use App\Http\Controllers\api\RateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
  
-Route::post('/login', function (Request $request) {
+Route::post('/login', function (Request $request) { 
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
@@ -58,6 +59,8 @@ Route::resource('users', usersController::class);
 Route::resource('hotels', HotelsController::class);
 Route::resource('roomtype', RoomtypesController::class);
 Route::resource('availability', AvailabilityController::class);
+Route::resource('rates', RateController::class);
+
 
 
 Route::post('/availability/search', [AvailabilityController::class, 'searchBetweenDates'])->name('availability.search');
