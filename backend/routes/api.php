@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -63,4 +64,5 @@ Route::resource('rates', RateController::class);
 
 
 
-Route::post('/availability/search', [AvailabilityController::class, 'searchBetweenDates'])->name('availability.search');
+Route::post('/search', [SearchController::class, 'searchBetweenDates']);
+Route::post('/search/hotel', [SearchController::class, 'searchInHotel']);
