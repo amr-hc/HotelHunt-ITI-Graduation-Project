@@ -15,5 +15,5 @@ class Roomtype extends Model
         
         return $this->belongsTo(Hotel::class);
     }
-
+   
 }
