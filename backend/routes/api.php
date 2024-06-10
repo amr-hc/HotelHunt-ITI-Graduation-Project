@@ -10,6 +10,8 @@ use App\Http\Controllers\api\AvailabilityController;
 use App\Http\Controllers\api\HotelsController;
 use App\Http\Controllers\api\RoomtypesController;
 use App\Http\Controllers\api\RateController;
+use App\Http\Controllers\api\BookDetailsController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -61,7 +63,7 @@ Route::resource('hotels', HotelsController::class);
 Route::resource('roomtype', RoomtypesController::class);
 Route::resource('availability', AvailabilityController::class);
 Route::resource('rates', RateController::class);
-
+Route::resource('bookdetails',BookDetailsController::class);
 
 
 Route::post('/search', [SearchController::class, 'searchBetweenDates']);
