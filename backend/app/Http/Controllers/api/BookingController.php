@@ -27,7 +27,6 @@ class BookingController extends Controller
         // Validate the request
         $request->validate([
             'user_id' => 'required|exists:users,id',
-            'total_price' => 'required|numeric',
             'duration' => 'required|numeric',
             'status' => 'required|in:completed,progress,cancel',
             'books_details' => 'required|array',

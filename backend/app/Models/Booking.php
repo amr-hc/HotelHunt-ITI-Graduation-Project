@@ -14,7 +14,6 @@ class Booking extends Model
     protected $appends = ['total_price'];
     protected $fillable = [
         'user_id',
-        'total_price',
         'duration',
         'status',
     ];
