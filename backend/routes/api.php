@@ -11,6 +11,7 @@ use App\Http\Controllers\api\HotelsController;
 use App\Http\Controllers\api\RoomtypesController;
 use App\Http\Controllers\api\RateController;
 use App\Http\Controllers\api\BookDetailsController;
+use App\Http\Controllers\api\BookingController;
 use App\Http\Controllers\api\PaymentController;
 
 
@@ -37,16 +38,16 @@ Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
- 
-Route::post('/login', function (Request $request) { 
+
+Route::post('/login', function (Request $request) {
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
         'device_name' => 'required',
     ]);
- 
+
     $user = User::where('email', $request->email)->first();
- 
+
     if (! $user || ! Hash::check($request->password, $user->password)) {
         throw ValidationException::withMessages([
             'email' => ['The provided credentials are incorrect.'],
@@ -71,4 +72,5 @@ Route::post('/search', [SearchController::class, 'searchBetweenDates']);
 Route::post('/search/hotel', [SearchController::class, 'searchInHotel']);
 
 Route::resource('payments', PaymentController::class);
+Route::resource('booking', BookingController::class);
 
