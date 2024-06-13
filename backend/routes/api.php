@@ -11,6 +11,7 @@ use App\Http\Controllers\api\HotelsController;
 use App\Http\Controllers\api\RoomtypesController;
 use App\Http\Controllers\api\RateController;
 use App\Http\Controllers\api\BookDetailsController;
+use App\Http\Controllers\api\PaymentController;
 
 
 /*
@@ -68,3 +69,6 @@ Route::resource('bookdetails',BookDetailsController::class);
 
 Route::post('/search', [SearchController::class, 'searchBetweenDates']);
 Route::post('/search/hotel', [SearchController::class, 'searchInHotel']);
+
+Route::resource('payments', PaymentController::class);
+
