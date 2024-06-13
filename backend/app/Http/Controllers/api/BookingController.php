@@ -39,7 +39,7 @@ class BookingController extends Controller
         DB::beginTransaction();
 
         try {
-            $booking = Booking::create($request->only(['user_id', 'total_price', 'duration', 'status']));
+            $booking = Booking::create($request->only(['user_id', 'duration', 'status']));
 
             foreach ($request->books_details as $detail) {
                 BookDetail::create([
@@ -51,7 +51,7 @@ class BookingController extends Controller
             }
 
             DB::commit();
-            return response()->json($booking->load('booksDetails'), 201);
+            return response()->json($booking->load('book_details'), 201);
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json(['error' => 'Failed to create booking: ' . $e->getMessage()], 500);
