@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Hotel extends Model
 {
     use HasFactory;
+    protected $appends = ['average_rate'];
 
     protected $fillable = [
-        'name','country','city','address','status','balance','average_rate','text','owner_id','description'
+        'name','country','city','address','status','balance','text','owner_id','description',
     ];
 
     function user(){
@@ -20,4 +21,10 @@ class Hotel extends Model
     function rates(){
         return $this->hasMany(Rate::class);
     }
+    public function getAverageRateAttribute()
+    {
+        return $this->rates()->avg('rate');
+    }
+
+
 }
