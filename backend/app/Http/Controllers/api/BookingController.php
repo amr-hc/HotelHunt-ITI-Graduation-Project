@@ -7,6 +7,8 @@ use App\Models\BookDetail;
 use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\ValidationException;
 
 class BookingController extends Controller
 {
@@ -69,20 +71,61 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
+     public function update(Request $request, string $id)
+{
+    // Outer try-catch block
+    try {
         $booking = Booking::findOrFail($id);
 
+        // Validate the request
         $request->validate([
             'user_id' => 'sometimes|required|exists:users,id',
-            'total_price' => 'sometimes|required|numeric',
             'duration' => 'sometimes|required|numeric',
             'status' => 'sometimes|required|in:completed,progress,cancel',
+            'book_details' => 'sometimes|required|array',
+            'book_details.*.id' => 'sometimes|exists:book_details,id',
+            'book_details.*.roomType_id' => 'sometimes|required|exists:roomtypes,id',
+            'book_details.*.date' => 'sometimes|required|date',
+            'book_details.*.price' => 'sometimes|required|numeric',
         ]);
 
-        $booking->update($request->all());
-        return response()->json($booking, 200);
+        DB::beginTransaction();
+
+        try {
+
+            $booking->update($request->only(['user_id', 'duration', 'status']));
+
+            if ($request->has('book_details')) {
+                foreach ($request->book_details as $detail) {
+                    if (isset($detail['id'])) {
+                        $bookDetail = BookDetail::findOrFail($detail['id']);
+                        $bookDetail->update($detail);
+                    } else {
+                        BookDetail::create([
+                            'roomType_id' => $detail['roomType_id'],
+                            'book_id' => $booking->id,
+                            'date' => $detail['date'],
+                            'price' => $detail['price'],
+                        ]);
+                    }
+                }
+            }
+
+            DB::commit();
+            return response()->json($booking->load('book_details'), 200);
+        } catch (\Exception $innerException) {
+            DB::rollBack();
+            Log::error('Failed to update booking details: ' . $innerException->getMessage());
+            return response()->json(['error' => 'Failed to update booking details: ' . $innerException->getMessage()], 500);
+        }
+
+    } catch (ValidationException $validationException) {
+        return response()->json(['error' => $validationException->errors()], 422);
+    } catch (\Exception $outerException) {
+        Log::error('Failed to update booking: ' . $outerException->getMessage());
+        return response()->json(['error' => 'Failed to update booking: ' . $outerException->getMessage()], 500);
     }
+}
 
     /**
      * Remove the specified resource from storage.
