@@ -11,6 +11,7 @@ class Booking extends Model
 
     protected $table = 'booking';
 
+    protected $appends = ['total_price'];
     protected $fillable = [
         'user_id',
         'total_price',
@@ -22,6 +23,16 @@ class Booking extends Model
     {
         return $this->belongsTo(User::class, 'user_id');
     }
+
+    public function book_details()
+    {
+        return $this->hasMany(BookDetail::class, 'book_id');
+    }
+    public function getTotalPriceAttribute()
+    {
+        return $this->book_details()->sum('price');
+    }
+
 
 
 }

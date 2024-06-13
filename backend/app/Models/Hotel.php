@@ -23,6 +23,9 @@ class Hotel extends Model
     }
     public function getAverageRateAttribute()
     {
+        if ($this->rates()->count() == 0) {
+            return "0";
+        }
         return $this->rates()->avg('rate');
     }
 
