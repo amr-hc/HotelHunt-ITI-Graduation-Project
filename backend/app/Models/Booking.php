@@ -23,5 +23,9 @@ class Booking extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
+    public function booksDetails(){
+        return $this->hasMany(BookDetail::class, 'book_id');
+    }
+
 
 }
