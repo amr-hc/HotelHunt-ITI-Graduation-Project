@@ -13,6 +13,8 @@ use App\Http\Controllers\api\RateController;
 use App\Http\Controllers\api\BookDetailsController;
 use App\Http\Controllers\api\BookingController;
 use App\Http\Controllers\api\PaymentController;
+use App\Http\Controllers\api\CommentController;
+
 
 
 /*
@@ -66,6 +68,8 @@ Route::resource('roomtype', RoomtypesController::class);
 Route::resource('availability', AvailabilityController::class);
 Route::resource('rates', RateController::class);
 Route::resource('bookdetails',BookDetailsController::class);
+Route::apiResource('comments', CommentController::class);
+
 
 
 Route::post('/search', [SearchController::class, 'searchBetweenDates']);
