@@ -26,6 +26,10 @@ class HotelResource extends JsonResource
             "average_rate" => $this->average_rate,
             "description" => $this->description,
             "star_rating" => $this->star_rating,
+
+
+            "balancee" => $this->balancee,
+
         ];
     }
 }
