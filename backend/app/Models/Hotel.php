@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Hotel extends Model
 {
     use HasFactory;
-    protected $appends = ['average_rate','balancee'];
+    protected $appends = ['average_rate','balance'];
 
     protected $fillable = [
-        'name','country','city','address','status','balance','text','owner_id','description',
+        'name','country','city','address','status','text','owner_id','description',
     ];
 
     function user(){
@@ -34,13 +34,17 @@ class Hotel extends Model
         return $this->hasMany(Payment::class);
     }
 
-    function book_details(){
-        return $this->hasManyThrough(BookDetail::class, Roomtype::class);
-    }
 
-    public function getBalanceeAttribute()
+    public function getBalanceAttribute()
     {
-        return $this->payments()->sum('amount')-$this->book_details()->sum('book_details.price')*0.10;
+        $total_cost = \DB::table('hotels')
+        ->join('roomtypes', 'roomtypes.hotel_id', '=', 'hotels.id')
+        ->join('book_details', 'book_details.roomtype_id', '=', 'roomtypes.id')
+        ->join('booking', 'booking.id', '=', 'book_details.book_id')
+        ->where('booking.status', 'completed')
+        ->sum('book_details.price')*0.10;
+        
+        return $this->payments()->sum('amount')-$total_cost;
     }
 
 
