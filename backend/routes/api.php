@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\HotelImagesController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -77,4 +78,13 @@ Route::post('/search/hotel', [SearchController::class, 'searchInHotel']);
 
 Route::resource('payments', PaymentController::class);
 Route::resource('booking', BookingController::class);
+
+
+Route::prefix('hotels')->group(function () {
+    Route::get('{hotel}/images', [HotelImagesController::class, 'index']); // List images
+    Route::post('{hotel}/images', [HotelImagesController::class, 'store']); // Add image
+    Route::get('images/{image}', [HotelImagesController::class, 'show']); // Show a single image
+    Route::put('images/{image}', [HotelImagesController::class, 'update']); // Update image
+    Route::delete('images/{image}', [HotelImagesController::class, 'destroy']); // Delete image
+});
 
