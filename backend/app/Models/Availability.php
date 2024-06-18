@@ -28,5 +28,11 @@ class Availability extends Model
     {
         return $this->hasOneThrough(Hotel::class, Roomtype::class, 'id', 'id', 'room_type_id', 'hotel_id');
     }
+
+    public function book_details()
+    {
+        return $this->hasMany(BookDetail::class,'roomType_id','room_type_id')
+        ->where('date', $this->date);
+    }
     
 }
