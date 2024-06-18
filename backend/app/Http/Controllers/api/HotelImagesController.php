@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Hotel;
 use App\Models\HotelImage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class HotelImagesController extends Controller
@@ -14,21 +15,28 @@ class HotelImagesController extends Controller
         $images = $hotel->images()->get();
         return response()->json($images,200);
     }
-    public function store(Request $request, Hotel $hotel){
+    public function store(Request $request, Hotel $hotel)
+    {
         $validator = Validator::make($request->all(), [
-            'image' => 'required|string|max:255',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:10000',
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
 
-        $image = new HotelImage();
-        $image->hotel_id = $hotel->id;
-        $image->image = $request->image;
-        $image->save();
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('hotel_images', 'public');
 
-        return response()->json($image, 201);
+            $image = new HotelImage();
+            $image->hotel_id = $hotel->id;
+            $image->image = $imagePath;
+            $image->save();
+
+            return response()->json($image, 201);
+        } else {
+            return response()->json(['error' => 'No image uploaded'], 400);
+        }
     }
 
     public function show(HotelImage $image)
@@ -37,22 +45,49 @@ class HotelImagesController extends Controller
     }
 
     public function update(Request $request, HotelImage $image)
-    {
-        $validator = Validator::make($request->all(), [
-            'image' => 'string|max:255',
-        ]);
+{
+    // Validate the incoming request
+    $validator = Validator::make($request->all(), [
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Validate file
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 400);
+    }
+
+    // Check if a new image file is uploaded
+    if ($request->hasFile('image')) {
+        // Store the new image file
+        $newImagePath = $request->file('image')->store('hotel_images', 'public');
+
+        // Delete the old image file if it exists
+        if ($image->image && Storage::disk('public')->exists($image->image)) {
+            Storage::disk('public')->delete($image->image);
         }
 
-        $image->update($request->all());
+        // Update the image path in the database
+        $image->update(['image' => $newImagePath]);
+    }
 
-        return response()->json($image, 200);
-    }
+    // Update other fields if present, excluding the image field
+    $image->update($request->except(['image']));
+
+    // Return the updated image data
+    return response()->json($image, 200);
+}
     public function destroy(HotelImage $image)
-    {
-        $image->delete();
-        return response()->json(['message' => 'Image deleted successfully'], 200);
+{
+    // Check if the image file exists in the storage
+    if (Storage::disk('public')->exists($image->image)) {
+        // Delete the image file from storage
+        Storage::disk('public')->delete($image->image);
     }
+
+    // Delete the record from the database
+    $image->delete();
+
+    // Return a success response
+    return response()->json(['message' => 'Image deleted successfully'], 200);
+}
+
 }

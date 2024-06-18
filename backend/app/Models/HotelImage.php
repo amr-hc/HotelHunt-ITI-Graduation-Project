@@ -9,6 +9,8 @@ class HotelImage extends Model
 {
     use HasFactory;
 
+    protected $table = 'hotel_pictures';
+
     protected $fillable = ['hotel_id', 'image'];
 
     public function hotel(){
