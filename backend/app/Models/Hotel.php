@@ -43,8 +43,12 @@ class Hotel extends Model
         ->join('booking', 'booking.id', '=', 'book_details.book_id')
         ->where('booking.status', 'completed')
         ->sum('book_details.price')*0.10;
-        
+
         return $this->payments()->sum('amount')-$total_cost;
+    }
+
+    public function images(){
+        return $this->hasMany(HotelImage::class);
     }
 
 
