@@ -5,5 +5,6 @@ import { SearchHotelsComponent } from './user/search-hotels/search-hotels.compon
 
 export const routes: Routes = [
   {path: 'register', component: RegisterComponent },
-  {path: 'availability',component: AvailabilityComponent,},
+  { path: 'availability', component: AvailabilityComponent, },
+  { path: 'search', component: SearchHotelsComponent },
 ];
