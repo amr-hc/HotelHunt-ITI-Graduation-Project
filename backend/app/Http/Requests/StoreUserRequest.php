@@ -24,14 +24,32 @@ class StoreUserRequest extends FormRequest
         return [
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'phone' => ['required', 'string', 'max:25'], 
+            'phone' => ['required', 'string', 'max:25'],
             'address' => ['required', 'string', 'max:255'],
-            'role' => ['required', 'string', 'max:50'], 
-            'fname' => ['required', 'string', 'max:100'], 
+            'role' => ['required', 'string', 'max:50'],
+            'fname' => ['required', 'string', 'max:100'],
             'lname' => ['required', 'string', 'max:100'],
             'age' => ['required', 'integer', 'min:18'],
             'photo' => ['nullable', 'image', 'max:2048']
         ];
-        
+
+    }
+
+    public function messages(): array
+    {
+        return [
+            'email.email' => 'Please provide a valid email address.',
+            'password.min' => 'Password must be at least :min characters long.',
+            'password.confirmed' => 'Password confirmation does not match.',
+            'phone.max' => 'Phone number must not exceed :max characters.',
+            'address.max' => 'Address must not exceed :max characters.',
+            'role.max' => 'Role must not exceed :max characters.',
+            'fname.max' => 'First name must not exceed :max characters.',
+            'lname.max' => 'Last name must not exceed :max characters.',
+            'age.integer' => 'Age must be a valid number.',
+            'age.min' => 'Age must be at least :min years old.',
+            'photo.image' => 'The file must be an image.',
+            'photo.max' => 'The image size must not exceed :max kilobytes.',
+        ];
     }
 }
