@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class Hotel extends Model
 {
@@ -37,7 +39,7 @@ class Hotel extends Model
 
     public function getBalanceAttribute()
     {
-        $total_cost = \DB::table('hotels')
+        $total_cost = DB::table('hotels')
         ->join('roomtypes', 'roomtypes.hotel_id', '=', 'hotels.id')
         ->join('book_details', 'book_details.roomtype_id', '=', 'roomtypes.id')
         ->join('booking', 'booking.id', '=', 'book_details.book_id')
