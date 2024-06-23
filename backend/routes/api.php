@@ -67,6 +67,7 @@ Route::resource('users', usersController::class);
 Route::resource('hotels', HotelsController::class);
 Route::resource('roomtype', RoomtypesController::class);
 Route::resource('availability', AvailabilityController::class);
+Route::get('availability/room/{room}', [AvailabilityController::class, 'specificRoom']);
 Route::resource('rates', RateController::class);
 Route::resource('bookdetails',BookDetailsController::class);
 Route::apiResource('comments', CommentController::class);

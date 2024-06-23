@@ -1,0 +1,29 @@
+<!-- show-availability.component.html -->
+<div class="container mt-5">
+    <h2>Room Availability</h2>
+  
+    <div class="form-group">
+      <label for="monthSelect">Select Month:</label>
+      <select id="monthSelect" class="form-control" (change)="onMonthSelect($event)">
+        <option *ngFor="let month of months" [value]="month.value" [selected]="month.value === currentMonthValue">
+          {{ month.label }}
+        </option>
+      </select>
+    </div>
+  
+    <div class="row">
+      <div class="col-md-3" *ngFor="let day of calendarDays">
+        <div class="card mb-3">
+          <div class="card-body">
+            <h5 class="card-title">{{ day.date | date: 'MMMM dd, yyyy' }}</h5>
+            <p class="card-text">
+              <strong>Stock:</strong> {{ day.stock }}<br>
+              <strong>Room Type:</strong> {{ day.room_type || 'N/A' }}<br>
+              <strong>Hotel:</strong> {{ day.hotel_name || 'N/A' }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

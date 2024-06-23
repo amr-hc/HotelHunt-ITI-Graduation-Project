@@ -5,7 +5,7 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 
 use App\Models\Availability;
-// use App\Models\Roomtype;
+use App\Models\Roomtype;
 use Illuminate\Http\Request;
 // use Carbon\Carbon;
 
@@ -22,6 +22,11 @@ class AvailabilityController extends Controller
     {
         // return Availability::all();
         return AvailabilityResource::collection(Availability::all());
+    }
+
+    public function specificRoom(Roomtype $room)
+    {
+        return AvailabilityResource::collection($room->availability);
     }
 
     /**
@@ -47,6 +52,7 @@ class AvailabilityController extends Controller
     {
         return new AvailabilityResource(Availability::findOrFail($id)); 
     }
+
 
     /**
      * Show the form for editing the specified resource.
