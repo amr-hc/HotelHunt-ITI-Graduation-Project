@@ -17,4 +17,19 @@ export class AuthService {
   login(credentials: any): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, credentials);
   }
+
+  handleLoginSuccess(credentials: any): void {
+    localStorage.setItem('userId', credentials.user.id);
+    localStorage.setItem('userRole', credentials.user.role);
+    localStorage.setItem('token', credentials.token);
+  }
+
+  logout(): Observable<void> {
+    localStorage.removeItem('userId');
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('token');
+
+    return this.http.post<void>(`${this.apiUrl}/logout`, {});
+  }
 }
+
