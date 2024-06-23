@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../service/auth.service';
+import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -27,6 +27,7 @@ export class RegisterComponent {
   };
 
   passwordMismatch = false;
+  registrationError: string | null = null;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -41,7 +42,7 @@ export class RegisterComponent {
     this.authService.register(this.userData).subscribe(
       (res) => {
         if (this.userData.role === 'admin') {
-          this.router.navigate(['/register-hotel']);
+          this.router.navigate(['/register/hotel'], { queryParams: { owner_id: res.user.id } });
         } else {
           // this.router.navigate(['/login']);
           console.log('Register done');
@@ -49,6 +50,11 @@ export class RegisterComponent {
       },
       (error) => {
         console.error('Registration failed', error);
+        if (error.error && error.error.message) {
+          this.registrationError = error.error.message;
+        } else {
+          this.registrationError = 'Failed to register. Please try again later.';
+        }
       }
     );
   }
