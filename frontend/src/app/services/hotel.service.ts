@@ -19,4 +19,9 @@ export class HotelService {
   getHotelById(id: number): Observable<{ data: Hotel }> {
     return this.http.get<{ data: Hotel }>(`${this.apiUrl}${id}`);
   }
+
+  //get all hotels
+  getAllHotels(): Observable<{ data: Hotel[] }> {
+    return this.http.get<{ data: Hotel[] }>(this.apiUrl);
+  }
 }
