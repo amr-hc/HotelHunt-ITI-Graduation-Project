@@ -1,7 +1,7 @@
 <!-- src/app/hotels/hotels.component.html -->
 <div class="container mt-4">
   <h2>Hotel List</h2>
-  <table class="table table-striped">
+  <table class="table table-striped text-center">
     <thead>
       <tr>
         <th>ID</th>
@@ -18,7 +18,7 @@
         <td>{{ hotel.name }}</td>
         <td>{{ hotel.city }}</td>
         <td>
-          <select [(ngModel)]="hotel.status">
+          <select (change)="updateHotelStatus(hotel)">
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
             <option value="suspend">Suspend</option>
@@ -26,7 +26,8 @@
         </td>
         <td>{{ hotel.star_rating }}</td>
         <td>
-          <button class="btn btn-primary" (click)="saveStatus(hotel)">Save</button>
+          <button class="btn btn-info btn-sm" (click)="viewHotelDetails(hotel.id)">View</button>
+          <button class="btn btn-danger btn-sm ms-1" (click)="confirmDeleteHotel(hotel.id)">Delete</button>
         </td>
       </tr>
     </tbody>
