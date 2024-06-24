@@ -23,5 +23,9 @@ class Roomtype extends Model
 
         return $this->belongsTo(Hotel::class);
     }
+    public function availability()
+    {
+        return $this->hasMany(Availability::class, 'room_type_id');
+    }
 
 }

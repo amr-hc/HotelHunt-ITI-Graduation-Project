@@ -16,6 +16,8 @@ export class HotelComponent implements OnInit, OnDestroy{
   hotel:Hotel | null = null ;
   sub: Subscription | null = null;
 
+  // images: HotelImage[] = [];
+
   constructor(public activatedRoute: ActivatedRoute, public hotelService:HotelService){}
 
   ngOnInit(): void {
@@ -26,6 +28,9 @@ export class HotelComponent implements OnInit, OnDestroy{
         console.log("Full response data:", response);
         console.log("Hotel is:", this.hotel);
         console.log("City is:", this.hotel.city);
+
+
+    
       });
     });
   }

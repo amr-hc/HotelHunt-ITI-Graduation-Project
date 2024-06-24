@@ -11,7 +11,7 @@ class HotelImage extends Model
 
     protected $table = 'hotel_pictures';
 
-    protected $fillable = ['hotel_id', 'image'];
+    protected $fillable = ['hotel_id', 'images'];
 
     public function hotel(){
         return $this->belongsTo(Hotel::class);

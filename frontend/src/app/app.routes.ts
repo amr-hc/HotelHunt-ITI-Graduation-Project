@@ -22,4 +22,7 @@ export const routes: Routes = [
   {path : "add" , component : AddComponent },
   {path : "update/:id" , component : UpdateComponent }
   
+
+  { path:'admin-dashboard',     loadChildren: () =>
+    import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)}
 ];

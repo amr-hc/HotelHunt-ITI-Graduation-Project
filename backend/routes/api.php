@@ -46,7 +46,7 @@ Route::post('/login', function (Request $request) {
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
-        'device_name' => 'required',
+        // 'device_name' => 'required',
     ]);
 
     $user = User::where('email', $request->email)->first();
@@ -56,7 +56,8 @@ Route::post('/login', function (Request $request) {
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
-    return ["user" => $user, "token" => $user->createToken($request->device_name)->plainTextToken];
+    // return ["user" => $user, "token" => $user->createToken($request->device_name)->plainTextToken];
+    return ["user" => $user,"token" => $user->createToken('')->plainTextToken];
 });
 
 
@@ -67,6 +68,7 @@ Route::resource('users', usersController::class);
 Route::resource('hotels', HotelsController::class);
 Route::resource('roomtype', RoomtypesController::class);
 Route::resource('availability', AvailabilityController::class);
+Route::get('availability/room/{room}', [AvailabilityController::class, 'specificRoom']);
 Route::resource('rates', RateController::class);
 Route::resource('bookdetails',BookDetailsController::class);
 Route::apiResource('comments', CommentController::class);
