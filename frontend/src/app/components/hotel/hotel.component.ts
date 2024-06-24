@@ -4,18 +4,20 @@ import { Hotel } from '../../models/hotel';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { HotelRoomAvailabilityComponent } from '../../user/hotel-room-availability/hotel-room-availability.component';
+import { HotelImage } from '../../models/hotelImage';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-hotel',
   standalone: true,
-  imports: [HotelRoomAvailabilityComponent],
+  imports: [HotelRoomAvailabilityComponent,CommonModule],
   templateUrl: './hotel.component.html',
   styleUrl: './hotel.component.css'
 })
 export class HotelComponent implements OnInit, OnDestroy{
   hotel:Hotel | null = null ;
   sub: Subscription | null = null;
-  // images: HotelImage[] = [];
+  images: HotelImage[] = [];
 
   constructor(public activatedRoute: ActivatedRoute, public hotelService:HotelService){}
 
@@ -28,7 +30,12 @@ export class HotelComponent implements OnInit, OnDestroy{
         console.log("Hotel is:", this.hotel);
         console.log("City is:", this.hotel.city);
 
-    
+        this.hotelService.getHotelImages(id).subscribe((images) => {
+          console.log("response is",images)
+          this.images = images;
+          console.log("Hotel images:", this.images);
+
+          });
       });
     });
   }
