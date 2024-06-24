@@ -23,7 +23,7 @@
 <!-- Display hotel rooms -->
 
 <div *ngIf="rooms.length > 0" class="room-list">
-  <h3 class="mb-3 text-center" >Available Rooms</h3>
+  <h3 class="mb-3 text-center">Available Rooms</h3>
   <table class="table table-striped w-75 mx-auto">
     <thead class="table-info">
       <tr>
@@ -41,14 +41,16 @@
         <td>{{ room.price }}</td>
         <td>{{ room.stock }}</td>
         <td>
-          <select class="form-control" id="select-room-{{ room.id }}">
-            <option *ngFor="let i of getRoomOptions(room.stock)">{{ i }}</option>
+          <select class="form-control" id="select-room-{{ room.id }}" (change)="onRoomSelectionChange(room.id, $event)">
+            <option *ngFor="let i of getRoomOptions(room.stock)" [value]="i">{{ i }}</option>
           </select>
         </td>
       </tr>
     </tbody>
   </table>
-  <div class="text-center"><button class="btn btn-primary mx-auto">Reseve</button></div>
+  <div class="text-center">
+    <button class="btn btn-primary mx-auto my-5" (click)="onReserve()">Reserve</button>
+  </div>
 </div>
 
 <div *ngIf="rooms.length === 0" class="alert alert-warning">
