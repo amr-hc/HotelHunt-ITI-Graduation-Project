@@ -44,8 +44,8 @@ export class RegisterComponent {
         if (this.userData.role === 'admin') {
           this.router.navigate(['/register/hotel'], { queryParams: { owner_id: res.user.id } });
         } else {
-          // this.router.navigate(['/login']);
-          console.log('Register done');
+          this.router.navigate(['/login']);
+          // console.log('Register done');
         }
       },
       (error) => {

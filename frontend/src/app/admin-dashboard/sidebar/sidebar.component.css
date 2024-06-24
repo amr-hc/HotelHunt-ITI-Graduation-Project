@@ -1,0 +1,11 @@
+.accordion {
+  padding-left: 10px;
+}
+
+.accordion-item {
+  padding: 2px 0;
+}
+
+.users-link, .nav-link {
+  cursor: pointer;
+}

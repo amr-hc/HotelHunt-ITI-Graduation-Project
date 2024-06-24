@@ -8,6 +8,7 @@ interface Availability {
   stock: number;
   date: string;
   room_type_id: number;
+  total_rooms: number;
   room_type: string;
   hotel_id: number;
   hotel_name: string;
@@ -16,6 +17,7 @@ interface Availability {
 interface CalendarDay {
   date: Date;
   stock: number;
+  total_rooms: number;
   room_type?: string;
   hotel_name?: string;
 }
@@ -28,7 +30,7 @@ interface CalendarDay {
   styleUrls: ['./show-availability.component.css']
 })
 export class ShowAvailabilityComponent implements OnInit {
-  availabilityData: Availability[] = [];
+  availabilityData: any[] = []; // Assuming availabilityData is of type any[]
   calendarDays: CalendarDay[] = [];
   currentMonthValue: string = '';
   months: { value: string, label: string }[] = [];
@@ -58,7 +60,16 @@ export class ShowAvailabilityComponent implements OnInit {
   }
 
   fetchAvailability(): void {
-    this.onMonthSelect(this.currentMonthValue); // Directly call onMonthSelect with currentMonthValue
+    this.http.get<any>('http://127.0.0.1:8000/api/availability/room/1').subscribe(
+      response => {
+        this.availabilityData = response.data;
+        this.onMonthSelect(this.currentMonthValue); // Call onMonthSelect after fetching data
+      },
+      error => {
+        console.error('Error fetching availability:', error);
+        // Handle error as needed
+      }
+    );
   }
 
   onMonthSelect(eventOrValue: Event | string): void {
@@ -70,12 +81,11 @@ export class ShowAvailabilityComponent implements OnInit {
     }
 
     const [year, month] = monthValue.split('-').map(Number);
-    const firstDayOfMonth = new Date(year, month - 1, 1);
     const lastDayOfMonth = new Date(year, month, 0);
     const daysInMonth = lastDayOfMonth.getDate();
-
     const daysArray: CalendarDay[] = [];
-    for (let day = 1; day <= daysInMonth; day++) {
+
+    for (let day = 2; day-1 <= daysInMonth; day++) {
       const date = new Date(year, month - 1, day);
       const dateString = date.toISOString().split('T')[0];
       const availabilityForDay = this.availabilityData.find(item => item.date === dateString);
@@ -84,11 +94,19 @@ export class ShowAvailabilityComponent implements OnInit {
         daysArray.push({
           date: new Date(availabilityForDay.date),
           stock: availabilityForDay.stock,
+          total_rooms: availabilityForDay.total_rooms,
           room_type: availabilityForDay.room_type,
           hotel_name: availabilityForDay.hotel_name
         });
       } else {
-        daysArray.push({ date: new Date(dateString), stock: 0 });
+        // Use default values if availability data for the day is not found
+        daysArray.push({
+          date: new Date(dateString),
+          stock: 0, // Default stock value
+          total_rooms: 0, // Default room type
+          room_type: 'N/A', // Default room type
+          hotel_name: 'N/A' // Default hotel name
+        });
       }
     }
 

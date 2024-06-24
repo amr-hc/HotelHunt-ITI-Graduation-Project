@@ -1,0 +1,71 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+.top-bar {
+  background-color: #e0e0e0;
+  padding: 10px 20px;
+  font-size: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.top-bar a {
+  color: #ffffff;
+  text-decoration: none;
+  margin-left: 10px;
+  padding: 8px 15px;
+  border-radius: 5px;
+  background-color: #0066cc;
+  transition: background-color 0.3s;
+}
+.top-bar a:hover {
+  background-color: #005bb5;
+}
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  border-bottom: 2px solid #0066cc;
+}
+.navbar .logo {
+  display: flex;
+  align-items: center;
+}
+.navbar .logo img {
+  height: 40px;
+}
+.navbar .logo span {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0066cc;
+}
+.navbar .menu {
+  display: flex;
+  align-items: center;
+}
+.navbar .menu a {
+  text-decoration: none;
+  color: #333333;
+  margin: 0 15px;
+  font-size: 18px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+.navbar .menu a:hover {
+  background-color: #0066cc;
+  color: #ffffff;
+}
+.navbar .contact {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+.navbar .contact img {
+  height: 20px;
+  margin-right: 5px;
+}
