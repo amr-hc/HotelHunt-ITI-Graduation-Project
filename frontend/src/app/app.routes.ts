@@ -5,6 +5,7 @@ import { RegisterHotelComponent } from './components/register-hotel/register-hot
 import { SearchHotelsComponent } from './user/search-hotels/search-hotels.component';
 import { LoginComponent } from './login/login.component';
 import { HotelComponent } from './components/hotel/hotel.component';
+import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 export const routes: Routes = [
   {path: 'register', component: RegisterComponent },
@@ -13,4 +14,6 @@ export const routes: Routes = [
   { path: 'search', component: SearchHotelsComponent },
   { path: 'hotel/:id' , component: HotelComponent},
   { path: 'login', component: LoginComponent },
+  { path:'admin-dashboard',     loadChildren: () =>
+    import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)}
 ];
