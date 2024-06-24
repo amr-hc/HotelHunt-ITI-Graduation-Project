@@ -18,7 +18,7 @@ class BookingController extends Controller
      */
     public function index()
 {
-    $bookings = Booking::with('book_details')->get();
+    $bookings = Booking::with('book_details.roomType.hotel')->get();
     return BookingResource::collection($bookings);
 }
 
@@ -65,7 +65,7 @@ class BookingController extends Controller
      */
     public function show($id)
 {
-    $booking = Booking::with('book_details')->findOrFail($id);
+    $booking = Booking::with('book_details.roomType.hotel')->findOrFail($id);
     return new BookingResource($booking);
 }
 
