@@ -18,6 +18,7 @@ class AvailabilityResource extends JsonResource
         return [
             "id"=> $this->id,
             "stock"=> $this->stock,
+            "total_rooms"=> $this->total_rooms,
             "date"=> $this->date,
             "room_type_id"=> $this->room_type_id,
             "room_type"=> $this->roomtype->name,
