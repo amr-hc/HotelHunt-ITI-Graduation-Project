@@ -63,11 +63,11 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        $booking = Booking::findOrFail($id);
-        return response()->json($booking, 200);
-    }
+    public function show($id)
+{
+    $booking = Booking::with('book_details')->findOrFail($id);
+    return new BookingResource($booking);
+}
 
     /**
      * Update the specified resource in storage.
