@@ -5,7 +5,6 @@ import { RegisterHotelComponent } from './components/register-hotel/register-hot
 import { SearchHotelsComponent } from './user/search-hotels/search-hotels.component';
 import { LoginComponent } from './login/login.component';
 import { HotelComponent } from './components/hotel/hotel.component';
-import { AdminDashboardComponent } from './admin-dashboard/admin-dashboard.component';
 
 export const routes: Routes = [
   {path: 'register', component: RegisterComponent },

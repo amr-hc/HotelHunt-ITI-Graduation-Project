@@ -24,4 +24,9 @@ export class HotelService {
   getAllHotels(): Observable<{ data: Hotel[] }> {
     return this.http.get<{ data: Hotel[] }>(this.apiUrl);
   }
+
+  //update hotel status
+  updateHotelStatus(id: number, status: 'active' | 'inactive' | 'suspend'): Observable<Hotel> {
+    return this.http.put<Hotel>(`${this.apiUrl}${id}/`, { status });
+  }
 }
