@@ -2,18 +2,17 @@ import { Component } from '@angular/core';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 
 @Component({
-  selector: 'app-users',
+  selector: 'app-owners',
   standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: './users.component.html',
-  styleUrl: './users.component.css',
+  imports: [CommonModule],
+  templateUrl: './owners.component.html',
+  styleUrl: './owners.component.css'
 })
-export class UsersComponent {
+export class OwnersComponent {
   users: User[] = [];
-  filteredUsers: User[] = [];
+  owners: User[] = [];
 
   constructor(private userService: UserService) {}
 
@@ -21,8 +20,7 @@ export class UsersComponent {
     this.userService.getAllUsers().subscribe(
       (response: any) => {
         this.users = response.data;
-        this.filteredUsers = this.users.filter((user) => user.role === 'guest');
-
+        this.owners = this.users.filter(user => user.role === 'owner');
         console.log('Fetched users:', this.users);
       },
       (error) => {
