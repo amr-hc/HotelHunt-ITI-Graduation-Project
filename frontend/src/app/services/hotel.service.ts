@@ -34,4 +34,9 @@ export class HotelService {
   updateHotelStatus(id: number, status: 'active' | 'inactive' | 'suspend'): Observable<Hotel> {
     return this.http.patch<Hotel>(`${this.apiUrl}${id}/`, { status });
   }
+
+  //delete hotel
+  deleteHotel(id: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}${id}/`);
+  }
 }

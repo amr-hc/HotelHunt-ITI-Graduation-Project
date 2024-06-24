@@ -1,0 +1,39 @@
+<div class="container col-md-6">
+    <h1 class="text-center">Update</h1>
+      <div class="card">
+  
+        <div *ngIf="message.length > 1 " class="alert alert-success">
+          {{ message }}
+        </div>
+  
+        <div class="card-body">
+          <div class="form-group">
+            <label for="">Type</label>
+            <input [(ngModel)]="hotel.name" type="text" class="form-control" name="" id="">
+          </div>
+          <div class="form-group">
+            <label for="">Hotel_id</label>
+            <input [(ngModel)]="hotel.hotel_id" type="text" class="form-control" name="" id="">
+          </div>
+          <div class="form-group">
+            <label for="">Price</label>
+            <input [(ngModel)]="hotel.price" type="text" class="form-control" name="" id="">
+          </div>
+  
+          <div class="form-group">
+            <label for="">Description</label>
+            <input [(ngModel)]="hotel.description" type="text" class="form-control" name="" id="">
+          </div>
+          <div class="form-group">
+            <label for="">Capacity</label>
+            <input [(ngModel)]="hotel.capacity" type="text" class="form-control" name="" id="">
+          </div>
+          <div class="d-grid pt-3">
+            <button class="btn btn-info" (click)="update()" > Update New </button>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  
+  
