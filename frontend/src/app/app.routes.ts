@@ -20,8 +20,8 @@ export const routes: Routes = [
   {path : "list" , component : ListComponent},
   {path : "show/:id" , component : ShowComponent },
   {path : "add" , component : AddComponent },
-  {path : "update/:id" , component : UpdateComponent }
-  
+  {path : "update/:id" , component : UpdateComponent },
+
 
   { path:'admin-dashboard',     loadChildren: () =>
     import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)}
