@@ -15,7 +15,7 @@ import { HotelRoomAvailabilityComponent } from '../../user/hotel-room-availabili
 export class HotelComponent implements OnInit, OnDestroy{
   hotel:Hotel | null = null ;
   sub: Subscription | null = null;
-  images: HotelImage[] = [];
+  // images: HotelImage[] = [];
 
   constructor(public activatedRoute: ActivatedRoute, public hotelService:HotelService){}
 
@@ -28,10 +28,7 @@ export class HotelComponent implements OnInit, OnDestroy{
         console.log("Hotel is:", this.hotel);
         console.log("City is:", this.hotel.city);
 
-        this.hotelService.getHotelImages(id).subscribe((images) => {
-          this.images = images;
-          console.log("Hotel images:", this.images);
-          });
+    
       });
     });
   }
