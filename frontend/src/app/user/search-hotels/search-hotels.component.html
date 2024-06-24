@@ -1,0 +1,48 @@
+<div class="search-bar bg-primary-subtle">
+  <form (ngSubmit)="onSearch()">
+    <div class="search-bar-container">
+      <div class="city">
+        <input type="text" [(ngModel)]="city" name="city" placeholder="city" />
+      </div>
+      <div class="date-range">
+        <label for="checkIn">Start Date:</label>
+        <input type="date" [(ngModel)]="checkinDate" name="checkinDate" placeholder="Check-in Date" id="checkIn"
+          class="form-control" />
+        <span>—</span>
+        <label for="checkOut">End Date:</label>
+        <input type="date" [(ngModel)]="checkoutDate" name="checkoutDate" placeholder="Check-out Date" id="checkOut"
+          class="form-control" />
+      </div>
+      <div class="search-button">
+        <button type="submit">Search</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Display grouped hotels -->
+<div class="results">
+  <div *ngIf="result.length === 0" class="border-0">No results found.</div>
+  <div class="row" *ngIf="result.length > 0">
+    <div class="col-md-12" *ngFor="let hotelGroup of result">
+      <div class="card mb-3 p-3 position-relative">
+        <div class="d-flex">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRp0klPwYCPP7ckPaa_s5RVk70uszGHCza1Kg&s"
+            alt="{{ hotelGroup.hotel_name }} image" class="img-fluid rounded"
+            style="max-width: 80%; max-height: 80%; object-fit: cover; margin-right: 20px;">
+          <div class="card-body mx-3">
+            <h5 class="card-title">{{ hotelGroup.hotel_name }}</h5>
+            <div *ngIf="hotelGroup.roomsAvailable >= 1">
+              <p>{{ hotelGroup.roomsAvailable }} rooms available</p>
+            </div>
+            <div *ngFor="let room of hotelGroup.hotels">
+              <p class="card-text">{{ room.name }} - {{ room.price }}</p>
+            </div>
+          </div>
+        </div>
+        <a class="btn btn-primary btn-sm position-absolute bottom-0 end-0 m-3"
+          [routerLink]="['/hotel',hotelGroup.hotels[0].hotel_id]">See Availability</a>
+      </div>
+    </div>
+  </div>
+</div>

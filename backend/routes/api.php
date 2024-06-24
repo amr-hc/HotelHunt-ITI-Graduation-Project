@@ -46,7 +46,7 @@ Route::post('/login', function (Request $request) {
     $request->validate([
         'email' => 'required|email',
         'password' => 'required',
-        'device_name' => 'required',
+        // 'device_name' => 'required',
     ]);
 
     $user = User::where('email', $request->email)->first();
@@ -56,7 +56,8 @@ Route::post('/login', function (Request $request) {
             'email' => ['The provided credentials are incorrect.'],
         ]);
     }
-    return ["user" => $user, "token" => $user->createToken($request->device_name)->plainTextToken];
+    // return ["user" => $user, "token" => $user->createToken($request->device_name)->plainTextToken];
+    return ["user" => $user,"token" => $user->createToken('')->plainTextToken];
 });
 
 
