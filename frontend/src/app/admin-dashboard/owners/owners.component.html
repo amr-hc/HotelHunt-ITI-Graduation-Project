@@ -1,0 +1,33 @@
+<div *ngIf="owners && owners.length > 0; else noUsers">
+  <table class="table table-striped text-center">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <!-- <th>Last Name</th> -->
+        <th>Email</th>
+        <!-- <th>Phone</th>
+        <th>Address</th> -->
+        <th>Role</th>
+        <!-- <th>Age</th> -->
+        <!-- <th>Photo</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let owner of owners">
+        <td>{{ owner.id }}</td>
+        <td>{{ owner.fname }}</td>
+        <!-- <td>{{ user.lname }}</td> -->
+        <td>{{ owner.email }}</td>
+        <!-- <td>{{ user.phone }}</td> -->
+        <!-- <td>{{ user.address }}</td> -->
+        <td>{{ owner.role }}</td>
+        <!-- <td>{{ user.age }}</td> -->
+        <!-- <td><img [src]="user.photo" alt="{{ user.fname }} {{ user.lname }}" class="img-thumbnail"></td> -->
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #noUsers>
+  <p class="alert alert-info">No users found.</p>
+</ng-template>
