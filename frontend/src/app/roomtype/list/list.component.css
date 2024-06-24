@@ -1,0 +1,6 @@
+.description-field {
+    white-space: pre-wrap;
+    overflow-wrap: break-word; /* Prevent horizontal overflow */
+    max-width: 200px; /* Adjust as needed */
+  }
+  
