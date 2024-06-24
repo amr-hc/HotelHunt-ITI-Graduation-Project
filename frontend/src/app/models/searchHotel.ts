@@ -3,7 +3,7 @@ export class SearchHotel {
     public id: number,
     public name: string,
     public price: string,
-    public hotel_id: string,
+    public hotel_id: number,
     public hotel_name : string,
   ) {}
 }
