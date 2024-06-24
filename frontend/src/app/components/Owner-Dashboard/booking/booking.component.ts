@@ -27,13 +27,14 @@ export class BookingComponent implements OnInit , OnDestroy {
 
   ngOnDestroy(): void {}
 
-  fetchBookings(): void {
+   fetchBookings(): void {
     this.isLoading = true;
     this.sub = this.bookingService.getAllBookings().subscribe(
-      (data: BookingData[]) => {
-        this.booking = data;
+      (response: BookingData[]) => {
+        this.booking = response;
         this.isLoading = false;
         console.log('Bookings:', this.booking);
+        console.log('books_details : ',this.booking[0].book_details)
       },
       (error) => {
         console.error('Error fetching bookings:', error);
