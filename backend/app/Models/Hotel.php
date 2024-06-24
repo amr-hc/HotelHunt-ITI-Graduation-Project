@@ -13,7 +13,7 @@ class Hotel extends Model
     protected $appends = ['average_rate','balance','image_url'];
 
     protected $fillable = [
-        'name','country','city','address','status','text','owner_id','description','photo'
+        'name','country','city','address','status','text','owner_id','description','photo','star_rating'
     ];
 
 
