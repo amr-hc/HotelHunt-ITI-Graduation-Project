@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BookingResource;
 use App\Models\BookDetail;
 use App\Models\Booking;
 use Illuminate\Http\Request;
@@ -16,10 +17,10 @@ class BookingController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $booking = Booking::all();
-        return response()->json($booking , 200);
-    }
+{
+    $bookings = Booking::with('book_details')->get();
+    return BookingResource::collection($bookings);
+}
 
     /**
      * Store a newly created resource in storage.
