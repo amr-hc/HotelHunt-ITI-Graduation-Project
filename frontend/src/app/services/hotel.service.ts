@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Hotel } from '../models/hotel';
+import { HotelImage } from '../models/hotelImage';
 
 @Injectable({
   providedIn: 'root'
@@ -18,5 +19,8 @@ export class HotelService {
 
   getHotelById(id: number): Observable<{ data: Hotel }> {
     return this.http.get<{ data: Hotel }>(`${this.apiUrl}${id}`);
+  }
+  getHotelImages(id: number): Observable<HotelImage[]> {
+    return this.http.get<HotelImage[]>(`${this.apiUrl}${id}/images`);
   }
 }

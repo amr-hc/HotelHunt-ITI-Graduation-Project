@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Hotel } from '../../models/hotel';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { HotelImage } from '../../models/hotelImage';
 
 @Component({
   selector: 'app-hotel',
@@ -14,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 export class HotelComponent implements OnInit, OnDestroy{
   hotel:Hotel | null = null ;
   sub: Subscription | null = null;
+  images: HotelImage[] = [];
 
   constructor(public activatedRoute: ActivatedRoute, public hotelService:HotelService){}
 
@@ -25,6 +27,11 @@ export class HotelComponent implements OnInit, OnDestroy{
         console.log("Full response data:", response);
         console.log("Hotel is:", this.hotel);
         console.log("City is:", this.hotel.city);
+
+        this.hotelService.getHotelImages(id).subscribe((images) => {
+          this.images = images;
+          console.log("Hotel images:", this.images);
+          });
       });
     });
   }
