@@ -27,7 +27,9 @@ class StoreHotelRequest extends FormRequest
             'city' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'owner_id' => ['required', 'integer', 'max:100'],   
-            'status' => ['required', 'string'],   
+            'status' => ['required', 'string'],
+            'image' => ['nullable', 'image', 'max:2048']
+
         ];
     }
     public function messages(): array
