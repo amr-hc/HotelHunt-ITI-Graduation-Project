@@ -17,7 +17,7 @@ export class RegisterHotelComponent{
     country: '',
     city: '',
     address: '',
-    status: '',
+    // status: '',
     owner_id: '',
     description: '',
   };
