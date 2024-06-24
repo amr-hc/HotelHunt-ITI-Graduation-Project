@@ -16,28 +16,39 @@ class HotelImagesController extends Controller
         return response()->json($images,200);
     }
     public function store(Request $request, Hotel $hotel)
-    {
-        $validator = Validator::make($request->all(), [
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:10000',
-        ]);
+{
+    // Validate that at least one file is present
+    $validator = Validator::make($request->all(), [
+        'images' => 'required',  // Check if 'images' key is present
+        'images.*' => 'image|mimes:jpeg,png,jpg,gif|max:10000',  // Validate each file
+    ]);
 
-        if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
-        }
+    if ($validator->fails()) {
+        return response()->json($validator->errors(), 400);
+    }
 
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('hotel_images', 'public');
+    // Check if 'images' is present and is an array of files
+    if ($request->hasFile('images') && is_array($request->file('images'))) {
+        $images = $request->file('images');
+        $savedImages = [];
+
+        foreach ($images as $file) {
+            $imagePath = $file->store('hotel_images', 'public');
 
             $image = new HotelImage();
             $image->hotel_id = $hotel->id;
             $image->image = $imagePath;
             $image->save();
 
-            return response()->json($image, 201);
-        } else {
-            return response()->json(['error' => 'No image uploaded'], 400);
+            $savedImages[] = $image;
         }
+
+        return response()->json($savedImages, 201);
+    } else {
+        return response()->json(['error' => 'No images uploaded'], 400);
     }
+}
+
 
     public function show(HotelImage $image)
     {

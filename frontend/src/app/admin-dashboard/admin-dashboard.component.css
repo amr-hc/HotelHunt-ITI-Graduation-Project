@@ -1,0 +1,22 @@
+/* src/styles.css */
+body {
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  height: 100vh;
+  border-right: 1px solid #ddd;
+}
+
+.header {
+  border-bottom: 1px solid #ddd;
+}
+
+.content-body {
+  padding: 20px;
+}
+
+.nav-link.active {
+  font-weight: bold;
+  color: #007bff;
+}

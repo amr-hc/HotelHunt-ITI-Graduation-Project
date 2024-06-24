@@ -1,23 +1,29 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchHotel } from '../../models/searchHotel';
 import { SearchHotelService } from '../../services/search-hotel.service';
+import { RouterLink } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-search-hotels',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,RouterLink],
   templateUrl: './search-hotels.component.html',
   styleUrl: './search-hotels.component.css'
 })
-export class SearchHotelsComponent {
+export class SearchHotelsComponent implements OnInit, OnDestroy {
   city: string = '';
   checkinDate: string = '';
   checkoutDate: string = '';
   result: { hotel_name: string, roomsAvailable: number, hotels: SearchHotel[] }[] = [];
+  private searchSubscription: Subscription | null = null;
 
   constructor(private searchHotelService: SearchHotelService) { }
+
+  ngOnInit(): void {
+  }
 
   onSearch() {
     const searchParams = {
@@ -26,7 +32,7 @@ export class SearchHotelsComponent {
       end_date: this.checkoutDate
     };
 
-    this.searchHotelService.getAllHotels(searchParams).subscribe(
+    this.searchSubscription = this.searchHotelService.getAllHotels(searchParams).subscribe(
       (data: SearchHotel[]) => {
         // Group hotels by hotel_name and calculate rooms available
         const groupedHotels: { [key: string]: SearchHotel[] } = {};
@@ -48,5 +54,11 @@ export class SearchHotelsComponent {
         console.error('Error fetching hotels', error);
       }
     );
+  }
+  ngOnDestroy(): void {
+    // Clean up the subscription if needed
+    if (this.searchSubscription) {
+      this.searchSubscription.unsubscribe();
+    }
   }
 }

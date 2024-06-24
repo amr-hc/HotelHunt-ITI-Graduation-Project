@@ -1,0 +1,56 @@
+<p>hotel-room-availability works!</p>
+<p>{{ hotel_id }}</p>
+
+<div class="search-bar bg-primary-subtle">
+  <form (ngSubmit)="onSearch()">
+    <div class="search-bar-container">
+      <div class="date-range">
+        <label for="checkIn">Start Date:</label>
+        <input type="date" [(ngModel)]="checkinDate" name="checkinDate" placeholder="Check-in Date" id="checkIn"
+          class="form-control" />
+        <span>—</span>
+        <label for="checkOut">End Date:</label>
+        <input type="date" [(ngModel)]="checkoutDate" name="checkoutDate" placeholder="Check-out Date" id="checkOut"
+          class="form-control" />
+      </div>
+      <div class="search-button">
+        <button type="submit">Search</button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Display hotel rooms -->
+
+<div *ngIf="rooms.length > 0" class="room-list">
+  <h3 class="mb-3 text-center" >Available Rooms</h3>
+  <table class="table table-striped w-75 mx-auto">
+    <thead class="table-info">
+      <tr>
+        <th>Room Type</th>
+        <th>Description</th>
+        <th>Price</th>
+        <th>Rooms Available</th>
+        <th>Select Rooms</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of rooms">
+        <td>{{ room.name }}</td>
+        <td>{{ room.description }}</td>
+        <td>{{ room.price }}</td>
+        <td>{{ room.stock }}</td>
+        <td>
+          <select class="form-control" id="select-room-{{ room.id }}">
+            <option *ngFor="let i of getRoomOptions(room.stock)">{{ i }}</option>
+          </select>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="text-center"><button class="btn btn-primary mx-auto">Reseve</button></div>
+</div>
+
+<div *ngIf="rooms.length === 0" class="alert alert-warning">
+  <p>No rooms available for the selected dates.</p>
+</div>
