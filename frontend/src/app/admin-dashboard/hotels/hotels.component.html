@@ -1,0 +1,34 @@
+<!-- src/app/hotels/hotels.component.html -->
+<div class="container mt-4">
+  <h2>Hotel List</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>City</th>
+        <th>Status</th>
+        <th>Star Rating</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let hotel of hotels">
+        <td>{{ hotel.id }}</td>
+        <td>{{ hotel.name }}</td>
+        <td>{{ hotel.city }}</td>
+        <td>
+          <select [(ngModel)]="hotel.status">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="suspend">Suspend</option>
+          </select>
+        </td>
+        <td>{{ hotel.star_rating }}</td>
+        <td>
+          <button class="btn btn-primary" (click)="saveStatus(hotel)">Save</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

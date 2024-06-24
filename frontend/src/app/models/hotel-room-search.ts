@@ -1,9 +1,10 @@
-export class SearchHotel {
+export class HotelRoomSearch {
   constructor(
+
     public id: number,
     public name: string,
     public price: string,
-    public hotel_id: number,
-    public hotel_name : string,
+    public stock: number,
+    public description: string,
   ) {}
 }

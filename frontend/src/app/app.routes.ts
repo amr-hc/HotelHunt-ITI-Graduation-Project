@@ -13,4 +13,6 @@ export const routes: Routes = [
   { path: 'search', component: SearchHotelsComponent },
   { path: 'hotel/:id' , component: HotelComponent},
   { path: 'login', component: LoginComponent },
+  { path:'admin-dashboard',     loadChildren: () =>
+    import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)}
 ];

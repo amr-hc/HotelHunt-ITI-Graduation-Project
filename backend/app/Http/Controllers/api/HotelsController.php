@@ -55,7 +55,7 @@ class HotelsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreHotelRequest $request,$id)
+    public function update(Request $request,$id)
     {
         $hotel=Hotel::findOrFail($id);
         $hotel->update($request->all());
