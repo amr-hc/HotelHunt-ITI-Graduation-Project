@@ -3,11 +3,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Hotel } from '../../models/hotel';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { HotelRoomAvailabilityComponent } from '../../user/hotel-room-availability/hotel-room-availability.component';
 
 @Component({
   selector: 'app-hotel',
   standalone: true,
-  imports: [],
+  imports: [HotelRoomAvailabilityComponent],
   templateUrl: './hotel.component.html',
   styleUrl: './hotel.component.css'
 })
