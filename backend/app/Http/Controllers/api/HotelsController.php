@@ -32,6 +32,10 @@ class HotelsController extends Controller
      */
     public function store(StoreHotelRequest $request)
     {
+        if ($request->hasFile('image')) {
+            $photoPath = $request->file('image')->store('hotels');
+            $request->merge(['photo' => $photoPath]);
+        }
         Hotel::create($request->all());
         return response()->json(['message' => 'Hotel created successfully'], 200);
     }
@@ -55,13 +59,23 @@ class HotelsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
-        $hotel=Hotel::findOrFail($id);
+        $hotel = Hotel::findOrFail($id);
+
+        if ($request->hasFile('image')) {
+            $photoPath = $request->file('image')->store('hotels');
+            $request->merge(['photo' => $photoPath]);
+            if ($hotel->photo!= 'hotels/default.jpg') {
+                unlink(storage_path('app/public/'. $hotel->photo));
+            }
+        }
+
         $hotel->update($request->all());
 
-        return response()->json(['message' => 'Hotel updated successfully'],200);
+        return response()->json(['message' => 'Hotel updated successfully'], 200);
     }
+
 
     /**
      * Remove the specified resource from storage.

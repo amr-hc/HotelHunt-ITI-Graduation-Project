@@ -2,6 +2,7 @@ export class Hotel {
   constructor(
     public id: number,
     public owner_id: number,
+    public balance: number,
     public name: string,
     public address: string,
     public country: string,

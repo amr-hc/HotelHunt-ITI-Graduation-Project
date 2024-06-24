@@ -4,10 +4,10 @@ export class User {
     public fname: string,
     public lname: string,
     public email: string,
-    public city: string,
+    public phone: string,
     public address: string,
-    public photo: string,
-    public phone: number,
+    public role: 'admin' | 'owner' | 'guest',
     public age: number,
+    public photo: string
   ) {}
 }

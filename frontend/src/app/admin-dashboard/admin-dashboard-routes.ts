@@ -5,6 +5,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PaymentComponent } from './payment/payment.component';
 import { HotelsComponent } from './hotels/hotels.component';
 import { HotelDetailsComponent } from './hotels/hotel-details/hotel-details.component';
+import { OwnersComponent } from './owners/owners.component';
 
 
 export const adminRoutes: Routes = [
@@ -15,6 +16,7 @@ export const adminRoutes: Routes = [
       { path: 'hotels', component:HotelsComponent  },
       { path: 'hotels/:id', component: HotelDetailsComponent },
       { path: 'users', component:UsersComponent  },
+      { path: 'owners', component:OwnersComponent  },
       { path: 'payment', component:PaymentComponent  },
       { path: 'profile', component:ProfileComponent  },
     ],

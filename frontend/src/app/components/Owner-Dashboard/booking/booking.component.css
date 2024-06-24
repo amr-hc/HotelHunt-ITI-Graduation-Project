@@ -1,0 +1,22 @@
+.loading,
+.error,
+.no-bookings {
+  text-align: center;
+  margin: 20px;
+}
+
+.booking-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.booking-list th,
+.booking-list td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.booking-list th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
