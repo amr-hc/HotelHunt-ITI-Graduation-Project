@@ -14,4 +14,8 @@ export class BookingService {
   bookingRoom(bookingData: BookingData): Observable<any> {
     return this.http.post(this.apiUrl, bookingData);
   }
+
+  getAllBookings(): Observable<BookingData[]> {  
+    return this.http.get<BookingData[]>(this.apiUrl);
+  }
 }

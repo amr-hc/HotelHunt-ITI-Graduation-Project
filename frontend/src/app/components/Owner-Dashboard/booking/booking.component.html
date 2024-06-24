@@ -1,1 +1,33 @@
-<p>booking works!</p>
+<div *ngIf="isLoading" class="loading">
+  Loading bookings...
+</div>
+
+<div *ngIf="errorMessage" class="error">
+  {{ errorMessage }}
+</div>
+
+<div *ngIf="!isLoading && !errorMessage && booking.length > 0" class="booking-list">
+  <h2>Bookings List</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>User ID</th>
+        <th>Duration</th>
+        <th>Status</th>
+        <th>Book Details</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of booking">
+        <td>{{ book.user_id }}</td>
+        <td>{{ book.duration }} Days</td>
+        <td>{{ book.status }}</td>
+        <td>{{book.books_details}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div *ngIf="!isLoading && !errorMessage && booking.length === 0" class="no-bookings">
+  No bookings found.
+</div>

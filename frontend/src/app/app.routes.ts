@@ -9,6 +9,7 @@ import { ListComponent } from './roomtype/list/list.component';
 import { ShowComponent } from './roomtype/show/show.component';
 import { AddComponent } from './roomtype/add/add.component';
 import { UpdateComponent } from './roomtype/update/update.component';
+import { BookingComponent } from './components/Owner-Dashboard/booking/booking.component';
 
 export const routes: Routes = [
   {path: 'register', component: RegisterComponent },
@@ -24,5 +25,9 @@ export const routes: Routes = [
 
 
   { path:'admin-dashboard',     loadChildren: () =>
-    import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)}
+    import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},
+
+
+
+   {path:'owner/booking' , component: BookingComponent}
 ];
