@@ -7,7 +7,7 @@
 <div>name is {{hotel?.name}}</div>
 <div>city is {{hotel?.city}}</div>
 <div>address is {{hotel?.address}}</div>
-<div>{{images[1]?.image}}</div>
+<div>{{images[0]?.image}}</div>
 <div *ngFor="let image of images">
   <!-- Use the full URL for the image source -->
   <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image">
