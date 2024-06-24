@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SearchHotel } from '../../models/searchHotel';
 import { SearchHotelService } from '../../services/search-hotel.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-search-hotels',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,RouterLink],
   templateUrl: './search-hotels.component.html',
   styleUrl: './search-hotels.component.css'
 })
