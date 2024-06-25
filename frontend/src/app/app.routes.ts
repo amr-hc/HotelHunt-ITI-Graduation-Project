@@ -21,8 +21,13 @@ import { HotelOwnerComponent } from './components/Owner-Dashboard/hotel-owner/ho
 
 
 export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
   {path: 'register', component: RegisterComponent },
-  { path: 'availability', component: AvailabilityComponent},
+  { path: 'availability/:id', component: AvailabilityComponent},
   {path: 'register/hotel',component: RegisterHotelComponent },
   { path: 'search', component: SearchHotelsComponent },
   { path: 'hotel/:id' , component: HotelComponent},
