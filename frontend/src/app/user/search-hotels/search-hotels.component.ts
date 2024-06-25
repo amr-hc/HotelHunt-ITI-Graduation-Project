@@ -24,6 +24,9 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
   constructor(private searchHotelService: SearchHotelService) { }
 
   ngOnInit(): void {
+    const today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
+    this.checkinDate = today;
+    this.checkoutDate = today;
   }
 
   onSearch() {
