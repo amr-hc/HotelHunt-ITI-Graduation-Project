@@ -56,13 +56,15 @@ export class HotelRoomAvailabilityComponent implements OnDestroy {
       const quantity = this.selectedRooms[room.id] || 0;
       if (quantity > 0) {
         for (let i = 0; i < quantity; i++) {
-          bookingDetails.push(new BookingDetails(room.id, this.checkinDate, room.price));
+          bookingDetails.push(new BookingDetails(room.id, this.checkinDate, Number(room.price)));
         }
       }
     });
 
     if (bookingDetails.length > 0) {
       const bookingData = new BookingData(1, 1, 'progress', bookingDetails);
+      console.log(bookingData);
+
       this.bookingSubscription = this.bookingService.bookingRoom(bookingData).subscribe(
         response => {
           console.log('Booking successful', response);
