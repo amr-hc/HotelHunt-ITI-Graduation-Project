@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of filteredUsers">
+      <tr *ngFor="let user of filteredUsers | paginate: { itemsPerPage: 8, currentPage: currentPage }">
         <td>{{ user.id }}</td>
         <td>{{ user.fname }}</td>
         <td>{{ user.email }}</td>
@@ -24,6 +24,8 @@
       </tr>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
+
 </div>
 <ng-template #noUsers>
   <p class="alert alert-info">No users found.</p>
