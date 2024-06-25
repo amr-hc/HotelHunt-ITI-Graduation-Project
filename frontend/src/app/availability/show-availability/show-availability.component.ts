@@ -54,6 +54,7 @@ export class ShowAvailabilityComponent implements OnInit {
     this.setupMonthOptions();
     this.fetchAvailability();
   }
+  
 
   setupMonthOptions(): void {
     const currentDate = new Date();
@@ -127,7 +128,7 @@ export class ShowAvailabilityComponent implements OnInit {
   }
 
   onDaySelect(day: CalendarDay): void {
-    this.selectedDay = { ...day };
+    this.selectedDay = day ;
     this.isUpdateMode = day.id > 0;
   }
 
@@ -145,7 +146,6 @@ export class ShowAvailabilityComponent implements OnInit {
       this.http.patch(url, payload).subscribe(
         response => {
           console.log('Availability updated successfully:', response);
-          this.fetchAvailability(); 
         },
         error => {
           console.error('Error updating availability:', error);
@@ -158,7 +158,7 @@ export class ShowAvailabilityComponent implements OnInit {
     if (this.selectedDay) {
       const url = 'http://127.0.0.1:8000/api/availability/';
       const payload = {
-        stock: this.selectedDay.stock,
+        stock: this.selectedDay.total_rooms,
         total_rooms: this.selectedDay.total_rooms,
         date: this.selectedDay.date.toISOString().split('T')[0],
         room_type_id: 1 
@@ -167,7 +167,7 @@ export class ShowAvailabilityComponent implements OnInit {
       this.http.post(url, payload).subscribe(
         response => {
           console.log('Availability Created successfully:', response);
-          this.fetchAvailability(); 
+          // this.fetchAvailability(); 
         },
         error => {
           console.error('Error updating availability:', error);
