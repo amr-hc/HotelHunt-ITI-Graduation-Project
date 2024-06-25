@@ -88,16 +88,16 @@ class HotelImagesController extends Controller
 }
     public function destroy(HotelImage $image)
 {
-    // Check if the image file exists in the storage
+
     if (Storage::disk('public')->exists($image->image)) {
-        // Delete the image file from storage
+
         Storage::disk('public')->delete($image->image);
     }
 
-    // Delete the record from the database
+
     $image->delete();
 
-    // Return a success response
+    
     return response()->json(['message' => 'Image deleted successfully'], 200);
 }
 

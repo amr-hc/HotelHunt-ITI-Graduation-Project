@@ -58,4 +58,8 @@ export class HotelService {
 
     return this.http.post<HotelImage[]>(`${this.apiUrl}${id}/images`, formData);
   }
+
+  deleteHotelImage(imageId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}hotel-images/${imageId}`);
+  }
 }

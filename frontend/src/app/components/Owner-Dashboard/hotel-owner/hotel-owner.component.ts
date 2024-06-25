@@ -42,6 +42,7 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
           this.hotelService.getHotelImages(hotel.id).subscribe(images => {
             this.ownerImages[hotel.id] = images;
             console.log(`Images for hotel ${hotel.id}:`, images);
+            console.log("images",this.ownerImages);
           });
         });
       },
