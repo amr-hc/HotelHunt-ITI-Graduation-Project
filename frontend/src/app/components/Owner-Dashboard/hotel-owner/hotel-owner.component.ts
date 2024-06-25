@@ -38,6 +38,7 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
 
         // Fetch images for each hotel
         this.hotels.forEach(hotel => {
+          console.log("Fetching images for hotel ",hotel.id);
           this.hotelService.getHotelImages(hotel.id).subscribe(images => {
             this.ownerImages[hotel.id] = images;
             console.log(`Images for hotel ${hotel.id}:`, images);

@@ -9,5 +9,9 @@
     <p><strong>Balance:</strong> {{ hotel.balance }}</p>
     <p><strong>Description:</strong> {{ hotel.description }}</p>
 
+    <div *ngIf="ownerImages[hotel.id]" class="hotel-images">
+      <h4>Images:</h4>
+      <img *ngFor="let image of ownerImages[hotel.id]" [src]="'http://127.0.0.1:8000/storage/' + image.image"  alt="Hotel Image" />
+    </div>
   </div>
 </div>

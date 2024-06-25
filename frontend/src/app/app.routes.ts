@@ -35,7 +35,7 @@ export const routes: Routes = [
   { path:'admin-dashboard',     loadChildren: () =>
     import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},
     {path : "home" , component : HomeComponent },
-   {path : "about" , component : AboutComponent },
+  {path : "about" , component : AboutComponent },
    {path : "contact" , component :ContactComponent },
 
   {path : "user/profile" , component : UserProfileComponent },
