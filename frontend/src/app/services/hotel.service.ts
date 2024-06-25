@@ -56,9 +56,6 @@ export class HotelService {
       formData.append('images[]', images[i], images[i].name);
     }
 
-    //7const headers = new HttpHeaders();
-    // headers.set('Authorization', 'Bearer ' + token); // Uncomment and modify as needed
-
     return this.http.post<HotelImage[]>(`${this.apiUrl}${id}/images`, formData);
   }
 }
