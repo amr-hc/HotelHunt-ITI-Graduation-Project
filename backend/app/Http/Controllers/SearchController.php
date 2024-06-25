@@ -22,13 +22,13 @@ class SearchController extends Controller
 
 
 
-        $availableRooms = RoomType::select('roomtypes.id','roomtypes.name','roomtypes.price', 'roomtypes.hotel_id','hotels.name as hotel_name')
+        $availableRooms = RoomType::select('roomtypes.id','roomtypes.name','roomtypes.price', 'roomtypes.hotel_id','hotels.name as hotel_name','hotels.photo')
         ->join('availabilities', 'roomtypes.id', '=', 'availabilities.room_type_id')
         ->join('hotels', 'roomtypes.hotel_id', '=', 'hotels.id')
         ->where('availabilities.stock', '>', 0)
         ->whereBetween('availabilities.date', [$start_date, $end_date])
         ->where('hotels.city', $city)
-        ->groupBy('roomtypes.id', 'roomtypes.hotel_id','roomtypes.name','roomtypes.price')
+        ->groupBy('roomtypes.id', 'roomtypes.hotel_id','roomtypes.name','roomtypes.price','hotels.name','hotels.photo')
         ->havingRaw('COUNT(*) > DATEDIFF(?, ?)', [$end_date, $start_date])
         ->orderBy('roomtypes.hotel_id')
         ->orderBy('roomtypes.price')

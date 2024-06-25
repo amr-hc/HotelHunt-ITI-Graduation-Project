@@ -1,1 +1,28 @@
-<p>users works!</p>
+<div *ngIf="filteredUsers && filteredUsers.length > 0; else noUsers">
+  <table class="table table-striped text-center">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of filteredUsers">
+        <td>{{ user.id }}</td>
+        <td>{{ user.fname }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.role }}</td>
+        <td>
+          <button class="btn btn-info btn-sm" (click)="viewUser(user.id)">View</button>
+          <button class="btn btn-danger btn-sm ms-1" (click)="confirmDelete(user.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #noUsers>
+  <p class="alert alert-info">No users found.</p>
+</ng-template>

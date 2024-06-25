@@ -50,7 +50,7 @@ class User extends Authenticatable
     ];
 
     function hotels(){
-        return $this->hasMany(Hotel::class);
+        return $this->hasOne(Hotel::class,'owner_id');
     }
 
     public function rate()

@@ -18,7 +18,7 @@
         <td>{{ hotel.name }}</td>
         <td>{{ hotel.city }}</td>
         <td>
-          <select (change)="updateHotelStatus(hotel)">
+          <select  [(ngModel)]="hotel.status" (change)="updateHotelStatus(hotel)">
             <option value="active">Active</option>
             <option value="inactive">Inactive</option>
             <option value="suspend">Suspend</option>

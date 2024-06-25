@@ -10,11 +10,17 @@ use Illuminate\Support\Facades\DB;
 class Hotel extends Model
 {
     use HasFactory;
-    protected $appends = ['average_rate','balance'];
+    protected $appends = ['average_rate','balance','image_url'];
 
     protected $fillable = [
-        'name','country','city','address','status','text','owner_id','description',
+        'name','country','city','address','status','text','owner_id','description','photo','star_rating'
     ];
+
+
+    public function getImageUrlAttribute()
+    {
+        return url('storage/' . $this->photo);
+    }
 
     function user(){
         return $this->belongsTo(User::class , 'owner_id');
@@ -51,6 +57,10 @@ class Hotel extends Model
 
     public function images(){
         return $this->hasMany(HotelImage::class);
+    }
+
+    public function roomtypes(){
+        return $this->hasMany(Roomtype::class);
     }
 
 

@@ -13,9 +13,8 @@ class Booking extends Model
 
     protected $appends = ['total_price'];
     protected $fillable = [
-        'user_id',
-        'duration',
-        'status',
+        'id','user_id',
+        'total_price', 'duration', 'status'
     ];
 
     public function user()
@@ -31,6 +30,23 @@ class Booking extends Model
     {
         return $this->book_details()->sum('price');
     }
+
+    public function getHotelNameAttribute()
+    {
+        return $this->book_details->first()->roomType->hotel->name;
+    }
+    public function getFullName($firstName, $lastName) {
+    $fullName = trim(($firstName ?? '') . ' ' . ($lastName ?? ''));
+
+    if (empty($firstName) && !empty($lastName)) {
+        return trim($lastName);
+    }
+    if (!empty($firstName) && empty($lastName)) {
+        return trim($firstName);
+    }
+
+    return $fullName;
+}
 
 
 

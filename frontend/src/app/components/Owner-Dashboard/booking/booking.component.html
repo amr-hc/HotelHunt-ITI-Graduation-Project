@@ -1,0 +1,69 @@
+<div class="container">
+  <div *ngIf="isLoading" class="loading">
+    Loading bookings...
+  </div>
+
+  <div *ngIf="errorMessage" class="error">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && booking.length > 0" class="booking-list">
+    <h2>Bookings List</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>User Name</th>
+          <th>Duration</th>
+          <th>Status</th>
+          <th>Book Details</th>
+          <th>Total Price</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let book of booking">
+          <td>{{ book.id }}</td>
+          <td>{{ book.user_name }}</td>
+          <td>{{ book.duration }} Days</td>
+          <td>
+            <select [(ngModel)]="book.status" (change)="onStatusChange( book.status ,book.id)">
+              <option value="progress">In Progress</option>
+              <option value="cancel">Cancelled</option>
+              <option value="completed">Completed</option>
+            </select>
+          </td>
+
+
+          <td>
+            <table class="nested-table">
+              <thead>
+                <tr>
+                  <th>Room Type</th>
+                  <th>Date</th>
+                  <th>Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let detail of book.book_details">
+                  <td>{{ detail.room_name }}</td>
+                  <td>{{ detail.date }}</td>
+                  <td>{{ detail.price }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td>{{book.total_price}}</td>
+          <td>
+            <button [routerLink]="['/owner/booking', book.id]" class="btn btn-primary mx-1">View</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage && booking.length === 0" class="no-bookings">
+    No bookings found.
+  </div>
+
+</div>

@@ -22,12 +22,14 @@ class StoreHotelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:3','max:100'], 
+            'name' => ['required', 'string', 'min:3','max:100'],
             'country' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'owner_id' => ['required', 'integer', 'max:100'],   
-            'status' => ['required', 'string'],   
+            'owner_id' => ['required', 'integer', 'max:100'],
+            'status' => [ 'string'],
+            'image' => ['nullable', 'image', 'max:2048']
+
         ];
     }
     public function messages(): array
@@ -38,10 +40,10 @@ class StoreHotelRequest extends FormRequest
             'name.min' => 'The Title must be at least 3 characters',
             'name.max' => 'The Title cannot be more than 255 characters',
             'owner_id.required'=>"Owner Name is required",
-            'status.required'=>"Status is required",
+            // 'status.required'=>"Status is required",
             'country.required' => 'The Country is required',
             'city.required' => 'The City is required',
-            'address.required' => 'The Address is required', 
+            'address.required' => 'The Address is required',
         ];
     }
 }

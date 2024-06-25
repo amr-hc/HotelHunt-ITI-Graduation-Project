@@ -58,8 +58,9 @@ export class HotelsComponent implements OnInit{
   }
 
   updateHotelStatus(hotel: Hotel): void {
-    this.hotelService.updateHotelStatus(hotel.id, hotel.status).subscribe(updatedHotel => {
-      // Optionally update the local hotel object if needed
+    const newStatus = hotel.status;
+    this.hotelService.updateHotelStatus(hotel.id, newStatus).subscribe(updatedHotel => {
+
       console.log('Hotel status updated:', updatedHotel);
     });
   }

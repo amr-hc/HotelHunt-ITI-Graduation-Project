@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\BookingResource;
 use App\Models\BookDetail;
 use App\Models\Booking;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,10 +18,10 @@ class BookingController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $booking = Booking::all();
-        return response()->json($booking , 200);
-    }
+{
+    $bookings = Booking::with('book_details.roomType.hotel')->get();
+    return BookingResource::collection($bookings);
+}
 
     /**
      * Store a newly created resource in storage.
@@ -62,11 +64,11 @@ class BookingController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        $booking = Booking::findOrFail($id);
-        return response()->json($booking, 200);
-    }
+    public function show($id)
+{
+    $booking = Booking::with('book_details.roomType.hotel')->findOrFail($id);
+    return new BookingResource($booking);
+}
 
     /**
      * Update the specified resource in storage.
@@ -126,6 +128,35 @@ class BookingController extends Controller
         return response()->json(['error' => 'Failed to update booking: ' . $outerException->getMessage()], 500);
     }
 }
+
+    public function updateStatus(Request $request, string $id)
+    {
+        try {
+            // Validate the request data
+            $validatedData = $request->validate([
+                'status' => 'string|in:progress,cancel,completed'
+            ]);
+
+            // Find the booking by ID
+            $booking = Booking::findOrFail($id);
+
+            // Update the status
+            $booking->status = $validatedData['status'];
+            $booking->save();
+
+            // Return a successful response
+            return response()->json([
+                'message' => 'Booking status updated successfully.',
+                'booking' => $booking
+            ], 200);
+
+        } catch (Exception $e) {
+            // Return a user-friendly error message
+            return response()->json([
+                'error' => 'Error updating booking status: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 
     /**
      * Remove the specified resource from storage.

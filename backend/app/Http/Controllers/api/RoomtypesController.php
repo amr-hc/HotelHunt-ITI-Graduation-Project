@@ -5,7 +5,10 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 
 use App\Models\Roomtype;
+use App\Models\Hotel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 
 class RoomtypesController extends Controller
 {
@@ -14,17 +17,24 @@ class RoomtypesController extends Controller
     {
         return Roomtype::all();
     }
+    public function owner()
+    {
+        $roomtypes = auth()->user()->hotels->roomtypes;
+        return $roomtypes;
+    }
 
     // Store a newly created roomtype in storage.
     public function store(Request $request)
     {
         $request->validate([
-            'hotel_id' => 'required|exists:hotels,id',
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
         ]);
+
+
+        $request->merge(['hotel_id' => auth()->user()->hotels->id]);
 
         $roomtype = Roomtype::create($request->all());
         return response()->json($roomtype, 201);

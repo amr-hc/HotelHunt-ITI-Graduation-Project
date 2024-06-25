@@ -1,0 +1,28 @@
+<div *ngIf="owners && owners.length > 0; else noUsers">
+  <table class="table table-striped text-center">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let owner of owners">
+        <td>{{ owner.id }}</td>
+        <td>{{ owner.fname }}</td>
+        <td>{{ owner.email }}</td>
+        <td>{{ owner.role }}</td>
+        <td>
+          <button class="btn btn-info btn-sm" (click)="viewUser(owner.id)">View</button>
+          <button class="btn btn-danger btn-sm ms-1" (click)="confirmDelete(owner.id)">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<ng-template #noUsers>
+  <p class="alert alert-info">No users found.</p>
+</ng-template>

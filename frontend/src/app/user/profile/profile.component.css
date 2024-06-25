@@ -1,0 +1,24 @@
+.sidebar {
+  float: left;
+  width: 20%;
+  background-color: #f0f0f0;
+  padding: 10px;
+}
+
+.content {
+  float: left;
+  width: 80%;
+  padding: 10px;
+}
+
+.profile-container, .bookings-container {
+  margin-bottom: 20px;
+}
+
+.profile-details {
+  margin-bottom: 20px;
+}
+
+button {
+  margin-top: 10px;
+}
