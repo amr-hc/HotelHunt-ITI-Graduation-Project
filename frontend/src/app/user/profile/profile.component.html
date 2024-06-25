@@ -1,1 +1,42 @@
-<p>profile works!</p>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="profile-container card">
+        <div class="card-body profile-details">
+          <h2 class="card-title">{{ user?.fname }} {{ user?.lname }}'s Profile</h2>
+          <p><strong>Email:</strong> {{ user?.email }}</p>
+          <p><strong>Phone:</strong> {{ user?.phone }}</p>
+          <p><strong>Address:</strong> {{ user?.address }}</p>
+          <p><strong>Role:</strong> {{ user?.role }}</p>
+          <p><strong>Age:</strong> {{ user?.age }}</p>
+          <button class="btn btn-primary">Edit Profile</button>
+        </div>
+        <div class="profile-image">
+          <img class="card-img-top" [src]="'http://127.0.0.1:8000/storage/' + user?.photo" alt="User Photo" width="150">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-8">
+      <div class="bookings-container card">
+        <div class="card-body">
+          <h3 class="card-title">Bookings</h3>
+          <!-- <p><strong>Hotel:</strong> {{ bookings?.hotel }}</p>
+          <p><strong>Total price:</strong> {{ bookings?.total_price }}</p> -->
+          <p><strong>Status:</strong> {{ bookings?.status }}</p>
+          <p><strong>Duration:</strong> {{ bookings?.duration }} days</p>
+
+          <h4>Book Details:</h4>
+          <div *ngIf="bookings && bookings.books_details && bookings.books_details.length>0">
+            <div *ngFor="let detail of bookings.books_details" class="book-detail">
+              <p><strong>Date:</strong> {{ detail.date }}</p>
+              <p><strong>Price:</strong> {{ detail.price }}</p>
+            </div>
+          </div>
+          <div *ngIf="!bookings || !bookings.books_details || bookings.books_details.length === 0">
+            <p>No book details found for this booking.</p>
+
+        </div>
+      </div>
+    </div>
+  </div>

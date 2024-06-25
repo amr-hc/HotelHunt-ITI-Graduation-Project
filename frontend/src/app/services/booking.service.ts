@@ -29,6 +29,12 @@ export class BookingService {
     );
   }
 
+  getUserBookings(userId: number): Observable<BookingData> {
+    return this.http.get<{data: BookingData}>(`${this.apiUrl}${userId}`).pipe(
+      map(response => response.data)
+    );
+  }
+
   updateStatus( status: string ,id: number,): Observable<any> {
     const url = `${this.apiUrl}${id}/status`;
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });

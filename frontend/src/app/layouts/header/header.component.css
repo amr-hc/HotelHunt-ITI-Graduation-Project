@@ -1,0 +1,21 @@
+nav div > img{
+    width: 50px;
+    border-radius: 7px;
+}
+.navbar {
+    padding-inline: 50px;
+}
+.navItems a{
+    font-weight: bold;
+}
+.navItems a:hover{
+    color: #86CCD5;
+}
+
+.activeNav {
+    color: #86CCD5;
+}
+
+.bg-custom-blue {
+    background-color: #99c2ff;
+  }
