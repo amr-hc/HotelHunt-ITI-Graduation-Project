@@ -1,0 +1,34 @@
+<div class="container">
+  <h1>Edit Hotel</h1>
+  <form [formGroup]="hotelForm">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input id="name" class="form-control" formControlName="name">
+    </div>
+    <div class="form-group">
+      <label for="city">City</label>
+      <input id="city" class="form-control" formControlName="city">
+    </div>
+    <div class="form-group">
+      <label for="country">Country</label>
+      <input id="country" class="form-control" formControlName="country">
+    </div>
+    <div class="form-group">
+      <label for="address">Address</label>
+      <input id="address" class="form-control" formControlName="address">
+    </div>
+    <div class="form-group">
+      <label for="status">Status</label>
+      <select id="status" class="form-control" formControlName="status">
+        <option value="active">Active</option>
+        <option value="inactive">Inactive</option>
+        <option value="suspend">Suspend</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" class="form-control" formControlName="description"></textarea>
+    </div>
+    <button class="btn btn-success" type="button" (click)="save()">Save</button>
+  </form>
+</div>
