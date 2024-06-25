@@ -16,7 +16,7 @@ export class UserService {
   }
 
   getUserById(id: number): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/${id}`);
+    return this.http.get<User>(`${this.apiUrl}${id}`);
   }
 
   deleteUser(id: number): Observable<void> {
