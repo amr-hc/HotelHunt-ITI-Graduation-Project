@@ -11,7 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let owner of owners">
+      <tr *ngFor="let owner of owners | paginate: { itemsPerPage: 8, currentPage: currentPage }">
         <td>{{ owner.id }}</td>
         <td>{{ owner.fname }}</td>
         <td>{{ owner.email }}</td>
@@ -23,6 +23,7 @@
       </tr>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
 </div>
 <ng-template #noUsers>
   <p class="alert alert-info">No users found.</p>

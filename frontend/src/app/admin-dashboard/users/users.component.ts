@@ -4,18 +4,20 @@ import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink,NgxPaginationModule],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })
 export class UsersComponent {
   users: User[] = [];
   filteredUsers: User[] = [];
+  currentPage: number =1;
 
   constructor(private userService: UserService,  private router: Router) {}
 

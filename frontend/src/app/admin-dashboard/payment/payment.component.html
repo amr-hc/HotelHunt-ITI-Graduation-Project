@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let payment of payments">
+      <tr *ngFor="let payment of payments | paginate: { itemsPerPage: 8, currentPage: currentPage }">
         <th scope="row">{{ payment.id }}</th>
         <td>{{ payment.hotel }}</td>
         <td>{{ payment.amount }}</td>
@@ -18,4 +18,7 @@
       </tr>
     </tbody>
   </table>
+
+  <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
+
 

@@ -14,7 +14,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let hotel of hotels">
+      <tr *ngFor="let hotel of hotels  | paginate: { itemsPerPage: 8, currentPage: currentPage }">
         <td>{{ hotel.id }}</td>
         <td>{{ hotel.name }}</td>
         <td>{{ hotel.city }}</td>
@@ -33,4 +33,6 @@
       </tr>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
+
 </div>
