@@ -9,10 +9,10 @@
           <p><strong>Address:</strong> {{ user?.address }}</p>
           <p><strong>Role:</strong> {{ user?.role }}</p>
           <p><strong>Age:</strong> {{ user?.age }}</p>
-          <button class="btn btn-primary">Edit Profile</button>
+          <button class="btn btn-primary" (click)="navigateToEditProfile()">Edit Profile</button>
         </div>
         <div class="profile-image">
-          <img class="card-img-top" [src]="'http://127.0.0.1:8000/storage/' + user?.photo" alt="User Photo" width="150">
+          <img *ngIf="user?.photo" [src]="'http://127.0.0.1:8000/storage/app/' + user?.photo" alt="User Photo" width="150">
         </div>
       </div>
     </div>
