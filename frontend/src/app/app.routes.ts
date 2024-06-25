@@ -10,6 +10,7 @@ import { ShowComponent } from './roomtype/show/show.component';
 import { AddComponent } from './roomtype/add/add.component';
 import { UpdateComponent } from './roomtype/update/update.component';
 import { BookingComponent } from './components/Owner-Dashboard/booking/booking.component';
+import { UserProfileComponent } from './user/profile/profile.component';
 
 export const routes: Routes = [
   {path: 'register', component: RegisterComponent },
@@ -22,6 +23,7 @@ export const routes: Routes = [
   {path : "show/:id" , component : ShowComponent },
   {path : "add" , component : AddComponent },
   {path : "update/:id" , component : UpdateComponent },
+  {path : "user/profile" , component : UserProfileComponent },
 
 
   { path:'admin-dashboard',     loadChildren: () =>
