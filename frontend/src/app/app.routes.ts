@@ -21,6 +21,7 @@ import { BookDetailsComponent } from './components/Owner-Dashboard/booking/book-
 import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
 import { HotelOwnerComponent } from './components/Owner-Dashboard/hotel-owner/hotel-owner.component';
 import { HotelEditComponent } from './components/Owner-Dashboard/hotel-owner/hotel-edit/hotel-edit.component';
+import { SidebarComponent } from './components/Owner-Dashboard/sidebar/sidebar.component';
 
 
 export const routes: Routes = [
@@ -52,13 +53,18 @@ export const routes: Routes = [
 
   { path:'admin-dashboard',     loadChildren: () =>
     import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},
+    {path: 'owner', loadChildren:()=>import("./components/Owner-Dashboard/owner.routes").then(o=>o.ownerRoutes)},
 
 
 
-   {path:'owner/booking' , component: BookingComponent},
-   {path:'owner/booking/:id' , component: BookDetailsComponent},
-   {path: 'owner/hotel', component:HotelOwnerComponent},
-   {path: 'owner/hotel/:id', component:HotelEditComponent},
-   {path: 'owner/hotel/:id/addImage',component: AddImageComponent },
+    
+
+
+  //  {path:'owner', component:SidebarComponent},
+  //  {path:'owner/booking' , component: BookingComponent},
+  //  {path:'owner/booking/:id' , component: BookDetailsComponent},
+  //  {path: 'owner/hotel', component:HotelOwnerComponent},
+  //  {path: 'owner/hotel/:id', component:HotelEditComponent},
+  //  {path: 'owner/hotel/:id/addImage',component: AddImageComponent },
 
 ];
