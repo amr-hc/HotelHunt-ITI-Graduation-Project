@@ -1,3 +1,4 @@
+import { AddImageComponent } from './components/Owner-Dashboard/hotel-owner/add-image/add-image.component';
 import { Routes } from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
 import { AvailabilityComponent } from './availability/availability.component';
@@ -57,6 +58,7 @@ export const routes: Routes = [
    {path:'owner/booking' , component: BookingComponent},
    {path:'owner/booking/:id' , component: BookDetailsComponent},
    {path: 'owner/hotel', component:HotelOwnerComponent},
-   {path: 'owner/hotel/:id', component:HotelEditComponent}
+   {path: 'owner/hotel/:id', component:HotelEditComponent},
+   {path: 'owner/hotel/:id/addImage',component: AddImageComponent },
 
 ];
