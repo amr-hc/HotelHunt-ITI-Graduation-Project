@@ -14,6 +14,7 @@ export class HotelService {
   city: string ='';
 
   private apiUrl = 'http://127.0.0.1:8000/api/hotels/';
+  private ownerApiUrl = 'http://127.0.0.1:8000/api/owner/';
 
   constructor(private http: HttpClient) { }
 
@@ -38,5 +39,10 @@ export class HotelService {
   //delete hotel
   deleteHotel(id: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}${id}/`);
+  }
+
+  getHotelForOwner(ownerId: number): Observable<{data: Hotel[]}>{
+
+    return this.http.get<{data: Hotel[]}>(`${this.ownerApiUrl}${ownerId}/hotels`);
   }
 }
