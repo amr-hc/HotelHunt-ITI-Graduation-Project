@@ -1,1 +1,21 @@
-<p>payment works!</p>
+<div class="container mt-5">
+  <h2>Payments</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Hotel</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let payment of payments">
+        <th scope="row">{{ payment.id }}</th>
+        <td>{{ payment.hotel }}</td>
+        <td>{{ payment.amount }}</td>
+        <td>{{ payment.date | date:'short' }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

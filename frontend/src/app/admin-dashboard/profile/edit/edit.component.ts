@@ -58,7 +58,6 @@ export class EditComponent implements OnInit {
     if (this.editForm.valid) {
       this.userService.editUser(this.editForm.value).subscribe(
         (response) => {
-          console.log('User updated successfully', response);
           this.router.navigate(['/admin-dashboard/profile']);
         },
         (error) => {

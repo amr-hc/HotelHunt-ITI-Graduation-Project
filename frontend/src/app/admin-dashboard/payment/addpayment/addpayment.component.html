@@ -1,0 +1,25 @@
+<div class="container mt-5">
+  <h2>Add Payment</h2>
+  <form [formGroup]="addPaymentForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="hotel">Hotel</label>
+      <select id="hotel" formControlName="hotel_id" class="form-control">
+        <option value="" disabled>Select a hotel</option>
+        <option *ngFor="let hotel of hotels" [value]="hotel.id">{{ hotel.name }}</option>
+      </select>
+      <div *ngIf="formSubmitted && addPaymentForm.controls['hotel_id'].invalid" class="text-danger">
+        Hotel is required.
+      </div>
+    </div>
+
+    <div class="form-group mt-3">
+      <label for="amount">Amount</label>
+      <input type="number" id="amount" formControlName="amount" class="form-control">
+      <div *ngIf="formSubmitted && addPaymentForm.controls['amount'].invalid" class="text-danger">
+        Valid amount is required.
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-3">Add Payment</button>
+  </form>
+</div>
