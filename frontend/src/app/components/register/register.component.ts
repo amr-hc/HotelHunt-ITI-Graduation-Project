@@ -18,7 +18,7 @@ export class RegisterComponent {
     phone: '',
     address: '',
     city: '',
-    role: 'user',
+    role: 'guest',
     age: '',
     photo: '',
     email: '',
@@ -41,7 +41,7 @@ export class RegisterComponent {
 
     this.authService.register(this.userData).subscribe(
       (res) => {
-        if (this.userData.role === 'admin') {
+        if (this.userData.role === 'owner') {
           this.router.navigate(['/register/hotel'], { queryParams: { owner_id: res.user.id } });
         } else {
           this.router.navigate(['/login']);
