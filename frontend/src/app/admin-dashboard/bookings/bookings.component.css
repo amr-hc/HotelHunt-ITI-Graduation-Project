@@ -1,0 +1,47 @@
+.container {
+  padding: 20px;
+}
+
+.loading,
+.error,
+.no-bookings {
+  text-align: center;
+  font-size: 18px;
+  margin: 20px 0;
+}
+
+.hotel {
+  cursor: pointer;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.hotel:hover {
+  background-color: #e1e1e1;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+h2, h3, h4 {
+  color: #333;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
