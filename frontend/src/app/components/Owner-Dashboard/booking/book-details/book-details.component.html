@@ -1,1 +1,26 @@
-<p>book-details works!</p>
+<div class="booking-container" *ngIf="booking; else loading">
+  <div class="booking-card">
+    <h2>Booking Details</h2>
+    <div class="booking-info">
+      <p><strong>Status:</strong> <span class="badge">{{ booking.status }}</span></p>
+      <p><strong>Duration:</strong> {{ booking.duration }} days</p>
+    </div>
+
+    <h3>Room Details</h3>
+    <ul class="room-details">
+      <li class="room-detail" *ngFor="let detail of booking.book_details">
+        <div class="room-info">
+          <p><strong>Room Type ID:</strong> {{ detail.roomType_id }}</p>
+          <p><strong>Date:</strong> {{ detail.date }}</p>
+          <p><strong>Price:</strong> {{ detail.price }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="loading-container">
+    <p>Loading booking details...</p>
+  </div>
+</ng-template>

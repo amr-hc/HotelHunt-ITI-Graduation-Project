@@ -1,0 +1,61 @@
+/* Container styles */
+.booking-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.booking-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 600px;
+  width: 100%;
+}
+
+/* Booking information styles */
+.booking-info {
+  margin-bottom: 20px;
+}
+
+.booking-info p {
+  margin: 5px 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: #fff;
+}
+
+/* Room details styles */
+.room-details {
+  list-style: none;
+  padding: 0;
+}
+
+.room-detail {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.room-info p {
+  margin: 5px 0;
+}
+
+/* Loading container styles */
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  font-size: 18px;
+  color: #666;
+}

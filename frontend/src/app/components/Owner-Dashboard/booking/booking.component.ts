@@ -25,7 +25,9 @@ export class BookingComponent implements OnInit , OnDestroy {
     this.fetchBookings();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+  }
 
    fetchBookings(): void {
     this.isLoading = true;
