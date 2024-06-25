@@ -75,6 +75,7 @@ export class HotelEditComponent implements OnInit {
     }
   }
 
+  
 
 
 

@@ -9,7 +9,8 @@
       <p><strong>Star Rating:</strong> {{ hotel.star_rating }}</p>
       <p><strong>Balance:</strong> {{ hotel.balance | currency:'USD':'symbol-narrow' }}</p>
       <p><strong>Description:</strong> {{ hotel.description }}</p>
-      <button class="btn btn-secondary" [routerLink]="['/owner/hotel', hotel.id]">Update</button>
+      <button class="btn btn-secondary mx-1" [routerLink]="['/owner/hotel', hotel.id]">Update</button>
+      <button class="btn btn-outline-success mx-1">Add Image</button>
     </div>
 
     <div *ngIf="ownerImages[hotel.id]" class="hotel-images">
