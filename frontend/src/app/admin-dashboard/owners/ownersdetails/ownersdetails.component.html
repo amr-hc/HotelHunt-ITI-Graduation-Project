@@ -1,4 +1,4 @@
-<div class="container mt-5" *ngIf="user; else loading">
+<div class="container mt-5" *ngIf="user">
   <div class="card">
     <div class="card-header text-center">
       <h2>{{ user.fname }} {{ user.lname }}</h2>
@@ -45,16 +45,11 @@
               </tr>
             </tbody>
           </table>
-          <div class="text-center mt-4">
-            <button class="btn btn-primary" (click)="editProfile(user.id)">Edit Profile</button>
-          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<ng-template #loading>
-  <div class="alert alert-info mt-5">
-    Loading user details...
-  </div>
-</ng-template>
+<div *ngIf="!user" class="alert alert-info mt-5">
+  Loading user details...
+</div>
