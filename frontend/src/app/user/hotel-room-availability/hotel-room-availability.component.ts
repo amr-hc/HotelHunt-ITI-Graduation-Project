@@ -11,7 +11,8 @@ import { CommentService } from '../../services/comment.service';
 import { RatingService } from '../../services/rating.service';
 import { Rating, UserRating } from '../../models/rating';
 import { Comment, UserComment } from '../../models/comment';
-
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-hotel-room-availability',
   standalone: true,
@@ -38,7 +39,8 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
     private hotelRoomSearchService: HotelRoomSearchService,
     private bookingService: BookingService,
     private commentService: CommentService,
-    private ratingService: RatingService
+    private ratingService: RatingService,
+    private router: Router
   ) {
 
    }
@@ -146,17 +148,37 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
     });
 
     if (bookingDetails.length > 0) {
-      const bookingData = new BookingData(1, 1, 'progress', bookingDetails);
-      console.log(bookingData);
+      // Use SweetAlert confirmation before proceeding with booking
+      Swal.fire({
+        title: 'Confirm Reservation',
+        text: 'Are you sure you want to proceed with the reservation?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, reserve it!',
+        cancelButtonText: 'Cancel'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const bookingData = new BookingData(1, 1, 'progress', bookingDetails);
+          console.log(bookingData);
 
-      this.bookingSubscription = this.bookingService.bookingRoom(bookingData).subscribe(
-        response => {
-          console.log('Booking successful', response);
-        },
-        error => {
-          console.error('Booking failed', error);
+          this.bookingSubscription = this.bookingService.bookingRoom(bookingData).subscribe(
+            response => {
+              console.log('Booking successful', response);
+              Swal.fire('Reserved!', 'Your rooms have been reserved.', 'success');
+            },
+            error => {
+              console.error('Booking failed', error);
+              Swal.fire('Error', 'Failed to reserve rooms.', 'error');
+            }
+          );
+          this.router.navigate(['/user/profile']);
+
+
         }
-      );
+      });
+    } else {
+      // If no rooms were selected
+      Swal.fire('No Rooms Selected', 'Please select at least one room to reserve.', 'warning');
     }
   }
 
