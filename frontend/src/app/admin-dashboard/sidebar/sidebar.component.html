@@ -1,15 +1,17 @@
 <nav class="nav flex-column">
-  <a class="nav-link active">Dashboard</a>
+  <a class="nav-link active"><strong>Dashboard</strong></a>
   <div class="nav-item">
     <a class="nav-link" (click)="toggleUsersAccordion()">
-      Users  <i class="fas fa-caret-down"></i>
+      Users <i class="fas fa-caret-down"></i>
     </a>
     <div *ngIf="isUsersAccordionOpen" class="accordion">
       <!-- <div class="accordion-item">
         <a class="nav-link" routerLink="admin-dashboard/admins">Admins</a>
       </div> -->
       <div class="accordion-item">
-        <a class="nav-link" routerLink="/admin-dashboard/owners">Hotel Owners</a>
+        <a class="nav-link" routerLink="/admin-dashboard/owners"
+          >Hotel Owners</a
+        >
       </div>
       <div class="accordion-item">
         <a class="nav-link" routerLink="/admin-dashboard/users">users</a>
@@ -17,6 +19,25 @@
     </div>
   </div>
   <a class="nav-link" routerLink="hotels">Hotels</a>
-  <a class="nav-link" routerLink="payment">Payment</a>
+
+  <div class="nav-item">
+    <a class="nav-link" (click)="togglePaymentAccordion()">
+      Payments <i class="fas fa-caret-down"></i>
+    </a>
+    <div *ngIf="isPaymentAccordionOpen" class="accordion">
+      <div class="accordion-item">
+        <a class="nav-link" routerLink="/admin-dashboard/payments/add"
+          >Add Payment</a
+        >
+      </div>
+      <div class="accordion-item">
+        <a class="nav-link" routerLink="/admin-dashboard/payments"
+          >All payments</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <a class="nav-link" routerLink="bookings">Bookings</a>
   <a class="nav-link" routerLink="profile">Profile</a>
 </nav>

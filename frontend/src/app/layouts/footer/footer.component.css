@@ -1,0 +1,5 @@
+.footer {
+    /* position: absolute; */
+    bottom: 0;
+    width: 100%; /* Ensures the footer stretches across the entire width */
+}
