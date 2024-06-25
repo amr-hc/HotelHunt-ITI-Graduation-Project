@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { HotelService } from '../../../services/hotel.service';
 import { Hotel } from '../../../models/hotel';
 import { HotelImage } from '../../../models/hotelImage';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-hotel-owner',
@@ -52,16 +53,40 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
     );
   }
   onDeleteImage(imageId: number) {
-    this.hotelService.deleteHotelImage(imageId).subscribe(
-      (response) => {
-        console.log('Image deleted successfully:', response);
-        // Optionally, refresh image list or update UI
-      },
-      (error) => {
-        console.error('Error deleting image:', error);
-        // Handle error - show error message or retry logic
+    // Show SweetAlert confirmation
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Do you really want to delete this image?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // If confirmed, proceed with the delete action
+        this.hotelService.deleteHotelImage(imageId).subscribe(
+          (response) => {
+            Swal.fire(
+              'Deleted!',
+              'Your image has been deleted.',
+              'success'
+            );
+            console.log('Image deleted successfully:', response);
+            // Optionally, refresh the image list or update the UI
+          },
+          (error) => {
+            Swal.fire(
+              'Error!',
+              'There was an error deleting the image.',
+              'error'
+            );
+            console.error('Error deleting image:', error);
+            // Handle error - show error message or retry logic
+          }
+        );
       }
-    );
+    });
   }
 
   ngOnDestroy(): void {
