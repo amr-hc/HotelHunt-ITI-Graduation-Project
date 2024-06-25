@@ -67,4 +67,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       this.bookingsSub.unsubscribe();
     }
   }
+
+  navigateToEditProfile() {
+    this.router.navigate(['/user/profile/edit']);
+  }
 }

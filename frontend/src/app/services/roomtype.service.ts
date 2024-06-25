@@ -12,7 +12,7 @@ export class RoomtypeService {
   constructor(private http : HttpClient) { }
 
   get() {
-    return this.http.get(this.url);
+    return this.http.get(this.url+"/owner");
   }
 
   getById( id : any) {

@@ -5,26 +5,23 @@
   <form (ngSubmit)="onSearch()">
     <div class="search-bar-container">
       <div class="date-range">
-        <label for="checkIn">Start Date:</label>
-        <input type="date" [(ngModel)]="checkinDate" name="checkinDate" placeholder="Check-in Date" id="checkIn"
-          class="form-control" />
-        <span>—</span>
-        <label for="checkOut">End Date:</label>
-        <input type="date" [(ngModel)]="checkoutDate" name="checkoutDate" placeholder="Check-out Date" id="checkOut"
-          class="form-control" />
+        <label for="checkIn">Check-in Date:</label>
+        <input type="date" [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" class="form-control" />
+        <span class="separator">—</span>
+        <label for="checkOut" class="form-label">Check-out Date:</label>
+        <input type="date" [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" class="form-control" />
       </div>
       <div class="search-button">
-        <button type="submit">Search</button>
+        <button type="submit" class="btn btn-primary">Search</button>
       </div>
     </div>
   </form>
 </div>
 
 <!-- Display hotel rooms -->
-
 <div *ngIf="rooms.length > 0" class="room-list">
   <h3 class="mb-3 text-center">Available Rooms</h3>
-  <table class="table table-striped w-75 mx-auto">
+  <table class="table table-striped mx-auto">
     <thead class="table-info">
       <tr>
         <th>Room Type</th>
@@ -38,7 +35,7 @@
       <tr *ngFor="let room of rooms">
         <td>{{ room.name }}</td>
         <td>{{ room.description }}</td>
-        <td>{{ room.price }}</td>
+        <td>{{ room.price | currency:'USD':'symbol':'1.2-2' }}</td>
         <td>{{ room.stock }}</td>
         <td>
           <select class="form-control" id="select-room-{{ room.id }}" (change)="onRoomSelectionChange(room.id, $event)">
@@ -49,10 +46,37 @@
     </tbody>
   </table>
   <div class="text-center">
-    <button class="btn btn-primary mx-auto my-5" (click)="onReserve()">Reserve</button>
+    <button class="btn btn-primary my-4" (click)="onReserve()">Reserve</button>
   </div>
 </div>
 
 <div *ngIf="rooms.length === 0" class="alert alert-warning">
   <p>No rooms available for the selected dates.</p>
+</div>
+
+<!-- Comments Section -->
+<div class="comments-section mt-5">
+  <h3 class="mb-3">Comments</h3>
+  <ul class="list-group">
+    <li *ngFor="let comment of comments" class="list-group-item">
+      <p>{{ comment.content }}</p>
+      <small>By User {{ comment.user_id }} on {{ comment.created_at | date:'medium' }}</small>
+    </li>
+  </ul>
+  <div class="mt-3">
+    <textarea [(ngModel)]="userComment" class="form-control" placeholder="Add a comment"></textarea>
+    <button class="btn btn-primary mt-2" (click)="addComment()">Submit Comment</button>
+  </div>
+</div>
+
+<!-- Rate Hotel Section -->
+<div class="rating-section mt-5">
+  <h3 class="mb-3">Rate this Hotel</h3>
+  <div class="star-rating">
+    <span class="star" (click)="rateHotel(1)" [class.filled]="rating >= 1">&#9733;</span>
+    <span class="star" (click)="rateHotel(2)" [class.filled]="rating >= 2">&#9733;</span>
+    <span class="star" (click)="rateHotel(3)" [class.filled]="rating >= 3">&#9733;</span>
+    <span class="star" (click)="rateHotel(4)" [class.filled]="rating >= 4">&#9733;</span>
+    <span class="star" (click)="rateHotel(5)" [class.filled]="rating >= 5">&#9733;</span>
+  </div>
 </div>

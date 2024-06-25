@@ -9,6 +9,7 @@ export class Hotel {
     public city: string,
     public status: 'active' | 'inactive' | 'suspend',
     public star_rating: number,
+    public average_rate: number,
     public description: string,
   ){}
 }

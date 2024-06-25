@@ -25,10 +25,6 @@ export class AddComponent {
       this.message = 'Type must be a string.';
       return;
     }
-    if (isNaN(Number(this.hotel.hotel_id)) || this.hotel.hotel_id <= 0) {
-      this.message = 'Hotel ID must be a valid positive number.';
-      return;
-    }
     if (isNaN(Number(this.hotel.price)) || this.hotel.price <= 0) {
       this.message = 'Price must be a valid positive number.';
       return;

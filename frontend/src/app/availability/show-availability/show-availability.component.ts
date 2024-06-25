@@ -4,7 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
+import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
 interface Availability {
   id: number;
@@ -34,6 +36,8 @@ interface CalendarDay {
   styleUrls: ['./show-availability.component.css']
 })
 export class ShowAvailabilityComponent implements OnInit {
+  id: number|string | null=0;
+  total_rooms: number=0;
   availabilityData: any[] = []; 
   calendarDays: CalendarDay[] = [];
   currentMonthValue: string = '';
@@ -48,11 +52,29 @@ export class ShowAvailabilityComponent implements OnInit {
   };
   isUpdateMode: boolean = false;
 
-  constructor(private http: HttpClient) {}
+  // constructor(private http: HttpClient) {}
+
+
+  constructor(private http: HttpClient,private route: ActivatedRoute) {
+
+    
+  }
+
+
+
 
   ngOnInit(): void {
+    
+    this.route.paramMap.subscribe(params => {
+      this.id = params.get('id'); 
+    });
+
     this.setupMonthOptions();
     this.fetchAvailability();
+
+
+    
+
   }
   
 
@@ -74,7 +96,7 @@ export class ShowAvailabilityComponent implements OnInit {
   }
 
   fetchAvailability(): void {
-    this.http.get<any>('http://127.0.0.1:8000/api/availability/room/1').subscribe(
+    this.http.get<any>(`http://127.0.0.1:8000/api/availability/room/${this.id}`).subscribe(
       response => {
         this.availabilityData = response.data;
         this.onMonthSelect(this.currentMonthValue); 
@@ -128,6 +150,7 @@ export class ShowAvailabilityComponent implements OnInit {
   }
 
   onDaySelect(day: CalendarDay): void {
+    this.total_rooms=day.total_rooms;
     this.selectedDay = day ;
     this.isUpdateMode = day.id > 0;
   }
@@ -179,6 +202,8 @@ export class ShowAvailabilityComponent implements OnInit {
 
 
   onFormSubmit() {
+    this.selectedDay.stock =(this.total_rooms-this.selectedDay.total_rooms)+this.selectedDay.stock;
+    this.selectedDay.total_rooms =this.total_rooms;
     if (this.isUpdateMode) {
       this.onSubmitUpdate();
     } else {
