@@ -16,7 +16,6 @@ export class ShowComponent {
   object: RoomType = {
     id: 0,
     name: '',
-    hotel_id: 0,
     price: 0,
     description: '',
     capacity: 0,
@@ -25,7 +24,7 @@ export class ShowComponent {
   constructor(
     private serv: RoomtypeService,
     private activatedRoute: ActivatedRoute,
-    private router: Router // Inject Router service
+    private router: Router 
   ) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.serv.getById(this.id).subscribe((data: any) => {
