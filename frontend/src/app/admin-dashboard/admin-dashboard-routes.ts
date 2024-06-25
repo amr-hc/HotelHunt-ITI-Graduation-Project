@@ -11,6 +11,8 @@ import { OwnersdetailsComponent } from './owners/ownersdetails/ownersdetails.com
 import { EditComponent } from './profile/edit/edit.component';
 import { BookingsComponent } from './bookings/bookings.component';
 import { AddpaymentComponent } from './payment/addpayment/addpayment.component';
+import { BookDetailsComponent } from '../components/Owner-Dashboard/booking/book-details/book-details.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 
 
@@ -19,6 +21,7 @@ export const adminRoutes: Routes = [
     path: '',
     component: AdminDashboardComponent,
     children: [
+      { path: '', component:WelcomeComponent  },
       { path: 'hotels', component:HotelsComponent  },
       { path: 'hotels/:id', component: HotelDetailsComponent },
       { path: 'users', component:UsersComponent  },
@@ -30,6 +33,7 @@ export const adminRoutes: Routes = [
       { path: 'profile', component:ProfileComponent  },
       { path: 'profile/edit/:id', component:EditComponent  },
       { path: 'bookings', component:BookingsComponent  },
+      { path: 'bookings/details/:id', component:BookDetailsComponent  },
     ],
   },
 ];
