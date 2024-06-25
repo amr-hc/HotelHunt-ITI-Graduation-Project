@@ -9,6 +9,8 @@ import { OwnersComponent } from './owners/owners.component';
 import { UsersdetailsComponent } from './users/usersdetails/usersdetails.component';
 import { OwnersdetailsComponent } from './owners/ownersdetails/ownersdetails.component';
 import { EditComponent } from './profile/edit/edit.component';
+import { BookingsComponent } from './bookings/bookings.component';
+import { AddpaymentComponent } from './payment/addpayment/addpayment.component';
 
 
 
@@ -21,11 +23,13 @@ export const adminRoutes: Routes = [
       { path: 'hotels/:id', component: HotelDetailsComponent },
       { path: 'users', component:UsersComponent  },
       { path: 'users/details/:id', component:UsersdetailsComponent  },
-      { path: 'owners/details/:id', component:OwnersdetailsComponent  },
       { path: 'owners', component:OwnersComponent  },
-      { path: 'payment', component:PaymentComponent  },
+      { path: 'owners/details/:id', component:OwnersdetailsComponent  },
+      { path: 'payments', component:PaymentComponent  },
+      { path: 'payments/add', component:AddpaymentComponent  },
       { path: 'profile', component:ProfileComponent  },
       { path: 'profile/edit/:id', component:EditComponent  },
+      { path: 'bookings', component:BookingsComponent  },
     ],
   },
 ];

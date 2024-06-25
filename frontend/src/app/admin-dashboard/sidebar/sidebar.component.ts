@@ -11,8 +11,12 @@ import { RouterLink } from '@angular/router';
 })
 export class SidebarComponent {
   isUsersAccordionOpen = false;
+  isPaymentAccordionOpen = false;
 
   toggleUsersAccordion() {
     this.isUsersAccordionOpen = !this.isUsersAccordionOpen;
+  }
+  togglePaymentAccordion() {
+    this.isPaymentAccordionOpen = !this.isPaymentAccordionOpen;
   }
 }
