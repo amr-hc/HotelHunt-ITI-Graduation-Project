@@ -44,17 +44,18 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
    }
 
   ngOnInit(): void {
+    this.loadComments();
+    this.loadRating();
     const today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
     this.checkinDate = today;
     this.checkoutDate = today;
-    this.loadComments();
-    this.loadRating();
   }
 
   loadComments() {
     this.commentSubscription = this.commentService.getAllComments().subscribe(
       (data: Comment[]) => {
         this.comments = data.filter(comment => comment.hotel_id === this.hotel_id);
+        console.log("Comments:", this.comments);
       },
       (error: any) => {
         console.error('Error fetching comments', error);
@@ -67,7 +68,8 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
       const newComment = new UserComment(1, this.hotel_id, this.userComment);
       this.commentService.createComment(newComment).subscribe(
         (comment: Comment) => {
-          this.comments.push(comment);
+          // this.comments.push(comment);
+          this.loadComments();
           this.userComment = '';
         },
         (error: any) => {

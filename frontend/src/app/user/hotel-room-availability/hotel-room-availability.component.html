@@ -1,15 +1,18 @@
 <p>hotel-room-availability works!</p>
 <p>{{ hotel_id }}</p>
 
-<div class="search-bar bg-primary-subtle">
+<div class="search-bar bg-primary-subtle w-50 mx-auto rounded-5">
   <form (ngSubmit)="onSearch()">
     <div class="search-bar-container">
       <div class="date-range">
-        <label for="checkIn">Check-in Date:</label>
-        <input type="date" [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" class="form-control" />
-        <span class="separator">—</span>
-        <label for="checkOut" class="form-label">Check-out Date:</label>
-        <input type="date" [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" class="form-control" />
+        <div class="mx-5">
+          <label for="checkIn">Check-in Date:</label>
+          <input type="date" [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" class="form-control" />
+        </div>
+       <div>
+          <label for="checkOut">Check-out Date:</label>
+          <input type="date" [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" class="form-control" />
+       </div>
       </div>
       <div class="search-button">
         <button type="submit" class="btn btn-primary">Search</button>
@@ -50,8 +53,8 @@
   </div>
 </div>
 
-<div *ngIf="rooms.length === 0" class="alert alert-warning">
-  <p>No rooms available for the selected dates.</p>
+<div *ngIf="rooms.length === 0" class="alert alert-warning mx-auto w-50 rounded-5">
+  <p class="text-center">No rooms available for the selected dates.</p>
 </div>
 
 <!-- Comments Section -->
@@ -60,7 +63,7 @@
   <ul class="list-group">
     <li *ngFor="let comment of comments" class="list-group-item">
       <p>{{ comment.content }}</p>
-      <small>By User {{ comment.user_id }} on {{ comment.created_at | date:'medium' }}</small>
+      <small>By User {{ comment.user_name }} on {{ comment.created_at | date:'medium' }}</small>
     </li>
   </ul>
   <div class="mt-3">

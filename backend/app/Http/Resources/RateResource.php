@@ -19,6 +19,8 @@ class RateResource extends JsonResource
             "user"=>$this->user->fname . ' '. $this->user->lname,
             "hotel"=>$this->hotel->name,
             "rate"=>$this->rate,
+            "hotel_id"=>$this->hotel_id,
+            "user_id"=>$this->user_id
         ];
     }
 }
