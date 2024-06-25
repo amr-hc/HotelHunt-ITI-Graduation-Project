@@ -1,19 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BookingService } from '../../../services/booking.service';
-import { BookingData } from '../../../models/booking-data';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { Booking } from '../../../models/booking';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-booking',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink,FormsModule],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.css'
 })
 export class BookingComponent implements OnInit , OnDestroy {
-  booking: BookingData[] = [];
+  booking: Booking[] = [];
   sub: Subscription | null = null ;
   isLoading: boolean = false;
   errorMessage: string = '';
@@ -22,26 +23,39 @@ export class BookingComponent implements OnInit , OnDestroy {
   constructor(public activatedRoute:ActivatedRoute, public bookingService:BookingService){}
 
   ngOnInit(): void {
-    this.fetchBookings();
+    this.loadBookings();
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+  }
 
-   fetchBookings(): void {
-    this.isLoading = true;
-    this.sub = this.bookingService.getAllBookings().subscribe(
-      (response: BookingData[]) => {
-        this.booking = response;
-        this.isLoading = false;
-        console.log('Bookings:', this.booking);
-        console.log('books_details : ',this.booking[0].book_details)
+
+
+
+  onStatusChange( newStatus: string , bookingId: number): void {
+    this.bookingService.updateStatus( newStatus, bookingId).subscribe({
+      next: (response) => {
+        console.log('Status updated:', response);
+        // Optionally, you can reload the bookings or update the UI to reflect the change
       },
-      (error) => {
-        console.error('Error fetching bookings:', error);
-        this.errorMessage = 'Error fetching bookings. Please try again later.';
+      error: (error) => {
+        console.error('Error updating status:', error);
+      }
+    });
+  }
+  loadBookings(): void {
+    this.isLoading = true;
+    this.bookingService.getAllBookings().subscribe({
+      next: (bookings) => {
+        this.booking = bookings;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.errorMessage = 'Failed to load bookings.';
         this.isLoading = false;
       }
-    );
+    });
   }
 
 }

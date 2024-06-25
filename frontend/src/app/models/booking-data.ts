@@ -7,6 +7,6 @@ export class BookingData {
     public total_price: number,
     public status: string,
     public hotel: string,
-    public book_details: BookingDetails[]
+    public books_details: BookingDetails[]
   ) {}
 }

@@ -27,9 +27,9 @@
     <div class="col-md-12" *ngFor="let hotelGroup of result">
       <div class="card mb-3 p-3 position-relative">
         <div class="d-flex">
-          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRp0klPwYCPP7ckPaa_s5RVk70uszGHCza1Kg&s"
+          <img [src]="imagePath +hotelGroup.hotels[0].photo"
             alt="{{ hotelGroup.hotel_name }} image" class="img-fluid rounded"
-            style="max-width: 80%; max-height: 80%; object-fit: cover; margin-right: 20px;">
+            style="max-width: 40%; max-height: 80%; object-fit: cover; margin-right: 20px;">
           <div class="card-body mx-3">
             <h5 class="card-title">{{ hotelGroup.hotel_name }}</h5>
             <div *ngIf="hotelGroup.roomsAvailable >= 1">

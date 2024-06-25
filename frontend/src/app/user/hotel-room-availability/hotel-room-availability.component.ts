@@ -63,6 +63,8 @@ export class HotelRoomAvailabilityComponent implements OnDestroy {
 
     if (bookingDetails.length > 0) {
       const bookingData = new BookingData(1, 1,1000, 'progress','hotel', bookingDetails);
+      console.log(bookingData);
+
       this.bookingSubscription = this.bookingService.bookingRoom(bookingData).subscribe(
         response => {
           console.log('Booking successful', response);

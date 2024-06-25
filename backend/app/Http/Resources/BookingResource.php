@@ -17,6 +17,7 @@ class BookingResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
+            "user_name" => $this->user->fname . ' ' . $this->user->lname,
             'total_price' => $this->total_price,
             'duration' => $this->duration,
             'status' => $this->status,
@@ -24,6 +25,10 @@ class BookingResource extends JsonResource
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
             'book_details' => BookDetailResource::collection($this->whenLoaded('book_details')),
+
+
+
+
         ];
     }
 }

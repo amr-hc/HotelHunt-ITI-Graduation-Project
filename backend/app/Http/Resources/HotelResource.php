@@ -17,7 +17,7 @@ class HotelResource extends JsonResource
         return [
             "id" => $this->id,
             "name" => $this->name,
-            "owner_id" => $this->user->fname . ' '. $this->user->lname,
+            "owner_name" => $this->user->fname . ' '. $this->user->lname,
             "city" => $this->city,
             "country" => $this->country,
             "address" => $this->address,
@@ -27,6 +27,7 @@ class HotelResource extends JsonResource
             "description" => $this->description,
             "star_rating" => $this->star_rating,
             "image" => $this->photo,
+            "roomtypes" => $this->roomtypes,
         ];
     }
 }

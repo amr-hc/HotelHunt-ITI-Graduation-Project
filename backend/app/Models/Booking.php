@@ -35,6 +35,18 @@ class Booking extends Model
     {
         return $this->book_details->first()->roomType->hotel->name;
     }
+    public function getFullName($firstName, $lastName) {
+    $fullName = trim(($firstName ?? '') . ' ' . ($lastName ?? ''));
+
+    if (empty($firstName) && !empty($lastName)) {
+        return trim($lastName);
+    }
+    if (!empty($firstName) && empty($lastName)) {
+        return trim($firstName);
+    }
+
+    return $fullName;
+}
 
 
 
