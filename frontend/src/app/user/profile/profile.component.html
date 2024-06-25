@@ -21,19 +21,19 @@
       <div class="bookings-container card">
         <div class="card-body">
           <h3 class="card-title">Bookings</h3>
-          <!-- <p><strong>Hotel:</strong> {{ bookings?.hotel }}</p>
-          <p><strong>Total price:</strong> {{ bookings?.total_price }}</p> -->
+           <!-- <p><strong>Hotel:</strong> {{ bookings?.hotel }}</p> -->
+          <!-- <p><strong>Total price:</strong> {{ bookings?.total_price }}</p> -->
           <p><strong>Status:</strong> {{ bookings?.status }}</p>
           <p><strong>Duration:</strong> {{ bookings?.duration }} days</p>
 
           <h4>Book Details:</h4>
-          <div *ngIf="bookings && bookings.books_details && bookings.books_details.length>0">
-            <div *ngFor="let detail of bookings.books_details" class="book-detail">
+          <div *ngIf="bookings && bookings.book_details">
+            <div *ngFor="let detail of bookings.book_details" class="book-detail">
               <p><strong>Date:</strong> {{ detail.date }}</p>
               <p><strong>Price:</strong> {{ detail.price }}</p>
             </div>
           </div>
-          <div *ngIf="!bookings || !bookings.books_details || bookings.books_details.length === 0">
+          <div *ngIf="!bookings || !bookings.book_details">
             <p>No book details found for this booking.</p>
 
         </div>

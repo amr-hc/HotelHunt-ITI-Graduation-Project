@@ -29,8 +29,8 @@ export class BookingService {
     );
   }
 
-  getUserBookings(userId: number): Observable<BookingData> {
-    return this.http.get<{data: BookingData}>(`${this.apiUrl}${userId}`).pipe(
+  getUserBookings(userId: number): Observable<Booking> {
+    return this.http.get<{data: Booking}>(`${this.apiUrl}${userId}`).pipe(
       map(response => response.data)
     );
   }

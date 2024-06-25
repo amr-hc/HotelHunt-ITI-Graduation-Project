@@ -1,3 +1,5 @@
+// profile.component.ts
+
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
@@ -6,18 +8,18 @@ import { User } from '../../models/user';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookingService } from '../../services/booking.service';
-import { BookingData } from '../../models/booking-data';
+import { Booking } from '../../models/booking'; // Import your adjusted Booking model
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   user: User | null = null;
-  bookings: BookingData | null = null;
+  bookings: Booking | null = null;
   sub: Subscription | null = null;
   bookingsSub: Subscription | null = null;
   userid: number = 0;
@@ -34,7 +36,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     if (this.userid) {
       this.sub = this.userService.getUserById(this.userid).subscribe(
         (response: any) => {
-          console.log("Response data:", response);
+          // console.log("Response data:", response);
           this.user = response.data;
           console.log("User data:", this.user);
         },
@@ -44,9 +46,9 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       );
 
       this.bookingsSub = this.bookingService.getUserBookings(this.userid).subscribe(
-        (response: BookingData) => {
+        (response: Booking) => {
           this.bookings = response;
-          console.log("booking data:", this.bookings);
+          console.log("Booking data:", this.bookings);
         },
         (error) => {
           console.error('Error fetching bookings data', error);
