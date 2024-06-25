@@ -17,6 +17,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { BookingComponent } from './components/Owner-Dashboard/booking/booking.component';
 import { UserProfileComponent } from './user/profile/profile.component';
 import { BookDetailsComponent } from './components/Owner-Dashboard/booking/book-details/book-details.component';
+import { HotelOwnerComponent } from './components/Owner-Dashboard/hotel-owner/hotel-owner.component';
 
 
 export const routes: Routes = [
@@ -47,5 +48,6 @@ export const routes: Routes = [
 
    {path:'owner/booking' , component: BookingComponent},
    {path:'owner/booking/:id' , component: BookDetailsComponent},
+   {path: 'owner/hotel', component:HotelOwnerComponent}
 
 ];
