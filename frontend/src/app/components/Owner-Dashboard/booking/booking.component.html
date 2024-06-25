@@ -11,18 +11,19 @@
   <table>
     <thead>
       <tr>
-        <th>User ID</th>
+        <th>ID</th>
+        <th>User Name</th>
         <th>Duration</th>
         <th>Status</th>
-        <th>Book Id</th>
-
         <th>Book Details</th>
+        <th>Total Price</th>
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let book of booking">
-        <td>{{ book.user_id }}</td>
+        <td>{{ book.id }}</td>
+        <td>{{ book.user_name }}</td>
         <td>{{ book.duration }} Days</td>
         <td>
           <select [(ngModel)]="book.status" (change)="onStatusChange( book.status ,book.id)">
@@ -31,7 +32,7 @@
             <option value="completed">Completed</option>
           </select>
         </td>
-        <td>{{ book.id }}</td>
+
 
         <td>
           <table class="nested-table">
@@ -51,9 +52,9 @@
             </tbody>
           </table>
         </td>
+        <td>{{book.total_price}}</td>
         <td>
           <button [routerLink]="['/owner/booking', book.id]" class="btn btn-primary mx-1">View</button>
-          <button class="btn btn-danger mx-1">Delete</button>
         </td>
       </tr>
     </tbody>
