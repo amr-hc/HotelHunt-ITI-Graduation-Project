@@ -4,6 +4,7 @@ export class SearchHotel {
     public name: string,
     public price: string,
     public hotel_id: number,
-    public hotel_name : string,
+    public hotel_name: string,
+    public photo: string
   ) {}
 }
