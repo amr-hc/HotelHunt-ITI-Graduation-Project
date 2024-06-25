@@ -51,6 +51,18 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
       }
     );
   }
+  onDeleteImage(imageId: number) {
+    this.hotelService.deleteHotelImage(imageId).subscribe(
+      (response) => {
+        console.log('Image deleted successfully:', response);
+        // Optionally, refresh image list or update UI
+      },
+      (error) => {
+        console.error('Error deleting image:', error);
+        // Handle error - show error message or retry logic
+      }
+    );
+  }
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
