@@ -18,6 +18,7 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
   checkinDate: string = '';
   checkoutDate: string = '';
   result: { hotel_name: string, roomsAvailable: number, hotels: SearchHotel[] }[] = [];
+  imagePath ="http://127.0.0.1:8000/storage/"
   private searchSubscription: Subscription | null = null;
 
   constructor(private searchHotelService: SearchHotelService) { }
