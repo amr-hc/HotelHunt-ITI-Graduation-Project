@@ -1,1 +1,48 @@
-<p>edit-profile works!</p>
+<div class="container mt-4">
+  <h2>Edit Profile</h2>
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="fname">First Name</label>
+      <input type="text" class="form-control" id="fname" formControlName="fname">
+      <div *ngIf="userForm.get('fname')!.touched && userForm.get('fname')!.errors?.['required']" class="text-danger">
+        First Name is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="lname">Last Name</label>
+      <input type="text" class="form-control" id="lname" formControlName="lname">
+      <div *ngIf="userForm.get('lname')!.touched && userForm.get('lname')!.errors?.['required']" class="text-danger">
+        Last Name is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="email">Email</label>
+      <input type="email" class="form-control" id="email" formControlName="email">
+      <div *ngIf="userForm.get('email')!.touched && userForm.get('email')!.errors?.['required']" class="text-danger">
+        Email is required
+      </div>
+      <div *ngIf="userForm.get('email')!.touched && userForm.get('email')!.errors?.['email']" class="text-danger">
+        Please enter a valid email address
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="phone">Phone</label>
+      <input type="tel" class="form-control" id="phone" formControlName="phone">
+      <div *ngIf="userForm.get('phone')!.touched && userForm.get('phone')!.errors?.['required']" class="text-danger">
+        Phone is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="address">Address</label>
+      <textarea class="form-control" id="address" formControlName="address" rows="3"></textarea>
+      <div *ngIf="userForm.get('address')!.touched && userForm.get('address')!.errors?.['required']" class="text-danger">
+        Address is required
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="photo">Profile Photo</label>
+      <input type="file" class="form-control-file" id="photo" (change)="onFileChange($event)">
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+  </form>
+</div>
