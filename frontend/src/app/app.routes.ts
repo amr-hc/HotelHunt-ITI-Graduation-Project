@@ -17,6 +17,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { BookingComponent } from './components/Owner-Dashboard/booking/booking.component';
 import { UserProfileComponent } from './user/profile/profile.component';
 import { BookDetailsComponent } from './components/Owner-Dashboard/booking/book-details/book-details.component';
+import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
 import { HotelOwnerComponent } from './components/Owner-Dashboard/hotel-owner/hotel-owner.component';
 
 
@@ -36,6 +37,7 @@ export const routes: Routes = [
   {path : "show/:id" , component : ShowComponent },
   {path : "add" , component : AddComponent },
   {path : "update/:id" , component : UpdateComponent },
+  {path : "user/profile/edit" , component : EditProfileComponent },
 
   { path:'admin-dashboard',     loadChildren: () =>
     import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},
