@@ -1,12 +1,15 @@
-<p>hotel works!</p>
-<div>{{hotel?.id}}</div>
-<div>{{hotel?.name}}</div>
-<div>{{hotel?.city}}</div>
-<div>{{hotel?.address}}</div>
+<div class="text-center">
+  <p>hotel works!</p>
+  <div>{{hotel?.id}}</div>
+  <div>{{hotel?.name}}</div>
+  <div>{{hotel?.city}}</div>
+  <div>{{hotel?.address}}</div>
 
-<div>name is {{hotel?.name}}</div>
-<div>city is {{hotel?.city}}</div>
-<div>address is {{hotel?.address}}</div>
+  <div>name is {{hotel?.name}}</div>
+  <div>city is {{hotel?.city}}</div>
+  <div>address is {{hotel?.address}}</div>
+  <div>description is {{hotel?.average_rate}}</div>
+</div>
 <div class="images-container">
   <div *ngFor="let image of images">
     <!-- Use the full URL for the image source -->
