@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { UserComment } from '../models/comment';
 
 @Injectable({
@@ -12,11 +12,15 @@ export class CommentService {
   constructor(private http: HttpClient) { }
 
   getAllComments(): Observable<any> {
-    return this.http.get(this.apiUrl)
+    return this.http.get<{data: Comment[]}>(this.apiUrl).pipe(
+      map(response => response.data)
+    )
   }
 
   getCommentById(id: number): Observable<Comment> {
-    return this.http.get<Comment>(this.apiUrl + id)
+    return this.http.get<{data: Comment}>(this.apiUrl + id).pipe(
+      map(response => response.data)
+    )
   }
 
   createComment(userComment: UserComment): Observable<any> {
