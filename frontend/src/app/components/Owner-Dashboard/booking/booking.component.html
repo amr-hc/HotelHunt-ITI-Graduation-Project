@@ -15,8 +15,9 @@
         <th>Duration</th>
         <th>Status</th>
         <th>Book Id</th>
-        <th>Actions</th>
+
         <th>Book Details</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
@@ -31,10 +32,7 @@
           </select>
         </td>
         <td>{{ book.id }}</td>
-        <td>
-          <button [routerLink]="['/owner/booking', book.id]" class="btn btn-primary mx-1">View</button>
-          <button class="btn btn-danger mx-1">Delete</button>
-        </td>
+
         <td>
           <table class="nested-table">
             <thead>
@@ -52,6 +50,10 @@
               </tr>
             </tbody>
           </table>
+        </td>
+        <td>
+          <button [routerLink]="['/owner/booking', book.id]" class="btn btn-primary mx-1">View</button>
+          <button class="btn btn-danger mx-1">Delete</button>
         </td>
       </tr>
     </tbody>

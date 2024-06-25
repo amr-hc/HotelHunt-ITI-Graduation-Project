@@ -30,34 +30,8 @@ export class BookingComponent implements OnInit , OnDestroy {
     this.sub?.unsubscribe();
   }
 
-   fetchBookings(): void {
-    this.isLoading = true;
-    this.sub = this.bookingService.getAllBookings().subscribe(
-      (response: Booking[]) => {
-        this.booking = response;
-        this.isLoading = false;
-        console.log('Bookings:', this.booking);
-        console.log('books_details : ',this.booking[0].book_details)
-      },
-      (error) => {
-        console.error('Error fetching bookings:', error);
-        this.errorMessage = 'Error fetching bookings. Please try again later.';
-        this.isLoading = false;
-      }
-    );
-  }
 
-  updateBookingStatus(bookingId: number, newStatus: string): void {
-    this.bookingService.updateStatus( newStatus,bookingId).subscribe({
-      next: (response) => {
-        console.log('Booking status updated successfully:', response);
-        // Update UI or perform other actions based on the response
-      },
-      error: (error) => {
-        console.error('Error updating booking status:', error);
-      }
-    });
-  }
+
 
   onStatusChange( newStatus: string , bookingId: number): void {
     this.bookingService.updateStatus( newStatus, bookingId).subscribe({
