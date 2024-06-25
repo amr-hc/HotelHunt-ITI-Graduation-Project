@@ -59,5 +59,9 @@ class Hotel extends Model
         return $this->hasMany(HotelImage::class);
     }
 
+    public function roomtypes(){
+        return $this->hasMany(Roomtype::class);
+    }
+
 
 }

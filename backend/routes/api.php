@@ -66,6 +66,7 @@ Route::resource('users', usersController::class);
 
 
 Route::resource('hotels', HotelsController::class);
+Route::get('roomtype/owner', [RoomtypesController::class, 'owner']);
 Route::resource('roomtype', RoomtypesController::class);
 Route::resource('availability', AvailabilityController::class);
 Route::get('availability/room/{room}', [AvailabilityController::class, 'specificRoom']);

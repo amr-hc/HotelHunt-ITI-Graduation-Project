@@ -12,14 +12,14 @@
     </div>
   
     <div class="row">
-      <div class="col-md-2" *ngFor="let day of calendarDays">
+      <div class="col-md-3" *ngFor="let day of calendarDays">
         <div class="card mb-3">
           <div class="card-body">
             <h5 class="card-title">{{ day.date | date: 'MMMM dd, yyyy' }}</h5>
             <p class="card-text">
               <strong>Stock:</strong> {{ day.stock }}<br>
               <strong>Room Type:</strong> {{ day.room_type || 'N/A' }}<br>
-              <strong>Room Type:</strong> {{ day.room_type || 'N/A' }}<br>
+              <strong>total_rooms:</strong> {{ day.total_rooms || 'Unavailable' }}<br>
               <strong>Hotel:</strong> {{ day.hotel_name || 'N/A' }}
             </p>
           </div>
