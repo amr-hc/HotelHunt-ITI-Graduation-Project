@@ -5,6 +5,6 @@ export class BookingData {
     public user_id: number,
     public duration: number,
     public status: string,
-    public books_details: BookingDetails[]
+    public book_details: BookingDetails[]
   ) {}
 }

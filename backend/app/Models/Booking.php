@@ -31,6 +31,11 @@ class Booking extends Model
         return $this->book_details()->sum('price');
     }
 
+    public function getHotelNameAttribute()
+    {
+        return $this->book_details->first()->roomType->hotel->name;
+    }
+
 
 
 }

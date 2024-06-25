@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BookingData } from '../models/booking-data';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,9 @@ export class BookingService {
     return this.http.post(this.apiUrl, bookingData);
   }
 
-  getAllBookings(): Observable<BookingData[]> {  
-    return this.http.get<BookingData[]>(this.apiUrl);
+  getAllBookings(): Observable<BookingData[]> {
+    return this.http.get<{data: BookingData[]}>(this.apiUrl).pipe(
+      map(response => response.data)
+    );
   }
 }

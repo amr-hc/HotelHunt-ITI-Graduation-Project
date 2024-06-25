@@ -67,7 +67,7 @@ class HotelsController extends Controller
             $photoPath = $request->file('image')->store('hotels');
             $request->merge(['photo' => $photoPath]);
             if ($hotel->photo!= 'hotels/default.jpg') {
-                unlink(storage_path('app/public/'. $hotel->photo));
+                // unlink(storage_path('app/public/'. $hotel->photo));
             }
         }
 

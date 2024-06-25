@@ -22,7 +22,24 @@
         <td>{{ book.user_id }}</td>
         <td>{{ book.duration }} Days</td>
         <td>{{ book.status }}</td>
-        <td>{{book.books_details}}</td>
+        <td>
+          <table>
+            <thead>
+              <tr>
+                <th>Room Type ID</th>
+                <th>Date</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let detail of book.book_details">
+                <td>{{ detail.roomType_id }}</td>
+                <td>{{ detail.date }}</td>
+                <td>{{ detail.price }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
       </tr>
     </tbody>
   </table>
