@@ -27,13 +27,13 @@
           <p><strong>Duration:</strong> {{ bookings?.duration }} days</p>
 
           <h4>Book Details:</h4>
-          <div *ngIf="bookings && bookings.book_details && bookings.book_details.length > 0">
-            <div *ngFor="let detail of bookings.book_details" class="book-detail">
+          <div *ngIf="bookings && bookings.books_details && bookings.books_details.length>0">
+            <div *ngFor="let detail of bookings.books_details" class="book-detail">
               <p><strong>Date:</strong> {{ detail.date }}</p>
               <p><strong>Price:</strong> {{ detail.price }}</p>
             </div>
           </div>
-          <div *ngIf="!bookings || !bookings.book_details || bookings.book_details.length === 0">
+          <div *ngIf="!bookings || !bookings.books_details || bookings.books_details.length === 0">
             <p>No book details found for this booking.</p>
 
         </div>
