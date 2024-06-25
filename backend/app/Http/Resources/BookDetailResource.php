@@ -20,6 +20,9 @@ class BookDetailResource extends JsonResource
             'book_id' => $this->book_id,
             'date' => $this->date,
             'price' => $this->price,
+            'room_name' => $this->roomType->name,
+            
+
         ];
     }
 }
