@@ -4,11 +4,12 @@ import { BookingService } from '../../../services/booking.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { Booking } from '../../../models/booking';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-booking',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule,RouterLink,FormsModule],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.css'
 })
@@ -22,7 +23,7 @@ export class BookingComponent implements OnInit , OnDestroy {
   constructor(public activatedRoute:ActivatedRoute, public bookingService:BookingService){}
 
   ngOnInit(): void {
-    this.fetchBookings();
+    this.loadBookings();
   }
 
   ngOnDestroy(): void {
@@ -44,6 +45,43 @@ export class BookingComponent implements OnInit , OnDestroy {
         this.isLoading = false;
       }
     );
+  }
+
+  updateBookingStatus(bookingId: number, newStatus: string): void {
+    this.bookingService.updateStatus( newStatus,bookingId).subscribe({
+      next: (response) => {
+        console.log('Booking status updated successfully:', response);
+        // Update UI or perform other actions based on the response
+      },
+      error: (error) => {
+        console.error('Error updating booking status:', error);
+      }
+    });
+  }
+
+  onStatusChange( newStatus: string , bookingId: number): void {
+    this.bookingService.updateStatus( newStatus, bookingId).subscribe({
+      next: (response) => {
+        console.log('Status updated:', response);
+        // Optionally, you can reload the bookings or update the UI to reflect the change
+      },
+      error: (error) => {
+        console.error('Error updating status:', error);
+      }
+    });
+  }
+  loadBookings(): void {
+    this.isLoading = true;
+    this.bookingService.getAllBookings().subscribe({
+      next: (bookings) => {
+        this.booking = bookings;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.errorMessage = 'Failed to load bookings.';
+        this.isLoading = false;
+      }
+    });
   }
 
 }

@@ -81,6 +81,7 @@ Route::post('/search/hotel', [SearchController::class, 'searchInHotel']);
 
 Route::resource('payments', PaymentController::class);
 Route::resource('booking', BookingController::class);
+Route::put('booking/{id}/status',[BookingController::class , 'updateStatus']);
 
 
 Route::prefix('hotels')->group(function () {

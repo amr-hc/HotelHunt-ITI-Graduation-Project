@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BookingResource;
 use App\Models\BookDetail;
 use App\Models\Booking;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -127,6 +128,35 @@ class BookingController extends Controller
         return response()->json(['error' => 'Failed to update booking: ' . $outerException->getMessage()], 500);
     }
 }
+
+    public function updateStatus(Request $request, string $id)
+    {
+        try {
+            // Validate the request data
+            $validatedData = $request->validate([
+                'status' => 'string|in:progress,cancel,completed'
+            ]);
+
+            // Find the booking by ID
+            $booking = Booking::findOrFail($id);
+
+            // Update the status
+            $booking->status = $validatedData['status'];
+            $booking->save();
+
+            // Return a successful response
+            return response()->json([
+                'message' => 'Booking status updated successfully.',
+                'booking' => $booking
+            ], 200);
+
+        } catch (Exception $e) {
+            // Return a user-friendly error message
+            return response()->json([
+                'error' => 'Error updating booking status: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 
     /**
      * Remove the specified resource from storage.

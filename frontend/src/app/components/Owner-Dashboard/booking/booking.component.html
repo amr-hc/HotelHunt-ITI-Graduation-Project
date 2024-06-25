@@ -17,22 +17,26 @@
         <th>Book Id</th>
         <th>Actions</th>
         <th>Book Details</th>
-
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let book of booking">
         <td>{{ book.user_id }}</td>
         <td>{{ book.duration }} Days</td>
-        <td>{{ book.status }}</td>
+        <td>
+          <select [(ngModel)]="book.status" (change)="onStatusChange( book.status ,book.id)">
+            <option value="progress">In Progress</option>
+            <option value="cancel">Cancelled</option>
+            <option value="completed">Completed</option>
+          </select>
+        </td>
         <td>{{ book.id }}</td>
         <td>
           <button [routerLink]="['/owner/booking', book.id]" class="btn btn-primary mx-1">View</button>
           <button class="btn btn-danger mx-1">Delete</button>
         </td>
-
         <td>
-          <table>
+          <table class="nested-table">
             <thead>
               <tr>
                 <th>Room Type ID</th>
@@ -49,7 +53,6 @@
             </tbody>
           </table>
         </td>
-
       </tr>
     </tbody>
   </table>
