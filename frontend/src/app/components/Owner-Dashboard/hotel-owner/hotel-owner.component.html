@@ -19,7 +19,7 @@
       <div class="image-grid">
         <div *ngFor="let image of ownerImages[hotel.id]" class="image-item">
           <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image" />
-          <button (click)="onDeleteImage(image.id)">Delete</button>
+          <button class="btn btn-danger my-2" (click)="onDeleteImage(image.id)">Delete</button>
         </div>
       </div>
     </div>
