@@ -45,4 +45,9 @@ export class HotelService {
 
     return this.http.get<{data: Hotel[]}>(`${this.ownerApiUrl}${ownerId}/hotels`);
   }
+
+  updateHotel(id: number, hotelData: FormData): Observable<{ message: string }> {
+    // If you're sending form data that includes a file (image), use FormData
+    return this.http.put<{ message: string }>(`${this.apiUrl}${id}`, hotelData);
+  }
 }

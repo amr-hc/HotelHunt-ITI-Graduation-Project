@@ -9,6 +9,7 @@
       <p><strong>Star Rating:</strong> {{ hotel.star_rating }}</p>
       <p><strong>Balance:</strong> {{ hotel.balance | currency:'USD':'symbol-narrow' }}</p>
       <p><strong>Description:</strong> {{ hotel.description }}</p>
+      <button class="btn btn-secondary">Update</button>
     </div>
 
     <div *ngIf="ownerImages[hotel.id]" class="hotel-images">
