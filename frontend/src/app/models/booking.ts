@@ -1,4 +1,4 @@
-import { BookingDetails } from "./booking-details";
+import { BookingDetails2 } from "./bookingDetails";
 
 export class Booking {
   constructor(
@@ -8,6 +8,6 @@ export class Booking {
     public duration: number,
     public status: string,
     public total_price:number,
-    public book_details: BookingDetails[]
+    public book_details: BookingDetails2[]
   ) {}
 }

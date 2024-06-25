@@ -38,14 +38,14 @@
           <table class="nested-table">
             <thead>
               <tr>
-                <th>Room Type ID</th>
+                <th>Room Type</th>
                 <th>Date</th>
                 <th>Price</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let detail of book.book_details">
-                <td>{{ detail.roomType_id }}</td>
+                <td>{{ detail.room_name }}</td>
                 <td>{{ detail.date }}</td>
                 <td>{{ detail.price }}</td>
               </tr>
