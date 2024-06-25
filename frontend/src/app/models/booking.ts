@@ -7,6 +7,7 @@ export class Booking {
     public user_name:string,
     public duration: number,
     public status: string,
+    public hotel: string,
     public total_price:number,
     public book_details: BookingDetails2[]
   ) {}
