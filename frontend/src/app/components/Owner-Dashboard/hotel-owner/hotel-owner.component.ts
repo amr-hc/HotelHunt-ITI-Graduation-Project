@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HotelService } from '../../../services/hotel.service';
 import { Hotel } from '../../../models/hotel';
@@ -10,7 +10,7 @@ import { HotelImage } from '../../../models/hotelImage';
 @Component({
   selector: 'app-hotel-owner',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './hotel-owner.component.html',
   styleUrl: './hotel-owner.component.css'
 })
@@ -42,6 +42,7 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
           this.hotelService.getHotelImages(hotel.id).subscribe(images => {
             this.ownerImages[hotel.id] = images;
             console.log(`Images for hotel ${hotel.id}:`, images);
+            console.log("images",this.ownerImages);
           });
         });
       },

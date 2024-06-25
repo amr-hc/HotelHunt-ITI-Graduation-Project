@@ -1,109 +1,77 @@
-.search-bar {
-  display: flex;
-  justify-content: center;
-  padding: 16px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  margin: 20px auto;
+.room-list {
   max-width: 800px;
+  margin: 0 auto;
+}
+
+.search-bar {
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .search-bar-container {
   display: flex;
-  width: 100%;
-  gap: 10px;
-}
-
-.city, .date-range {
-  flex: 1;
-  display: flex;
   align-items: center;
-  position: relative;
-}
-
-input[type="text"], input[type="date"] {
-  width: 100%;
-  padding: 10px 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-  outline: none;
-}
-
-.clear-button {
-  position: absolute;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
+  justify-content: space-between;
 }
 
 .date-range {
   display: flex;
-  gap: 10px;
   align-items: center;
 }
 
-.date-range span {
-  margin: 0 5px;
-  font-size: 16px;
+.separator {
+  margin: 0 10px;
+}
+
+.search-button {
+  margin-left: auto;
+}
+
+.table {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.btn-primary {
+  background-color: #4CAF50;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #45a049;
+}
+
+/* Styles for the comments section */
+.comments-section {
+  max-width: 800px;
+  margin: 30px auto;
+}
+
+.comments-section h3 {
   color: #333;
 }
 
-.search-button button {
-  background-color: #007bff;
-  color: #fff;
-  padding: 10px 20px;
+.list-group-item {
   border: none;
-  border-radius: 4px;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}
+.star-rating {
+  font-size: 24px;
+}
+
+.star {
   cursor: pointer;
-  font-size: 16px;
+  color: #ccc;
 }
 
-.search-button button:hover {
-  background-color: #0056b3;
+.star.filled {
+  color: #ffc107; /* Yellow color for filled stars */
 }
-
-.results {
-  margin: 20px auto;
+.rating-section {
   max-width: 800px;
-}
-
-.results div {
-  border-bottom: 1px solid #ddd;
-  padding: 10px 0;
-}
-
-.results h3 {
-  margin: 0;
-}
-
-.results p {
-  margin: 5px 0 0;
-}
-.room-list {
-  margin-top: 20px;
-}
-
-.room-item {
-  border: 1px solid #dee2e6; /* Bootstrap light border */
-  border-radius: 0.25rem; /* Bootstrap border radius */
-}
-
-.room-type h4 {
-  font-size: 1.25rem; /* Bootstrap h4 font size */
-}
-
-.price p {
-  font-weight: bold;
-}
-
-.select-room label {
-  font-weight: bold;
-}
-
-.alert {
-  margin-top: 20px;
+  margin: 30px auto;
 }

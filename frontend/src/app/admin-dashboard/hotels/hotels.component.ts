@@ -5,16 +5,18 @@ import { HotelService } from '../../services/hotel.service';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-hotels',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterLink],
+  imports: [CommonModule,FormsModule,RouterLink,NgxPaginationModule],
   templateUrl: './hotels.component.html',
   styleUrl: './hotels.component.css'
 })
 export class HotelsComponent implements OnInit{
   hotels: Hotel[] = [];
+  currentPage: number =1;
 
   constructor(private hotelService: HotelService,private router: Router) { }
 

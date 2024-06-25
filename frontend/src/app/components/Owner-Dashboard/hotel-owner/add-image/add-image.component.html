@@ -1,0 +1,9 @@
+<div class="container">
+  <form (submit)="onSubmit($event)">
+    <div class="form-control">
+      <label for="add">Add Image</label>
+      <input type="file" class="" id="add" name="images" (change)="onFileChange($event)" multiple>
+      <button class="btn btn-success" type="submit">Upload</button>
+    </div>
+  </form>
+</div>

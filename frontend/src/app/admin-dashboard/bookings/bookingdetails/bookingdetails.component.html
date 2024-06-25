@@ -8,37 +8,57 @@
         <div class="spinner-border text-primary" role="status">
           <span class="visually-hidden">Loading booking details...</span>
         </div>
+        <p class="text-muted">Please wait...</p>
       </div>
 
       <div *ngIf="errorMessage" class="alert alert-danger mt-3">
         {{ errorMessage }}
       </div>
 
-      <div *ngIf="!isLoading && !errorMessage && booking">
-        <h3 class="card-title">Booking ID: {{ booking.id }}</h3>
-        <p class="card-text"><strong>User Name:</strong> {{ booking.user_name }}</p>
-        <p class="card-text"><strong>Duration:</strong> {{ booking.duration }} Days</p>
-        <p class="card-text"><strong>Status:</strong> <span class="badge bg-info">{{ booking.status }}</span></p>
-        <p class="card-text"><strong>Total Price:</strong> <span class="text-success">${{ booking.total_price }}</span></p>
+      <div *ngIf="!isLoading &&!errorMessage && booking">
+        <div class="row">
+          <div class="col-md-4 border-right">
+            <h3 class="card-title">Booking Information</h3>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <strong>Booking ID:</strong> {{ booking.id }}
+              </li>
+              <li class="list-group-item">
+                <strong>User Name:</strong> {{ booking.user_name }}
+              </li>
+              <li class="list-group-item">
+                <strong>Duration:</strong> {{ booking.duration }} Days
+              </li>
+              <li class="list-group-item">
+                <strong>Status:</strong> <span class="badge bg-info">{{ booking.status }}</span>
+              </li>
+              <li class="list-group-item">
+                <strong>Total Price:</strong> <span class="text-success">${{ booking.total_price }}</span>
+              </li>
+            </ul>
+          </div>
 
-        <h4 class="mt-4">Book Details</h4>
-        <div class="table-responsive">
-          <table class="table table-striped text-center">
-            <thead class="bg-dark text-white">
-              <tr>
-                <th>Room Type</th>
-                <th>Date</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let detail of booking.book_details">
-                <td>{{ detail.room_name }}</td>
-                <td>{{ detail.date }}</td>
-                <td>${{ detail.price }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <div class="col-md-8 pl-5">
+            <h4 class="mt-4">Room Details</h4>
+            <div class="table-responsive">
+              <table class="table table-striped table-bordered text-center">
+                <thead class="bg-dark text-white">
+                  <tr>
+                    <th>Room Type</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let detail of booking.book_details">
+                    <td>{{ detail.room_name }}</td>
+                    <td>{{ detail.date }}</td>
+                    <td>${{ detail.price }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </div>

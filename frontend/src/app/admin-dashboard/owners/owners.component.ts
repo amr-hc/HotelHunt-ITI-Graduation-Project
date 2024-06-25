@@ -4,18 +4,20 @@ import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @Component({
   selector: 'app-owners',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,NgxPaginationModule],
   templateUrl: './owners.component.html',
   styleUrl: './owners.component.css'
 })
 export class OwnersComponent {
   users: User[] = [];
   owners: User[] = [];
+  currentPage: number =1;
 
   constructor(private userService: UserService,  private router: Router) {}
 

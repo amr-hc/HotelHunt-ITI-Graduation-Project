@@ -1,3 +1,4 @@
+import { AddImageComponent } from './components/Owner-Dashboard/hotel-owner/add-image/add-image.component';
 import { Routes } from '@angular/router';
 import { RegisterComponent } from './components/register/register.component';
 import { AvailabilityComponent } from './availability/availability.component';
@@ -19,11 +20,17 @@ import { UserProfileComponent } from './user/profile/profile.component';
 import { BookDetailsComponent } from './components/Owner-Dashboard/booking/book-details/book-details.component';
 import { EditProfileComponent } from './user/edit-profile/edit-profile.component';
 import { HotelOwnerComponent } from './components/Owner-Dashboard/hotel-owner/hotel-owner.component';
+import { HotelEditComponent } from './components/Owner-Dashboard/hotel-owner/hotel-edit/hotel-edit.component';
 
 
 export const routes: Routes = [
+  {
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
   {path: 'register', component: RegisterComponent },
-  { path: 'availability', component: AvailabilityComponent},
+  { path: 'availability/:id', component: AvailabilityComponent},
   {path: 'register/hotel',component: RegisterHotelComponent },
   { path: 'search', component: SearchHotelsComponent },
   { path: 'hotel/:id' , component: HotelComponent},
@@ -50,6 +57,8 @@ export const routes: Routes = [
 
    {path:'owner/booking' , component: BookingComponent},
    {path:'owner/booking/:id' , component: BookDetailsComponent},
-   {path: 'owner/hotel', component:HotelOwnerComponent}
+   {path: 'owner/hotel', component:HotelOwnerComponent},
+   {path: 'owner/hotel/:id', component:HotelEditComponent},
+   {path: 'owner/hotel/:id/addImage',component: AddImageComponent },
 
 ];

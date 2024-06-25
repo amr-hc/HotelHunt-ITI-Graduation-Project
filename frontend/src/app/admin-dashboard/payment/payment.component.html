@@ -1,5 +1,5 @@
-<div class="container mt-5">
-  <h2>Payments</h2>
+
+  <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline fst-italic">All Payments</h1>
   <table class="table table-striped table-bordered text-center">
     <thead class="table-dark">
       <tr>
@@ -10,7 +10,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let payment of payments">
+      <tr *ngFor="let payment of payments | paginate: { itemsPerPage: 8, currentPage: currentPage }">
         <th scope="row">{{ payment.id }}</th>
         <td>{{ payment.hotel }}</td>
         <td>{{ payment.amount }}</td>
@@ -18,4 +18,7 @@
       </tr>
     </tbody>
   </table>
-</div>
+
+  <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
+
+

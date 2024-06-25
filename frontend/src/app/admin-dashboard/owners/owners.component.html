@@ -1,4 +1,5 @@
 <div *ngIf="owners && owners.length > 0; else noUsers">
+  <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline fst-italic">Hotel Owners</h1>
   <table class="table table-striped table-bordered text-center">
     <thead class="table-dark">
       <tr>
@@ -10,7 +11,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let owner of owners">
+      <tr *ngFor="let owner of owners | paginate: { itemsPerPage: 8, currentPage: currentPage }">
         <td>{{ owner.id }}</td>
         <td>{{ owner.fname }}</td>
         <td>{{ owner.email }}</td>
@@ -22,6 +23,7 @@
       </tr>
     </tbody>
   </table>
+  <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
 </div>
 <ng-template #noUsers>
   <p class="alert alert-info">No users found.</p>

@@ -46,8 +46,20 @@ export class HotelService {
     return this.http.get<{data: Hotel[]}>(`${this.ownerApiUrl}${ownerId}/hotels`);
   }
 
-  updateHotel(id: number, hotelData: FormData): Observable<{ message: string }> {
-    // If you're sending form data that includes a file (image), use FormData
+  updateHotel(hotelData: any, id: number): Observable<{ message: string }> {
     return this.http.put<{ message: string }>(`${this.apiUrl}${id}`, hotelData);
+  }
+  addHotelImages(id: number, images: FileList): Observable<HotelImage[]> {
+    const formData = new FormData();
+
+    for (let i = 0; i < images.length; i++) {
+      formData.append('images[]', images[i], images[i].name);
+    }
+
+    return this.http.post<HotelImage[]>(`${this.apiUrl}${id}/images`, formData);
+  }
+
+  deleteHotelImage(imageId: number): Observable<any> {
+    return this.http.delete<any>(`${this.apiUrl}hotel-images/${imageId}`);
   }
 }

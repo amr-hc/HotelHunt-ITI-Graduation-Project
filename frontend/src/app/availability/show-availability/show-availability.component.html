@@ -18,13 +18,15 @@
           <p class="card-text">
             <!-- {{ day.id }} -->
             <strong>Stock:</strong> {{ day.stock }}<br>
-            <strong>Room Type:</strong> {{ day.room_type || 'N/A' }}<br>
+            <!-- <strong>Room Type:</strong> {{ day.room_type || 'N/A' }}<br> -->
             <strong>Total Rooms:</strong> {{ day.total_rooms || 'Unavailable' }}<br>
-            <strong>Hotel:</strong> {{ day.hotel_name || 'N/A' }}
+            <!-- <strong>Hotel:</strong> {{ day.hotel_name || 'N/A' }} -->
           </p>
+          @if(!isPastDate(day.date)){
           <button type="button" class="btn" [ngClass]="{'btn-primary': !day.total_rooms, 'btn-success': day.total_rooms}" data-bs-toggle="modal" data-bs-target="#availabilityModal" (click)="onDaySelect(day)">
             {{ day.total_rooms ? 'Update' : 'Create' }}
           </button>
+          }
         </div>
       </div>
     </div>
@@ -48,12 +50,12 @@
           }
             <div class="mb-3">
               <label for="totalRooms" class="form-label">Total Rooms</label>
-              <input type="number" class="form-control" id="totalRooms" [(ngModel)]="selectedDay.total_rooms" name="totalRooms" min="99" required>
+              <input type="number" class="form-control" id="totalRooms" [(ngModel)]="total_rooms" name="totalRooms" min="99" required>
             </div>
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">{{ isUpdateMode ? 'Update' : 'Create' }}</button>
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">{{ isUpdateMode ? 'Update' : 'Create' }}</button>
             </div>
           </form>
           

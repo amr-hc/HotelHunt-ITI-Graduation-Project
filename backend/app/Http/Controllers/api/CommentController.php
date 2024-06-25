@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 
+use App\Http\Resources\CommentResource;
+
+
 
 class CommentController extends Controller
 {
@@ -14,9 +17,7 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
-        return Comment::all();
-
+        return CommentResource::collection(Comment::all());
     }
 
     /**
@@ -41,7 +42,7 @@ class CommentController extends Controller
     public function show(string $id)
     {
         //
-        return Comment::findOrFail($id);
+        return new CommentResource(Comment::findOrFail($id));;
 
     }
 
