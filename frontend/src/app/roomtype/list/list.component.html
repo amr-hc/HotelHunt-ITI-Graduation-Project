@@ -21,6 +21,7 @@
               <th scope="col">Capacity</th>
               <th scope="col">Price</th>
               <th colspan="3" scope="col">Action</th>
+              <th scope="col">Availability</th>
             </tr>
           </thead>
           <tbody>
@@ -40,6 +41,9 @@
               </td>
               <td>
                 <a class="btn btn-warning" routerLink="/update/{{ item.id }}">Update</a>
+              </td>
+              <td>
+                <a class="btn btn-success" routerLink="/availability/{{ item.id }}">Availability</a>
               </td>
             </tr>
           </tbody>

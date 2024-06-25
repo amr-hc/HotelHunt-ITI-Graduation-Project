@@ -52,7 +52,6 @@ export class ShowAvailabilityComponent implements OnInit {
   };
   isUpdateMode: boolean = false;
 
-  // constructor(private http: HttpClient) {}
 
 
   constructor(private http: HttpClient,private route: ActivatedRoute) {
@@ -184,13 +183,12 @@ export class ShowAvailabilityComponent implements OnInit {
         stock: this.selectedDay.total_rooms,
         total_rooms: this.selectedDay.total_rooms,
         date: this.selectedDay.date.toISOString().split('T')[0],
-        room_type_id: 1 
+        room_type_id: this.id 
       };
 
       this.http.post(url, payload).subscribe(
         response => {
           console.log('Availability Created successfully:', response);
-          // this.fetchAvailability(); 
         },
         error => {
           console.error('Error updating availability:', error);
@@ -209,5 +207,11 @@ export class ShowAvailabilityComponent implements OnInit {
     } else {
       this.onSubmitCreate();
     }
+  }
+
+  isPastDate(date: Date): boolean {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return new Date(date) < today;
   }
 }
