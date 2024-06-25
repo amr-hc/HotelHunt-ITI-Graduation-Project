@@ -19,7 +19,7 @@ import { Booking } from '../../models/booking'; // Import your adjusted Booking 
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   user: User | null = null;
-  bookings: Booking | null = null;
+  bookings: Booking[] = []; // Change to array of bookings
   sub: Subscription | null = null;
   bookingsSub: Subscription | null = null;
   userid: number = 0;
@@ -46,7 +46,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       );
 
       this.bookingsSub = this.bookingService.getUserBookings(this.userid).subscribe(
-        (response: Booking) => {
+        (response: Booking[]) => {
           this.bookings = response;
           console.log("Booking data:", this.bookings);
         },
