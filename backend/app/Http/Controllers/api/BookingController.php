@@ -167,4 +167,20 @@ class BookingController extends Controller
         $booking->delete();
         return response()->json(null, 204);
     }
+
+
+    public function getUserBookings($user_id)
+{
+    try {
+        $bookings = Booking::where('user_id', $user_id)->with('book_details.roomType.hotel')->get();
+
+        if ($bookings->isEmpty()) {
+            return response()->json(['message' => 'No bookings found for this user.'], 404);
+        }
+        return $bookings;
+    } catch (\Exception $e) {
+        Log::error('Failed to fetch user bookings: ' . $e->getMessage());
+        return response()->json(['error' => 'Failed to fetch user bookings.'], 500);
+    }
+}
 }

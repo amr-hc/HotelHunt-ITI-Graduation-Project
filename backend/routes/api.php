@@ -83,7 +83,7 @@ Route::post('/search/hotel', [SearchController::class, 'searchInHotel']);
 Route::resource('payments', PaymentController::class);
 Route::resource('booking', BookingController::class);
 Route::put('booking/{id}/status',[BookingController::class , 'updateStatus']);
-
+Route::get('booking/user-bookings/{user_id}',[BookingController::class,'getUserBookings']);
 
 Route::prefix('hotels')->group(function () {
     Route::get('{hotel}/images', [HotelImagesController::class, 'index']); // List images
