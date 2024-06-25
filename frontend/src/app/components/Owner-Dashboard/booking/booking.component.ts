@@ -1,19 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { BookingService } from '../../../services/booking.service';
-import { BookingData } from '../../../models/booking-data';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { Booking } from '../../../models/booking';
 
 @Component({
   selector: 'app-booking',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.css'
 })
 export class BookingComponent implements OnInit , OnDestroy {
-  booking: BookingData[] = [];
+  booking: Booking[] = [];
   sub: Subscription | null = null ;
   isLoading: boolean = false;
   errorMessage: string = '';
@@ -30,7 +30,7 @@ export class BookingComponent implements OnInit , OnDestroy {
    fetchBookings(): void {
     this.isLoading = true;
     this.sub = this.bookingService.getAllBookings().subscribe(
-      (response: BookingData[]) => {
+      (response: Booking[]) => {
         this.booking = response;
         this.isLoading = false;
         console.log('Bookings:', this.booking);

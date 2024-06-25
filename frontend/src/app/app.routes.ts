@@ -10,6 +10,7 @@ import { ShowComponent } from './roomtype/show/show.component';
 import { AddComponent } from './roomtype/add/add.component';
 import { UpdateComponent } from './roomtype/update/update.component';
 import { BookingComponent } from './components/Owner-Dashboard/booking/booking.component';
+import { BookDetailsComponent } from './components/Owner-Dashboard/booking/book-details/book-details.component';
 
 export const routes: Routes = [
   {path: 'register', component: RegisterComponent },
@@ -29,5 +30,7 @@ export const routes: Routes = [
 
 
 
-   {path:'owner/booking' , component: BookingComponent}
+   {path:'owner/booking' , component: BookingComponent},
+   {path:'owner/booking/:id' , component: BookDetailsComponent},
+
 ];

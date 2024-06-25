@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BookingData } from '../models/booking-data';
 import { map } from 'rxjs/operators';
+import { Booking } from '../models/booking';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +17,14 @@ export class BookingService {
     return this.http.post(this.apiUrl, bookingData);
   }
 
-  getAllBookings(): Observable<BookingData[]> {
-    return this.http.get<{data: BookingData[]}>(this.apiUrl).pipe(
+  getAllBookings(): Observable<Booking[]> {
+    return this.http.get<{data: Booking[]}>(this.apiUrl).pipe(
+      map(response => response.data)
+    );
+  }
+
+  getBookingById(id: number): Observable<Booking> {
+    return this.http.get<{data: Booking}>(`${this.apiUrl}${id}`).pipe(
       map(response => response.data)
     );
   }
