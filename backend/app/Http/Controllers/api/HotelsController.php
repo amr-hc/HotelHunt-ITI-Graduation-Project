@@ -85,4 +85,17 @@ class HotelsController extends Controller
         Hotel::destroy($id);
         return response()->json(['message' => 'Hotel deleted successfully'], 200);
     }
+
+    public function getHotelForOwner($ownerId)
+    {
+        $hotels = Hotel::where('owner_id', $ownerId)->get();
+
+        // Check if any hotels are found
+        if ($hotels->isEmpty()) {
+            return response()->json(['message' => 'No hotels found for this owner'], 404);
+        }
+
+        // Return the hotels data
+        return HotelResource::collection($hotels);
+    }
 }

@@ -44,6 +44,6 @@ export class ListComponent {
   }
 
   addRoomType() {
-    this.router.navigate(['/add']); // Navigate to add component route
+    this.router.navigate(['/add']); 
   }
 }

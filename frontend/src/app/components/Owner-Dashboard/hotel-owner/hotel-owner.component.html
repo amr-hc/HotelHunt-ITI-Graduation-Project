@@ -1,1 +1,24 @@
-<p>hotel-owner works!</p>
+<div class="hotel-owner-container">
+  <h2>Hotels for Owner</h2>
+  <div *ngFor="let hotel of hotels" class="hotel-card">
+    <div class="hotel-header">
+      <h3>{{ hotel.name }}</h3>
+      <p><strong>City:</strong> {{ hotel.city }}</p>
+      <p><strong>Address:</strong> {{ hotel.address }}</p>
+      <p><strong>Status:</strong> {{ hotel.status }}</p>
+      <p><strong>Star Rating:</strong> {{ hotel.star_rating }}</p>
+      <p><strong>Balance:</strong> {{ hotel.balance | currency:'USD':'symbol-narrow' }}</p>
+      <p><strong>Description:</strong> {{ hotel.description }}</p>
+      <button class="btn btn-secondary">Update</button>
+    </div>
+
+    <div *ngIf="ownerImages[hotel.id]" class="hotel-images">
+      <h4>Images:</h4>
+      <div class="image-grid">
+        <div *ngFor="let image of ownerImages[hotel.id]" class="image-item">
+          <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
