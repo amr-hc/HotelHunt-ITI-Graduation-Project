@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-forget-password',
@@ -19,7 +20,7 @@ export class ForgetPasswordComponent implements OnInit {
   isSubmitting = false;
   message: string = '';
 
-  constructor(private http: HttpClient, private activatedRoute:ActivatedRoute) {
+  constructor(private http: HttpClient, private activatedRoute:ActivatedRoute, private router:Router) {
   }
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params=>{
@@ -49,7 +50,16 @@ export class ForgetPasswordComponent implements OnInit {
     this.http.post('http://127.0.0.1:8000/api/reset-password', formData)
       .subscribe(
         response => {
-          this.message = 'Password reset successful!';
+          // Show success message using SweetAlert
+          Swal.fire({
+            icon: 'success',
+            title: 'Password Reset Successful!',
+            text: 'You can now login with your new password.',
+          }).then(() => {
+            // Navigate to login page
+            this.router.navigate(['/login']);
+          });
+
           this.isSubmitting = false;
         },
         error => {
