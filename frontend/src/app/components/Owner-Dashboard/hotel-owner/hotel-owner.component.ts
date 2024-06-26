@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HotelService } from '../../../services/hotel.service';
 import { Hotel } from '../../../models/hotel';
 import { HotelImage } from '../../../models/hotelImage';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-hotel-owner',
@@ -19,7 +20,7 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
   sub: Subscription | null = null;
   ownerImages: { [key: number]: HotelImage[] } = {};
 
-  constructor(private activatedRoute: ActivatedRoute, private hotelService: HotelService) { }
+  constructor(private activatedRoute: ActivatedRoute, private hotelService: HotelService, private router:Router) { }
 
   ngOnInit(): void {
     this.sub = this.activatedRoute.params.subscribe(params => {
@@ -50,6 +51,45 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
         console.error("Error fetching hotels for owner", error);
       }
     );
+  }
+  onDeleteImage(imageId: number) {
+    // Show SweetAlert confirmation
+    const ownerId = parseInt(localStorage.getItem('userId') || '0', 10);
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "Do you really want to delete this image?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // If confirmed, proceed with the delete action
+        this.hotelService.deleteHotelImage(imageId).subscribe(
+          (response) => {
+            Swal.fire(
+              'Deleted!',
+              'Your image has been deleted.',
+              'success'
+            );
+            console.log('Image deleted successfully:', response);
+            this.fetchHotelsForOwner(ownerId);
+            // Optionally, refresh the image list or update the UI
+          },
+          (error) => {
+            Swal.fire(
+              'Error!',
+              'There was an error deleting the image.',
+              'error'
+            );
+            console.error('Error deleting image:', error);
+
+            // Handle error - show error message or retry logic
+          }
+        );
+      }
+    });
   }
 
   ngOnDestroy(): void {

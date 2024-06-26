@@ -1,0 +1,28 @@
+.accordion {
+  padding-left: 10px;
+}
+
+.accordion-item {
+  padding: 2px 0;
+}
+
+.users-link,
+.nav-link {
+  cursor: pointer;
+  color: white;
+  background-color: #3B71CA;
+}
+
+.users-link,
+.nav-link:hover {
+  color: black;
+}
+
+.nav-link.menu{
+  background-color: white;
+  color: #3B71CA;
+}
+
+.nav-link.menu:hover {
+  color: black;
+}

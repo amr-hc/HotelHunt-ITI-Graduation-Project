@@ -1,0 +1,41 @@
+<nav class="nav flex-column">
+  <a class="nav-link active" routerLink="/admin-dashboard"><strong>Dashboard</strong></a>
+  <div class="nav-item">
+    <!-- <a class="nav-link" (click)="toggleUsersAccordion()">
+      Users <i class="fas fa-caret-down"></i>
+    </a> -->
+    <!-- <div *ngIf="isUsersAccordionOpen" class="accordion">
+
+      <div class="accordion-item">
+        <a class="nav-link menu" routerLink="/owner/booking"
+          >booking</a
+        >
+      </div>
+      <div class="accordion-item">
+        <a class="nav-link menu" routerLink="/owner/hotel">Hotels</a>
+      </div>
+    </div> -->
+  </div>
+  <a class="nav-link" routerLink="/owner/hotel">Hotels</a>
+
+  <div class="nav-item">
+    <a class="nav-link" (click)="togglePaymentAccordion()">
+      Payments <i class="fas fa-caret-down"></i>
+    </a>
+    <div *ngIf="isPaymentAccordionOpen" class="accordion">
+      <div class="accordion-item">
+        <a class="nav-link menu" routerLink="/admin-dashboard/payments/add"
+          >Add Payment</a
+        >
+      </div>
+      <div class="accordion-item">
+        <a class="nav-link menu" routerLink="/admin-dashboard/payments"
+          >All payments</a
+        >
+      </div>
+    </div>
+  </div>
+
+  <a class="nav-link" routerLink="/owner/booking">Bookings</a>
+  <a class="nav-link" routerLink="profile">Profile</a>
+</nav>
