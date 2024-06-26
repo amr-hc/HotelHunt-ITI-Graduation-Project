@@ -39,7 +39,7 @@ export class HotelsComponent implements OnInit{
     const ownerRequests = this.hotels.map(hotel => this.userService.getUserById(hotel.owner_id));
     forkJoin(ownerRequests).subscribe(responses => {
       responses.forEach((user, index) => {
-        this.hotels[index].owner_name = user.fname; 
+        this.hotels[index].owner_name = user.fname;
       });
     }, error => {
       console.error('Error loading owner names:', error);
