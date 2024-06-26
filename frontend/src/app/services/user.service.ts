@@ -24,7 +24,7 @@ export class UserService {
   }
 
   editUser(user: User): Observable<User> {
-    return this.http.put<User>(`${this.apiUrl}/${user.id}`, user);
+    return this.http.post<User>(`${this.apiUrl}/${user.id}?_method=PATCH`, user);
   }
 
   updateUser(formData: FormData): Observable<User> {
