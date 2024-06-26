@@ -16,23 +16,17 @@
         <div class="card-body">
           <h5 class="card-title">{{ day.date | date: 'MMMM dd, yyyy' }}</h5>
           <p class="card-text">
-            <!-- {{ day.id }} -->
             <strong>Stock:</strong> {{ day.stock }}<br>
-            <!-- <strong>Room Type:</strong> {{ day.room_type || 'N/A' }}<br> -->
             <strong>Total Rooms:</strong> {{ day.total_rooms || 'Unavailable' }}<br>
-            <!-- <strong>Hotel:</strong> {{ day.hotel_name || 'N/A' }} -->
           </p>
-          @if(!isPastDate(day.date)){
           <button type="button" class="btn" [ngClass]="{'btn-primary': !day.total_rooms, 'btn-success': day.total_rooms}" data-bs-toggle="modal" data-bs-target="#availabilityModal" (click)="onDaySelect(day)">
             {{ day.total_rooms ? 'Update' : 'Create' }}
           </button>
-          }
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal -->
   <div class="modal fade" id="availabilityModal" tabindex="-1" aria-labelledby="availabilityModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -41,24 +35,23 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form (ngSubmit)="onFormSubmit()">
-            @if(isUpdateMode){
-            <div class="mb-3">
+          <form [formGroup]="availabilityForm" (ngSubmit)="onFormSubmit()">
+            <!-- <div *ngIf="isUpdateMode" class="mb-3">
               <label for="stock" class="form-label">Stock</label>
-              <input type="number" class="form-control" id="stock" disabled="true" [(ngModel)]="selectedDay.stock" name="stock" required>
-            </div>
-          }
+              <input type="number" class="form-control" id="stock" formControlName="stock" required>
+            </div> -->
             <div class="mb-3">
               <label for="totalRooms" class="form-label">Total Rooms</label>
-              <input type="number" class="form-control" id="totalRooms" [(ngModel)]="total_rooms" name="totalRooms" min="99" required>
+              <input type="number" class="form-control" id="totalRooms" formControlName="total_rooms" required>
+              <div *ngIf="availabilityForm.controls['total_rooms'].errors?.['minimumRooms']"  class="text-danger">
+                Total rooms cannot be less than booked rooms.
+              </div>
             </div>
-
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">{{ isUpdateMode ? 'Update' : 'Create' }}</button>
+              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal" [disabled]="availabilityForm.invalid">{{ isUpdateMode ? 'Update' : 'Create' }}</button>
             </div>
           </form>
-          
         </div>
       </div>
     </div>

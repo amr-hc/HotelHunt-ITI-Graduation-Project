@@ -183,4 +183,23 @@ class BookingController extends Controller
         return response()->json(['error' => 'Failed to fetch user bookings.'], 500);
     }
 }
+
+public function getHotelBookings($hotel_id)
+{
+    try {
+        $bookings = Booking::whereHas('book_details.roomType.hotel', function ($query) use ($hotel_id) {
+            $query->where('id', $hotel_id);
+        })->with('book_details.roomType.hotel')->get();
+
+        if ($bookings->isEmpty()) {
+            return response()->json(['message' => 'No bookings found for this hotel.'], 404);
+        }
+
+        return BookingResource::collection($bookings);
+    } catch (\Exception $e) {
+        Log::error('Failed to fetch hotel bookings: ' . $e->getMessage());
+        return response()->json(['error' => 'Failed to fetch hotel bookings.'], 500);
+    }
+}
+
 }
