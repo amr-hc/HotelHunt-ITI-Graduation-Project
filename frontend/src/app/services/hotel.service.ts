@@ -3,6 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Hotel } from '../models/hotel';
 import { HotelImage } from '../models/hotelImage';
+import { catchError } from 'rxjs/operators';
+import {  of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -41,9 +43,15 @@ export class HotelService {
     return this.http.delete<any>(`${this.apiUrl}${id}/`);
   }
 
-  getHotelForOwner(ownerId: number): Observable<{data: Hotel[]}>{
-
-    return this.http.get<{data: Hotel[]}>(`${this.ownerApiUrl}${ownerId}/hotels`);
+  getHotelForOwner(ownerId: number): Observable<{data: Hotel[]}> {
+    return this.http.get<{data: Hotel[]}>(`${this.ownerApiUrl}${ownerId}/hotels`).pipe(
+      catchError((error) => {
+        if (error.status === 404) {
+          return of({ data: [] });
+        }
+        throw error;
+      })
+    );
   }
 
   updateHotel(hotelData: any, id: number): Observable<{ message: string }> {
