@@ -1,19 +1,56 @@
+<div class="container mt-5">
+  <div class="hotelname">{{hotel?.name}}</div>
+  <div class="hoteladdress">
+    <i class="bi bi-geo-alt-fill"></i> {{hotel?.city}},{{hotel?.address}}
+  </div>
+
+  <div class="carousel-container position-relative">
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div *ngFor="let image of images; let i = index" [ngClass]="{'carousel-item': true, 'active': i === 0}">
+          <img [src]="'http://127.0.0.1:8000/storage/' + image.image" class="d-block w-75 mx-auto" alt="Hotel Image">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+    <div class="average-rate">
+      <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
+        <!-- <i class="fas" [ngClass]="{'fa-star': i < hotel?.average_rate, 'fa-star-o': i >= hotel?.average_rate}"></i> -->
+      </ng-container>
+    </div>
+  </div>
+</div>
+<div class="container mt-5">
+  <div class="hoteldesc">{{hotel?.description}}</div>
+</div>
+
+
+
+
+
+
+
 <div class="text-center">
   <p>hotel works!</p>
   <div>{{hotel?.id}}</div>
-  <div>{{hotel?.name}}</div>
-  <div>{{hotel?.city}}</div>
+  <div></div>
   <div>{{hotel?.address}}</div>
 
   <div>name is {{hotel?.name}}</div>
   <div>city is {{hotel?.city}}</div>
   <div>address is {{hotel?.address}}</div>
-  <div>description is {{hotel?.average_rate}}</div>
 </div>
 <div class="images-container">
   <div *ngFor="let image of images">
     <!-- Use the full URL for the image source -->
-    <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image">
+    <!-- <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image"> -->
   </div>
 </div>
 
