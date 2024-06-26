@@ -37,18 +37,18 @@ class usersController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(StoreUserRequest $request)
-    {   
+    {
         $validatedData = $request->validated();
         $validatedData['password'] = Hash::make($validatedData['password']);
 
         if ($request->hasFile('photo')) {
             $validatedData['photo'] = $request->file('photo')->store('users');
         }
-    
+
         if (!isset($validatedData['photo'])) {
             $validatedData['photo'] = 'users/default.jpg';
         }
-        
+
 
         $user = User::create($validatedData);
 
@@ -76,22 +76,22 @@ class usersController extends Controller
      * Update the specified resource in storage.
      */
     public function update(UpdateUserRequest $request, string $id)
-    {   
+    {
         $user = User::findOrFail($id);
         $validatedData = $request->validated();
 
         if ($request->hasFile('photo')) {
             $validatedData['photo'] = $request->file('photo')->store('users');
-            if ($user->photo!= 'users/default.jpg') {
-                unlink(storage_path('app/public/'. $user->photo));
-            }
+            // if ($user->photo!= 'users/default.jpg') {
+            //     unlink(storage_path('app/public/'. $user->photo));
+            // }
         }
 
         if(isset($validatedData['password'])) {
             $validatedData['password'] = Hash::make($validatedData['password']);
         }
         $user->update($validatedData);
-        
+
         return response()->json(['message' => 'User updated successfully'], 200);
     }
 
