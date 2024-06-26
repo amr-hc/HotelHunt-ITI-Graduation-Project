@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\BookingResource;
 use App\Models\BookDetail;
 use App\Models\Booking;
+use App\Models\Hotel;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -201,5 +202,28 @@ public function getHotelBookings($hotel_id)
         return response()->json(['error' => 'Failed to fetch hotel bookings.'], 500);
     }
 }
+
+public function getOwnerHotelBookings($owner_id)
+{
+    try {
+        // Fetch all hotel IDs for the given owner_id
+        $hotelIds = Hotel::where('owner_id', $owner_id)->pluck('id');
+
+        // Fetch bookings for the hotels owned by the owner
+        $bookings = Booking::whereHas('book_details.roomType.hotel', function ($query) use ($hotelIds) {
+            $query->whereIn('id', $hotelIds);
+        })->with('book_details.roomType.hotel')->get();
+
+        if ($bookings->isEmpty()) {
+            return response()->json(['message' => 'No bookings found for hotels owned by this owner.'], 404);
+        }
+
+        return BookingResource::collection($bookings);
+    } catch (\Exception $e) {
+        Log::error('Failed to fetch bookings for owner\'s hotels: ' . $e->getMessage());
+        return response()->json(['error' => 'Failed to fetch bookings for owner\'s hotels.'], 500);
+    }
+}
+
 
 }
