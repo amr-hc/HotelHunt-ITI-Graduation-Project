@@ -8,10 +8,12 @@ import { AddImageComponent } from "./hotel-owner/add-image/add-image.component";
 import { OwnerDashboardComponent } from "./owner-dashboard/owner-dashboard.component";
 import { AvailabilityComponent } from "../../availability/availability.component";
 import { ListComponent } from "../../roomtype/list/list.component";
+import { WelcomeComponent } from "./welcome/welcome.component";
 
 export const ownerRoutes : Routes = [
   {path: '', component: OwnerDashboardComponent,
     children: [
+      {path: '', component: WelcomeComponent},
    {path:'booking' , component: BookingComponent},
    {path:'booking/:id' , component: BookDetailsComponent},
    {path: 'hotel', component:HotelOwnerComponent},
