@@ -15,20 +15,24 @@ import { FormsModule } from '@angular/forms';
 })
 export class BookingComponent implements OnInit , OnDestroy {
   booking: Booking[] = [];
-  sub: Subscription | null = null ;
+  sub: Subscription | null = null;
   isLoading: boolean = false;
   errorMessage: string = '';
 
-
-  constructor(public activatedRoute:ActivatedRoute, public bookingService:BookingService){}
+  constructor(
+    public activatedRoute: ActivatedRoute,
+    public bookingService: BookingService
+  ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.params.subscribe(params => {
-      const hotelId = +params['hotelId']; // Get hotelId from route parameters
-      if (1) {
-        this.loadBookings(2);
-      }
-    });
+    // Retrieve ownerId from local storage
+    const ownerId = localStorage.getItem('userId');
+
+    if (ownerId) {
+      this.loadBookings(Number(ownerId)); // Convert ownerId to a number
+    } else {
+      this.errorMessage = 'Owner ID not found in local storage.';
+    }
   }
 
   ngOnDestroy(): void {
@@ -51,15 +55,15 @@ export class BookingComponent implements OnInit , OnDestroy {
     });
   }
 
-  loadBookings(hotelId: number): void { // Modified to accept hotelId
+  loadBookings(ownerId: number): void { // Modified to accept ownerId
     this.isLoading = true;
-    this.bookingService.getHotelBookings(hotelId).subscribe({
+    this.bookingService.getOwnerHotelBookings(ownerId).subscribe({
       next: (bookings) => {
         this.booking = bookings;
         this.isLoading = false;
       },
       error: (error) => {
-        this.errorMessage = 'Failed to load bookings for hotel.';
+        this.errorMessage = 'Failed to load bookings for owner\'s hotels.';
         this.isLoading = false;
       }
     });
