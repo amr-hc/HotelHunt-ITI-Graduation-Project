@@ -23,6 +23,7 @@ import { HotelOwnerComponent } from './components/Owner-Dashboard/hotel-owner/ho
 import { HotelEditComponent } from './components/Owner-Dashboard/hotel-owner/hotel-edit/hotel-edit.component';
 import { SidebarComponent } from './components/Owner-Dashboard/sidebar/sidebar.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 
 
 export const routes: Routes = [
@@ -38,6 +39,7 @@ export const routes: Routes = [
   { path: 'hotel/:id' , component: HotelComponent},
   { path: 'login', component: LoginComponent },
   {path: 'reset', component: ResetPasswordComponent},
+  {path: 'forget', component:ForgetPasswordComponent},
   {path : "list" , component : ListComponent},
   {path : "show/:id" , component : ShowComponent },
   {path : "add" , component : AddComponent },
