@@ -13,6 +13,13 @@
         <input type="date" [(ngModel)]="checkoutDate" name="checkoutDate" placeholder="Check-out Date" id="checkOut"
           class="form-control" />
       </div>
+      <div class="sort-option">
+        <label for="sort">Sort by:</label>
+        <select [(ngModel)]="sort" name="sort" id="sort" class="form-control">
+          <option value="none">None</option>
+          <option value="price">Price</option>
+        </select>
+      </div>
       <div class="search-button">
         <button type="submit">Search</button>
       </div>
@@ -32,6 +39,17 @@
             style="max-width: 40%; max-height: 80%; object-fit: cover; margin-right: 20px;">
           <div class="card-body mx-3">
             <h5 class="card-title">{{ hotelGroup.hotel_name }}</h5>
+            <!-- <h6 >{{ hotelGroup.hotels[0].star_rating }}</h6> -->
+            <div class="star-rating">
+              <ng-container *ngIf="hotelGroup.hotels[0].star_rating > 1; else oneStar">
+                <span *ngFor="let star of [].constructor(hotelGroup.hotels[0].star_rating); let i = index">
+                  &#9733;
+                </span>
+              </ng-container>
+              <ng-template #oneStar>
+                <span>&#9733;</span>
+              </ng-template>
+            </div>
             <div *ngIf="hotelGroup.roomsAvailable >= 1">
               <p>{{ hotelGroup.roomsAvailable }} rooms available</p>
             </div>

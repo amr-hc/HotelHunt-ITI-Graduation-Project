@@ -17,6 +17,7 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
   city: string = '';
   checkinDate: string = '';
   checkoutDate: string = '';
+  sort: string = 'none';
   result: { hotel_name: string, roomsAvailable: number, hotels: SearchHotel[] }[] = [];
   imagePath ="http://127.0.0.1:8000/storage/"
   private searchSubscription: Subscription | null = null;
@@ -27,13 +28,16 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
     const today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
     this.checkinDate = today;
     this.checkoutDate = today;
+    this.city = 'cairo';
+    this.onSearch();
   }
 
   onSearch() {
     const searchParams = {
       city: this.city,
       start_date: this.checkinDate,
-      end_date: this.checkoutDate
+      end_date: this.checkoutDate,
+      sort: this.sort
     };
 
     this.searchSubscription = this.searchHotelService.getAllHotels(searchParams).subscribe(
