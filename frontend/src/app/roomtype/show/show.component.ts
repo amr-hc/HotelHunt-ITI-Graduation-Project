@@ -24,7 +24,7 @@ export class ShowComponent {
   constructor(
     private serv: RoomtypeService,
     private activatedRoute: ActivatedRoute,
-    private router: Router 
+    private router: Router
   ) {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     this.serv.getById(this.id).subscribe((data: any) => {
@@ -34,6 +34,6 @@ export class ShowComponent {
   }
 
   reset() {
-    this.router.navigate(['/list']); 
+    this.router.navigate(['/owner/list']);
   }
 }
