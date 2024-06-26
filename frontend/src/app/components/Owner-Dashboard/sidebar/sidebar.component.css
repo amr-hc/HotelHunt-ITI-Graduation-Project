@@ -26,3 +26,6 @@
 .nav-link.menu:hover {
   color: black;
 }
+.nav{
+  min-height: 100vh;
+}
