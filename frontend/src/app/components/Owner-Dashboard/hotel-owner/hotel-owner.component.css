@@ -38,10 +38,14 @@
 
 .image-item img {
   width: 100%;
-  height: auto;
+  height: 150px;
+  /* Fixed height */
+  object-fit: cover;
+  /* Ensures the image covers the area without distorting */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
 .loading-container {
   display: flex;
   justify-content: center;

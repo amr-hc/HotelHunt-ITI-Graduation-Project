@@ -12,7 +12,7 @@
   <ng-container *ngIf="!isLoading">
     <div *ngFor="let hotel of hotels" class="hotel-card">
       <div class="hotel-header">
-        <h3>{{ hotel.name }}</h3>
+        <h3 class="text-primary">{{ hotel.name }}</h3>
         <p><strong>City:</strong> {{ hotel.city }}</p>
         <p><strong>Address:</strong> {{ hotel.address }}</p>
         <p><strong>Status:</strong> {{ hotel.status }}</p>
