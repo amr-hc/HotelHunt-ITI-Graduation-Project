@@ -29,17 +29,23 @@ export class ResetPasswordComponent {
 
     this.isSubmitting = true;
     const email = this.resetPasswordForm.value.email;
+    console.log(email);
     this.resetPasswordService.sendResetEmail(email).subscribe(
       response => {
+        console.log('Response:', response);
         this.message = 'A reset link has been sent to your email!';
         this.isSubmitting = false;
+        this.router.navigate(['/forget']);
       },
-      
+
       error => {
+        console.log("error",error);
         this.message = 'Failed to send reset link. Please try again.';
         this.isSubmitting = false;
       }
+
     );
+
   }
 
 }

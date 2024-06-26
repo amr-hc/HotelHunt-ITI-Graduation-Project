@@ -11,15 +11,12 @@ export class ResetPasswordService {
   constructor(private http:HttpClient) { }
 
   sendResetEmail(email: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
+    
     const body = {
       email: email
     };
 
-    return this.http.post<any>(this.apiURL, body, { headers: headers });
+    return this.http.post<any>(this.apiURL, body);
   }
 }
 
