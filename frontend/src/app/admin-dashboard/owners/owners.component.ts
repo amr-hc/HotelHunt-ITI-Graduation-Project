@@ -28,10 +28,10 @@ export class OwnersComponent {
       (response: any) => {
         this.users = response.data;
         this.owners = this.users.filter(user => user.role === 'owner');
-        this.isLoading = false;  // Set loading to false when data is loaded
+        this.isLoading = false;
       },
       (error) => {
-        this.isLoading = false;  // Set loading to false in case of error
+        this.isLoading = false;  
         console.error('Error fetching users', error);
       }
     );

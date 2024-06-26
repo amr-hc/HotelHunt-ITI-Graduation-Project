@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { UserService } from '../../services/user.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-hotels',
@@ -20,15 +22,27 @@ export class HotelsComponent implements OnInit{
   isLoading: boolean = true;
 
 
-  constructor(private hotelService: HotelService,private router: Router) { }
+  constructor(private hotelService: HotelService,private userService: UserService,private router: Router) { }
 
   ngOnInit(): void {
     this.hotelService.getAllHotels().subscribe(response => {
       this.hotels = response.data;
+      this.loadOwnerNames();
       this.isLoading = false;
     }, error => {
       this.isLoading = false;
       console.error('Error loading hotels:', error);
+    });
+  }
+
+  loadOwnerNames(): void {
+    const ownerRequests = this.hotels.map(hotel => this.userService.getUserById(hotel.owner_id));
+    forkJoin(ownerRequests).subscribe(responses => {
+      responses.forEach((user, index) => {
+        this.hotels[index].owner_name = user.fname; 
+      });
+    }, error => {
+      console.error('Error loading owner names:', error);
     });
   }
 

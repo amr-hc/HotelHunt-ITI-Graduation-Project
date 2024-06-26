@@ -16,13 +16,13 @@
           </div>
         </div>
         <div class="row mb-3">
+
           <div class="col-md-6">
-            <p><strong>Address:</strong> {{ hotel.address }}</p>
+            <p ><strong >Owner:</strong> <span class="text-primary fw-bold"> {{ hotel.owner_name }}</span></p>
           </div>
           <div class="col-md-6">
             <p><strong>Country:</strong> {{ hotel.country }}</p>
           </div>
-
         </div>
         <div class="row mb-3">
           <div class="col-md-6">
@@ -49,23 +49,24 @@
             <p><strong>Balance:</strong> {{ hotel.balance }}</p>
           </div>
           <div class="col-md-6">
+             <p><strong>Address:</strong> {{ hotel.address }}</p>
+
+          </div>
+        </div>
+        <div class="row mb-3">
+
+          <div class="col-md-6">
             <p>
               <strong>Star Rating:</strong>
               <span class="text-warning">
                 <ng-container
-                  *ngFor="
-                    let star of [].constructor(hotel.star_rating);
-                    let i = index
-                  "
+                  *ngFor="let star of [].constructor(hotel.star_rating); let i = index"
                 >
                   <i class="bi bi-star-fill"></i>
                 </ng-container>
                 <ng-container *ngIf="hotel.star_rating < 5">
                   <ng-container
-                    *ngFor="
-                      let star of [].constructor(5 - hotel.star_rating);
-                      let i = index
-                    "
+                    *ngFor="let star of [].constructor(5 - hotel.star_rating); let i = index"
                   >
                     <i class="bi bi-star"></i>
                   </ng-container>
