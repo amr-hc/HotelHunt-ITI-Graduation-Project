@@ -24,7 +24,7 @@ export class LoginComponent {
     this.authService.login(this.credentials).subscribe(
       (res) => {
         this.authService.handleLoginSuccess(res);
-        this.redirectUserBasedOnRole(res.user.role); 
+        this.redirectUserBasedOnRole(res.user.role);
       },
       (error) => {
         console.error('Login failed', error);
@@ -46,7 +46,7 @@ export class LoginComponent {
         this.router.navigate(['/home']);
         break;
       case 'owner':
-        this.router.navigate(['/owner-dashboard']);
+        this.router.navigate(['./admin-dashboard/admin-dashboard-routes']);
     }
   }
 
