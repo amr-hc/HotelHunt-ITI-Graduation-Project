@@ -46,7 +46,7 @@ export class LoginComponent {
         this.router.navigate(['/home']);
         break;
       case 'owner':
-        this.router.navigate(['./admin-dashboard/admin-dashboard-routes']);
+        this.router.navigate(['./owner/hotel']);
     }
   }
 
