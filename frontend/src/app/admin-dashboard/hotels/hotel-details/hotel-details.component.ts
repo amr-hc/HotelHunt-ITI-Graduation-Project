@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HotelService } from '../../../services/hotel.service';
 import { Hotel } from '../../../models/hotel';
+import { UserService } from '../../../services/user.service';
 
 
 @Component({
@@ -17,12 +18,12 @@ export class HotelDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    public router: Router,
-    private hotelService: HotelService
+    private hotelService: HotelService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
+    this.route.paramMap.subscribe(params => {
       const hotelId = Number(params.get('id'));
       this.loadHotel(hotelId);
     });
@@ -32,9 +33,21 @@ export class HotelDetailsComponent implements OnInit {
     this.hotelService.getHotelById(hotelId).subscribe(
       (response: { data: Hotel }) => {
         this.hotel = response.data;
+        this.loadOwnerName(this.hotel.owner_id);
       },
       (error: any) => {
         console.error('Failed to fetch hotel details', error);
+      }
+    );
+  }
+
+  loadOwnerName(ownerId: number): void {
+    this.userService.getUserById(ownerId).subscribe(
+      (user: any) => {
+        this.hotel!.owner_name = user.name; // Use ! to assert non-null
+      },
+      (error: any) => {
+        console.error('Failed to fetch owner name', error);
       }
     );
   }

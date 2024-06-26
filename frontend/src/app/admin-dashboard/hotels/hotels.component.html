@@ -1,38 +1,128 @@
+<!-- src/app/hotels/hotels.component.html
+<div class="container mt-4">
+
+  <div *ngIf="isLoading" class="loading text-center mt-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading hotels...</p>
+  </div>
+
+  <div *ngIf="!isLoading && hotels.length === 0" class="text-center mt-3">
+    <p>No hotels available.</p>
+  </div>
+
+  <div *ngIf="!isLoading && hotels.length > 0">
+  <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline fst-italic">Hotels List</h1>
+    <table class="table table-striped table-bordered text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>City</th>
+          <th>Status</th>
+          <th>Balance</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hotel of hotels | paginate: { itemsPerPage: 8, currentPage: currentPage }">
+          <td>{{ hotel.id }}</td>
+          <td>{{ hotel.name }}</td>
+          <td>{{ hotel.city }}</td>
+          <td>
+            <select [(ngModel)]="hotel.status" (change)="updateHotelStatus(hotel)">
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="suspend">Suspend</option>
+            </select>
+          </td>
+          <td>{{ hotel.balance }}</td>
+          <td>
+            <button class="btn btn-info btn-sm" (click)="viewHotelDetails(hotel.id)">View</button>
+            <button class="btn btn-danger btn-sm ms-1" (click)="confirmDeleteHotel(hotel.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
+  </div>
+</div> -->
+
 <!-- src/app/hotels/hotels.component.html -->
 <div class="container mt-4">
-  <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline fst-italic">Hotels List</h1>
+  <div *ngIf="isLoading" class="loading text-center mt-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading hotels...</p>
+  </div>
 
-  <table class="table table-striped table-bordered text-center">
-    <thead class="table-dark">
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>City</th>
-        <th>Status</th>
-        <th>Balance</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let hotel of hotels  | paginate: { itemsPerPage: 8, currentPage: currentPage }">
-        <td>{{ hotel.id }}</td>
-        <td>{{ hotel.name }}</td>
-        <td>{{ hotel.city }}</td>
-        <td>
-          <select  [(ngModel)]="hotel.status" (change)="updateHotelStatus(hotel)">
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-            <option value="suspend">Suspend</option>
-          </select>
-        </td>
-        <td>{{ hotel.balance }}</td>
-        <td>
-          <button class="btn btn-info btn-sm" (click)="viewHotelDetails(hotel.id)">View</button>
-          <button class="btn btn-danger btn-sm ms-1" (click)="confirmDeleteHotel(hotel.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
+  <div *ngIf="!isLoading && hotels.length === 0" class="text-center mt-3">
+    <p>No hotels available.</p>
+  </div>
 
+  <div *ngIf="!isLoading && hotels.length > 0">
+    <h1
+      class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline fst-italic"
+    >
+      Hotels List
+    </h1>
+    <table class="table table-striped table-bordered text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Owner</th>
+          <!-- New column for Owner -->
+          <th>City</th>
+          <th>Status</th>
+          <th>Balance</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="
+            let hotel of hotels
+              | paginate : { itemsPerPage: 8, currentPage: currentPage }
+          "
+        >
+          <td>{{ hotel.id }}</td>
+          <td>{{ hotel.name }}</td>
+          <td>{{ hotel.owner_name }}</td>
+          <td>{{ hotel.city }}</td>
+          <td>
+            <select
+              [(ngModel)]="hotel.status"
+              (change)="updateHotelStatus(hotel)"
+            >
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+              <option value="suspend">Suspend</option>
+            </select>
+          </td>
+          <td>{{ hotel.balance }}</td>
+          <td>
+            <button
+              class="btn btn-info btn-sm"
+              (click)="viewHotelDetails(hotel.id)"
+            >
+              View
+            </button>
+            <button
+              class="btn btn-danger btn-sm ms-1"
+              (click)="confirmDeleteHotel(hotel.id)"
+            >
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls
+      (pageChange)="currentPage = $event"
+      class="text-center"
+    ></pagination-controls>
+  </div>
 </div>

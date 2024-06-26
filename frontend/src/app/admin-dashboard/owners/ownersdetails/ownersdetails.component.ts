@@ -13,6 +13,8 @@ import { CommonModule } from '@angular/common';
 })
 export class OwnersdetailsComponent {
   user: User | undefined;
+  isLoading: boolean = true;
+
 
   constructor(private route: ActivatedRoute, private userService: UserService) {}
 
@@ -20,10 +22,12 @@ export class OwnersdetailsComponent {
     const userId = this.route.snapshot.paramMap.get('id');
     if (userId) {
       this.userService.getUserById(+userId).subscribe(
-        (response:any) => {
+        (response: any) => {
           this.user = response.data;
+          this.isLoading = false;
         },
         (error) => {
+          this.isLoading = false;  
           console.error('Error fetching user details', error);
         }
       );

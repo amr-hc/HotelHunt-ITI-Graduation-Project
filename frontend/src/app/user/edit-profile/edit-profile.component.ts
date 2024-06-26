@@ -85,4 +85,9 @@ export class EditProfileComponent implements OnInit {
       this.userForm.get('photo')!.setValue(file);
     }
   }
+
+  resetForm(): void {
+    this.userForm.reset();
+    this.router.navigate(['/user/profile']);
+  }
 }

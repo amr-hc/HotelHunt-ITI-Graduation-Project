@@ -1,30 +1,45 @@
-<div *ngIf="owners && owners.length > 0; else noUsers">
-  <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline fst-italic">Hotel Owners</h1>
-  <table class="table table-striped table-bordered text-center">
-    <thead class="table-dark">
-      <tr>
-        <th>ID</th>
-        <th>First Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let owner of owners | paginate: { itemsPerPage: 8, currentPage: currentPage }">
-        <td>{{ owner.id }}</td>
-        <td>{{ owner.fname }}</td>
-        <td>{{ owner.email }}</td>
-        <td>{{ owner.role }}</td>
-        <td>
-          <button class="btn btn-info btn-sm" (click)="viewUser(owner.id)">View</button>
-          <button class="btn btn-danger btn-sm ms-1" (click)="confirmDelete(owner.id)">Delete</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
+<!-- src/app/owners/owners.component.html -->
+<div class="container mt-4">
+  <div *ngIf="isLoading" class="loading text-center mt-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading owners...</p>
+  </div>
+
+  <div *ngIf="!isLoading && owners.length === 0" class="text-center mt-3">
+    <p class="alert alert-info">No owners found.</p>
+  </div>
+
+  <div *ngIf="!isLoading && owners.length > 0">
+    <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline fst-italic">Hotel Owners</h1>
+    <table class="table table-striped table-bordered text-center">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Image</th>
+          <th>First Name</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let owner of owners | paginate: { itemsPerPage: 8, currentPage: currentPage }">
+          <td>{{ owner.id }}</td>
+          <td>
+            <img src="http://127.0.0.1:8000/storage/{{ owner.photo }}" class="rounded-circle" style="height:30px;width:35px">
+          </td>
+          <td>{{ owner.fname }}</td>
+          <td>{{ owner.email }}</td>
+          <td>{{ owner.role }}</td>
+          <td>
+            <button class="btn btn-info btn-sm" (click)="viewUser(owner.id)">View</button>
+            <button class="btn btn-danger btn-sm ms-1" (click)="confirmDelete(owner.id)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
+  </div>
 </div>
-<ng-template #noUsers>
-  <p class="alert alert-info">No users found.</p>
-</ng-template>

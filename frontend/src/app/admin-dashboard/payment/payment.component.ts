@@ -14,12 +14,21 @@ import { NgxPaginationModule } from 'ngx-pagination';
 export class PaymentComponent {
   payments: Payment[] = [];
   currentPage: number =1;
+  isLoading: boolean = false;
 
   constructor(private paymentService: PaymentService) {}
 
   ngOnInit(): void {
-    this.paymentService.getAllPayments().subscribe((response : any) => {
-      this.payments = response.data;
-    });
+    this.isLoading = true;
+    this.paymentService.getAllPayments().subscribe(
+      (response: any) => {
+        this.payments = response.data;
+        this.isLoading = false;
+      },
+      (error) => {
+        console.error('Error fetching payments', error);
+        this.isLoading = false;
+      }
+    );
   }
 }

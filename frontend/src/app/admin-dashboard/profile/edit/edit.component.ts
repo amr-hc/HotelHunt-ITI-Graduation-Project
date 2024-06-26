@@ -17,6 +17,7 @@ export class EditComponent implements OnInit {
   userId: number | null = null;
   user: User | null = null;
   formSubmitted: boolean = false;
+  selectedFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -26,13 +27,13 @@ export class EditComponent implements OnInit {
   ) {
     this.editForm = this.fb.group({
       id: [''],
-      fname: ['', [Validators.required,Validators.maxLength(100),Validators.minLength(3)]],
-      lname: ['', [Validators.required,Validators.maxLength(100),Validators.minLength(3)]],
+      fname: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(3)]],
+      lname: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
-      phone: ['', [Validators.required,Validators.maxLength(25)]],
-      address: ['', [Validators.required,Validators.maxLength(255)]],
+      phone: ['', [Validators.required, Validators.maxLength(25)]],
+      address: ['', [Validators.required, Validators.maxLength(255)]],
       age: ['', [Validators.required, Validators.min(18)]],
-      // photo: ['']
+      photo: ['']
     });
   }
 
@@ -42,9 +43,11 @@ export class EditComponent implements OnInit {
       this.userService.getUserById(this.userId).subscribe(
         (response: any) => {
           this.user = response.data;
-          if(this.user){
-          this.editForm.patchValue(this.user);
-        }
+          console.log(this.user);
+          if (this.user) {
+            this.editForm.patchValue(this.user);
+            this.editForm.get('photo')?.setValue(this.user.photo);
+          }
         },
         (error) => {
           console.error('Error fetching user details', error);
@@ -56,7 +59,23 @@ export class EditComponent implements OnInit {
   onSubmit(): void {
     this.formSubmitted = true;
     if (this.editForm.valid) {
-      this.userService.editUser(this.editForm.value).subscribe(
+      const formData = new FormData();
+      Object.keys(this.editForm.controls).forEach(key => {
+        formData.append(key, this.editForm.get(key)?.value);
+      });
+
+      if (this.selectedFile) {
+        formData.append('photo', this.selectedFile, this.selectedFile.name);
+      } else {
+        formData.append('photo', this.editForm.get('photo')?.value);
+      }
+
+      // Log FormData content for debugging
+      formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+      });
+
+      this.userService.updateUser(formData).subscribe(
         (response) => {
           this.router.navigate(['/admin-dashboard/profile']);
         },
@@ -65,6 +84,23 @@ export class EditComponent implements OnInit {
         }
       );
     }
+  }
+
+  onFileChange(event: any) {
+    if (event.target.files.length > 0) {
+      const file = event.target.files[0];
+      if (this.isImageFile(file)) {
+        this.selectedFile = file;
+      } else {
+        console.error('The selected file is not an image.');
+        this.selectedFile = null;
+      }
+    }
+  }
+
+  isImageFile(file: File): boolean {
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    return allowedTypes.includes(file.type);
   }
 
   onCancel(): void {

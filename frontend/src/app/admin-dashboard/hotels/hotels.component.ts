@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { UserService } from '../../services/user.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-hotels',
@@ -17,17 +19,34 @@ import { NgxPaginationModule } from 'ngx-pagination';
 export class HotelsComponent implements OnInit{
   hotels: Hotel[] = [];
   currentPage: number =1;
+  isLoading: boolean = true;
 
-  constructor(private hotelService: HotelService,private router: Router) { }
+
+  constructor(private hotelService: HotelService,private userService: UserService,private router: Router) { }
 
   ngOnInit(): void {
     this.hotelService.getAllHotels().subscribe(response => {
       this.hotels = response.data;
+      this.loadOwnerNames();
+      this.isLoading = false;
+    }, error => {
+      this.isLoading = false;
+      console.error('Error loading hotels:', error);
+    });
+  }
+
+  loadOwnerNames(): void {
+    const ownerRequests = this.hotels.map(hotel => this.userService.getUserById(hotel.owner_id));
+    forkJoin(ownerRequests).subscribe(responses => {
+      responses.forEach((user, index) => {
+        this.hotels[index].owner_name = user.fname;
+      });
+    }, error => {
+      console.error('Error loading owner names:', error);
     });
   }
 
   viewHotelDetails(id: number): void {
-    // Navigate to hotel details component
     this.router.navigate(['admin-dashboard/hotels', id]);
   }
 
@@ -50,7 +69,6 @@ export class HotelsComponent implements OnInit{
 
   deleteHotel(id: number): void {
     this.hotelService.deleteHotel(id).subscribe(() => {
-      // Optionally, remove the deleted hotel from the local array
       this.hotels = this.hotels.filter(hotel => hotel.id !== id);
       Swal.fire('Deleted!', 'Your hotel has been deleted.', 'success');
     }, error => {

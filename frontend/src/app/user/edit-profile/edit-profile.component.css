@@ -3,8 +3,9 @@ body {
 }
 
 .container {
-  background-color: #b1c0cb;
-  padding: 30px;
+  background-color: #2063c0;
+  padding-top: 30px ;
+  padding: 0px 0px;
   border-radius: 10px;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
   max-width: 600px;
@@ -13,30 +14,31 @@ body {
 }
 
 h2 {
-  color: #007bff;
+  color: #ffffff;
   font-weight: 600;
   margin-bottom: 20px;
+  padding: 10px 0;
 }
 
 .form-container {
-  background-color: #769eba;
+  background-color: #fafafa;
   padding: 20px;
   border-radius: 10px;
-  border: 1px solid #535a5f;
-  color: #ffffff;
+  border: 1px solid #007bff;
+  color: #000000;
 }
 
 .form-group label {
-  color: #ffffff;
+  color: #000000;
   font-weight: 500;
 }
 
 .form-control {
-  border: 1px solid #ced4da;
+  border: 1px solid #007bff;
   border-radius: 5px;
   background-color: #e9ecef;
   transition: background-color 0.3s, box-shadow 0.3s;
-  color: #000000;
+  color: #000000; /* Black text */
 }
 
 .form-control:focus {
@@ -45,21 +47,64 @@ h2 {
   background-color: #ffffff;
 }
 
+
 .btn-primary {
-  background-color: #446fdc;
-  border-color: #233574;
+  background-color: #e96b00;
+  border-color: #e96b00;
   color: white;
   padding: 10px 20px;
   font-size: 16px;
+  margin: 10px;
+  margin-right: 295px;
   border-radius: 5px;
   transition: background-color 0.3s, border-color 0.3s;
 }
+.btn-secondary{
+  /* background-color: #e96b00;
+  border-color: #e96b00; */
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 10px;
+  /* margin-right: 25px; */
+  border-radius: 5px;
+  transition: background-color 0.3s, border-color 0.3s;
+
+}
 
 .btn-primary:hover {
-  background-color: #e96b00; /* Darker orange on hover */
-  border-color: #e96b00;
+  background-color: #e95300;
+  border-color: #e95300;
 }
 
-.text-danger {
-  color: #ffcccc; /* Light red color for error messages */
+#photo{
+  margin: 17px;
 }
+.form-control-file {
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  background-color: #e9ecef;
+  color: #495057;
+  padding: 10px;
+  transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+.form-control-file:focus {
+  border-color: #007bff;
+  background-color: #ffffff;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+}
+
+.form-control-file::file-selector-button {
+  color: #ffffff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 20px;
+  transition: background-color 0.3s;
+}
+
+.form-control-file::file-selector-button:hover {
+  background-color: #0056b3;
+}
+
