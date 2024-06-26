@@ -53,7 +53,7 @@ Route::post('/login', function (Request $request) {
 
     if (! $user || ! Hash::check($request->password, $user->password)) {
         throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
+            'email' => ['Invalid Email Or Password'],
         ]);
     }
     // return ["user" => $user, "token" => $user->createToken($request->device_name)->plainTextToken];
