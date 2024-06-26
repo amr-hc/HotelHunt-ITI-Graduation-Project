@@ -18,6 +18,8 @@ export class OwnersComponent {
   users: User[] = [];
   owners: User[] = [];
   currentPage: number =1;
+  isLoading: boolean = true;  // Add loading state
+
 
   constructor(private userService: UserService,  private router: Router) {}
 
@@ -26,8 +28,10 @@ export class OwnersComponent {
       (response: any) => {
         this.users = response.data;
         this.owners = this.users.filter(user => user.role === 'owner');
+        this.isLoading = false;  // Set loading to false when data is loaded
       },
       (error) => {
+        this.isLoading = false;  // Set loading to false in case of error
         console.error('Error fetching users', error);
       }
     );

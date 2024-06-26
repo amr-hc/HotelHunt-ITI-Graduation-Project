@@ -24,15 +24,16 @@ export class BookingDetailsComponent implements OnInit {
 
   loadBooking(): void {
     const id = +this.route.snapshot.paramMap.get('id')!;
-    this.isLoading = true;
+    this.isLoading = true; // Start loading
     this.bookingService.getBookingById(id).subscribe({
       next: (booking) => {
         this.booking = booking;
-        this.isLoading = false;
+        this.isLoading = false; // Finish loading
       },
       error: (error) => {
+        console.error('Error fetching booking details', error);
         this.errorMessage = 'Failed to load booking details.';
-        this.isLoading = false;
+        this.isLoading = false; // Finish loading (on error)
       }
     });
   }

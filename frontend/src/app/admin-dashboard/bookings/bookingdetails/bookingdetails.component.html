@@ -1,21 +1,24 @@
 <div class="container mt-5">
-  <div class="card shadow">
-    <div class="card-header bg-primary text-white">
-      <h2 class="m-0">Booking Details</h2>
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="loading text-center mt-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
-    <div class="card-body">
-      <div *ngIf="isLoading" class="text-center">
-        <div class="spinner-border text-primary" role="status">
-          <span class="visually-hidden">Loading booking details...</span>
-        </div>
-        <p class="text-muted">Please wait...</p>
-      </div>
+    <p class="mt-2">Loading booking details...</p>
+  </div>
 
-      <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-        {{ errorMessage }}
-      </div>
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
 
-      <div *ngIf="!isLoading &&!errorMessage && booking">
+  <!-- Booking Details -->
+  <div *ngIf="booking && !isLoading && !errorMessage">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h2 class="m-0">Booking Details</h2>
+      </div>
+      <div class="card-body">
         <div class="row">
           <div class="col-md-4 border-right">
             <h3 class="card-title">Booking Information</h3>

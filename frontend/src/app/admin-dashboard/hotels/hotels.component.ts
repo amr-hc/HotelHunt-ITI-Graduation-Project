@@ -17,17 +17,22 @@ import { NgxPaginationModule } from 'ngx-pagination';
 export class HotelsComponent implements OnInit{
   hotels: Hotel[] = [];
   currentPage: number =1;
+  isLoading: boolean = true;
+
 
   constructor(private hotelService: HotelService,private router: Router) { }
 
   ngOnInit(): void {
     this.hotelService.getAllHotels().subscribe(response => {
       this.hotels = response.data;
+      this.isLoading = false;
+    }, error => {
+      this.isLoading = false;
+      console.error('Error loading hotels:', error);
     });
   }
 
   viewHotelDetails(id: number): void {
-    // Navigate to hotel details component
     this.router.navigate(['admin-dashboard/hotels', id]);
   }
 
@@ -50,7 +55,6 @@ export class HotelsComponent implements OnInit{
 
   deleteHotel(id: number): void {
     this.hotelService.deleteHotel(id).subscribe(() => {
-      // Optionally, remove the deleted hotel from the local array
       this.hotels = this.hotels.filter(hotel => hotel.id !== id);
       Swal.fire('Deleted!', 'Your hotel has been deleted.', 'success');
     }, error => {

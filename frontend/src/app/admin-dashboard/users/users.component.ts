@@ -18,16 +18,19 @@ export class UsersComponent {
   users: User[] = [];
   filteredUsers: User[] = [];
   currentPage: number =1;
+  isLoading: boolean = true;  // Add loading state
 
-  constructor(private userService: UserService,  private router: Router) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.userService.getAllUsers().subscribe(
       (response: any) => {
         this.users = response.data;
         this.filteredUsers = this.users.filter((user) => user.role === 'guest');
+        this.isLoading = false;  
       },
       (error) => {
+        this.isLoading = false;
         console.error('Error fetching users', error);
       }
     );
