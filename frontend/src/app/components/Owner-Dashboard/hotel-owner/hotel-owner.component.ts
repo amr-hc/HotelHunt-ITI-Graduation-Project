@@ -1,5 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -13,18 +12,18 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './hotel-owner.component.html',
-  styleUrl: './hotel-owner.component.css'
+  styleUrls: ['./hotel-owner.component.css']
 })
 export class HotelOwnerComponent implements OnInit, OnDestroy {
   hotels: Hotel[] = [];
-  sub: Subscription | null = null;
   ownerImages: { [key: number]: HotelImage[] } = {};
+  sub: Subscription | null = null;
+  isLoading: boolean = false; // Added loading state
 
-  constructor(private activatedRoute: ActivatedRoute, private hotelService: HotelService, private router:Router) { }
+  constructor(private activatedRoute: ActivatedRoute, private hotelService: HotelService, private router: Router) { }
 
   ngOnInit(): void {
     this.sub = this.activatedRoute.params.subscribe(params => {
-      // const ownerId = params['ownerId'];
       const ownerId = parseInt(localStorage.getItem('userId') || '0', 10);
       console.log(ownerId);
       this.fetchHotelsForOwner(ownerId);
@@ -32,6 +31,7 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
   }
 
   fetchHotelsForOwner(ownerId: number): void {
+    this.isLoading = true; // Start loading
     this.hotelService.getHotelForOwner(ownerId).subscribe(
       response => {
         this.hotels = response.data;
@@ -39,21 +39,23 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
 
         // Fetch images for each hotel
         this.hotels.forEach(hotel => {
-          console.log("Fetching images for hotel ",hotel.id);
+          console.log("Fetching images for hotel ", hotel.id);
           this.hotelService.getHotelImages(hotel.id).subscribe(images => {
             this.ownerImages[hotel.id] = images;
             console.log(`Images for hotel ${hotel.id}:`, images);
-            console.log("images",this.ownerImages);
+            console.log("images", this.ownerImages);
           });
         });
+        this.isLoading = false; // End loading
       },
       error => {
         console.error("Error fetching hotels for owner", error);
+        this.isLoading = false; // End loading on error
       }
     );
   }
+
   onDeleteImage(imageId: number) {
-    // Show SweetAlert confirmation
     const ownerId = parseInt(localStorage.getItem('userId') || '0', 10);
     Swal.fire({
       title: 'Are you sure?',
@@ -65,27 +67,15 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        // If confirmed, proceed with the delete action
         this.hotelService.deleteHotelImage(imageId).subscribe(
           (response) => {
-            Swal.fire(
-              'Deleted!',
-              'Your image has been deleted.',
-              'success'
-            );
+            Swal.fire('Deleted!', 'Your image has been deleted.', 'success');
             console.log('Image deleted successfully:', response);
             this.fetchHotelsForOwner(ownerId);
-            // Optionally, refresh the image list or update the UI
           },
           (error) => {
-            Swal.fire(
-              'Error!',
-              'There was an error deleting the image.',
-              'error'
-            );
+            Swal.fire('Error!', 'There was an error deleting the image.', 'error');
             console.error('Error deleting image:', error);
-
-            // Handle error - show error message or retry logic
           }
         );
       }
