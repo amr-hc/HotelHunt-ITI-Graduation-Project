@@ -97,14 +97,15 @@ Route::prefix('hotels')->group(function () {
     Route::delete('images/{image}', [HotelImagesController::class, 'destroy']); // Delete image
 });
 
+
+
 Route::post('/forgot',[usersController::class, 'forgotPassword'] )->middleware('guest')->name('password.email');
 
 
-// Route::get('/reset-password/{token}', function (string $token) {
-//     return view('auth.reset-password', ['token' => $token]);
-// })->middleware('guest')->name('password.reset');
-
-
-
 Route::post('/reset-password',[usersController::class, 'passwordUpdate'] )->middleware('guest')->name('password.update');
+ 
 
+Route::get('/verify/{id}/{hash}', [usersController::class, 'emailConfirmVerification'])->middleware(['auth'])->name('verification.verify');
+
+
+Route::post('/re-verify', [usersController::class, 'sendEmailVerification'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');

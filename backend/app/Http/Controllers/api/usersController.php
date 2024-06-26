@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Auth\Events\Registered;
 
 use Illuminate\Support\Facades\Hash;
 
@@ -18,6 +19,7 @@ use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 
 class usersController extends Controller
@@ -56,6 +58,8 @@ class usersController extends Controller
 
 
         $user = User::create($validatedData);
+
+        event(new Registered($user));
 
 
         return ["user" => new UserResource($user), "token" => $user->createToken("register")->plainTextToken];
@@ -154,6 +158,20 @@ class usersController extends Controller
     return $status === Password::PASSWORD_RESET
                 ? response()->json(['status' => 'password reset completed'], 200)
                 : response()->json(['status' => 'password reset Failed'], 400);
+    }
+
+
+
+
+    public function emailConfirmVerification(EmailVerificationRequest $request) {
+        $request->fulfill();
+     
+        return response()->json(['status' => 'Account Activated Successfully'], 200);
+    }
+
+    public function sendEmailVerification(Request  $request) {
+        $request->user()->sendEmailVerificationNotification();     
+        return response()->json(['status' => 'Verification link sent'], 200);
     }
 
 
