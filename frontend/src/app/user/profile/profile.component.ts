@@ -9,11 +9,13 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { BookingService } from '../../services/booking.service';
 import { Booking } from '../../models/booking'; // Import your adjusted Booking model
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,NgxPaginationModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
@@ -23,6 +25,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   sub: Subscription | null = null;
   bookingsSub: Subscription | null = null;
   userid: number = 0;
+  currentPage = 1;
+  itemsPerPage = 4;
 
   constructor(private userService: UserService, private router: Router, private bookingService: BookingService) {}
 
