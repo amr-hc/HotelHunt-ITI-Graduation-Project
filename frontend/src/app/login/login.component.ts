@@ -2,43 +2,45 @@ import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { HotelService } from '../services/hotel.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  credentials = {
-    email: '',
-    password: ''
-  };
+  loginForm: FormGroup;
   loginError: string | null = null;
 
-  constructor(private authService:AuthService, private router:Router){}
+  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private hotelService:HotelService) {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]]
+    });
+  }
 
   onLogin() {
-    this.authService.login(this.credentials).subscribe(
+    if (this.loginForm.invalid) {
+      return;
+    }
+    this.authService.login(this.loginForm.value).subscribe(
       (res) => {
         this.authService.handleLoginSuccess(res);
-        this.redirectUserBasedOnRole(res.user.role);
+        this.redirectUserBasedOnRole(res.user.role, res.user.id);
       },
       (error) => {
         console.error('Login failed', error);
-        if (error.error && error.error.message) {
-          this.loginError = error.error.message;
-        } else {
-          this.loginError = 'Failed to login. Please try again later.';
-        }
+        this.loginError = error.error && error.error.message ? error.error.message : 'Failed to login. Please try again later.';
       }
     );
   }
 
-  redirectUserBasedOnRole(role:string){
-    switch (role){
+  redirectUserBasedOnRole(role: string, userId: number) {
+    switch (role) {
       case 'admin':
         this.router.navigate(['/admin-dashboard']);
         break;
@@ -46,7 +48,22 @@ export class LoginComponent {
         this.router.navigate(['/home']);
         break;
       case 'owner':
-        this.router.navigate(['./owner/hotel']);
+        this.hotelService.getHotelForOwner(userId).subscribe(
+          (response) => {
+            if (response.data.length === 0) {
+              this.router.navigate(['/register/hotel'], { queryParams: { owner_id: userId } });
+            } else {
+              this.router.navigate(['/owner/hotel']);
+            }
+          },
+          (error) => {
+            console.error('Error fetching hotels for owner', error);
+            this.router.navigate(['/login']);
+          }
+        );
+        break;
+      default:
+        this.router.navigate(['/home']);
     }
   }
 
@@ -55,5 +72,13 @@ export class LoginComponent {
       console.log('Logged out successfully');
       this.router.navigate(['/login']);
     });
+  }
+
+  get email() {
+    return this.loginForm.get('email');
+  }
+
+  get password() {
+    return this.loginForm.get('password');
   }
 }
