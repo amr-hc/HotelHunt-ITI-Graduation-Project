@@ -9,8 +9,6 @@ use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
 
 use App\Models\User;
-use Exception;
-use Illuminate\Support\Facades\Log;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -29,20 +27,9 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerPolicies();
-
-ResetPassword::createUrlUsing(function (User $user, string $token) {
-    try {
-        $url = 'http://localhost:4200/reset-password?token=' . $token;
-        return $url;
-    } catch (Exception $e) {
-        // Log the error message and stack trace
-        Log::error('Failed to generate reset password URL: ' . $e->getMessage(), [
-            'exception' => $e
-        ]);
-        // Optionally, return a default or error URL
-        return 'http://localhost:4200/error?message=URL%20generation%20failed';
-    }
-});
+        ResetPassword::createUrlUsing(function (User $user, string $token) {
+            return 'http://localhost:4200/forget-password?token='.$token;
+        });
 
 
 

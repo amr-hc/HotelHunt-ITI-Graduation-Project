@@ -35,7 +35,7 @@ export class ResetPasswordComponent {
         console.log('Response:', response);
         this.message = 'A reset link has been sent to your email!';
         this.isSubmitting = false;
-        this.router.navigate(['/forget']);
+        
       },
 
       error => {

@@ -39,7 +39,7 @@ export const routes: Routes = [
   { path: 'hotel/:id' , component: HotelComponent},
   { path: 'login', component: LoginComponent },
   {path: 'reset', component: ResetPasswordComponent},
-  {path: 'forget', component:ForgetPasswordComponent},
+  {path: 'forget-password', component:ForgetPasswordComponent},
   {path : "list" , component : ListComponent},
   {path : "show/:id" , component : ShowComponent },
   {path : "add" , component : AddComponent },
