@@ -48,7 +48,7 @@ export const routes: Routes = [
   {path : "add" , component : AddComponent },
   {path : "update/:id" , component : UpdateComponent },
   {path : "user/profile/edit" , component : EditProfileComponent },
-  {path : "user/activated" , component : ActivatedComponent },
+  {path : "login/google" , component : ActivatedComponent },
 
   { path:'admin-dashboard',     loadChildren: () =>
     import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},

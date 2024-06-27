@@ -84,4 +84,9 @@ export class LoginComponent {
   navigateToRegister() {
     this.router.navigate(['/register']); // Navigate to '/register' route
   }
+  
+  loginWithGoogle() {
+    window.location.href = 'http://localhost:8000/api/auth/google';
+  }
+
 }
