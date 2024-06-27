@@ -15,6 +15,9 @@ export class RatingService {
       map(response => response.data)
     )
   }
+  createUserRating(userRating: UserRating): Observable<any> {
+    return this.http.post<any>(this.apiUrl, userRating);
+  }
   updateUserRating(id: number, userRating: UserRating): Observable<any> {
     return this.http.put<any>(this.apiUrl+id, userRating);
   }
