@@ -5,6 +5,8 @@ namespace App\Http\Controllers\api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Rate;
+use App\Models\Hotel;
+use App\Models\User;
 use App\Http\Resources\RateResource;
 
 class RateController extends Controller
@@ -43,13 +45,26 @@ class RateController extends Controller
         return new RateResource(Rate::findOrFail($id));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+
+    public function RateByUser(User $user){
+        $rates = $user->rates()->get()->pluck('pivot');;
+        return $rates;
     }
+    public function RateByHotel(Hotel $hotel){
+        $rates = $hotel->rates()->get()->pluck('pivot');;
+        return $rates;
+    }
+
+    public function RateByHotelforlogin(Hotel $hotel){
+        $rates = $hotel->rates()->where('user_id',auth()->user()->id)->first()->pivot;
+        return $rates;
+    }
+    public function RateByUserHotel(Hotel $hotel, User $user){
+        $rates = $hotel->rates()->where('user_id',$user->id)->first()->pivot;
+        return $rates;
+    }
+
+
 
     /**
      * Update the specified resource in storage.
