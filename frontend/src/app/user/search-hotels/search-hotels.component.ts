@@ -5,11 +5,12 @@ import { SearchHotel } from '../../models/searchHotel';
 import { SearchHotelService } from '../../services/search-hotel.service';
 import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { LayoutComponent } from '../../layout/layout.component';
 
 @Component({
   selector: 'app-search-hotels',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterLink],
+  imports: [CommonModule,FormsModule,RouterLink,LayoutComponent],
   templateUrl: './search-hotels.component.html',
   styleUrl: './search-hotels.component.css'
 })
