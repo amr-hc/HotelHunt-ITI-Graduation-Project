@@ -1,21 +1,15 @@
-nav div > img{
-    width: 50px;
-    border-radius: 7px;
-}
-.navbar {
-    padding-inline: 50px;
-}
-.navItems a{
-    font-weight: bold;
-}
-.navItems a:hover{
-    color: #86CCD5;
+:root {
+    --primary: #FEA116;
+    --light: #F1F8FF;
+    --dark: #0F172B;
 }
 
-.activeNav {
-    color: #86CCD5;
+.fab{
+  color: var(--primary);
 }
 
-.bg-custom-blue {
-    background-color: #99c2ff;
-  }
+.fab:hover{
+  color: rgba(150, 95, 13, 0.616)
+}
+
+
