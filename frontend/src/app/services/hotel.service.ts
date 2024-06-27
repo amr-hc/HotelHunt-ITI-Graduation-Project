@@ -62,4 +62,7 @@ export class HotelService {
   deleteHotelImage(imageId: number): Observable<any> {
     return this.http.delete<any>(`${this.apiUrl}images/${imageId}`);
   }
+
+
+  
 }
