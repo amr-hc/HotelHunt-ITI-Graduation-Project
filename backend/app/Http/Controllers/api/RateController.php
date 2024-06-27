@@ -72,7 +72,7 @@ class RateController extends Controller
 
         $hotel->rates()->syncWithPivotValues([$user_id], ['rate' => $request->rate]);
 
-        return "done";
+        return response()->json(['message' => 'rate updated successfully'], 200);
     }
 
 
