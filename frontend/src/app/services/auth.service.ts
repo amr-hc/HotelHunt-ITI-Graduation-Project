@@ -31,5 +31,11 @@ export class AuthService {
 
     return this.http.post<void>(`${this.apiUrl}/logout`, {});
   }
+
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
 }
 

@@ -66,10 +66,13 @@
             </div>
             <a routerLink="/contact" class="nav-item nav-link">Contact</a>
           </div>
-          <div class="navbar-nav mr-auto py-0">
-            <a routerLink="/register" class="nav-item nav-link">register</a>
-            <a routerLink="/login" class="nav-item nav-link">login</a>
-          </div>
+          <!-- app.component.html or navbar component template -->
+<div class="navbar-nav mr-auto py-0">
+  <a *ngIf="!authService.isLoggedIn()" routerLink="/register" class="nav-item nav-link">Register</a>
+  <a *ngIf="!authService.isLoggedIn()" routerLink="/login" class="nav-item nav-link">Login</a>
+  <a *ngIf="authService.isLoggedIn()" (click)="logout()" class="nav-item nav-link">Logout</a>
+</div>
+
 
         </div>
       </nav>
