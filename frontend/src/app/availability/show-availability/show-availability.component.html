@@ -19,7 +19,7 @@
             <strong>Stock:</strong> {{ day.stock }}<br>
             <strong>Total Rooms:</strong> {{ day.total_rooms || 'Unavailable' }}<br>
           </p>
-          @if(!isPastDate(day.date)){
+          @if(isPastDate(day.date)){
           <button type="button" class="btn" [ngClass]="{'btn-primary': !day.total_rooms, 'btn-success': day.total_rooms}" data-bs-toggle="modal" data-bs-target="#availabilityModal" (click)="onDaySelect(day)">
             {{ day.total_rooms ? 'Update' : 'Create' }}
           </button>
