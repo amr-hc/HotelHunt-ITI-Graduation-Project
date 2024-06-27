@@ -7,35 +7,56 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-register-hotel',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './register-hotel.component.html',
-  styleUrl: './register-hotel.component.css',
+  styleUrls: ['./register-hotel.component.css'],
 })
-export class RegisterHotelComponent{
+export class RegisterHotelComponent implements OnInit {
   hotelData = {
     name: '',
     country: '',
     city: '',
     address: '',
-    // status: '',
     owner_id: '',
     description: '',
     star_rating: 1,
   };
+  selectedFile: File | null = null;
   registrationError: string | null = null;
 
-  constructor(private hotelService: HotelsService, private router: Router, private activatedRoute:ActivatedRoute) {}
-
-
+  constructor(
+    private hotelService: HotelsService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe((params) => {
       this.hotelData.owner_id = params['owner_id'];
     });
   }
 
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
   onRegisterHotel() {
-    this.hotelService.registerHotel(this.hotelData).subscribe(
+    const formData = new FormData();
+    formData.append('name', this.hotelData.name);
+    formData.append('country', this.hotelData.country);
+    formData.append('city', this.hotelData.city);
+    formData.append('address', this.hotelData.address);
+    formData.append('owner_id', this.hotelData.owner_id);
+    formData.append('description', this.hotelData.description);
+    formData.append('star_rating', this.hotelData.star_rating.toString());
+    if (this.selectedFile) {
+      formData.append('photo', this.selectedFile, this.selectedFile.name);
+    }
+
+    this.hotelService.registerHotel(formData).subscribe(
       (res) => {
         console.log('Hotel registered successfully', res);
         this.router.navigate(['/login']);
@@ -50,8 +71,8 @@ export class RegisterHotelComponent{
       }
     );
   }
+
   setRating(rating: number) {
     this.hotelData.star_rating = rating;
-    // Optionally, you can update UI or perform other actions based on the selected rating
   }
 }

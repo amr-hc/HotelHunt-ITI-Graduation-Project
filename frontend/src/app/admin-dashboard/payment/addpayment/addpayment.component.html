@@ -1,29 +1,33 @@
 <div class="container mt-3 text-center">
-  <h1 class="text-primary mb-5 fs-2 fw-bold text-decoration-underline fst-italic">Add Payment</h1>
-  <form [formGroup]="addPaymentForm" (ngSubmit)="onSubmit()" class="mt-5">
-    <div class="row justify-content-center">
-      <div class="col-lg-6">
-        <div class="form-group">
-          <label for="hotel">Hotel</label>
-          <select id="hotel" formControlName="hotel_id" class="form-control mb-2">
-            <option value="" disabled>Select a hotel</option>
-            <option *ngFor="let hotel of hotels" [value]="hotel.id">{{ hotel.name }}</option>
-          </select>
-          <div *ngIf="formSubmitted && addPaymentForm.controls['hotel_id'].invalid" class="text-danger">
-            Hotel is required.
+  <h1 class="text-primary mb-5 fs-2 fw-bold text-decoration-underline">Add Payment</h1>
+  <div class="card mx-auto" style="max-width: 100%;">
+    <div class="card-body">
+      <form [formGroup]="addPaymentForm" (ngSubmit)="onSubmit()" class="mt-3">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-8 col-lg-6">
+            <div class="form-group mb-3">
+              <label for="hotel" class="form-label">Hotel</label>
+              <select id="hotel" formControlName="hotel_id" class="form-control">
+                <option value="" disabled>Select a hotel</option>
+                <option *ngFor="let hotel of hotels" [value]="hotel.id">{{ hotel.name }}</option>
+              </select>
+              <div *ngIf="formSubmitted && addPaymentForm.controls['hotel_id'].invalid" class="text-danger mt-1">
+                Hotel is required.
+              </div>
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="amount" class="form-label">Amount</label>
+              <input type="number" id="amount" formControlName="amount" class="form-control">
+              <div *ngIf="formSubmitted && addPaymentForm.controls['amount'].invalid" class="text-danger mt-1">
+                Valid amount is required.
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Add Payment</button>
           </div>
         </div>
-
-        <div class="form-group">
-          <label for="amount">Amount</label>
-          <input type="number" id="amount" formControlName="amount" class="form-control mb-2">
-          <div *ngIf="formSubmitted && addPaymentForm.controls['amount'].invalid" class="text-danger">
-            Valid amount is required.
-          </div>
-        </div>
-
-        <button type="submit" class="btn btn-success mt-3">Add Payment</button>
-      </div>
+      </form>
     </div>
-  </form>
+  </div>
 </div>

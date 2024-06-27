@@ -1,12 +1,12 @@
 <div class="container mt-1" *ngIf="user; else loading">
   <div class="card">
     <div class="card-header text-center">
-      <h2>{{ user.fname }} {{ user.lname }}</h2>
+      <h2 class="text-primary">{{ user.fname }} {{ user.lname }}</h2>
     </div>
     <div class="card-body">
       <div class="row">
         <div class="col-md-4 text-center">
-          <img src="http://127.0.0.1:8000/storage/{{ user.photo }}" alt="{{ user.fname }} {{ user.lname }}" class="rounded-circle mb-3" style="max-width: 280px; height: 100%;">
+          <img src="http://127.0.0.1:8000/storage/{{ user.photo }}" alt="{{ user.fname }} {{ user.lname }}" class="img-fluid rounded-circle mb-3" >
         </div>
         <div class="col-md-8">
           <table class="table table-bordered">

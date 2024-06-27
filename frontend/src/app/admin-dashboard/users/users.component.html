@@ -11,7 +11,7 @@
   <!-- User List or No Users Message -->
   <div *ngIf="!isLoading">
     <ng-container *ngIf="filteredUsers && filteredUsers.length > 0; else noUsers">
-      <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline fst-italic">Site Users</h1>
+      <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline">Site Users</h1>
 
       <table class="table table-striped table-bordered text-center">
         <thead class="table-dark">
@@ -32,7 +32,7 @@
             <td>{{ user.email }}</td>
             <td>{{ user.role }}</td>
             <td>
-              <button class="btn btn-info btn-sm" (click)="viewUser(user.id)">View</button>
+              <button class="btn btn-primary btn-sm" (click)="viewUser(user.id)">View</button>
               <button class="btn btn-danger btn-sm ms-1" (click)="confirmDelete(user.id)">Delete</button>
             </td>
           </tr>

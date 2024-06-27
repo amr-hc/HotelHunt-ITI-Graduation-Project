@@ -29,6 +29,7 @@ export class ListhotelsComponent implements OnInit {
       (response: any) => {
         this.isLoading = false;
         this.topRatedHotels = response.data.filter((hotel: Hotel) => hotel.star_rating === 5);
+        console.log(this.topRatedHotels);
         if (this.topRatedHotels.length === 0) {
           this.errorMessage = 'No top-rated hotels found.';
         }

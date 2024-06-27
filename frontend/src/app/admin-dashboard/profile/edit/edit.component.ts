@@ -61,22 +61,24 @@ export class EditComponent implements OnInit {
     if (this.editForm.valid) {
       const formData = new FormData();
       Object.keys(this.editForm.controls).forEach(key => {
-        formData.append(key, this.editForm.get(key)?.value);
+        if (key !== 'photo' || this.selectedFile) {
+          formData.append(key, this.editForm.get(key)?.value);
+        }
       });
 
       if (this.selectedFile) {
         formData.append('photo', this.selectedFile, this.selectedFile.name);
-      } else {
-        formData.append('photo', this.editForm.get('photo')?.value);
       }
 
       // Log FormData content for debugging
+      console.log('Submitting the following FormData:');
       formData.forEach((value, key) => {
         console.log(`${key}: ${value}`);
       });
 
       this.userService.updateUser(formData).subscribe(
         (response) => {
+          console.log('User updated successfully', response);
           this.router.navigate(['/admin-dashboard/profile']);
         },
         (error) => {
@@ -91,9 +93,12 @@ export class EditComponent implements OnInit {
       const file = event.target.files[0];
       if (this.isImageFile(file)) {
         this.selectedFile = file;
+        this.editForm.get('photo')?.setValue(file);
+        console.log('Selected file:', file);
       } else {
         console.error('The selected file is not an image.');
         this.selectedFile = null;
+        this.editForm.get('photo')?.setErrors({ invalidFileType: true });
       }
     }
   }

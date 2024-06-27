@@ -117,6 +117,7 @@ Route::get('/auth/google', [SocialiteController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [SocialiteController::class, 'loginGoogle']);
 
 
+Route::post('rates/create/hotel',[RateController::class,'updateRate']);
 Route::GET('rates/user/{user}',[RateController::class,'RateByUser']);
 Route::GET('rates/hotel/{hotel}',[RateController::class,'RateByHotel']);
 Route::GET('rates/hotel/mine/{hotel}',[RateController::class,'RateByHotelforlogin']);
