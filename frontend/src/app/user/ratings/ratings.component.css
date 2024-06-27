@@ -1,0 +1,18 @@
+/* Star rating styles */
+.star-rating {
+  font-size: 24px;
+}
+
+.star {
+  cursor: pointer;
+  color: #ccc;
+}
+
+.star.filled {
+  color: #ffc107; /* Yellow color for filled stars */
+}
+
+.rating-section {
+  max-width: 800px;
+  margin: 30px auto;
+}

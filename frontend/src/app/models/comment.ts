@@ -11,7 +11,7 @@ export class Comment {
 
 export class UserComment {
   constructor(
-    public user_id: number,
+    public user_id: number|null,
     public hotel_id: number,
     public content: string,
   ) { }

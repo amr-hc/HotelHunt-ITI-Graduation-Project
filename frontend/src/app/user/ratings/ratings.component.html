@@ -1,0 +1,11 @@
+<p>ratings works!</p>
+<div class="rating-section mt-5">
+  <h3 class="mb-3">Rate this Hotel</h3>
+  <div class="star-rating">
+    <span class="star" (click)="rateHotel(1)" [class.filled]="rating >= 1">&#9733;</span>
+    <span class="star" (click)="rateHotel(2)" [class.filled]="rating >= 2">&#9733;</span>
+    <span class="star" (click)="rateHotel(3)" [class.filled]="rating >= 3">&#9733;</span>
+    <span class="star" (click)="rateHotel(4)" [class.filled]="rating >= 4">&#9733;</span>
+    <span class="star" (click)="rateHotel(5)" [class.filled]="rating >= 5">&#9733;</span>
+  </div>
+</div>

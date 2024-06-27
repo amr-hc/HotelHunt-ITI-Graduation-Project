@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-verify-account',
@@ -11,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class VerifyAccountComponent {
    constructor(private route: ActivatedRoute
-    , private http: HttpClient) { }
+    , private http: HttpClient, private router:Router) { }
 
   ngOnInit(): void {
     // Extract parameters from the URL
@@ -36,10 +37,25 @@ export class VerifyAccountComponent {
   verifyAccount(url: string): void {
     this.http.get(url).subscribe(response => {
       console.log(response);
-      // Handle the response here
+      // Show SweetAlert on success
+      Swal.fire({
+        title: 'Email Verified!',
+        text: 'Your email has been successfully verified.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+      }).then(() => {
+        // Redirect to home page
+        this.router.navigate(['/home']);
+      });
     }, error => {
       console.error('Error verifying account:', error);
-      // Handle the error here
+      // Show error alert
+      Swal.fire({
+        title: 'Verification Failed',
+        text: 'There was an error verifying your account. Please try again later.',
+        icon: 'error',
+        confirmButtonText: 'OK'
+      });
     });
   }
 
