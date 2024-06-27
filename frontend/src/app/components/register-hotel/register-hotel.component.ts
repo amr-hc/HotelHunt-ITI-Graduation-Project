@@ -20,6 +20,7 @@ export class RegisterHotelComponent{
     // status: '',
     owner_id: '',
     description: '',
+    star_rating: 1,
   };
   registrationError: string | null = null;
 
@@ -48,5 +49,9 @@ export class RegisterHotelComponent{
         }
       }
     );
+  }
+  setRating(rating: number) {
+    this.hotelData.star_rating = rating;
+    // Optionally, you can update UI or perform other actions based on the selected rating
   }
 }
