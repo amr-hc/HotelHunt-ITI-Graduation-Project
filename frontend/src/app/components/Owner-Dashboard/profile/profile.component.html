@@ -1,0 +1,64 @@
+<div class="container mt-1" *ngIf="user; else loading">
+  <div class="card">
+    <div class="card-header text-center">
+      <h2>{{ user.fname }} {{ user.lname }}</h2>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <img src="http://127.0.0.1:8000/storage/{{ user.photo }}" alt="{{ user.fname }} {{ user.lname }}" class="rounded-circle mb-3" style="max-width: 280px; height: 100%;">
+        </div>
+        <div class="col-md-8">
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <th>ID</th>
+                <td>{{ user.id }}</td>
+              </tr>
+              <tr>
+                <th>First Name</th>
+                <td>{{ user.fname }}</td>
+              </tr>
+              <tr>
+                <th>Last Name</th>
+                <td>{{ user.lname }}</td>
+              </tr>
+              <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+              </tr>
+              <tr>
+                <th>Phone</th>
+                <td>{{ user.phone }}</td>
+              </tr>
+              <tr>
+                <th>Address</th>
+                <td>{{ user.address }}</td>
+              </tr>
+              <tr>
+                <th>Role</th>
+                <td>{{ user.role }}</td>
+              </tr>
+              <tr>
+                <th>Age</th>
+                <td>{{ user.age }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="text-center mt-4">
+            <button class="btn btn-primary" (click)="editProfile(user.id)">Edit Profile</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div *ngIf="isLoading" class="loading text-center mt-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading user details...</p>
+  </div>
+</ng-template>

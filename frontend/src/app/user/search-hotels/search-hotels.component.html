@@ -1,4 +1,96 @@
-<div class="search-bar bg-primary-subtle">
+<!-- <div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container">
+    <div class="bg-white shadow" style="padding: 35px;">
+      <div class="row g-2">
+        <div class="col-md-10">
+          <div class="row g-2">
+            <div class="col-md-3">
+              <div class="date" id="date1" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" placeholder="Check in" data-target="#date1"
+                  data-toggle="datetimepicker" />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <div class="date" id="date2" data-target-input="nearest">
+                <input type="text" class="form-control datetimepicker-input" placeholder="Check out"
+                  data-target="#date2" data-toggle="datetimepicker" />
+              </div>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select">
+                <option selected>Adult</option>
+                <option value="1">Adult 1</option>
+                <option value="2">Adult 2</option>
+                <option value="3">Adult 3</option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select class="form-select">
+                <option selected>Child</option>
+                <option value="1">Child 1</option>
+                <option value="2">Child 2</option>
+                <option value="3">Child 3</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-primary w-100">Submit</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->
+<!-- Booking End -->
+<!-- talaat 6am -->
+ <!-- <app-layout></app-layout> -->
+<div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container">
+    <div class="bg-white shadow p-4">
+      <form (ngSubmit)="onSearch()">
+        <div class="row g-2">
+          <div class="col-md-10">
+            <div class="row g-2">
+              <div class="col-md-3">
+                <label for="City" class="mx-2">City</label>
+                <input type="text" class="form-control styled-input" placeholder="City" [(ngModel)]="city" name="city" id="City" />
+              </div>
+              <div class="col-md-3">
+                <div class="date" id="date1" data-target-input="nearest">
+                  <label for="checkIn" class="mx-2">Check-in</label>
+                  <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-in Date" [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" data-target="#date1" data-toggle="datetimepicker" />
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="date" id="date2" data-target-input="nearest">
+                  <label for="checkOut" class="mx-2">Check-out</label>
+                  <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-out Date" [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" data-target="#date2" data-toggle="datetimepicker" />
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <label for="sort" class="mx-2">Sort By</label>
+                <select class="form-select styled-select" [(ngModel)]="sort" name="sort" id="sort">
+                  <option value="none">None</option>
+                  <option value="price">Price</option>
+                  <option value="name">Name</option>
+                  <option value="star_rating">Star Rating</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100 rounded-4 search-btn">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--  -->
+<!--  -->
+<!-- <div class="search-bar bg-primary-subtle">
   <form (ngSubmit)="onSearch()">
     <div class="search-bar-container">
       <div class="city">
@@ -13,12 +105,21 @@
         <input type="date" [(ngModel)]="checkoutDate" name="checkoutDate" placeholder="Check-out Date" id="checkOut"
           class="form-control" />
       </div>
+      <div class="sort-option">
+        <label for="sort">Sort by:</label>
+        <select [(ngModel)]="sort" name="sort" id="sort" class="form-control">
+          <option value="none">None</option>
+          <option value="price">Price</option>
+          <option value="name">Name</option>
+          <option value="star_rating">Star Rating</option>
+        </select>
+      </div>
       <div class="search-button">
         <button type="submit">Search</button>
       </div>
     </div>
   </form>
-</div>
+</div> -->
 
 <!-- Display grouped hotels -->
 <div class="results">
@@ -32,6 +133,17 @@
             style="max-width: 40%; max-height: 80%; object-fit: cover; margin-right: 20px;">
           <div class="card-body mx-3">
             <h5 class="card-title">{{ hotelGroup.hotel_name }}</h5>
+            <!-- <h6 >{{ hotelGroup.hotels[0].star_rating }}</h6> -->
+            <div class="star-rating">
+              <ng-container *ngIf="hotelGroup.hotels[0].star_rating > 1; else oneStar">
+                <span *ngFor="let star of [].constructor(hotelGroup.hotels[0].star_rating); let i = index">
+                  &#9733;
+                </span>
+              </ng-container>
+              <ng-template #oneStar>
+                <span>&#9733;</span>
+              </ng-template>
+            </div>
             <div *ngIf="hotelGroup.roomsAvailable >= 1">
               <p>{{ hotelGroup.roomsAvailable }} rooms available</p>
             </div>

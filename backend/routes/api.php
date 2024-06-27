@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\HotelImagesController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\api\SocialiteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -53,7 +54,7 @@ Route::post('/login', function (Request $request) {
 
     if (! $user || ! Hash::check($request->password, $user->password)) {
         throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
+            'email' => ['Invalid Email Or Password'],
         ]);
     }
     // return ["user" => $user, "token" => $user->createToken($request->device_name)->plainTextToken];
@@ -84,6 +85,10 @@ Route::resource('payments', PaymentController::class);
 Route::resource('booking', BookingController::class);
 Route::put('booking/{id}/status',[BookingController::class , 'updateStatus']);
 Route::get('booking/user-bookings/{user_id}',[BookingController::class,'getUserBookings']);
+Route::get('/booking/hotel/{hotel_id}', [BookingController::class, 'getHotelBookings']);
+Route::get('/booking/owner/{owner_id}', [BookingController::class, 'getOwnerHotelBookings']);
+
+
 
 Route::prefix('hotels')->group(function () {
     Route::get('{hotel}/images', [HotelImagesController::class, 'index']); // List images
@@ -93,3 +98,21 @@ Route::prefix('hotels')->group(function () {
     Route::delete('images/{image}', [HotelImagesController::class, 'destroy']); // Delete image
 });
 
+
+
+Route::post('/forgot',[usersController::class, 'forgotPassword'] )->middleware('guest')->name('password.email');
+
+
+Route::post('/reset-password',[usersController::class, 'passwordUpdate'] )->middleware('guest')->name('password.update');
+ 
+
+Route::get('/verify/{id}/{hash}', [usersController::class, 'emailConfirmVerification'])->middleware(['auth'])->name('verification.verify');
+
+
+Route::post('/re-verify', [usersController::class, 'sendEmailVerification'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+ 
+
+Route::get('/auth/google', [SocialiteController::class, 'redirectToGoogle']);
+
+Route::get('/auth/google/callback', [SocialiteController::class, 'loginGoogle']);

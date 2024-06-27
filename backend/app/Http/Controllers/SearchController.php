@@ -22,7 +22,7 @@ class SearchController extends Controller
 
 
 
-        $availableRooms = RoomType::select('roomtypes.id','roomtypes.name','roomtypes.price', 'roomtypes.hotel_id','hotels.name as hotel_name','hotels.photo')
+        $availableRooms = RoomType::select('roomtypes.id','roomtypes.name','roomtypes.price', 'roomtypes.hotel_id','hotels.name as hotel_name','hotels.photo','hotels.star_rating')
         ->join('availabilities', 'roomtypes.id', '=', 'availabilities.room_type_id')
         ->join('hotels', 'roomtypes.hotel_id', '=', 'hotels.id')
         ->where('availabilities.stock', '>', 0)
@@ -30,10 +30,50 @@ class SearchController extends Controller
         ->where('hotels.city', $city)
         ->groupBy('roomtypes.id', 'roomtypes.hotel_id','roomtypes.name','roomtypes.price','hotels.name','hotels.photo')
         ->havingRaw('COUNT(*) > DATEDIFF(?, ?)', [$end_date, $start_date])
-        ->orderBy('roomtypes.hotel_id')
-        ->orderBy('roomtypes.price')
+        // ->orderBy('roomtypes.hotel_id')
+        // ->orderBy('roomtypes.price')
         ->paginate(10);
 
+        if ($request->sort=="price"){
+        $availableRooms = RoomType::select('roomtypes.id','roomtypes.name','roomtypes.price', 'roomtypes.hotel_id','hotels.name as hotel_name','hotels.photo','hotels.star_rating')
+        ->join('availabilities', 'roomtypes.id', '=', 'availabilities.room_type_id')
+        ->join('hotels', 'roomtypes.hotel_id', '=', 'hotels.id')
+        ->where('availabilities.stock', '>', 0)
+        ->whereBetween('availabilities.date', [$start_date, $end_date])
+        ->where('hotels.city', $city)
+        ->groupBy('roomtypes.id', 'roomtypes.hotel_id','roomtypes.name','roomtypes.price','hotels.name','hotels.photo')
+        ->havingRaw('COUNT(*) > DATEDIFF(?, ?)', [$end_date, $start_date])
+        // ->orderBy('roomtypes.hotel_id')
+        ->orderBy('roomtypes.price')
+        ->paginate(10);
+        }
+
+        if ($request->sort=="name"){
+        $availableRooms = RoomType::select('roomtypes.id','roomtypes.name','roomtypes.price', 'roomtypes.hotel_id','hotels.name as hotel_name','hotels.photo','hotels.star_rating')
+        ->join('availabilities', 'roomtypes.id', '=', 'availabilities.room_type_id')
+        ->join('hotels', 'roomtypes.hotel_id', '=', 'hotels.id')
+        ->where('availabilities.stock', '>', 0)
+        ->whereBetween('availabilities.date', [$start_date, $end_date])
+        ->where('hotels.city', $city)
+        ->groupBy('roomtypes.id', 'roomtypes.hotel_id','roomtypes.name','roomtypes.price','hotels.name','hotels.photo')
+        ->havingRaw('COUNT(*) > DATEDIFF(?, ?)', [$end_date, $start_date])
+        // ->orderBy('roomtypes.hotel_id')
+        ->orderBy('hotels.name')
+        ->paginate(10);
+        }
+        if ($request->sort=="star_rating"){
+        $availableRooms = RoomType::select('roomtypes.id','roomtypes.name','roomtypes.price', 'roomtypes.hotel_id','hotels.name as hotel_name','hotels.photo','hotels.star_rating')
+        ->join('availabilities', 'roomtypes.id', '=', 'availabilities.room_type_id')
+        ->join('hotels', 'roomtypes.hotel_id', '=', 'hotels.id')
+        ->where('availabilities.stock', '>', 0)
+        ->whereBetween('availabilities.date', [$start_date, $end_date])
+        ->where('hotels.city', $city)
+        ->groupBy('roomtypes.id', 'roomtypes.hotel_id','roomtypes.name','roomtypes.price','hotels.name','hotels.photo')
+        ->havingRaw('COUNT(*) > DATEDIFF(?, ?)', [$end_date, $start_date])
+        // ->orderBy('roomtypes.hotel_id')
+        ->orderBy('hotels.star_rating', 'desc')
+        ->paginate(10);
+        }
         return $availableRooms;
 
         // return AvailabilityResource::collection($availableRoom);

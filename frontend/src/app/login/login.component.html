@@ -1,23 +1,40 @@
 <div class="background-blur">
   <div class="container">
     <div class="form-container">
-      <div class="form-header text-center">
-        <h4>Login</h4>
+      <div class="form-header text-center text-white">
+        <h4 class="text-primary">Login</h4>
       </div>
       <div *ngIf="loginError" class="alert alert-danger mt-3">
         {{ loginError }}
       </div>
-      <form (ngSubmit)="onLogin()">
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
         <div class="form-group">
-          <label for="email">Email</label>
-          <input type="email" [(ngModel)]="credentials.email" name="email" class="form-control" placeholder="Email" required>
+          <!-- <label for="email" class="text-dark">Email</label> -->
+          <input id="email" type="email" formControlName="email" class="form-control" placeholder="Email">
+          <div *ngIf="email?.invalid && (email?.dirty || email?.touched)" class="text-danger">
+            <div *ngIf="email?.errors?.['required']">Email is required.</div>
+            <div *ngIf="email?.errors?.['email']">Invalid email address.</div>
+          </div>
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" [(ngModel)]="credentials.password" name="password" class="form-control" placeholder="Password" required>
+          <!-- <label for="password" class="text-dark">Password</label> -->
+          <input id="password" type="password" formControlName="password" class="form-control" placeholder="Password">
+          <div *ngIf="password?.invalid && (password?.dirty || password?.touched)" class="text-danger">
+            <div *ngIf="password?.errors?.['required']">Password is required.</div>
+            <div *ngIf="password?.errors?.['minlength']">Password must be at least 6 characters long.</div>
+          </div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Login</button>
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid">Login</button>
       </form>
+      <div class="text-center pb-3">
+        <a class="w-100 text-decoration-underline" (click)="navigateToRegister()">Don't have an account? Register</a>
+      </div>
+      <div class="container mt-4">
+        <button class="btn btn-primary btn-block" (click)="loginWithGoogle()">Login with Google</button>
+      </div>
+    </div>
+    <div class="text-center">
+      <button class="btn btn-outline-info my-2" routerLink="/reset">Forget Password</button>
     </div>
   </div>
 </div>

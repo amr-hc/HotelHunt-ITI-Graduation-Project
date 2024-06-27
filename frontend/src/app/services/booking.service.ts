@@ -44,4 +44,15 @@ export class BookingService {
       })
     );
   }
+  getHotelBookings(hotelId: number): Observable<Booking[]> {
+    return this.http.get<{data: Booking[]}>(`${this.apiUrl}hotel/${hotelId}`).pipe(
+      map(response => response.data)
+    );
+  }
+
+  getOwnerHotelBookings(ownerId: number): Observable<Booking[]> {
+    return this.http.get<{data: Booking[]}>(`${this.apiUrl}owner/${ownerId}`).pipe(
+      map(response => response.data)
+    );
+  }
 }

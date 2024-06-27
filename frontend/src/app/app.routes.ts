@@ -22,6 +22,10 @@ import { EditProfileComponent } from './user/edit-profile/edit-profile.component
 import { HotelOwnerComponent } from './components/Owner-Dashboard/hotel-owner/hotel-owner.component';
 import { HotelEditComponent } from './components/Owner-Dashboard/hotel-owner/hotel-edit/hotel-edit.component';
 import { SidebarComponent } from './components/Owner-Dashboard/sidebar/sidebar.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ActivatedComponent } from './login/activated/activated.component';
+import { VerifyAccountComponent } from './verify-account/verify-account.component';
 
 
 
@@ -32,16 +36,20 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {path: 'register', component: RegisterComponent },
-  // { path: 'availability/:id', component: AvailabilityComponent},
+  { path: 'availability/:id', component: AvailabilityComponent},
   {path: 'register/hotel',component: RegisterHotelComponent },
   { path: 'search', component: SearchHotelsComponent },
   { path: 'hotel/:id' , component: HotelComponent},
   { path: 'login', component: LoginComponent },
-  // {path : "list" , component : ListComponent},
+  {path: 'reset', component: ResetPasswordComponent},
+  {path: 'forget-password', component:ForgetPasswordComponent},
+  {path: 'verify/:id/:token',component:VerifyAccountComponent},
+  {path : "list" , component : ListComponent},
   {path : "show/:id" , component : ShowComponent },
   {path : "add" , component : AddComponent },
   {path : "update/:id" , component : UpdateComponent },
   {path : "user/profile/edit" , component : EditProfileComponent },
+  {path : "login/google" , component : ActivatedComponent },
 
   { path:'admin-dashboard',     loadChildren: () =>
     import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},

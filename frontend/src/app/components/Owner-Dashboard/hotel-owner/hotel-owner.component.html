@@ -1,27 +1,33 @@
 <div class="hotel-owner-container">
   <h2>Hotels for Owner</h2>
-  <div *ngFor="let hotel of hotels" class="hotel-card">
-    <div class="hotel-header">
-      <h3>{{ hotel.name }}</h3>
-      <p><strong>City:</strong> {{ hotel.city }}</p>
-      <p><strong>Address:</strong> {{ hotel.address }}</p>
-      <p><strong>Status:</strong> {{ hotel.status }}</p>
-      <p><strong>Star Rating:</strong> {{ hotel.star_rating }}</p>
-      <p><strong>Balance:</strong> {{ hotel.balance | currency:'USD':'symbol-narrow' }}</p>
-      <p><strong>Description:</strong> {{ hotel.description }}</p>
-      <button class="btn btn-outline-secondary mx-1" [routerLink]="['/owner/hotel', hotel.id]">Update</button>
-      <button class="btn btn-outline-success mx-1" [routerLink]="['/owner/hotel', hotel.id, 'addImage']">Add Image</button>
 
-    </div>
-
-    <div *ngIf="ownerImages[hotel.id]" class="hotel-images">
-      <h4>Images:</h4>
-      <div class="image-grid">
-        <div *ngFor="let image of ownerImages[hotel.id]" class="image-item">
-          <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image" />
-          <button class="btn btn-danger my-2" (click)="onDeleteImage(image.id)">Delete</button>
-        </div>
-      </div>
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading...</span>
     </div>
   </div>
-</div>
+
+  <!-- Hotels List -->
+  <ng-container *ngIf="!isLoading">
+    <div *ngFor="let hotel of hotels" class="hotel-card">
+      <div class="hotel-header">
+        <h3 class="text-primary">{{ hotel.name }}</h3>
+        <p><strong>City:</strong> {{ hotel.city }}</p>
+        <p><strong>Address:</strong> {{ hotel.address }}</p>
+        <p><strong>Status:</strong> {{ hotel.status }}</p>
+        <p><strong>Star Rating:</strong> {{ hotel.star_rating }}</p>
+        <p><strong>Balance:</strong> {{ hotel.balance | currency:'USD':'symbol-narrow' }}</p>
+        <p><strong>Description:</strong> {{ hotel.description }}</p>
+        <button class="btn btn-secondary mx-1" [routerLink]="['/owner/hotel', hotel.id]">Update</button>
+        <button class="btn btn-success mx-1" [routerLink]="['/owner/hotel', hotel.id, 'addImage']">Add
+          Image</button>
+      </div>
+
+      <div *ngIf="ownerImages[hotel.id]" class="hotel-images">
+        <h4>Images:</h4>
+        <div class="image-grid">
+          <div *ngFor="let image of ownerImages[hotel.id]" class="image-item">
+            <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image" />
+            <button class="btn btn-danger my-2" (click)="onDeleteImage(image.id)">Delete</button>
+          </div>

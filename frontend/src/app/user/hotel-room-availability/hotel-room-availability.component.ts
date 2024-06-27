@@ -82,7 +82,7 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   }
 
   loadRating() {
-    this.ratingSubscription = this.ratingService.getUserRating(8).subscribe(
+    this.ratingSubscription = this.ratingService.getUserRating(4).subscribe(
       (rating: Rating) => {
         if (rating && rating.hotel_id === this.hotel_id) {
           this.rating = rating.rate;

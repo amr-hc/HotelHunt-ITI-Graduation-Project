@@ -62,4 +62,9 @@ export class RegisterComponent {
   checkPasswordMismatch() {
     this.passwordMismatch = this.userData.password !== this.userData.password_confirmation;
   }
+
+  navigateTologin(){
+    this.router.navigate(['/login']); 
+
+  }
 }
