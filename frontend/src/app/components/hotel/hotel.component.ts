@@ -6,11 +6,12 @@ import { ActivatedRoute } from '@angular/router';
 import { HotelRoomAvailabilityComponent } from '../../user/hotel-room-availability/hotel-room-availability.component';
 import { HotelImage } from '../../models/hotelImage';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from '../../layouts/header/header.component';
 
 @Component({
   selector: 'app-hotel',
   standalone: true,
-  imports: [HotelRoomAvailabilityComponent,CommonModule],
+  imports: [HotelRoomAvailabilityComponent,CommonModule,HeaderComponent],
   templateUrl: './hotel.component.html',
   styleUrl: './hotel.component.css'
   // encapsulation: ViewEncapsulation.Emulated

@@ -13,5 +13,7 @@ export class Hotel {
     public average_rate: number,
     public description: string,
     public owner_name?: string,
+   
+    
   ){}
 }

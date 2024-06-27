@@ -36,17 +36,17 @@
   }
   
   .about-us-images {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    /* display: grid;
+    grid-template-columns: repeat(1, 1fr);
     grid-template-rows: auto;
     gap: 1rem;
     flex: 1;
     max-width: 50%;
-    position: relative;
+    position: relative; */
   }
   
   .about-us-images img {
-    /* width: 100%; */
+    max-width: 100%;
     height: auto;
     border-radius: 10px;
   }
@@ -55,9 +55,11 @@
   }
   .img3{
     width:50%;
-    /* position: absolute;
-    right: 0; */
   }
   .img4{
     width:75%;
+  }
+
+  figure {
+    margin-right: 1rem !important;
   }
