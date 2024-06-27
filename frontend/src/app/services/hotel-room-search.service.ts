@@ -10,7 +10,7 @@ export class HotelRoomSearchService {
   private apiUrl = 'http://127.0.0.1:8000/api/search/hotel';
 
   constructor(private http: HttpClient) { }
-  getAllHotelRooms(searchedHotelRoom: { hotel_id: number|undefined; start_date: string; end_date: string; }): Observable<HotelRoomSearch[]> {
+  getAllHotelRooms(searchedHotelRoom: { hotel_id: number|null; start_date: string; end_date: string; }): Observable<HotelRoomSearch[]> {
     return this.http.post<HotelRoomSearch[]>(this.apiUrl, searchedHotelRoom);
 
   }
