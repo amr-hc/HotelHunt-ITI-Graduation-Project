@@ -86,3 +86,13 @@
 .text-center a {
   cursor: pointer;
 }
+
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-google i {
+  margin-right: 10px; /* Adjust as needed */
+}

@@ -1,7 +1,43 @@
-<p>hotel-room-availability works!</p>
-<p>{{ hotel_id }}</p>
+<!-- <p>hotel-room-availability works!</p> -->
+<!-- <p>{{ hotel_id }}</p> -->
+<!--  -->
+<div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container">
+    <div class="bg-white shadow p-4">
+      <form (ngSubmit)="onSearch()">
+        <div class="row g-2">
+          <div class="col-md-10">
+            <div class="row g-2">
+              <div class="col-md-5">
+                <div class="date" id="date1" data-target-input="nearest">
+                  <label for="checkIn" class="form-label styled-label mx-2">Check-in</label>
+                  <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-in Date"
+                    [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" data-target="#date1"
+                    data-toggle="datetimepicker" />
+                </div>
+              </div>
+              <div class="col-md-5">
+                <div class="date" id="date2" data-target-input="nearest">
+                  <label for="checkOut" class="form-label styled-label mx-2">Check-out</label>
+                  <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-out Date"
+                    [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" data-target="#date2"
+                    data-toggle="datetimepicker" />
+                </div>
+              </div>
 
-<div class="search-bar bg-primary-subtle w-75 mx-auto rounded-5">
+            </div>
+          </div>
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100 rounded-4 search-btn">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- old -->
+<!-- <div class="search-bar bg-primary-subtle w-75 mx-auto rounded-5">
   <form (ngSubmit)="onSearch()">
     <div class="search-bar-container">
       <div class="date-range">
@@ -19,56 +55,58 @@
       </div>
     </div>
   </form>
-</div>
+</div> -->
 
 <!-- Display hotel rooms -->
-<div *ngIf="rooms.length > 0" class="room-list">
-  <h3 class="mb-3 text-center">Available Rooms</h3>
-  <table class="table table-striped mx-auto">
-    <thead class="table-info">
-      <tr>
-        <th>Room Type</th>
-        <th>Description</th>
-        <th>Price</th>
-        <th>Rooms Available</th>
-        <th>Select Rooms</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let room of rooms">
-        <td>{{ room.name }}</td>
-        <td>{{ room.description }}</td>
-        <td>{{ room.price | currency:'USD':'symbol':'1.2-2' }}</td>
-        <td>{{ room.stock }}</td>
-        <td>
-          <select class="form-control" id="select-room-{{ room.id }}" (change)="onRoomSelectionChange(room.id, $event)">
-            <option *ngFor="let i of getRoomOptions(room.stock)" [value]="i">{{ i }}</option>
-          </select>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="text-center">
-    <button class="btn btn-primary my-4" (click)="onReserve()">Reserve</button>
+<div class="container">
+  <div *ngIf="rooms.length > 0" class="room-list">
+    <h3 class="mb-3 text-center">Available Rooms</h3>
+    <table class="table table-striped col-md-10">
+      <thead class="table-primary">
+        <tr>
+          <th>Room Type</th>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Rooms Available</th>
+          <th>Select Rooms</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let room of rooms">
+          <td>{{ room.name }}</td>
+          <td>{{ room.description }}</td>
+          <td>{{ room.price | currency:'USD':'symbol':'1.2-2' }}</td>
+          <td>{{ room.stock }}</td>
+          <td>
+            <select class="form-control" id="select-room-{{ room.id }}" (change)="onRoomSelectionChange(room.id, $event)">
+              <option *ngFor="let i of getRoomOptions(room.stock)" [value]="i">{{ i }}</option>
+            </select>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="text-center">
+      <button class="btn btn-primary my-4 rounded-5" (click)="onReserve()">Reserve</button>
+    </div>
   </div>
 </div>
 
 <div *ngIf="rooms.length === 0" class="alert alert-warning mx-auto w-50 rounded-5">
-  <p class="text-center">No rooms available for the selected dates.</p>
+  <p class="text-center fs-3 bg-primary rounded-5">No rooms available for the selected dates.</p>
 </div>
 
 <!-- Comments Section -->
 <div class="comments-section mt-5">
   <h3 class="mb-3">Comments</h3>
   <ul class="list-group">
-    <li *ngFor="let comment of comments" class="list-group-item">
+    <li *ngFor="let comment of comments" class="list-group-item bg-primary-subtle mb-2">
       <p>{{ comment.content }}</p>
-      <small>By User {{ comment.user_name }} on {{ comment.created_at | date:'medium' }}</small>
+      <small class="text-muted">By {{ comment.user_name }} on {{ comment.created_at | date:'medium' }}</small>
     </li>
   </ul>
   <div class="mt-3">
-    <textarea [(ngModel)]="userComment" class="form-control" placeholder="Add a comment"></textarea>
-    <button class="btn btn-primary mt-2" (click)="addComment()">Submit Comment</button>
+    <textarea [(ngModel)]="userComment" class="form-control bg-secondary-subtle" placeholder="Add a comment"></textarea>
+    <button class="btn btn-primary mt-2 rounded-5" (click)="addComment()">Submit Comment</button>
   </div>
 </div>
 

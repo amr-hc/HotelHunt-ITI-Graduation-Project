@@ -6,11 +6,14 @@ export class Hotel {
     public name: string,
     public address: string,
     public country: string,
+    public image: string,
     public city: string,
     public status: 'active' | 'inactive' | 'suspend',
     public star_rating: number,
     public average_rate: number,
     public description: string,
     public owner_name?: string,
+   
+    
   ){}
 }

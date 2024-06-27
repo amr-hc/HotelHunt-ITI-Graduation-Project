@@ -63,6 +63,10 @@ class User extends Authenticatable implements CanResetPassword,MustVerifyEmail
         return $this->hasOne(Rate::class);
     }
 
+    function rates(){
+        return $this->belongsToMany(Hotel::class,'rates','user_id', 'hotel_id')->withPivot('rate');
+    }
+
 
     //
     public function bookings()

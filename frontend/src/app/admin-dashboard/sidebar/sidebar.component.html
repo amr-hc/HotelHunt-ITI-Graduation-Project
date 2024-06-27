@@ -1,5 +1,5 @@
-<nav class="nav flex-column">
-  <a class="nav-link active" routerLink="/admin-dashboard"><strong>Dashboard</strong></a>
+<nav class="nav flex-column bg-dark">
+  <a class="nav-link active" routerLink="/admin-dashboard"><i class="fa-solid fa-gear"></i><strong>  Dashboard</strong></a>
   <div class="nav-item">
     <a class="nav-link" (click)="toggleUsersAccordion()">
       Users <i class="fas fa-caret-down"></i>
@@ -40,4 +40,5 @@
 
   <a class="nav-link" routerLink="bookings">Bookings</a>
   <a class="nav-link" routerLink="profile">Profile</a>
+  <a *ngIf="authService.isLoggedIn()" (click)="logout()" class="nav-item nav-link text-danger fw-bold">Logout</a>
 </nav>

@@ -10,12 +10,13 @@ import { FormsModule } from '@angular/forms';
 import { BookingService } from '../../services/booking.service';
 import { Booking } from '../../models/booking'; // Import your adjusted Booking model
 import { NgxPaginationModule } from 'ngx-pagination';
+import { HeaderComponent } from '../../layouts/header/header.component';
 
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule,FormsModule,NgxPaginationModule],
+  imports: [CommonModule,FormsModule,NgxPaginationModule,HeaderComponent],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
@@ -50,8 +51,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       );
 
       this.bookingsSub = this.bookingService.getUserBookings(this.userid).subscribe(
-        (response: Booking[]) => {
-          this.bookings = response;
+        (response: any) => {
+          this.bookings = response.data;
           console.log("Booking data:", this.bookings);
         },
         (error) => {

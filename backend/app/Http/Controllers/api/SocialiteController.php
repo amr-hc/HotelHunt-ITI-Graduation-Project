@@ -11,11 +11,12 @@ use App\Http\Controllers\Controller;
 class SocialiteController extends Controller
 {
     public function redirectToGoogle(){
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('google')->stateless()->redirect();
     }
 
     public function loginGoogle(){
-        $user = Socialite::driver('google')->user();
+        
+        $user = Socialite::driver('google')->stateless()->user();
 
         $user = User::where('email', $user->email)->first();
 

@@ -178,7 +178,7 @@ class BookingController extends Controller
         if ($bookings->isEmpty()) {
             return response()->json(['message' => 'No bookings found for this user.'], 404);
         }
-        return $bookings;
+        return BookingResource::collection($bookings);
     } catch (\Exception $e) {
         Log::error('Failed to fetch user bookings: ' . $e->getMessage());
         return response()->json(['error' => 'Failed to fetch user bookings.'], 500);

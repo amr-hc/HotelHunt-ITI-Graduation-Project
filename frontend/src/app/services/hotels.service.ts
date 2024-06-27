@@ -10,7 +10,11 @@ export class HotelsService {
 
   constructor(private http: HttpClient) { }
 
-  registerHotel(hotelData:any):Observable<any>{
-    return this.http.post(this.apiUrl,hotelData);
+  // registerHotel(hotelData:any):Observable<any>{
+  //   return this.http.post(this.apiUrl,hotelData);
+  // }
+
+  registerHotel(hotelData: FormData): Observable<any> {
+    return this.http.post(this.apiUrl, hotelData);
   }
 }

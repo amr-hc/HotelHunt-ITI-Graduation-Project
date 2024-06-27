@@ -3,7 +3,7 @@
   <div *ngIf="hotel">
     <h2 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline fst-italic">{{ hotel.name }} Details</h2>
     <div class="card shadow-sm">
-      <div class="card-header bg-primary text-white">
+      <div class="card-header bg-dark text-white">
         <h5 class="card-title mb-0">{{ hotel.name }}</h5>
       </div>
       <div class="card-body">
@@ -30,13 +30,13 @@
           </div>
           <div class="col-md-6">
             <p>
-              <strong>Status:</strong>
+              <strong>Status: </strong>
               <span
                 class="badge"
                 [ngClass]="{
                   'bg-success': hotel.status === 'active',
-                  'bg-secondary': hotel.status === 'inactive',
-                  'bg-warning': hotel.status === 'suspend'
+                  'bg-danger': hotel.status === 'inactive',
+                  'bg-info': hotel.status === 'suspend'
                 }"
               >
                 {{ hotel.status }}
@@ -58,7 +58,7 @@
           <div class="col-md-6">
             <p>
               <strong>Star Rating:</strong>
-              <span class="text-warning">
+              <span class="text-primary">
                 <ng-container
                   *ngFor="let star of [].constructor(hotel.star_rating); let i = index"
                 >

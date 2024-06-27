@@ -26,6 +26,8 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { ActivatedComponent } from './login/activated/activated.component';
 import { VerifyAccountComponent } from './verify-account/verify-account.component';
+import { HotellistComponent } from './components/hotellist/hotellist.component';
+
 
 
 export const routes: Routes = [
@@ -62,11 +64,8 @@ export const routes: Routes = [
   { path:'admin-dashboard',     loadChildren: () =>
     import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},
     {path: 'owner', loadChildren:()=>import("./components/Owner-Dashboard/owner.routes").then(o=>o.ownerRoutes)},
-
-
-
-
-
+  
+  {path : "hotelList" , component : HotellistComponent},
 
   //  {path:'owner', component:SidebarComponent},
   //  {path:'owner/booking' , component: BookingComponent},
