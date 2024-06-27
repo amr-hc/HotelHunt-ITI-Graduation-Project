@@ -95,29 +95,5 @@
   <p class="text-center fs-3 bg-primary rounded-5">No rooms available for the selected dates.</p>
 </div>
 
-<!-- Comments Section -->
-<div class="comments-section mt-5">
-  <h3 class="mb-3">Comments</h3>
-  <ul class="list-group">
-    <li *ngFor="let comment of comments" class="list-group-item bg-primary-subtle mb-2">
-      <p>{{ comment.content }}</p>
-      <small class="text-muted">By {{ comment.user_name }} on {{ comment.created_at | date:'medium' }}</small>
-    </li>
-  </ul>
-  <div class="mt-3">
-    <textarea [(ngModel)]="userComment" class="form-control bg-secondary-subtle" placeholder="Add a comment"></textarea>
-    <button class="btn btn-primary mt-2 rounded-5" (click)="addComment()">Submit Comment</button>
-  </div>
-</div>
 
-<!-- Rate Hotel Section -->
-<div class="rating-section mt-5">
-  <h3 class="mb-3">Rate this Hotel</h3>
-  <div class="star-rating">
-    <span class="star" (click)="rateHotel(1)" [class.filled]="rating >= 1">&#9733;</span>
-    <span class="star" (click)="rateHotel(2)" [class.filled]="rating >= 2">&#9733;</span>
-    <span class="star" (click)="rateHotel(3)" [class.filled]="rating >= 3">&#9733;</span>
-    <span class="star" (click)="rateHotel(4)" [class.filled]="rating >= 4">&#9733;</span>
-    <span class="star" (click)="rateHotel(5)" [class.filled]="rating >= 5">&#9733;</span>
-  </div>
-</div>
+
