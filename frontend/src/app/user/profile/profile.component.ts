@@ -51,8 +51,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       );
 
       this.bookingsSub = this.bookingService.getUserBookings(this.userid).subscribe(
-        (response: Booking[]) => {
-          this.bookings = response;
+        (response: any) => {
+          this.bookings = response.data;
           console.log("Booking data:", this.bookings);
         },
         (error) => {
