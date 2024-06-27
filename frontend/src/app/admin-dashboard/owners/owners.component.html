@@ -12,11 +12,11 @@
   </div>
 
   <div *ngIf="!isLoading && owners.length > 0">
-    <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline fst-italic">Hotel Owners</h1>
+    <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline">Hotel Owners</h1>
     <table class="table table-striped table-bordered text-center">
-      <thead class="table-dark">
-        <tr>
-          <th>ID</th>
+      <thead class="table-dark ">
+        <tr >
+          <th >ID</th>
           <th>Image</th>
           <th>First Name</th>
           <th>Email</th>
@@ -34,7 +34,7 @@
           <td>{{ owner.email }}</td>
           <td>{{ owner.role }}</td>
           <td>
-            <button class="btn btn-info btn-sm" (click)="viewUser(owner.id)">View</button>
+            <button class="btn btn-primary btn-sm" (click)="viewUser(owner.id)">View</button>
             <button class="btn btn-danger btn-sm ms-1" (click)="confirmDelete(owner.id)">Delete</button>
           </td>
         </tr>

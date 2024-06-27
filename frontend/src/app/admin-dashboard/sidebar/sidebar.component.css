@@ -10,19 +10,18 @@
 .nav-link {
   cursor: pointer;
   color: white;
-  background-color: #3B71CA;
 }
 
 .users-link,
 .nav-link:hover {
-  color: black;
+  color: #FEA116;
 }
 
+
 .nav-link.menu{
-  background-color: white;
-  color: #3B71CA;
+  color: #0F172B;
 }
 
 .nav-link.menu:hover {
-  color: black;
+  color: #FEA116;
 }

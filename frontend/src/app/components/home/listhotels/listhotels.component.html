@@ -19,11 +19,11 @@
       <h6 class="section-title text-center text-primary text-uppercase">Top Star Hotels</h6>
       <h1 class="mb-5">Explore Top <span class="text-primary text-uppercase">Hotels</span></h1>
     </div>
-    <div class="row g-4">
+    <div class="row g-4 d-flex justify-content-center">
       <div *ngFor="let hotel of topRatedHotels | paginate : { itemsPerPage: 3, currentPage: currentPage }" class="col-lg-4 col-md-6 mb-4">
         <div class="room-item shadow rounded overflow-hidden h-100">
           <div class="position-relative">
-            <img class="img-fluid w-100" src="../../../../assets/about/about-1.jpg" alt="{{ hotel.name }}">
+            <img class="img-fluid w-100" src="http://127.0.0.1:8000/storage/{{hotel.image}}" alt="{{ hotel.name }}">
             <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">{{ hotel.city }}</small>
           </div>
           <div class="p-4">

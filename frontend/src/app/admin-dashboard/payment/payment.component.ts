@@ -22,7 +22,7 @@ export class PaymentComponent {
     this.isLoading = true;
     this.paymentService.getAllPayments().subscribe(
       (response: any) => {
-        this.payments = response.data;
+        this.payments = response.data.sort((a: Payment, b: Payment) => new Date(b.date).getTime() - new Date(a.date).getTime());
         this.isLoading = false;
       },
       (error) => {

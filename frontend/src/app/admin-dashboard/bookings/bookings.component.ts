@@ -5,13 +5,14 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 
 @Component({
   selector: 'app-bookings',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterLink],
+  imports: [CommonModule,FormsModule,RouterLink,NgxPaginationModule],
   templateUrl: './bookings.component.html',
   styleUrl: './bookings.component.css'
 })
@@ -23,6 +24,7 @@ export class BookingsComponent implements OnInit , OnDestroy {
   sub: Subscription | null = null;
   isLoading: boolean = false;
   errorMessage: string = '';
+  currentPage: number =1;
 
   constructor(public activatedRoute: ActivatedRoute, public bookingService: BookingService) {}
 
