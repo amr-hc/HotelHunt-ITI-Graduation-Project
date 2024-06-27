@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { Rating, UserRating } from '../models/rating';
+import { Rating, RatingByuser, UserRating } from '../models/rating';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +19,9 @@ export class RatingService {
   }
   updateUserRating(hotel_id: number|null, userRating: UserRating): Observable<any> {
     return this.http.put<any>(this.apiUrl+hotel_id, userRating);
+  }
+  createOrUpdateUserRating(rating: RatingByuser): Observable<any> {
+    return this.http.post<any>(this.apiUrl+'create/hotel/', rating);
   }
   getRatingforLoginUser(hotel_id: number|null): Observable<Rating> {
     return this.http.get<Rating>(this.apiUrl + 'hotel/mine/'+ hotel_id);
