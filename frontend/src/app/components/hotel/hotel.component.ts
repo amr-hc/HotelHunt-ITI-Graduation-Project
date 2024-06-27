@@ -1,5 +1,5 @@
 import { HotelService } from './../../services/hotel.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Hotel } from '../../models/hotel';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
@@ -13,9 +13,10 @@ import { CommonModule } from '@angular/common';
   imports: [HotelRoomAvailabilityComponent,CommonModule],
   templateUrl: './hotel.component.html',
   styleUrl: './hotel.component.css'
+  // encapsulation: ViewEncapsulation.Emulated
 })
 export class HotelComponent implements OnInit, OnDestroy{
-  hotel:Hotel | null = null ;
+  hotel:Hotel | null = null; ;
   sub: Subscription | null = null;
   images: HotelImage[] = [];
   id: number = 0;
