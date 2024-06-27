@@ -72,7 +72,6 @@ Route::get('roomtype/owner', [RoomtypesController::class, 'owner']);
 Route::resource('roomtype', RoomtypesController::class);
 Route::resource('availability', AvailabilityController::class);
 Route::get('availability/room/{room}', [AvailabilityController::class, 'specificRoom']);
-Route::resource('rates', RateController::class);
 Route::resource('bookdetails',BookDetailsController::class);
 Route::apiResource('comments', CommentController::class);
 
@@ -116,3 +115,10 @@ Route::post('/re-verify', [usersController::class, 'sendEmailVerification'])->mi
 Route::get('/auth/google', [SocialiteController::class, 'redirectToGoogle']);
 
 Route::get('/auth/google/callback', [SocialiteController::class, 'loginGoogle']);
+
+
+Route::GET('rates/user/{user}',[RateController::class,'RateByUser']);
+Route::GET('rates/hotel/{hotel}',[RateController::class,'RateByHotel']);
+Route::GET('rates/hotel/mine/{hotel}',[RateController::class,'RateByHotelforlogin']);
+Route::GET('rates/{hotel}/{user}',[RateController::class,'RateByUserHotel']);
+Route::resource('rates', RateController::class);

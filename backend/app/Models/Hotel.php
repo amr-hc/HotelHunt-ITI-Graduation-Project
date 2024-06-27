@@ -27,7 +27,7 @@ class Hotel extends Model
     }
 
     function rates(){
-        return $this->hasMany(Rate::class);
+        return $this->belongsToMany(User::class,'rates','hotel_id', 'user_id')->withPivot('rate');
     }
 
     public function getAverageRateAttribute()
