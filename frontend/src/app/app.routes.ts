@@ -65,7 +65,7 @@ export const routes: Routes = [
     import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},
     {path: 'owner', loadChildren:()=>import("./components/Owner-Dashboard/owner.routes").then(o=>o.ownerRoutes)},
   
-    {path : "hotelList" , component : HotellistComponent},
+  {path : "hotelList" , component : HotellistComponent},
 
   //  {path:'owner', component:SidebarComponent},
   //  {path:'owner/booking' , component: BookingComponent},
