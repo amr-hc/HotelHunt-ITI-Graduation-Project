@@ -5,6 +5,8 @@ import { CommonModule } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { ValidationErrors, ValidatorFn } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder  } from '@angular/forms';
 
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 
@@ -31,7 +33,7 @@ interface CalendarDay {
 @Component({
   selector: 'app-show-availability',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule,FormsModule,ReactiveFormsModule],
   templateUrl: './show-availability.component.html',
   styleUrls: ['./show-availability.component.css']
 })
@@ -52,13 +54,33 @@ export class ShowAvailabilityComponent implements OnInit {
   };
   isUpdateMode: boolean = false;
 
+  availabilityForm: FormGroup;
 
 
-  constructor(private http: HttpClient,private route: ActivatedRoute) {
-
-    
+  constructor(private http: HttpClient, private route: ActivatedRoute, private fb: FormBuilder) {
+    this.availabilityForm = this.fb.group({
+      total_rooms: [0, [Validators.required, this.dynamicMinValidator(10),this.minimumRoomsValidator(10)]],
+      stock: [{value: 0, disabled: true}]
+    });
   }
 
+
+
+  minimumRoomsValidator(minRooms: number): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const value = control.value;
+      if (value < minRooms) {
+        return { minimumRooms: { requiredValue: minRooms, actualValue: value } };
+      }
+      return null;
+    };
+  }
+  dynamicMinValidator(minValue: number): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const forbidden = control.value < minValue;
+    return forbidden ? { 'minValue': { value: control.value, requiredMin: minValue } } : null;
+  };
+}
 
 
 
@@ -152,6 +174,21 @@ export class ShowAvailabilityComponent implements OnInit {
     this.total_rooms=day.total_rooms;
     this.selectedDay = day ;
     this.isUpdateMode = day.id > 0;
+
+
+    this.availabilityForm.patchValue({
+      total_rooms: day.total_rooms,
+      stock: day.stock
+    });
+
+
+    const totalRoomsControl = this.availabilityForm.get('total_rooms');
+    if (totalRoomsControl) {
+      totalRoomsControl.setValidators([Validators.required, this.dynamicMinValidator(this.total_rooms-this.selectedDay.stock), this.minimumRoomsValidator(this.total_rooms-this.selectedDay.stock)]);
+      totalRoomsControl.updateValueAndValidity();
+    }
+
+
   }
 
 
@@ -200,6 +237,7 @@ export class ShowAvailabilityComponent implements OnInit {
 
 
   onFormSubmit() {
+    this.total_rooms=this.availabilityForm.get('total_rooms')?.value;
     this.selectedDay.stock =(this.total_rooms-this.selectedDay.total_rooms)+this.selectedDay.stock;
     this.selectedDay.total_rooms =this.total_rooms;
     if (this.isUpdateMode) {

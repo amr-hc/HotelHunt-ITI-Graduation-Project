@@ -51,7 +51,7 @@ export class UpdateComponent {
 
         setTimeout(() => {
           this.message = '';
-          this.router.navigate(['/list']); // Navigate to list after update
+          this.router.navigate(['/owner/list']); // Navigate to list after update
         }, 1000);
       },
       (error) => {

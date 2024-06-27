@@ -3,7 +3,7 @@ import { RoomtypeService } from '../../services/roomtype.service';
 import { RoomType } from '../../models/roomtype';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add',
@@ -19,7 +19,7 @@ export class AddComponent {
   constructor(private serv: RoomtypeService, private router: Router) {} // Inject Router
 
   create() {
-    
+
     // Validate the fields before making the API call
     if (!this.hotel.name || !isNaN(Number(this.hotel.name))) {
       this.message = 'Type must be a string.';
@@ -45,8 +45,8 @@ export class AddComponent {
         this.message = 'Create Room Type Successfully!';
         setTimeout(() => {
           this.message = '';
-          
-          this.router.navigate(['/list']); 
+
+          this.router.navigate(['/owner/list']);
         }, 1000);
       },
       (error) => {

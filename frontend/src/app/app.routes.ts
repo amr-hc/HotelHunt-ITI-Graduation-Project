@@ -24,6 +24,7 @@ import { HotelEditComponent } from './components/Owner-Dashboard/hotel-owner/hot
 import { SidebarComponent } from './components/Owner-Dashboard/sidebar/sidebar.component';
 
 
+
 export const routes: Routes = [
   {
     path: '',
@@ -31,12 +32,12 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {path: 'register', component: RegisterComponent },
-  { path: 'availability/:id', component: AvailabilityComponent},
+  // { path: 'availability/:id', component: AvailabilityComponent},
   {path: 'register/hotel',component: RegisterHotelComponent },
   { path: 'search', component: SearchHotelsComponent },
   { path: 'hotel/:id' , component: HotelComponent},
   { path: 'login', component: LoginComponent },
-  {path : "list" , component : ListComponent},
+  // {path : "list" , component : ListComponent},
   {path : "show/:id" , component : ShowComponent },
   {path : "add" , component : AddComponent },
   {path : "update/:id" , component : UpdateComponent },
@@ -54,11 +55,8 @@ export const routes: Routes = [
   { path:'admin-dashboard',     loadChildren: () =>
     import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},
     {path: 'owner', loadChildren:()=>import("./components/Owner-Dashboard/owner.routes").then(o=>o.ownerRoutes)},
-
-
- 
-    
-
+  
+   
 
   //  {path:'owner', component:SidebarComponent},
   //  {path:'owner/booking' , component: BookingComponent},
