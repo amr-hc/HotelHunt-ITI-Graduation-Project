@@ -11,7 +11,14 @@ export class Rating {
 export class UserRating {
   constructor(
     public rate: number,
-    public user_id: number|null,
-    public hotel_id: number|null,
-  ){}
+    public user_id: number | null,
+    public hotel_id: number | null,
+  ) { }
 }
+  export class RatingByuser {
+    constructor(
+      public rate: number,
+      public hotel_id: number|null,
+    ) { }
+  }
+
