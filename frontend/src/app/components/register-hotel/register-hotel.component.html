@@ -1,40 +1,42 @@
 <div class="background-blur">
   <div class="container">
     <div class="form-container">
-      <div class="form-header text-center">
-        <h4>Register Your Hotel</h4>
+      <div class="form-header text-center text-white">
+        <h4 class="text-primary">Register Your Hotel</h4>
       </div>
       <div *ngIf="registrationError" class="alert alert-danger mt-3">
         {{ registrationError }}
       </div>
       <form (ngSubmit)="onRegisterHotel()">
         <div class="form-group">
-          <label for="name">Hotel Name</label>
+          <!-- <label for="name" class="text-dark">Hotel Name</label> -->
           <input type="text" [(ngModel)]="hotelData.name" name="name" class="form-control" placeholder="Hotel Name" required>
         </div>
         <div class="form-group">
-          <label for="country">Country</label>
+          <!-- <label for="country" class="text-dark">Country</label> -->
           <input type="text" [(ngModel)]="hotelData.country" name="country" class="form-control" placeholder="Country">
         </div>
         <div class="form-group">
-          <label for="city">City</label>
+          <!-- <label for="city" class="text-dark">City</label> -->
           <input type="text" [(ngModel)]="hotelData.city" name="city" class="form-control" placeholder="City">
         </div>
         <div class="form-group">
-          <label for="address">Address</label>
+          <!-- <label for="address" class="text-dark">Address</label> -->
           <input type="text" [(ngModel)]="hotelData.address" name="address" class="form-control" placeholder="Address">
         </div>
-        <!-- <div class="form-group">
-          <label for="status">Status</label>
-          <select [(ngModel)]="hotelData.status" name="status" class="form-control" required>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-            <option value="suspend">Suspend</option>
-          </select>
-        </div> -->
         <div class="form-group">
-          <label for="description">Description</label>
+          <!-- <label for="description" class="text-dark">Description</label> -->
           <textarea [(ngModel)]="hotelData.description" name="description" class="form-control" rows="4" placeholder="Description"></textarea>
+        </div>
+        <div class="form-group">
+          <!-- <label for="starRating" class="text-dark">Star Rating</label> -->
+          <select [(ngModel)]="hotelData.star_rating" name="starRating" placeholder="Star-Rating" class="form-control" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Register Hotel</button>
       </form>

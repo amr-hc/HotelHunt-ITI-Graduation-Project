@@ -81,4 +81,7 @@ export class LoginComponent {
   get password() {
     return this.loginForm.get('password');
   }
+  navigateToRegister() {
+    this.router.navigate(['/register']); // Navigate to '/register' route
+  }
 }

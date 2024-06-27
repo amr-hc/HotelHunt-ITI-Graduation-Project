@@ -15,7 +15,7 @@ body {
 }
 
 .card-title {
-  color: #007bff; /* Blue color for headings */
+  color: #000000; /* Blue color for headings */
   font-weight: 300;
   margin-bottom: 20px;
 }
@@ -35,7 +35,7 @@ body {
 
 
 .profile-image img {
-  border: 3px solid #007bff;
+  border: 3px solid #000000;
   border-radius: 50%;
   padding: 5px;
 }
@@ -71,16 +71,18 @@ body {
 
 .table {
   margin-top: 20px;
+  border-color: #000000;
+
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
   background-color: #f8f9fa; /* Light grey for table rows */
 }
 
-.table th {
-  background-color: #007bff; /* Blue for table header */
+/* .table th {
+  background-color:#0F172B;
   color: white;
-}
+} */
 
 .table td, .table th {
   padding: 15px;
