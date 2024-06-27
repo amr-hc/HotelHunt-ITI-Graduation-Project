@@ -24,6 +24,7 @@ import { HotelEditComponent } from './components/Owner-Dashboard/hotel-owner/hot
 import { SidebarComponent } from './components/Owner-Dashboard/sidebar/sidebar.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ActivatedComponent } from './login/activated/activated.component';
 import { VerifyAccountComponent } from './verify-account/verify-account.component';
 
 
@@ -47,6 +48,7 @@ export const routes: Routes = [
   {path : "add" , component : AddComponent },
   {path : "update/:id" , component : UpdateComponent },
   {path : "user/profile/edit" , component : EditProfileComponent },
+  {path : "login/google" , component : ActivatedComponent },
 
   { path:'admin-dashboard',     loadChildren: () =>
     import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},
