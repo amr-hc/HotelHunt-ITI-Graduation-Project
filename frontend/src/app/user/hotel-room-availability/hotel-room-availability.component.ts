@@ -40,6 +40,7 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   private commentSubscription: Subscription | null = null;
   private ratingSubscription: Subscription | null = null;
   user_id: number | null = 0;
+  duration: number = 0;
 
   constructor(
     private hotelRoomSearchService: HotelRoomSearchService,
@@ -54,6 +55,7 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.user_id = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')) : null;
+    console.log('User ID:', this.user_id);
     this.hotelIdSubscription = this.HotelService.hotelId$.subscribe(
       (id) => {
         this.hotel_id = id;
@@ -109,6 +111,12 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
 
     if (bookingDetails.length > 0) {
       // Use SweetAlert confirmation before proceeding with booking
+      const start = new Date(this.checkinDate);
+      const end = new Date(this.checkoutDate);
+      const diffTime = Math.abs(end.getTime() - start.getTime());
+      this.duration = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) +1;
+      console.log(this.duration);
+
       Swal.fire({
         title: 'Confirm Reservation',
         text: 'Are you sure you want to proceed with the reservation?',
@@ -118,20 +126,21 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
         cancelButtonText: 'Cancel'
       }).then((result) => {
         if (result.isConfirmed) {
-          const bookingData = new BookingData(this.user_id, 1, 'progress', bookingDetails);
+          const bookingData = new BookingData(this.user_id, this.duration, 'progress', bookingDetails);
           console.log(bookingData);
 
           this.bookingSubscription = this.bookingService.bookingRoom(bookingData).subscribe(
             response => {
               console.log('Booking successful', response);
               Swal.fire('Reserved!', 'Your rooms have been reserved.', 'success');
+              this.router.navigate(['/user/profile']);
+
             },
             error => {
               console.error('Booking failed', error);
               Swal.fire('Error', 'Failed to reserve rooms.', 'error');
             }
           );
-          this.router.navigate(['/user/profile']);
 
 
         }
