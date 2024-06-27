@@ -28,10 +28,10 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
         ResetPassword::createUrlUsing(function (User $user, string $token) {
-            return 'http://localhost:4200/reset-password?token='.$token;
+            return 'http://localhost:4200/forget-password?token='.$token;
         });
-    
-        
+
+
 
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {
             $new_url=str_replace(url('/api/verify'), 'http://localhost:4200/verify', $url);
@@ -40,6 +40,6 @@ class AuthServiceProvider extends ServiceProvider
                 ->line('Click the button below to verify your email address.')
                 ->action('Verify Email Address', $new_url);
         });
-    
+
     }
 }
