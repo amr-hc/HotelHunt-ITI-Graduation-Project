@@ -1,14 +1,41 @@
-<div class="container mt-5">
-  <div class="hotelname">{{hotel?.name}}</div>
+<!-- <h2 class="text-dark text-center my-3 fs-2 fw-bold fst-italic">{{hotel?.name}}</h2> -->
+<!-- <div class="container mt-5"> -->
+  <!-- <div class="hotelname">{{hotel?.name}}</div>
   <div class="hoteladdress">
     <i class="bi bi-geo-alt-fill"></i> {{hotel?.city}},{{hotel?.address}}
-  </div>
+  </div> -->
 
-  <div class="carousel-container position-relative">
-    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+  <!-- <div class="carousel-container mx-auto" >
+    <div id="carouselExampleFade" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-inner">
         <div *ngFor="let image of images; let i = index" [ngClass]="{'carousel-item': true, 'active': i === 0}">
-          <img [src]="'http://127.0.0.1:8000/storage/' + image.image" class="d-block w-75 mx-auto" alt="Hotel Image">
+          <img [src]="'http://127.0.0.1:8000/storage/' + image.image" class="d-block w-100 mx-auto" alt="Hotel Image">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div> -->
+    <!-- <div class="average-rate"> -->
+    <!-- <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"> -->
+    <!-- <i class="fas" [ngClass]="{'fa-star': i < hotel?.average_rate, 'fa-star-o': i >= hotel?.average_rate}"></i> -->
+    <!-- </ng-container> -->
+    <!-- </div> -->
+  <!-- </div> -->
+<!-- </div> -->
+<!--  -->
+<h2 class="text-dark text-center my-3 fs-2 fw-bold fst-italic">{{ hotel?.name }}</h2>
+<div class="container mt-5">
+  <div class="carousel-container mx-auto">
+    <div id="carouselExampleFade" class="carousel slide text-center" data-bs-ride="false">
+      <div class="carousel-inner">
+        <div *ngFor="let image of images; let i = index" [ngClass]="{'carousel-item': true, 'active': i === 0}">
+          <img [src]="'http://127.0.0.1:8000/storage/' + image.image" class="d-block mx-auto" alt="Hotel Image">
         </div>
       </div>
       <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
@@ -20,24 +47,64 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-    <div class="average-rate">
-      <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index">
-        <!-- <i class="fas" [ngClass]="{'fa-star': i < hotel?.average_rate, 'fa-star-o': i >= hotel?.average_rate}"></i> -->
-      </ng-container>
-    </div>
   </div>
 </div>
-<div class="container mt-5">
-  <div class="hoteldesc">{{hotel?.description}}</div>
+<!--  -->
+<!-- talaat -->
+<div class="sec2">
+  <div class="row">
+    <div class="col-md-12 rating-star-sec">
+      <table>
+        <tbody>
+          <tr>
+            <td class="rating-title">Star Rating</td>
+            <td>
+              <div class="rating-stars">
+                <ng-container *ngFor="let star of [].constructor(hotel?.star_rating)">
+                  <i class="fas fa-star"></i>
+                </ng-container>
+                <!-- <ng-container *ngFor="let emptyStar of [].constructor(5 - hotel?.star_rating)"> -->
+                <!-- <i class="far fa-star"></i> -->
+                <!-- </ng-container> -->
+              </div>
+            </td>
+
+          <tr>
+            <td class="description-title">Description:</td>
+            <td class="rating-num">{{hotel?.description}} fdhfhjfdhjhjfhjjdfhfjdhjfhdhjfdhjfdhjdfhj</td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <!-- <div class="col-md-12 hoteldesc">
+      <p>{{ hotel?.description }}</p>
+    </div> -->
+  </div>
+  <div class="row">
+    <table class="custom-hotel-table">
+      <tbody>
+        <tr>
+          <td class="h-title">Country:</td>
+          <td class="h-val">{{ hotel?.country }}</td>
+        </tr>
+        <tr>
+          <td class="h-title">City:</td>
+          <td class="h-val">{{ hotel?.city }}</td>
+        </tr>
+        <tr>
+          <td class="h-title">Address:</td>
+          <td class="h-val">{{ hotel?.address }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
-
-
-
-
-
-
-<div class="text-center">
+<!-- talaat -->
+<!-- <div class="text-center">
   <p>hotel works!</p>
   <div>{{hotel?.id}}</div>
   <div></div>
@@ -46,7 +113,7 @@
   <div>name is {{hotel?.name}}</div>
   <div>city is {{hotel?.city}}</div>
   <div>address is {{hotel?.address}}</div>
-</div>
+</div> -->
 <div class="images-container">
   <div *ngFor="let image of images">
     <!-- Use the full URL for the image source -->
