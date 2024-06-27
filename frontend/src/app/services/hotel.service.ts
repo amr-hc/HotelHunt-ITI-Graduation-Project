@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Hotel } from '../models/hotel';
 import { HotelImage } from '../models/hotelImage';
 import { catchError } from 'rxjs/operators';
@@ -17,6 +17,8 @@ export class HotelService {
 
   private apiUrl = 'http://127.0.0.1:8000/api/hotels/';
   private ownerApiUrl = 'http://127.0.0.1:8000/api/owner/';
+  private hotelIdSubject = new BehaviorSubject<number | null>(null);
+  hotelId$ = this.hotelIdSubject.asObservable();
 
   constructor(private http: HttpClient) { }
 
@@ -71,6 +73,9 @@ export class HotelService {
     return this.http.delete<any>(`${this.apiUrl}images/${imageId}`);
   }
 
+  setHotelId(id: number): void {
+    this.hotelIdSubject.next(id);
+  }
 
-  
+
 }
