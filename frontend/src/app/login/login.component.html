@@ -30,8 +30,11 @@
         <a class="w-100 text-decoration-underline" (click)="navigateToRegister()">Don't have an account? Register</a>
       </div>
       <div class="container mt-4">
-        <button class="btn btn-primary btn-block" (click)="loginWithGoogle()">Login with Google</button>
+        <button class="btn btn-google btn-block" (click)="loginWithGoogle()">
+          <i class="fab fa-google"></i> Login with Google
+        </button>
       </div>
+
     </div>
     <div class="text-center">
       <button class="btn btn-outline-info my-2" routerLink="/reset">Forget Password</button>
