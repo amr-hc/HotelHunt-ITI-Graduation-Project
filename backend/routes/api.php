@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\api\HotelImagesController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\api\SocialiteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -109,3 +110,9 @@ Route::get('/verify/{id}/{hash}', [usersController::class, 'emailConfirmVerifica
 
 
 Route::post('/re-verify', [usersController::class, 'sendEmailVerification'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+
+ 
+
+Route::get('/auth/google', [SocialiteController::class, 'redirectToGoogle']);
+
+Route::get('/auth/google/callback', [SocialiteController::class, 'loginGoogle']);
