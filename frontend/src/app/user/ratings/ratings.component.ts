@@ -1,3 +1,4 @@
+import { RatingByuser } from './../../models/rating';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Rating, UserRating } from '../../models/rating';
 import { Subscription } from 'rxjs';
@@ -18,6 +19,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
   rating: number = 0;
   userRating: UserRating | null = null;
   private ratingSubscription: Subscription | null = null;
+  private userRatingSubscription: Subscription | null = null;
   user_id: number | null = 0;
   constructor(private ratingService: RatingService,
     private HotelService: HotelService
@@ -66,51 +68,67 @@ export class RatingsComponent implements OnInit, OnDestroy {
       }
     );
   }
-
-  // rateHotel(rating: number) {
-  //   if (this.hotel_id) {
-  //     const userRating = new UserRating(rating, this.user_id, this.hotel_id);
-  //     this.ratingService.updateUserRating(this.hotel_id, userRating).subscribe(
-  //       response => {
-  //         console.log('Rating updated', response);
-  //         this.rating = rating; // Update local rating immediately
-  //       },
-  //       error => {
-  //         console.error('Error updating rating', error);
-  //       }
-  //     );
-  //   }
-  // }
   rateHotel(rating: number) {
-    if (this.hotel_id && this.user_id !== null) {
-      const userRating = new UserRating(rating, this.user_id, this.hotel_id);
+    if (this.hotel_id) {
+      const userRating = new RatingByuser(rating, this.hotel_id);
+      this.userRatingSubscription = this.ratingService.createOrUpdateUserRating(userRating).subscribe(
+        (response) => {
+          console.log('Rating updated', response);
+          // this.rating = rating; // Update local rating immediately
+        },
+        (error) => {
+          // console.error('Error updating rating:'); // Log the actual error
+        }
+      );
+      this.rating = rating; // Update local rating immediately
 
-      if (this.userRating) {
-        // Update existing rating
-        this.ratingService.updateUserRating(this.hotel_id, userRating).subscribe(
-          response => {
-            console.log('Rating updated', response);
-            this.rating = rating; // Update local rating immediately
-          },
-          error => {
-            console.error('Error updating rating', error);
-          }
-        );
-      } else {
-        // Create new rating
-        this.ratingService.createUserRating(userRating).subscribe(
-          response => {
-            console.log('Rating created', response);
-            this.rating = rating; // Update local rating immediately
-            this.userRating = new UserRating(rating, this.user_id, this.hotel_id); // Update userRating object
-          },
-          error => {
-            console.error('Error creating rating', error);
-          }
-        );
-      }
     }
   }
+  // rateHotel(rating: number) {
+    // if (this.hotel_id) {
+    //   const userRating = new UserRating(rating, this.user_id, this.hotel_id);
+    //   this.ratingService.updateUserRating(this.hotel_id, userRating).subscribe(
+    //     response => {
+    //       console.log('Rating updated', response);
+    //       this.rating = rating; // Update local rating immediately
+    //     },
+    //     error => {
+    //       console.error('Error updating rating', error);
+    //     }
+    //   );
+    // }
+  // }
+
+  // rateHotel(rating: number) {
+  //   if (this.hotel_id && this.user_id !== null) {
+  //     const userRating = new UserRating(rating, this.user_id, this.hotel_id);
+
+  //     if (this.userRating) {
+  //       // Update existing rating
+  //       this.ratingService.updateUserRating(this.hotel_id, userRating).subscribe(
+  //         response => {
+  //           console.log('Rating updated', response);
+  //           this.rating = rating; // Update local rating immediately
+  //         },
+  //         error => {
+  //           console.error('Error updating rating', error);
+  //         }
+  //       );
+  //     } else {
+  //       // Create new rating
+  //       this.ratingService.createUserRating(userRating).subscribe(
+  //         response => {
+  //           console.log('Rating created', response);
+  //           this.rating = rating; // Update local rating immediately
+  //           this.userRating = new UserRating(rating, this.user_id, this.hotel_id); // Update userRating object
+  //         },
+  //         error => {
+  //           console.error('Error creating rating', error);
+  //         }
+  //       );
+  //     }
+  //   }
+  // }
   ngOnDestroy(): void {
     if (this.ratingSubscription) {
       this.ratingSubscription.unsubscribe();
@@ -118,6 +136,9 @@ export class RatingsComponent implements OnInit, OnDestroy {
 
     if (this.hotelIdSubscription) {
       this.hotelIdSubscription.unsubscribe();
+    }
+    if (this.userRatingSubscription) {
+      this.userRatingSubscription.unsubscribe();
     }
   }
 }
