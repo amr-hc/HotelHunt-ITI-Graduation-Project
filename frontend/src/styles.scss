@@ -5,12 +5,18 @@
 $primary: #FEA116;
 $light: #F1F8FF;
 $dark: #0F172B;
+$info:#0d6efd;
+$danger:#dc3545;
+$success:#198754;
 
 // Override Bootstrap's default colors
 $theme-colors: (
   "primary": $primary,
   "light": $light,
   "dark": $dark,
+  "info": $info,
+  "danger": $danger,
+  "success": $success,
 );
 
 $font-family-base: 'Heebo', sans-serif;
