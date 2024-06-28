@@ -51,6 +51,7 @@
             <a *ngIf="! authService.isOwner()" routerLink="/home" class="nav-item nav-link">Home</a>
             <a *ngIf="authService.isLoggedIn() && authService.isGuest()" routerLink="/user/profile"  routerLinkActive="active" class="nav-item nav-link">profile</a>
             <a *ngIf="authService.isLoggedIn() && authService.isOwner()" routerLink="/owner/profile"  routerLinkActive="active"  class="nav-item nav-link">profile</a>
+            <a *ngIf="authService.isLoggedIn() && authService.isAdmin()" routerLink="/admin-dashboard"  routerLinkActive="active"  class="nav-item nav-link">Dashboard</a>
             <a *ngIf="! authService.isOwner()" routerLink="/hotelList"  routerLinkActive="active"  class="nav-item nav-link">Hotels</a>
             <a *ngIf="authService.isLoggedIn() && authService.isOwner()"  routerLinkActive="active"  routerLink="/owner/hotel" class="nav-item nav-link">Hotel</a>
             <a *ngIf="authService.isLoggedIn() && authService.isOwner()"  routerLinkActive="active"  routerLink="/owner/booking" class="nav-item nav-link">Bookings</a>
