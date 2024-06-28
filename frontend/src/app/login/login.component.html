@@ -29,6 +29,9 @@
       <div class="text-center pb-3">
         <a class="w-100 text-decoration-underline" (click)="navigateToRegister()">Don't have an account? Register</a>
       </div>
+      <div class="text-center pb-3">
+        <button class="btn btn-link forgot-password-btn" routerLink="/reset">Forget password?</button>
+      </div>
       <div class="container mt-4">
         <button class="btn btn-google btn-block" (click)="loginWithGoogle()">
           <i class="fab fa-google"></i> Login with Google
@@ -37,7 +40,6 @@
 
     </div>
     <div class="text-center">
-      <button class="btn btn-outline-info my-2" routerLink="/reset">Forget Password</button>
     </div>
   </div>
 </div>
