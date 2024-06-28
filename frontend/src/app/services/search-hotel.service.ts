@@ -7,7 +7,7 @@ import { SearchHotel } from '../models/searchHotel';
   providedIn: 'root'
 })
 export class SearchHotelService {
-  private apiUrl = 'http://127.0.0.1:8000/api/search';
+  private apiUrl = 'http://127.0.0.1:8000/api/search/';
   constructor(private http: HttpClient) { }
 
   getAllHotels(searchedHotel: { city: string; start_date: string; end_date: string; sort?: string }): Observable<SearchHotel[]> {
