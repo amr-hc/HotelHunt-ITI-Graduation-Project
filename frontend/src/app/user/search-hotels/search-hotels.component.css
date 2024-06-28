@@ -106,3 +106,22 @@ input[type="text"], input[type="date"], select {
 .no-rating {
   color: #999; /* Color for no rating text */
 }
+@media (max-width: 768px) {
+  .search-bar {
+    flex-direction: column;
+  }
+  .search-bar-container {
+    flex-wrap: wrap;
+  }
+  .city, .date-range, .sort-option, .search-button {
+    width: 100%;
+  }
+  .card {
+    margin-bottom: 20px;
+  }
+  .hotel-img {
+    max-width: 30vw;
+    height: auto;
+    margin-right: 0;
+  }
+}
