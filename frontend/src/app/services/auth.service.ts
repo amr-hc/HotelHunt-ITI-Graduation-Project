@@ -53,5 +53,15 @@ export class AuthService {
         this.router.navigate(['/user/profile'])
       }
   }
+  isGuest(): boolean {
+    const role = localStorage.getItem('userRole');
+    return role === 'guest';
+  }
+
+  isOwner(): boolean {
+    const role = localStorage.getItem('userRole');
+    return role === 'owner';
+  }
+
 }
 

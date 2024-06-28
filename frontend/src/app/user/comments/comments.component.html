@@ -1,0 +1,13 @@
+<div class="comments-section mt-5">
+  <h3 class="mb-3">Comments</h3>
+  <ul class="list-group">
+    <li *ngFor="let comment of comments" class="list-group-item bg-primary-subtle mb-2">
+      <p>{{ comment.content }}</p>
+      <small class="text-muted">By {{ comment.user_name }} on {{ comment.created_at | date:'medium' }}</small>
+    </li>
+  </ul>
+  <div class="mt-3">
+    <textarea [(ngModel)]="userComment" class="form-control bg-secondary-subtle" placeholder="Add a comment"></textarea>
+    <button class="btn btn-primary mt-2 rounded-5 text-dark" (click)="addComment()">Submit Comment</button>
+  </div>
+</div>

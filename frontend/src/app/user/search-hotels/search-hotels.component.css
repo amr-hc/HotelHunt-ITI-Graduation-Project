@@ -84,3 +84,25 @@ input[type="text"], input[type="date"], select {
 {
   margin-top: 28px;
 }
+.hotel-img{
+  max-width: 40vw;
+   max-height: 80vh;
+   object-fit: cover;
+   margin-right: 20px;
+}
+
+.star-rating {
+  font-size: 20px; /* Adjust font size as needed */
+}
+
+.star-icon {
+  color: #ccc; /* Default star color (empty star) */
+}
+
+.star-icon.filled {
+  color: #fcd702; /* Filled star color (yellow) */
+}
+
+.no-rating {
+  color: #999; /* Color for no rating text */
+}

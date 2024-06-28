@@ -1,0 +1,55 @@
+@if(showComponent){
+    <!-- Spinner -->
+    <div id="spinner" class="position-fixed top-50 start-50 translate-middle" *ngIf="isLoading">
+        <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
+      </div>
+      
+      <!-- Error Message -->
+      <div class="container-xxl py-5" *ngIf="!isLoading && errorMessage">
+        <div class="alert alert-dark text-center">
+          {{ errorMessage }}
+        </div>
+      </div>
+      
+      <!-- Room Start -->
+      <div class="container-xxl py-5" *ngIf="!isLoading && !errorMessage">
+        <div class="container">
+          <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
+            <h6 class="section-title text-center text-primary text-uppercase">Hotels in Your Country</h6>
+            <h1 class="mb-5">Explore Hotels <span class="text-primary text-uppercase">Near You</span></h1>
+          </div>
+          <div class="row g-4 d-flex justify-content-center">
+            <div *ngFor="let hotel of topRatedHotels | paginate : { itemsPerPage: 3, currentPage: currentPage }" class="col-lg-4 col-md-6 mb-4">
+              <div class="room-item shadow rounded overflow-hidden h-100">
+                <div class="position-relative">
+                  <img class="img-fluid w-100" src="http://127.0.0.1:8000/storage/{{hotel.photo}}" alt="{{ hotel.name }}">
+                  <small class="position-absolute start-0 top-100 translate-middle-y bg-primary text-white rounded py-1 px-3 ms-4">{{ hotel.city }}</small>
+                </div>
+                <div class="p-4">
+                  <div class="d-flex justify-content-between mb-3">
+                    <h5 class="mb-0">{{ hotel.name }}</h5>
+                    <div class="ps-2">
+                      <ng-container *ngFor="let star of [].constructor(hotel.star_rating)">
+                        <small class="fa fa-star text-primary"></small>
+                      </ng-container>
+                    </div>
+                  </div>
+                  <p class="text-body mb-3" style="height: 75px; overflow: hidden; text-overflow: ellipsis;">{{ hotel.description }}</p>
+                  <div class="d-flex justify-content-between">
+                    <a class="btn btn-sm btn-primary rounded py-2 px-4" href="">View Detail</a>
+                    <a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Book Now</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <pagination-controls
+      (pageChange)="currentPage = $event"
+      class="text-center"
+      ></pagination-controls>
+      <!-- Room End -->
+    }

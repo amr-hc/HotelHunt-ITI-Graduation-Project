@@ -65,6 +65,17 @@ class RateController extends Controller
     }
 
 
+    public function updateRate(Request $request){
+
+        $user_id = auth()->user()->id;
+        $hotel = Hotel::find($request->hotel_id);
+
+        $hotel->rates()->syncWithPivotValues([$user_id], ['rate' => $request->rate]);
+
+        return response()->json(['message' => 'rate updated successfully'], 200);
+    }
+
+
 
     /**
      * Update the specified resource in storage.

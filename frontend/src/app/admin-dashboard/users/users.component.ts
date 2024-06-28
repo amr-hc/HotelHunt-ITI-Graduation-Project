@@ -27,7 +27,7 @@ export class UsersComponent {
       (response: any) => {
         this.users = response.data;
         this.filteredUsers = this.users.filter((user) => user.role === 'guest');
-        this.isLoading = false;  
+        this.isLoading = false;
       },
       (error) => {
         this.isLoading = false;
@@ -71,4 +71,6 @@ export class UsersComponent {
       }
     );
   }
+
+
 }

@@ -1,0 +1,16 @@
+.comments-section {
+  max-width: 800px;
+  margin: 30px auto;
+}
+
+.comments-section h3 {
+  color: #333;
+}
+
+.list-group-item {
+  border: none;
+}
+
+.form-control {
+  margin-bottom: 10px;
+}

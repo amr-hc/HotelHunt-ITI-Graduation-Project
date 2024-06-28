@@ -6,7 +6,7 @@
     <div style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); padding: 40px 50px;">
       <div *ngIf="isLoading" class="loading">Loading...</div>
       <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-      <div *ngFor="let hotel of hotels | paginate: { itemsPerPage: 3 , currentPage: currentPage }" class="card p-0 rounded border-0 shadow wow fadeInUp" data-wow-delay="0.1s">
+      <div *ngFor="let hotel of hotels | paginate: { itemsPerPage: 4 , currentPage: currentPage }" class="card p-0 rounded border-0 shadow wow fadeInUp" data-wow-delay="0.1s">
         <div class="position-relative row g-0">
           <div class="col-md-4 hotel-image-style">
             <img *ngIf="hotelImages[hotel.id] && hotelImages[hotel.id].length > 0" [src]="'http://127.0.0.1:8000/storage/' + hotelImages[hotel.id][0].image" alt="Hotel Image" class="img-fluid rounded-start" />
