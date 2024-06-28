@@ -1,0 +1,22 @@
+.container {
+  padding: 20px;
+}
+
+.loading,
+.error,
+.no-payments {
+  text-align: center;
+  font-size: 18px;
+  margin: 20px 0;
+}
+
+.hotel-header {
+  cursor: pointer;
+  transition: background-color .3s;
+  border-radius: 5px;
+}
+
+.hotel-header:hover {
+  color: #FEA116 !important;
+  background-color: #0F172B;
+}

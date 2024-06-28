@@ -1,16 +1,22 @@
+<!-- Booking List Container -->
 <div class="container">
-  <div *ngIf="isLoading" class="loading">
-    Loading bookings...
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="loading-container text-center mt-3">
+    <div class="spinner-border text-primary" role="status">
+      <span class="sr-only">Loading bookings...</span>
+    </div>
   </div>
 
-  <div *ngIf="errorMessage" class="error">
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="alert alert-danger mt-3">
     {{ errorMessage }}
   </div>
 
-  <div *ngIf="!isLoading && !errorMessage && booking.length > 0" class="booking-list">
-    <h2>Bookings List</h2>
-    <table>
-      <thead>
+  <!-- Booking List -->
+  <div *ngIf="!isLoading && !errorMessage && booking.length > 0" class="booking-list mt-4">
+    <h2 class="text-center text-primary">Bookings List</h2>
+    <table class="table table-striped table-dark table-hover table-bordered mt-3">
+      <thead class="bg-dark">
         <tr>
           <th>ID</th>
           <th>User Name</th>
@@ -27,17 +33,17 @@
           <td>{{ book.user_name }}</td>
           <td>{{ book.duration }} Days</td>
           <td>
-            <select [(ngModel)]="book.status" (change)="onStatusChange( book.status ,book.id)">
+            <select class="form-select bg-dark text-white" [(ngModel)]="book.status"
+              (change)="onStatusChange(book.status, book.id)">
               <option value="progress">In Progress</option>
               <option value="cancel">Cancelled</option>
               <option value="completed">Completed</option>
             </select>
           </td>
 
-
           <td>
-            <table class="nested-table">
-              <thead>
+            <table class="nested-table table table-bordered table-dark">
+              <thead class="bg-primary text-white">
                 <tr>
                   <th>Room Type</th>
                   <th>Date</th>
@@ -48,22 +54,22 @@
                 <tr *ngFor="let detail of book.book_details">
                   <td>{{ detail.room_name }}</td>
                   <td>{{ detail.date }}</td>
-                  <td>{{ detail.price }}</td>
+                  <td>{{ detail.price | currency: 'EGP ' }}</td>
                 </tr>
               </tbody>
             </table>
           </td>
-          <td>{{book.total_price}}</td>
+          <td>{{ book.total_price | currency:'EGP ':'symbol' }}</td>
           <td>
-            <button [routerLink]="['/owner/booking', book.id]" class="btn btn-primary mx-1">View</button>
+            <button [routerLink]="['/owner/booking', book.id]" class="btn btn-primary">View</button>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
 
-  <div *ngIf="!isLoading && !errorMessage && booking.length === 0" class="no-bookings">
+  <!-- No Bookings Found -->
+  <div *ngIf="!isLoading && !errorMessage && booking.length === 0" class="alert alert-warning mt-3 text-center">
     No bookings found.
   </div>
-
 </div>

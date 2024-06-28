@@ -34,13 +34,13 @@
               <td>{{ item.capacity }}</td>
               <td>{{ item.price }}</td>
               <td>
-                <a routerLink="/show/{{ item.id }}" class="btn btn-info">Show</a>
+                <a routerLink="/owner/show/{{ item.id }}" class="btn btn-info">Show</a>
               </td>
               <td>
                 <button class="btn btn-danger" (click)="remove(item.id)">Remove</button>
               </td>
               <td>
-                <a class="btn btn-warning" routerLink="/update/{{ item.id }}">Update</a>
+                <a class="btn btn-warning" routerLink="/owner/update/{{ item.id }}">Update</a>
               </td>
               <td>
                 <a class="btn btn-success" routerLink="/owner/availability/{{ item.id }}">Availability</a>

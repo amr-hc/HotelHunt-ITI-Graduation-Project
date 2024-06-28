@@ -41,6 +41,10 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   private ratingSubscription: Subscription | null = null;
   user_id: number | null = 0;
   duration: number = 0;
+  checkinDateError: string = '';
+  checkoutDateError: string = '';
+  dateError: string = '';
+
 
   constructor(
     private hotelRoomSearchService: HotelRoomSearchService,
@@ -49,9 +53,37 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
     private ratingService: RatingService,
     private router: Router,
     private HotelService: HotelService
-  ) {
+  ) { }
+  validateForm(): boolean {
+    let isValid = true;
 
-   }
+    if (!this.checkinDate) {
+      this.checkinDateError = 'Check-in date is required';
+      isValid = false;
+    } else {
+      this.checkinDateError = '';
+    }
+
+    if (!this.checkoutDate) {
+      this.checkoutDateError = 'Check-out date is required';
+      isValid = false;
+    } else {
+      this.checkoutDateError = '';
+    }
+    if (this.checkinDate && this.checkoutDate) {
+      const checkin = new Date(this.checkinDate);
+      const checkout = new Date(this.checkoutDate);
+
+      if (checkin > checkout) {
+        this.dateError = 'Check-in date cannot be later than check-out date';
+        isValid = false;
+      } else {
+        this.dateError = '';
+      }
+    }
+
+    return isValid;
+  }
 
   ngOnInit(): void {
     this.user_id = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')) : null;
@@ -73,6 +105,9 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
 
 
   onSearch() {
+    if (!this.validateForm()) {
+      return;
+    }
     const searchParams = {
       hotel_id: this.hotel_id,
       start_date: this.checkinDate,

@@ -15,8 +15,12 @@ import { Router } from '@angular/router';
 export class AddComponent {
   hotel = new RoomType();
   message = '';
+  selectedFile: File | null = null;
 
   constructor(private serv: RoomtypeService, private router: Router) {} // Inject Router
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+  }
 
   create() {
 
@@ -39,21 +43,26 @@ export class AddComponent {
     }
 
 
-    this.serv.post(this.hotel).subscribe(
+    const formData = new FormData();
+    formData.append('name', this.hotel.name);
+    formData.append('price', this.hotel.price.toString());
+    formData.append('description', this.hotel.description);
+    formData.append('capacity', this.hotel.capacity.toString());
+    if (this.selectedFile) {
+      formData.append('photo', this.selectedFile, this.selectedFile.name);
+    }
+
+    this.serv.post(formData).subscribe(
       (data: any) => {
-        console.log(data);
         this.message = 'Create Room Type Successfully!';
         setTimeout(() => {
           this.message = '';
-
           this.router.navigate(['/owner/list']);
         }, 1000);
       },
       (error) => {
-        console.error('Error creating room type:', error);
-        // Display the first error message from the backend
         if (error.error && error.error.hotel_id) {
-          this.message = error.error.hotel_id[0]; // Assuming the error is returned in this format
+          this.message = error.error.hotel_id[0];
         } else {
           this.message = 'The selected hotel id is invalid. Please try again.';
         }

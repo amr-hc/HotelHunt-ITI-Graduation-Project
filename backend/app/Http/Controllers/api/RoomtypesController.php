@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Roomtype;
 use App\Models\Hotel;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -26,25 +27,29 @@ class RoomtypesController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        try{
+            $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
-            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', 
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
-    
+
         if ($request->hasFile('photo')) {
             $validatedData['photo'] = $request->file('photo')->store('roomtypes');
         } else {
             $validatedData['photo'] = 'roomtypes/default.jpg';
         }
-    
+
         $validatedData['hotel_id'] = auth()->user()->hotels->id;
-    
+
         $roomtype = Roomtype::create($validatedData);
-    
+
         return response()->json($roomtype, 201);
+        }catch (Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+        }
     }
 
     public function show($id)

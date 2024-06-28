@@ -7,11 +7,12 @@ import { RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LayoutComponent } from '../../layout/layout.component';
 import { HeaderComponent } from '../../layouts/header/header.component';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-search-hotels',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterLink,LayoutComponent,HeaderComponent],
+  imports: [CommonModule,FormsModule,RouterLink,LayoutComponent,HeaderComponent,NgxPaginationModule],
   templateUrl: './search-hotels.component.html',
   styleUrl: './search-hotels.component.css'
 })
@@ -25,9 +26,50 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
   private searchSubscription: Subscription | null = null;
   isLoading: boolean = false;
   averageRating: number = 0;
+  currentPage: number = 1;
+  cityError: string = '';
+  checkinDateError: string = '';
+  checkoutDateError: string = '';
+  dateError: string = '';
 
   constructor(private searchHotelService: SearchHotelService) { }
+  validateForm(): boolean {
+    let isValid = true;
 
+    if (!this.city) {
+      this.cityError = 'City is required';
+      isValid = false;
+    } else {
+      this.cityError = '';
+    }
+
+    if (!this.checkinDate) {
+      this.checkinDateError = 'Check-in date is required';
+      isValid = false;
+    } else {
+      this.checkinDateError = '';
+    }
+
+    if (!this.checkoutDate) {
+      this.checkoutDateError = 'Check-out date is required';
+      isValid = false;
+    } else {
+      this.checkoutDateError = '';
+    }
+    if (this.checkinDate && this.checkoutDate) {
+      const checkin = new Date(this.checkinDate);
+      const checkout = new Date(this.checkoutDate);
+
+      if (checkin > checkout) {
+        this.dateError = 'Check-in date cannot be later than check-out date';
+        isValid = false;
+      } else {
+        this.dateError = '';
+      }
+    }
+
+    return isValid;
+  }
   ngOnInit(): void {
     const today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
     this.checkinDate = today;
@@ -37,6 +79,9 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
   }
 
   onSearch() {
+    if (!this.validateForm()) {
+      return;
+    }
     const searchParams = {
       city: this.city,
       start_date: this.checkinDate,
@@ -74,7 +119,7 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
     // this.isLoading = true;
   }
   averageRateAsNumber(average_rate: string): number {
-    return parseFloat(average_rate); // You can also use Number(average_rate)
+    return Number(average_rate); // You can also use Number(average_rate)
   }
   ngOnDestroy(): void {
     // Clean up the subscription if needed

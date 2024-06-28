@@ -19,6 +19,7 @@ export class ShowComponent {
     price: 0,
     description: '',
     capacity: 0,
+    photo: '',
   };
 
   constructor(

@@ -11,6 +11,7 @@
                 <label for="City" class="mx-2">City</label>
                 <input type="text" class="form-control styled-input" placeholder="City" [(ngModel)]="city" name="city"
                   id="City" />
+                <div *ngIf="cityError" class="text-danger">{{ cityError }}</div>
               </div>
               <div class="col-md-3">
                 <div class="date" id="date1" data-target-input="nearest">
@@ -18,6 +19,8 @@
                   <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-in Date"
                     [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" data-target="#date1"
                     data-toggle="datetimepicker" />
+                  <div *ngIf="checkinDateError" class="text-danger">{{ checkinDateError }}</div>
+                  <div *ngIf="dateError" class="text-danger">{{ dateError }}</div>
                 </div>
               </div>
               <div class="col-md-3">
@@ -26,9 +29,11 @@
                   <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-out Date"
                     [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" data-target="#date2"
                     data-toggle="datetimepicker" />
+                  <div *ngIf="checkoutDateError" class="text-danger">{{ checkoutDateError }}</div>
+
                 </div>
               </div>
-
+          
               <div class="col-md-3">
                 <label for="sort" class="mx-2">Sort By</label>
                 <select class="form-select styled-select" [(ngModel)]="sort" name="sort" id="sort">
@@ -36,7 +41,7 @@
                   <option value="price">Price</option>
                   <option value="name">Name</option>
                   <option value="star_rating">Star Rating</option>
-                  <option value="rate">User Rating</option>
+                  <option value="rate">User Reviews</option>
                 </select>
               </div>
             </div>
@@ -55,34 +60,27 @@
   <div *ngIf="result.length === 0" class="bg-danger-subtle text-center p-4 w-100 mx-auto rounded-5 fs-3">No results
     found.</div>
   <div class="row" *ngIf="result.length > 0">
-    <div class="col-md-12" *ngFor="let hotelGroup of result">
+    <h4 class="text-center">{{ city }}: {{result.length}} properties found</h4>
+    <div *ngFor="let hotelGroup of result | paginate: { itemsPerPage: 3, currentPage: currentPage }">
+
       <div class="card mb-3 p-3 position-relative">
         <div class="d-flex">
           <img [src]="imagePath +hotelGroup.hotels[0].photo" alt="{{ hotelGroup.hotel_name }} image"
             class="img-fluid rounded hotel-img">
           <div class="card-body mx-3">
             <h5 class="card-title">{{ hotelGroup.hotel_name }}</h5>
-            <!-- <h6 >{{ hotelGroup.hotels[0].star_rating }}</h6> -->
-            <!-- <div class="star-rating">
-              <ng-container *ngIf="hotelGroup.hotels[0].star_rating > 1; else oneStar">
-                <span *ngFor="let star of [].constructor(hotelGroup.hotels[0].star_rating); let i = index">
-                  &#9733;
-                </span>
-              </ng-container>
-              <ng-template #oneStar>
-                <span>&#9733;</span>
-              </ng-template>
-            </div> -->
             <div class="star-rating">
-              Star Rating:
-              <ng-container *ngIf="hotelGroup.hotels[0].star_rating > 1; else noRatingStars">
+              <span class="text-dark"> Star Rating:</span>
+              <ng-container *ngIf="hotelGroup.hotels[0].star_rating >=1; else noRatingStars">
                 <span *ngFor="let star of [].constructor(hotelGroup.hotels[0].star_rating); let i = index"
                   class="star-icon filled fs-3">&#9733;</span>
-                <span *ngFor="let star of [].constructor(5-hotelGroup.hotels[0].star_rating); let i = index"
+                <span *ngFor="let star of [].constructor(5 - hotelGroup.hotels[0].star_rating); let i = index"
                   class="star-icon fs-3">&#9733;</span>
               </ng-container>
               <ng-template #noRatingStars>
-                <span class="no-rating">No rating available</span>
+                <!-- <span class="no-rating">No rating available </span> -->
+                <span *ngFor="let star of [].constructor(5); let i = index" class="star-icon fs-3">&#9733;</span>
+
               </ng-template>
               <!-- <ng-template #oneStar>
                 <span class="star-icon fs-3">&#9733;</span>
@@ -90,8 +88,8 @@
             </div>
             <div class="average-rating">
               <div class="star-rating" *ngIf="hotelGroup.hotels[0].average_rate">
-                User Rating:
-                <ng-container *ngIf="averageRateAsNumber(hotelGroup.hotels[0].average_rate) > 1; else noRatingStars">
+                <span class="text-dark"> User Reviews:</span>
+                <ng-container *ngIf="averageRateAsNumber(hotelGroup.hotels[0].average_rate) >=1; else noRatingStars">
                   <span
                     *ngFor="let star of [].constructor(averageRateAsNumber(hotelGroup.hotels[0].average_rate)); let i = index"
                     class="star-icon filled fs-3">&#9733;</span>
@@ -100,16 +98,17 @@
                     class="star-icon fs-3">&#9733;</span>
                 </ng-container>
                 <ng-template #noRatingStars>
-                  <span class="no-rating">No rating available</span>
+                  <!-- <span class="no-rating">No rating available</span> -->
+                  <span *ngFor="let star of [].constructor(5); let i = index" class="star-icon fs-3">&#9733;</span>
                 </ng-template>
               </div>
             </div>
             <!-- <div>average rating {{hotelGroup.hotels[0].average_rate}}</div> -->
             <div *ngIf="hotelGroup.roomsAvailable >= 1">
-              <p>{{ hotelGroup.roomsAvailable }} rooms available</p>
+              <p class="text-danger">{{ hotelGroup.roomsAvailable }} rooms available:</p>
             </div>
             <div *ngFor="let room of hotelGroup.hotels">
-              <p class="card-text">{{ room.name }} - {{ room.price }}</p>
+              <p class="text-dark">{{ room.name }} - ${{ room.price }}</p>
             </div>
 
           </div>
@@ -118,4 +117,5 @@
         </div>
       </div>
     </div>
+    <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
   </div>
