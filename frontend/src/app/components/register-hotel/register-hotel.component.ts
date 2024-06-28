@@ -53,7 +53,7 @@ export class RegisterHotelComponent implements OnInit {
     formData.append('description', this.hotelData.description);
     formData.append('star_rating', this.hotelData.star_rating.toString());
     if (this.selectedFile) {
-      formData.append('photo', this.selectedFile, this.selectedFile.name);
+      formData.append('image', this.selectedFile, this.selectedFile.name);
     }
 
     this.hotelService.registerHotel(formData).subscribe(

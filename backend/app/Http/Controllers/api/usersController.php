@@ -20,6 +20,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Log;
 
 
 class usersController extends Controller
@@ -29,7 +30,7 @@ class usersController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::paginate(10));
+        return UserResource::collection(User::all());
     }
 
     /**
@@ -91,9 +92,15 @@ class usersController extends Controller
 
         if ($request->hasFile('photo')) {
             $validatedData['photo'] = $request->file('photo')->store('users');
-            // if ($user->photo!= 'users/default.jpg') {
-            //     unlink(storage_path('app/public/'. $user->photo));
-            // }
+            if ($user->photo && $user->photo!= 'users/default.jpg') {
+
+                try {
+                    unlink(storage_path('app/public/'. $user->photo));
+                } catch (\Exception $e) {
+                    Log::error('Failed to delete old photo: ' . $e->getMessage());
+                }
+                
+            }
         }
 
         if(isset($validatedData['password'])) {
@@ -120,41 +127,41 @@ class usersController extends Controller
 
 
 
- 
+
     public function forgotPassword (Request $request) {
     $request->validate(['email' => 'required|email']);
- 
+
     $status = Password::sendResetLink(
         $request->only('email')
     );
- 
+
     return $status === Password::RESET_LINK_SENT
         ? response()->json(['status' => 'Token Sent Completed'], 200)
         : response()->json(['status' => 'Token Reset Failed'], 400);
     }
 
 
- 
+
     public function passwordUpdate(Request $request) {
     $request->validate([
         'token' => 'required',
         'email' => 'required|email',
         'password' => 'required|min:8|confirmed',
     ]);
- 
+
     $status = Password::reset(
         $request->only('email', 'password', 'password_confirmation', 'token'),
         function (User $user, string $password) {
             $user->forceFill([
                 'password' => Hash::make($password)
             ])->setRememberToken(Str::random(60));
- 
+
             $user->save();
- 
+
             event(new PasswordReset($user));
         }
     );
- 
+
     return $status === Password::PASSWORD_RESET
                 ? response()->json(['status' => 'password reset completed'], 200)
                 : response()->json(['status' => 'password reset Failed'], 400);
@@ -165,12 +172,12 @@ class usersController extends Controller
 
     public function emailConfirmVerification(EmailVerificationRequest $request) {
         $request->fulfill();
-     
+
         return response()->json(['status' => 'Account Activated Successfully'], 200);
     }
 
     public function sendEmailVerification(Request  $request) {
-        $request->user()->sendEmailVerificationNotification();     
+        $request->user()->sendEmailVerificationNotification();
         return response()->json(['status' => 'Verification link sent'], 200);
     }
 

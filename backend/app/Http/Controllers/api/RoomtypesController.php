@@ -8,11 +8,12 @@ use App\Models\Roomtype;
 use App\Models\Hotel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 
 class RoomtypesController extends Controller
 {
-    // Display a listing of the roomtypes.
     public function index()
     {
         return Roomtype::all();
@@ -23,46 +24,62 @@ class RoomtypesController extends Controller
         return $roomtypes;
     }
 
-    // Store a newly created roomtype in storage.
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
+            'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', 
         ]);
-
-
-        $request->merge(['hotel_id' => auth()->user()->hotels->id]);
-
-        $roomtype = Roomtype::create($request->all());
+    
+        if ($request->hasFile('photo')) {
+            $validatedData['photo'] = $request->file('photo')->store('roomtypes');
+        } else {
+            $validatedData['photo'] = 'roomtypes/default.jpg';
+        }
+    
+        $validatedData['hotel_id'] = auth()->user()->hotels->id;
+    
+        $roomtype = Roomtype::create($validatedData);
+    
         return response()->json($roomtype, 201);
     }
 
-    // Display the specified roomtype.
     public function show($id)
     {
         return Roomtype::findOrFail($id);
     }
 
-    // Update the specified roomtype in storage.
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'hotel_id' => 'required|exists:hotels,id',
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'capacity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
-        ]);
+{
+    $roomtype = Roomtype::findOrFail($id);
 
-        $roomtype = Roomtype::findOrFail($id);
-        $roomtype->update($request->all());
-        return response()->json($roomtype);
+    $validatedData = $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'capacity' => 'required|integer|min:1',
+        'price' => 'required|numeric|min:0',
+        'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+    ]);
+
+    if ($request->hasFile('photo')) {
+        if ($roomtype->photo && $roomtype->photo != 'roomtypes/default.jpg') {
+            try {
+                Storage::delete($roomtype->photo);
+            } catch (\Exception $e) {
+                Log::error('Failed to delete old photo: ' . $e->getMessage());
+            }
+        }
+        $validatedData['photo'] = $request->file('photo')->store('roomtypes');
     }
 
-    // Remove the specified roomtype from storage.
+    $roomtype->update($validatedData);
+
+    return response()->json($roomtype, 200);
+}
+
     public function destroy($id)
     {
         $roomtype = Roomtype::findOrFail($id);

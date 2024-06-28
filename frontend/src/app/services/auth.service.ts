@@ -37,5 +37,15 @@ export class AuthService {
     return !!localStorage.getItem('token');
   }
 
+  isGuest(): boolean {
+    const role = localStorage.getItem('userRole');
+    return role === 'guest';
+  }
+
+  isOwner(): boolean {
+    const role = localStorage.getItem('userRole');
+    return role === 'owner';
+  }
+
 }
 
