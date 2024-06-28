@@ -11,6 +11,7 @@ import { ListComponent } from "../../roomtype/list/list.component";
 import { WelcomeComponent } from "./welcome/welcome.component";
 import { ProfileComponent } from "./profile/profile.component";
 import { EditComponent } from "./profile/edit/edit.component";
+import { AddComponent } from "../../roomtype/add/add.component";
 
 export const ownerRoutes : Routes = [
   {path: '', component: OwnerDashboardComponent,
@@ -23,6 +24,7 @@ export const ownerRoutes : Routes = [
    {path: 'hotel/:id/addImage',component: AddImageComponent },
    { path: 'availability/:id', component: AvailabilityComponent},
    {path : "list" , component : ListComponent},
+   {path: "add", component:AddComponent},
    {path: 'profile', component:ProfileComponent},
    {path: 'profile/edit/:id', component:EditComponent}
     ]

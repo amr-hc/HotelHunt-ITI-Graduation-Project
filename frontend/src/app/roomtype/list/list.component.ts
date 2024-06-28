@@ -14,7 +14,7 @@ import { RouterModule,Router} from '@angular/router';
 export class ListComponent {
   message = "";
   //allData! : RoomType[] ;
-  allData: RoomType[] = []; 
+  allData: RoomType[] = [];
   showData () {
     this.serv.get().subscribe(
       (data : any) => {
@@ -44,6 +44,6 @@ export class ListComponent {
   }
 
   addRoomType() {
-    this.router.navigate(['/add']); 
+    this.router.navigate(['/owner/add']);
   }
 }
