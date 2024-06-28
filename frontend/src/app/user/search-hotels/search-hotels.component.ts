@@ -27,9 +27,49 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   averageRating: number = 0;
   currentPage: number = 1;
+  cityError: string = '';
+  checkinDateError: string = '';
+  checkoutDateError: string = '';
+  dateError: string = '';
 
   constructor(private searchHotelService: SearchHotelService) { }
+  validateForm(): boolean {
+    let isValid = true;
 
+    if (!this.city) {
+      this.cityError = 'City is required';
+      isValid = false;
+    } else {
+      this.cityError = '';
+    }
+
+    if (!this.checkinDate) {
+      this.checkinDateError = 'Check-in date is required';
+      isValid = false;
+    } else {
+      this.checkinDateError = '';
+    }
+
+    if (!this.checkoutDate) {
+      this.checkoutDateError = 'Check-out date is required';
+      isValid = false;
+    } else {
+      this.checkoutDateError = '';
+    }
+    if (this.checkinDate && this.checkoutDate) {
+      const checkin = new Date(this.checkinDate);
+      const checkout = new Date(this.checkoutDate);
+
+      if (checkin > checkout) {
+        this.dateError = 'Check-in date cannot be later than check-out date';
+        isValid = false;
+      } else {
+        this.dateError = '';
+      }
+    }
+
+    return isValid;
+  }
   ngOnInit(): void {
     const today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
     this.checkinDate = today;
@@ -39,6 +79,9 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
   }
 
   onSearch() {
+    if (!this.validateForm()) {
+      return;
+    }
     const searchParams = {
       city: this.city,
       start_date: this.checkinDate,

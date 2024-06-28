@@ -11,6 +11,7 @@
                 <label for="City" class="mx-2">City</label>
                 <input type="text" class="form-control styled-input" placeholder="City" [(ngModel)]="city" name="city"
                   id="City" />
+                <div *ngIf="cityError" class="text-danger">{{ cityError }}</div>
               </div>
               <div class="col-md-3">
                 <div class="date" id="date1" data-target-input="nearest">
@@ -18,6 +19,8 @@
                   <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-in Date"
                     [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" data-target="#date1"
                     data-toggle="datetimepicker" />
+                  <div *ngIf="checkinDateError" class="text-danger">{{ checkinDateError }}</div>
+                  <div *ngIf="dateError" class="text-danger">{{ dateError }}</div>
                 </div>
               </div>
               <div class="col-md-3">
@@ -26,9 +29,11 @@
                   <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-out Date"
                     [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" data-target="#date2"
                     data-toggle="datetimepicker" />
+                  <div *ngIf="checkoutDateError" class="text-danger">{{ checkoutDateError }}</div>
+
                 </div>
               </div>
-
+          
               <div class="col-md-3">
                 <label for="sort" class="mx-2">Sort By</label>
                 <select class="form-select styled-select" [(ngModel)]="sort" name="sort" id="sort">
@@ -74,7 +79,7 @@
               </ng-container>
               <ng-template #noRatingStars>
                 <!-- <span class="no-rating">No rating available </span> -->
-                                    <span *ngFor="let star of [].constructor(5); let i = index" class="star-icon fs-3">&#9733;</span>
+                <span *ngFor="let star of [].constructor(5); let i = index" class="star-icon fs-3">&#9733;</span>
 
               </ng-template>
               <!-- <ng-template #oneStar>
@@ -94,7 +99,7 @@
                 </ng-container>
                 <ng-template #noRatingStars>
                   <!-- <span class="no-rating">No rating available</span> -->
-                    <span *ngFor="let star of [].constructor(5); let i = index" class="star-icon fs-3">&#9733;</span>
+                  <span *ngFor="let star of [].constructor(5); let i = index" class="star-icon fs-3">&#9733;</span>
                 </ng-template>
               </div>
             </div>
