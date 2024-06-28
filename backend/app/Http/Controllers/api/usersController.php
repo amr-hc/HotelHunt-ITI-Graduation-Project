@@ -20,6 +20,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Log;
 
 
 class usersController extends Controller
@@ -91,9 +92,15 @@ class usersController extends Controller
 
         if ($request->hasFile('photo')) {
             $validatedData['photo'] = $request->file('photo')->store('users');
-            // if ($user->photo!= 'users/default.jpg') {
-            //     unlink(storage_path('app/public/'. $user->photo));
-            // }
+            if ($user->photo && $user->photo!= 'users/default.jpg') {
+
+                try {
+                    unlink(storage_path('app/public/'. $user->photo));
+                } catch (\Exception $e) {
+                    Log::error('Failed to delete old photo: ' . $e->getMessage());
+                }
+                
+            }
         }
 
         if(isset($validatedData['password'])) {

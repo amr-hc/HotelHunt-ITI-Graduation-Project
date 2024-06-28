@@ -17,6 +17,7 @@ class Roomtype extends Model
         'description',
         'capacity',
         'price',
+        'photo'
     ];
 
     public function hotel(): BelongsTo
