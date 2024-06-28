@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use App\Notifications\BookingCreated;
+
 
 class BookingController extends Controller
 {
@@ -55,6 +57,8 @@ class BookingController extends Controller
             }
 
             DB::commit();
+
+            $booking->user->notify(new BookingCreated($booking));
             return response()->json($booking->load('book_details'), 201);
         } catch (\Exception $e) {
             DB::rollBack();

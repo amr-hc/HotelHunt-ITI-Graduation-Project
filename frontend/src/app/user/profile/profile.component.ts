@@ -11,6 +11,7 @@ import { BookingService } from '../../services/booking.service';
 import { Booking } from '../../models/booking'; // Import your adjusted Booking model
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HeaderComponent } from '../../layouts/header/header.component';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
@@ -28,8 +29,10 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   userid: number = 0;
   currentPage = 1;
   itemsPerPage = 4;
+  visibleDetails: { [key: number]: boolean } = {};
 
-  constructor(private userService: UserService, private router: Router, private bookingService: BookingService) {}
+  constructor(private userService: UserService, private router: Router,
+              private bookingService: BookingService, private authService:AuthService) { }
 
   ngOnInit() {
     const userid = localStorage.getItem('userId');
@@ -37,6 +40,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     if (userid) {
       this.userid = +userid;
     }
+
+    this.authService.setprofile();
 
     if (this.userid) {
       this.sub = this.userService.getUserById(this.userid).subscribe(
@@ -75,5 +80,19 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   navigateToEditProfile() {
     this.router.navigate(['/user/profile/edit']);
+  }
+
+  toggleDetails(bookingId: number) {
+    this.visibleDetails[bookingId] = !this.visibleDetails[bookingId];
+  }
+
+  isDetailsVisible(bookingId: number): boolean {
+    return !!this.visibleDetails[bookingId];
+  }
+
+  calculateCheckoutDate(checkinDate: string, duration: number): string {
+    const checkin = new Date(checkinDate);
+    checkin.setDate(checkin.getDate() + duration-1);
+    return checkin.toISOString().split('T')[0]; // Return date in YYYY-MM-DD format
   }
 }

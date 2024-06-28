@@ -4,8 +4,6 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /* background: url('path/to/your/background-image.jpg') no-repeat center center/cover; */
-  /* backdrop-filter: blur(15px); */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,7 +24,6 @@
 }
 
 .form-header {
-  /* background-color: #ff8c00; */
   color: #fff;
   padding: 15px;
   border-top-left-radius: 15px;
@@ -35,15 +32,18 @@
   text-align: center;
 }
 
-.form-header h4{
+.form-header h4 {
   margin-top: 10px;
 }
+
 .form-group label {
   font-weight: bold;
   color: #333;
 }
 
-.form-group input, .form-group select, textarea {
+.form-group input,
+.form-group select,
+textarea {
   width: 100%;
   padding: 10px;
   margin-top: 5px;
@@ -54,7 +54,9 @@
   transition: all 0.3s ease;
 }
 
-.form-group input:focus, .form-group select:focus , textarea:focus {
+.form-group input:focus,
+.form-group select:focus,
+textarea:focus {
   border-color: #ff8c00;
   box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
 }
@@ -75,6 +77,7 @@
 .btn-block {
   width: 100%;
 }
+
 .container {
   width: 100%;
   display: flex;
@@ -95,4 +98,15 @@
 
 .btn-google i {
   margin-right: 10px; /* Adjust as needed */
+}
+
+.forgot-password-btn {
+  color: #ff8c00;
+  text-decoration: none;
+  transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+.forgot-password-btn:hover {
+  color: #e67e00;
+  text-decoration: underline;
 }
