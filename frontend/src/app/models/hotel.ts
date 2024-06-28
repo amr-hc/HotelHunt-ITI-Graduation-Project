@@ -7,6 +7,7 @@ export class Hotel {
     public address: string,
     public country: string,
     public image: string,
+    public photo: string,
     public city: string,
     public status: 'active' | 'inactive' | 'suspend',
     public star_rating: number,

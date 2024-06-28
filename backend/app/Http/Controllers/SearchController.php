@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Roomtype;
+use App\Models\Hotel;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -95,6 +96,15 @@ class SearchController extends Controller
         ->havingRaw('COUNT(*) > DATEDIFF(?, ?)', [$end_date, $start_date])
         ->orderBy('roomtypes.price')->get();
         return $availableRooms;
+    }
+    public function searchByCountry(Request $request){
+        $request->validate([
+            'country' => 'required|string',
+        ]);
+
+        $results = Hotel::where('country', $request->country)->get();
+
+        return $results;
     }
 
 

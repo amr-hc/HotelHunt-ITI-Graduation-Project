@@ -4,11 +4,12 @@ import { FooterComponent } from '../../layouts/footer/footer.component';
 import { SliderComponent } from '../../layouts/slider/slider.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ListhotelsComponent } from './listhotels/listhotels.component';
+import { NearhotelsComponent } from './nearhotels/nearhotels.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent,SliderComponent,FooterComponent,WelcomeComponent,ListhotelsComponent],
+  imports: [HeaderComponent,SliderComponent,FooterComponent,WelcomeComponent,ListhotelsComponent,NearhotelsComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

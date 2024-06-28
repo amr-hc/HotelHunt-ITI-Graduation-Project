@@ -79,6 +79,7 @@ Route::apiResource('comments', CommentController::class);
 
 Route::post('/search', [SearchController::class, 'searchBetweenDates']);
 Route::post('/search/hotel', [SearchController::class, 'searchInHotel']);
+Route::post('/search/country', [SearchController::class, 'searchByCountry']);
 
 Route::resource('payments', PaymentController::class);
 Route::resource('booking', BookingController::class);
