@@ -23,13 +23,10 @@ export class RoomtypeService {
     return this.http.post(this.url, object);
   }
 
-  put(id: any, object: any) {
-  return this.http.put(this.url + `/${id}`, object, {
-    headers: {
-      'enctype': 'multipart/form-data'
-    }
-  });
-}
+  put(id: any, formData: FormData): Observable<any> {
+    const patchUrl = `${this.url}/${id}?_method=patch`;
+    return this.http.post(patchUrl, formData);
+  }
 
   delete( id : any ) {
     return this.http.delete(this.url + `/${id}` );
