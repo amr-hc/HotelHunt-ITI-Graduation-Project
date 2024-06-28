@@ -1,39 +1,49 @@
-<!-- src/app/payment/payment.component.html -->
-<div class="container mt-2">
-  <!-- Loading Spinner -->
-  <div *ngIf="isLoading" class="loading text-center mt-3">
+<div class="container">
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="loading text-center mt-1">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
     <p class="mt-2">Loading payments...</p>
   </div>
 
-  <!-- Payment Table -->
-  <div *ngIf="!isLoading && payments.length > 0">
-    <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline">All Payments</h1>
+  <!-- Error Message -->
+  <div *ngIf="errorMessage" class="error alert alert-danger mt-3">
+    {{ errorMessage }}
+  </div>
+
+  <!-- Hotel Selection Dropdown -->
+  <div *ngIf="!isLoading && !errorMessage">
+    <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline">Select Hotel</h1>
+    <select class="form-select mb-3" (change)="onHotelChange($event)">
+      <option value="" selected disabled>Select a hotel...</option>
+      <option *ngFor="let hotel of hotels" [value]="hotel">{{ hotel }}</option>
+    </select>
+  </div>
+
+  <!-- Display Payments -->
+  <div *ngIf="selectedHotel" class="position-relative">
+    <h2 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline">{{ selectedHotel }} Payments</h2>
+    <button class="btn btn-danger position-absolute top-0 end-0" (click)="clearSelection()">&times;</button>
     <table class="table table-striped table-bordered text-center">
       <thead class="table-dark">
         <tr>
-          <!-- <th scope="col">ID</th> -->
-          <th scope="col">Hotel</th>
-          <th scope="col">Amount</th>
-          <th scope="col">Date</th>
+          <th>Amount</th>
+          <th>Date</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let payment of payments | paginate: { itemsPerPage: 8, currentPage: currentPage }">
-          <!-- <th scope="row">{{ payment.id }}</th> -->
-          <td>{{ payment.hotel }}</td>
+        <tr *ngFor="let payment of groupedPayments[selectedHotel] | paginate: { itemsPerPage: 8, currentPage: currentPage }">
           <td>{{ payment.amount }}</td>
           <td>{{ payment.date | date:'short' }}</td>
         </tr>
       </tbody>
     </table>
-    <pagination-controls (pageChange)="currentPage = $event" class="text-center "></pagination-controls>
+    <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
   </div>
 
   <!-- No Payments Found -->
-  <div *ngIf="!isLoading && payments.length === 0" class="alert alert-info mt-3 text-center">
-    No payments found.
+  <div *ngIf="!isLoading && !errorMessage && hotels.length === 0" class="no-payments mt-3">
+    <p>No payments found.</p>
   </div>
 </div>
