@@ -4,11 +4,12 @@ import { ActivatedRoute } from '@angular/router';
 import { BookingService } from '../../../../services/booking.service';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-book-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule,ReactiveFormsModule],
   templateUrl: './book-details.component.html',
   styleUrl: './book-details.component.css'
 })
