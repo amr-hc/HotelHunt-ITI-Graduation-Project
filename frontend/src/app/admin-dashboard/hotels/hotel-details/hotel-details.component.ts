@@ -33,9 +33,6 @@ export class HotelDetailsComponent implements OnInit {
     this.hotelService.getHotelById(hotelId).subscribe(
       (response: { data: Hotel }) => {
         this.hotel = response.data;
-        if (this.hotel.owner_id) {
-          this.loadOwnerName(this.hotel.owner_id);
-        }
       },
       (error: any) => {
         console.error('Failed to fetch hotel details', error);
@@ -43,16 +40,4 @@ export class HotelDetailsComponent implements OnInit {
     );
   }
 
-  loadOwnerName(ownerId: number): void {
-    this.userService.getUserById(ownerId).subscribe(
-      (user: any) => {
-        if (this.hotel) {
-          this.hotel.owner_name = user.name;
-        }
-      },
-      (error: any) => {
-        console.error('Failed to fetch owner name', error);
-      }
-    );
-  }
 }

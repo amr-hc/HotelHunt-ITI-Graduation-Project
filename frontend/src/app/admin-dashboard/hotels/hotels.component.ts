@@ -34,28 +34,12 @@ export class HotelsComponent implements OnInit {
       response => {
         this.hotels = response.data;
         this.filteredHotels = this.hotels;
-        this.loadOwnerNames();
+        console.log(this.filteredHotels);
         this.isLoading = false;
       },
       error => {
         this.isLoading = false;
         console.error('Error loading hotels:', error);
-      }
-    );
-  }
-
-  loadOwnerNames(): void {
-    const hotelsWithOwners = this.hotels.filter(hotel => hotel.owner_id !== undefined);
-    const ownerRequests = hotelsWithOwners.map(hotel => this.userService.getUserById(hotel.owner_id));
-
-    forkJoin(ownerRequests).subscribe(
-      responses => {
-        responses.forEach((user, index) => {
-          hotelsWithOwners[index].owner_name = user.fname;
-        });
-      },
-      error => {
-        console.error('Error loading owner names:', error);
       }
     );
   }
