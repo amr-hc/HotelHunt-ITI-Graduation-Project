@@ -23,6 +23,8 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
   result: { hotel_name: string, roomsAvailable: number, hotels: SearchHotel[] }[] = [];
   imagePath ="http://127.0.0.1:8000/storage/"
   private searchSubscription: Subscription | null = null;
+  isLoading: boolean = false;
+  averageRating: number = 0;
 
   constructor(private searchHotelService: SearchHotelService) { }
 
@@ -61,11 +63,18 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
           roomsAvailable: groupedHotels[hotelName].length,
           hotels: groupedHotels[hotelName]
         }));
+        // this.isLoading = true;
+
       },
       (error: any) => {
         console.error('Error fetching hotels', error);
       }
     );
+
+    // this.isLoading = true;
+  }
+  averageRateAsNumber(average_rate: string): number {
+    return parseFloat(average_rate); // You can also use Number(average_rate)
   }
   ngOnDestroy(): void {
     // Clean up the subscription if needed
