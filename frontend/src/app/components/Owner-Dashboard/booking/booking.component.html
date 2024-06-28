@@ -54,12 +54,12 @@
                 <tr *ngFor="let detail of book.book_details">
                   <td>{{ detail.room_name }}</td>
                   <td>{{ detail.date }}</td>
-                  <td>{{ detail.price }}</td>
+                  <td>{{ detail.price | currency: 'EGP ' }}</td>
                 </tr>
               </tbody>
             </table>
           </td>
-          <td>{{ book.total_price | currency:'USD':'symbol' }}</td>
+          <td>{{ book.total_price | currency:'EGP ':'symbol' }}</td>
           <td>
             <button [routerLink]="['/owner/booking', book.id]" class="btn btn-primary">View</button>
           </td>

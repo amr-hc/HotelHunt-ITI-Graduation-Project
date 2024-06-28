@@ -5,20 +5,22 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, RouterLink,NgxPaginationModule],
+  imports: [CommonModule, RouterLink,NgxPaginationModule,FormsModule],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })
 export class UsersComponent {
   users: User[] = [];
   filteredUsers: User[] = [];
-  currentPage: number =1;
-  isLoading: boolean = true;  // Add loading state
+  currentPage: number = 1;
+  isLoading: boolean = true;
+  searchTerm: string = '';
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -72,5 +74,12 @@ export class UsersComponent {
     );
   }
 
-
+  searchUsers(): void {
+    const searchTermLower = this.searchTerm.toLowerCase();
+    this.filteredUsers = this.users.filter((user) =>
+      user.role === 'guest' &&
+      (user.fname.toLowerCase().includes(searchTermLower) ||
+       user.email.toLowerCase().includes(searchTermLower))
+    );
+  }
 }

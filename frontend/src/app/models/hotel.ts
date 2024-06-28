@@ -13,8 +13,6 @@ export class Hotel {
     public star_rating: number,
     public average_rate: number,
     public description: string,
-    public owner_name?: string,
-   
-    
+    public owner_name: string,
   ){}
 }

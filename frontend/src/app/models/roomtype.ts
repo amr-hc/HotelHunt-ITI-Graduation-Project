@@ -4,5 +4,5 @@ export class RoomType {
     description! : string ;
     capacity! :number ;
     price! : number;
+    photo!: string;
   }
-  
