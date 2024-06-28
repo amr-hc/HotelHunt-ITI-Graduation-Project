@@ -5,33 +5,36 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
   selector: 'app-owners',
   standalone: true,
-  imports: [CommonModule,NgxPaginationModule],
+  imports: [CommonModule,NgxPaginationModule,FormsModule],
   templateUrl: './owners.component.html',
   styleUrl: './owners.component.css'
 })
 export class OwnersComponent {
   users: User[] = [];
   owners: User[] = [];
-  currentPage: number =1;
-  isLoading: boolean = true;  // Add loading state
+  filteredOwners: User[] = [];
+  currentPage: number = 1;
+  isLoading: boolean = true;
+  searchTerm: string = '';
 
-
-  constructor(private userService: UserService,  private router: Router) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.userService.getAllUsers().subscribe(
       (response: any) => {
         this.users = response.data;
         this.owners = this.users.filter(user => user.role === 'owner');
+        this.filteredOwners = [...this.owners];
         this.isLoading = false;
       },
       (error) => {
-        this.isLoading = false;  
+        this.isLoading = false;
         console.error('Error fetching users', error);
       }
     );
@@ -65,11 +68,19 @@ export class OwnersComponent {
           'The user has been deleted.',
           'success'
         );
-        this.owners = this.owners.filter(user => user.id !== id);
+        this.filteredOwners = this.filteredOwners.filter(user => user.id !== id);
       },
       (error) => {
         console.error('Error deleting user', error);
       }
+    );
+  }
+
+  searchOwners(): void {
+    const searchTermLower = this.searchTerm.toLowerCase();
+    this.filteredOwners = this.owners.filter((owner) =>
+      owner.fname.toLowerCase().includes(searchTermLower) ||
+      owner.email.toLowerCase().includes(searchTermLower)
     );
   }
 }
