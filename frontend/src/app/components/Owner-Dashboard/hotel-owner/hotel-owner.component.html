@@ -21,7 +21,7 @@
         <p><strong>Description:</strong> {{ hotel.description }}</p>
         <p><strong>rating:</strong> {{ hotel.star_rating }}</p>
 
-        <button class="btn btn-secondary mx-1" [routerLink]="['/owner/hotel', hotel.id]">Update</button>
+        <button class="btn btn-primary mx-1" [routerLink]="['/owner/hotel', hotel.id]">Update</button>
         <button class="btn btn-success mx-1" [routerLink]="['/owner/hotel', hotel.id, 'addImage']">Add
           Image</button>
       </div>

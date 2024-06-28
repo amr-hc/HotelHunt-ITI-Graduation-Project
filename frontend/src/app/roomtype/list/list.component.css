@@ -1,6 +1,136 @@
+/* Style for the container and card */
+.container {
+  margin-top: 20px;
+}
+
+.card.bg-dark {
+  border: 1px solid #343a40;
+  /* Darker border to match the theme */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Add a shadow for better contrast */
+  overflow: hidden;
+  /* Ensure no overflow */
+}
+
+/* Header Styling */
+h1.text-primary {
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+/* Button Styling */
+.btn-primary,
+.btn-info,
+.btn-danger,
+.btn-success {
+  margin: 5px;
+  transition: background-color 0.3s ease;
+  /* Add smooth transition effect */
+  padding: 10px 15px;
+  /* Consistent button padding */
+  border-radius: 5px;
+  /* Slightly rounded corners */
+  text-transform: uppercase;
+  /* Uppercase text for buttons */
+  font-size: 0.875rem;
+  /* Slightly smaller font size */
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  /* Darker primary color on hover */
+}
+
+.btn-info:hover {
+  background-color: #17a2b8;
+  /* Info color on hover */
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  /* Darker danger color on hover */
+}
+
+.btn-success:hover {
+  background-color: #218838;
+  /* Darker success color on hover */
+}
+
+/* Table Styling */
+.table-dark {
+  background-color: #343a40;
+  /* Match table background with card */
+}
+
+.table-dark th,
+.table-dark td {
+  color: #f8f9fa;
+  /* Light text color for readability */
+  vertical-align: middle;
+  text-transform: uppercase;
+  /* Uppercase text for table headers */
+  font-size: 0.875rem;
+  /* Slightly smaller font size */
+}
+
+.thead-light th {
+  background-color: #495057;
+  /* Slightly lighter background for table headers */
+  border-bottom: 2px solid #343a40;
+  /* Dark border for headers */
+}
+
+/* Description Field */
 .description-field {
-    white-space: pre-wrap;
-    overflow-wrap: break-word; /* Prevent horizontal overflow */
-    max-width: 200px; /* Adjust as needed */
-  }
-  
+  max-width: 200px;
+  /* Limit the width of the description */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* Add ellipsis for overflow */
+}
+
+/* Status Badge Styling */
+.status-badge {
+  display: inline-block;
+  padding: 0.5em 1em;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 0.5em;
+  text-align: center;
+  transition: background-color 0.3s ease;
+  /* Smooth transition effect */
+}
+
+.status-in-progress {
+  background-color: #007bff;
+  /* Primary color */
+}
+
+.status-completed {
+  background-color: #28a745;
+  /* Success color */
+}
+
+.status-cancelled {
+  background-color: #d21d2f;
+  /* Danger color */
+}
+
+.status-in-progress:hover {
+  background-color: #0056b3;
+  /* Darker primary color */
+}
+
+.status-completed:hover {
+  background-color: #218838;
+  /* Darker success color */
+}
+
+.status-cancelled:hover {
+  background-color: #8b303a;
+  /* Darker danger color */
+}
