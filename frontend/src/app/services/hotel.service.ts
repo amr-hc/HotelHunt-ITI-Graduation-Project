@@ -34,6 +34,12 @@ export class HotelService {
   getAllHotels(): Observable<{ data: Hotel[] }> {
     return this.http.get<{ data: Hotel[] }>(this.apiUrl);
   }
+  getHotelsBycountry(country : string): Observable<{ data: Hotel[] }> {
+    return this.http.post< any >('http://127.0.0.1:8000/api/search/country',{country});
+  }
+  getHotelsByCity(city : string): Observable<{ data: Hotel[] }> {
+    return this.http.post< any >('http://127.0.0.1:8000/api/search/city',{city});
+  }
 
   //update hotel status
   updateHotelStatus(id: number, status: 'active' | 'inactive' | 'suspend'): Observable<Hotel> {

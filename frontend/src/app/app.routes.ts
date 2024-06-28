@@ -27,6 +27,9 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
 import { ActivatedComponent } from './login/activated/activated.component';
 import { VerifyAccountComponent } from './verify-account/verify-account.component';
 import { HotellistComponent } from './components/hotellist/hotellist.component';
+import { AuthGuard } from './guards/auth.guard';
+import { OwnerGuard } from './guards/owner.guard';
+import { AdminGuard } from './guards/admin.guard';
 
 
 
@@ -37,7 +40,7 @@ export const routes: Routes = [
     pathMatch: 'full',
   },
   {path: 'register', component: RegisterComponent },
-  { path: 'availability/:id', component: AvailabilityComponent},
+  { path: 'availability/:id', component: AvailabilityComponent, canActivate: [AuthGuard]},
   {path: 'register/hotel',component: RegisterHotelComponent },
   { path: 'search', component: SearchHotelsComponent },
   { path: 'hotel/:id' , component: HotelComponent},
@@ -45,26 +48,26 @@ export const routes: Routes = [
   {path: 'reset', component: ResetPasswordComponent},
   {path: 'forget-password', component:ForgetPasswordComponent},
   {path: 'verify/:id/:token',component:VerifyAccountComponent},
-  {path : "list" , component : ListComponent},
-  {path : "show/:id" , component : ShowComponent },
-  {path : "add" , component : AddComponent },
-  {path : "update/:id" , component : UpdateComponent },
-  {path : "user/profile/edit" , component : EditProfileComponent },
+  {path : "list" , component : ListComponent, canActivate: [OwnerGuard]},
+  {path : "show/:id" , component : ShowComponent, canActivate: [OwnerGuard]},
+  {path : "add" , component : AddComponent, canActivate: [OwnerGuard]},
+  {path : "update/:id" , component : UpdateComponent, canActivate: [OwnerGuard]},
+  {path : "user/profile/edit" , component : EditProfileComponent, canActivate: [AuthGuard]},
   {path : "login/google" , component : ActivatedComponent },
 
-  { path:'admin-dashboard',     loadChildren: () =>
-    import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},
+  // { path:'admin-dashboard',     loadChildren: () =>
+  //   import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},
     {path : "home" , component : HomeComponent },
   {path : "about" , component : AboutComponent },
    {path : "contact" , component :ContactComponent },
 
-  {path : "user/profile" , component : UserProfileComponent },
+  {path : "user/profile" , component : UserProfileComponent, canActivate: [AuthGuard]},
 
 
-  { path:'admin-dashboard',     loadChildren: () =>
-    import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},
-    {path: 'owner', loadChildren:()=>import("./components/Owner-Dashboard/owner.routes").then(o=>o.ownerRoutes)},
-  
+  { path:'admin-dashboard',    loadChildren: () =>
+    import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes), canActivate: [AdminGuard]},
+    {path: 'owner', loadChildren:()=>import("./components/Owner-Dashboard/owner.routes").then(o=>o.ownerRoutes), canActivate: [OwnerGuard]},
+
   {path : "hotelList" , component : HotellistComponent},
 
   //  {path:'owner', component:SidebarComponent},

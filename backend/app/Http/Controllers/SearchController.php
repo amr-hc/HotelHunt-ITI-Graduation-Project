@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Roomtype;
+use App\Models\Hotel;
 use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
@@ -42,6 +43,7 @@ class SearchController extends Controller
         ->where('availabilities.stock', '>', 0)
         ->whereBetween('availabilities.date', [$start_date, $end_date])
         ->where('hotels.city', $city)
+        ->where('hotels.status', 'active')
         ->groupBy(
             'roomtypes.id',
             'roomtypes.name',
@@ -89,10 +91,29 @@ class SearchController extends Controller
         ->where('availabilities.stock', '>', 0)
         ->whereBetween('availabilities.date', [$start_date, $end_date])
         ->where('hotels.id', $hotel_id)
+        ->where('hotels.status', 'active')
         ->groupBy('roomtypes.id','roomtypes.name', 'roomtypes.price','roomtypes.description')
         ->havingRaw('COUNT(*) > DATEDIFF(?, ?)', [$end_date, $start_date])
         ->orderBy('roomtypes.price')->get();
         return $availableRooms;
+    }
+    public function searchByCountry(Request $request){
+        $request->validate([
+            'country' => 'required|string',
+        ]);
+
+        $results = Hotel::where('country', $request->country)->get();
+
+        return $results;
+    }
+    public function searchByCity(Request $request){
+        $request->validate([
+            'city' => 'required|string',
+        ]);
+
+        $results = Hotel::where('city', $request->city)->get();
+
+        return $results;
     }
 
 
