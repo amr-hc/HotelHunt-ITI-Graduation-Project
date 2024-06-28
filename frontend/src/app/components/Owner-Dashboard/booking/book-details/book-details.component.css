@@ -52,13 +52,16 @@
 .status-badge {
   display: inline-block;
   padding: 0.5em 1em;
-  font-size: 1 rem;
+  font-size: 1rem;
   font-weight: bold;
   color: #fff;
   border-radius: 0.5em;
   text-align: center;
+  transition: background-color 0.3s ease;
+  /* Smooth transition effect */
 }
 
+/* Default badge colors */
 .status-in-progress {
   background-color: #007bff;
   /* Primary color */
@@ -70,6 +73,22 @@
 }
 
 .status-cancelled {
-  background-color: #ab434e;
+  background-color: #d21d2f;
   /* Danger color */
+}
+
+/* Hover effect */
+.status-in-progress:hover {
+  background-color: #0056b3;
+  /* Darker primary color */
+}
+
+.status-completed:hover {
+  background-color: #218838;
+  /* Darker success color */
+}
+
+.status-cancelled:hover {
+  background-color: #8b303a;
+  /* Darker danger color */
 }

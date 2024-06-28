@@ -12,8 +12,7 @@
           }">{{ booking.status }}</span>
         </p>
         <p><strong>Duration: </strong> <span class="text-light">{{ booking.duration }}</span> days</p>
-        <p><strong>Total Price: </strong> <span class="text-light">{{ booking.total_price | currency: 'EGP' }}</span>
-          Egyptian Pound</p>
+        <p><strong>Total Price: </strong> <span class="text-light">{{ booking.total_price | currency: 'EGP ' }}</span></p>
       </div>
 
       <h3 class="text-primary mb-3">Room Details</h3>
@@ -23,8 +22,8 @@
           <div class="room-info">
             <p><strong>Room Type: </strong> <span class="text-light">{{ detail.room_name }}</span></p>
             <p><strong>Date: </strong> <span class="text-light">{{ detail.date }}</span></p>
-            <p><strong>Price: </strong> <span class="text-light">{{ detail.price | currency: 'EGP' }}</span> Egyptian
-              Pound</p>
+            <p><strong>Price: </strong> <span class="text-light">{{ detail.price | currency: 'EGP ' }}</span>
+              </p>
           </div>
         </li>
       </ul>
