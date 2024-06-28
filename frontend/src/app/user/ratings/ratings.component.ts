@@ -42,19 +42,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
     )
     this.loadRating();
   }
-  // loadRating() {
-  //   this.ratingSubscription = this.ratingService.getUserRating(this.hotel_id, this.user_id).subscribe(
-  //     (rating: Rating) => {
-  //       if (rating)  {
-  //         this.rating = rating.rate;
-  //         this.userRating = new UserRating(rating.rate, rating.user_id, rating.hotel_id);
-  //       }
-  //     },
-  //     (error: any) => {
-  //       console.error('Error fetching rating', error);
-  //     }
-  //   );
-  // }
+
   loadRating() {
     this.ratingSubscription = this.ratingService.getRatingforLoginUser(this.hotel_id).subscribe(
       (rating: Rating) => {
@@ -74,61 +62,17 @@ export class RatingsComponent implements OnInit, OnDestroy {
       this.userRatingSubscription = this.ratingService.createOrUpdateUserRating(userRating).subscribe(
         (response) => {
           console.log('Rating updated', response);
-          // this.rating = rating; // Update local rating immediately
+          this.rating = rating; // Update local rating immediately
         },
         (error) => {
-          // console.error('Error updating rating:'); // Log the actual error
+          console.error('Error updating rating:'); // Log the actual error
         }
       );
-      this.rating = rating; // Update local rating immediately
+      // this.rating = rating; // Update local rating immediately
 
     }
   }
-  // rateHotel(rating: number) {
-    // if (this.hotel_id) {
-    //   const userRating = new UserRating(rating, this.user_id, this.hotel_id);
-    //   this.ratingService.updateUserRating(this.hotel_id, userRating).subscribe(
-    //     response => {
-    //       console.log('Rating updated', response);
-    //       this.rating = rating; // Update local rating immediately
-    //     },
-    //     error => {
-    //       console.error('Error updating rating', error);
-    //     }
-    //   );
-    // }
-  // }
 
-  // rateHotel(rating: number) {
-  //   if (this.hotel_id && this.user_id !== null) {
-  //     const userRating = new UserRating(rating, this.user_id, this.hotel_id);
-
-  //     if (this.userRating) {
-  //       // Update existing rating
-  //       this.ratingService.updateUserRating(this.hotel_id, userRating).subscribe(
-  //         response => {
-  //           console.log('Rating updated', response);
-  //           this.rating = rating; // Update local rating immediately
-  //         },
-  //         error => {
-  //           console.error('Error updating rating', error);
-  //         }
-  //       );
-  //     } else {
-  //       // Create new rating
-  //       this.ratingService.createUserRating(userRating).subscribe(
-  //         response => {
-  //           console.log('Rating created', response);
-  //           this.rating = rating; // Update local rating immediately
-  //           this.userRating = new UserRating(rating, this.user_id, this.hotel_id); // Update userRating object
-  //         },
-  //         error => {
-  //           console.error('Error creating rating', error);
-  //         }
-  //       );
-  //     }
-  //   }
-  // }
   ngOnDestroy(): void {
     if (this.ratingSubscription) {
       this.ratingSubscription.unsubscribe();
