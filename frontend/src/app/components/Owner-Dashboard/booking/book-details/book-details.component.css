@@ -1,109 +1,75 @@
-/* Container styling */
 .booking-container {
-  margin: 20px auto;
-  max-width: 800px;
+  box-shadow: 2px 2px 2px #3333;
+  border-radius: 10px;
   padding: 20px;
-  background-color: #f9f9f9;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  font-family: Arial, sans-serif;
-}
-
-/* Card styling */
-.booking-card {
-  padding: 20px;
-  border-radius: 8px;
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .booking-card h2,
 .booking-card h3 {
-  color: #333;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 10px;
+  box-shadow: 2px 2px 2px #3333;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #343a40;
+  /* Bootstrap's dark color */
+  color: #ffffff;
 }
 
-/* Booking info styling */
-.booking-info {
-  margin-bottom: 20px;
+.booking-info p,
+.room-info p {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
 }
 
-.booking-info p {
-  margin: 10px 0;
-  line-height: 1.6;
-}
-
-.booking-info strong {
-  color: #555;
-}
-
-.booking-info span {
-  color: #007bff;
-  font-weight: bold;
-}
-
-/* Badge styling */
-.badge {
-  display: inline-block;
-  padding: 5px 10px;
-  background-color: #007bff;
-  color: #fff;
-  border-radius: 12px;
-  font-size: 0.9em;
-}
-
-/* Room details styling */
 .room-details {
-  list-style-type: none;
   padding: 0;
-  margin: 0;
+  list-style-type: none;
 }
 
 .room-detail {
-  background-color: #f5f5f5;
-  border-radius: 5px;
+  box-shadow: 2px 2px 2px #3333;
+  border-radius: 8px;
   padding: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  flex-direction: column;
+  background-color: #495057;
+  /* Slightly lighter dark color */
+  color: #ffffff;
+  margin-top: 15px;
 }
 
-.room-info p {
-  margin: 5px 0;
-  color: #333;
-}
 
-/* Flexbox for room info */
-.room-info {
-  display: flex;
-  flex-direction: column;
-}
 
-/* Loader styling */
+
 .loading-container {
-  text-align: center;
-  padding: 50px;
-  font-size: 1.2em;
-  color: #666;
+  padding: 20px;
+  font-size: 18px;
 }
 
-/* Responsive styling */
-@media (max-width: 600px) {
-  .booking-container {
-    padding: 10px;
-    margin: 10px;
-  }
+.container {
+  margin-top: 20px;
+}
 
-  .booking-card {
-    padding: 15px;
-  }
+/* File: component-name.component.css or component-name.component.scss */
 
-  .room-detail {
-    flex-direction: column;
-  }
+.status-badge {
+  display: inline-block;
+  padding: 0.5em 1em;
+  font-size: 1 rem;
+  font-weight: bold;
+  color: #fff;
+  border-radius: 0.5em;
+  text-align: center;
+}
 
-  .room-info p {
-    margin: 3px 0;
-  }
+.status-in-progress {
+  background-color: #007bff;
+  /* Primary color */
+}
+
+.status-completed {
+  background-color: #28a745;
+  /* Success color */
+}
+
+.status-cancelled {
+  background-color: #ab434e;
+  /* Danger color */
 }
