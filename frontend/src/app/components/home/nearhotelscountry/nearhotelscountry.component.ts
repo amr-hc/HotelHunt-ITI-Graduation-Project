@@ -30,9 +30,9 @@ export class NearhotelscountryComponent {
   }
 
   getCountryFromIp(): void {
-    this.http.get('https://api.ipify.org?format=json')
+    this.http.get('https://api.bigdatacloud.net/data/client-ip')
       .subscribe((ipData: any) => {
-        const ipAddress = ipData.ip;
+        const ipAddress = ipData.ipString;
 
         this.http.get(`https://ipapi.co/${ipAddress}/json/`)
           .subscribe((geoData: any) => {
