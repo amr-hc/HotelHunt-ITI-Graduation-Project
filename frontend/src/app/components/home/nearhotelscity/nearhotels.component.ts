@@ -20,20 +20,21 @@ export class NearhotelsComponent {
   isLoading: boolean = true;
   errorMessage: string = '';
   currentPage: number =1;
-  country : string ='';
+  city : string ='';
 
   constructor(private hotelService: HotelService,private http: HttpClient) { }
 
 
 
   getAllTopRatedHotels(): void {
-    this.hotelService.getHotelsBycountry(this.country).subscribe(
+    this.hotelService.getHotelsByCity(this.city).subscribe(
       (response: any) => {
         this.isLoading = false;
         this.topRatedHotels = response;
         console.log(this.topRatedHotels);
         if (this.topRatedHotels.length === 0) {
-          this.errorMessage = 'No top-rated hotels found.';
+          this.errorMessage = 'No hotels in your city.';
+          this.showComponent=false;
         }
       },
       (error: any) => {
@@ -46,6 +47,8 @@ export class NearhotelsComponent {
 
   ngOnInit() {
     this.getLocation();
+    
+    
   }
 
   getLocation() {
@@ -83,16 +86,43 @@ export class NearhotelsComponent {
   }
 
   getCity(latitude: number, longitude: number) {
+    console.log(latitude,longitude);
     const url = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en`;
     this.http.get<any>(url).subscribe(
       (data :any)  => {
-        this.country = data.countryName || "country not found";
-        console.log("Counrty: " + this.country);
+        this.city = this.cleanEnglish(data.city) || "country not found";
+        console.log("gps city: " + this.city);
+        this.setCookie("city", this.city, 5);
         this.getAllTopRatedHotels();
+        
       },
       (error :any) => console.error('Error:', error)
     );
   }
 
+  setCookie(cookieName :string, cookieValue :any, expirationDays :number) {
+    var d = new Date();
+    d.setTime(d.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+  }
+
+  cleanEnglish(text: string): string {
+    const map: { [key: string]: string } = {
+        'ḩ': 'h',
+        'ā': 'a',
+        'á': 'a',
+        'í': 'i',
+        'ū': 'u',
+        'č': 'ch',
+        'š': 'sh',
+        'ž': 'zh',
+        'ʼ': '',
+    };
+
+    return text.replace(/[ḩāáíūčšžʼ]/g, (match: string) => map[match] || match);
+  }
+
+  
 
 }

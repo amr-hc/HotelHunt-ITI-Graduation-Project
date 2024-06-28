@@ -106,6 +106,15 @@ class SearchController extends Controller
 
         return $results;
     }
+    public function searchByCity(Request $request){
+        $request->validate([
+            'city' => 'required|string',
+        ]);
+
+        $results = Hotel::where('city', $request->city)->get();
+
+        return $results;
+    }
 
 
 }
