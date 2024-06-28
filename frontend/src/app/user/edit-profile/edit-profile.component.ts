@@ -17,6 +17,7 @@ export class EditProfileComponent implements OnInit {
   userForm: FormGroup;
   user: User = new User(0, '', '', '', '', '', 'guest', 0, '');
   errorMessage: string = '';
+  existingPhoto: string = '';
 
   constructor(
     private userService: UserService,
@@ -40,6 +41,7 @@ export class EditProfileComponent implements OnInit {
       this.userService.getUserById(+userId).subscribe(
         (response: any) => {
           this.user = response.data;
+          this.existingPhoto = this.user.photo;
           // Update form values after fetching user data
           this.userForm.patchValue({
             fname: this.user.fname,
@@ -59,14 +61,19 @@ export class EditProfileComponent implements OnInit {
 
   onSubmit(): void {
     const formData = new FormData();
-    formData.append('id', this.user.id.toString()); // Append user ID if needed
+    formData.append('id', this.user.id.toString()); 
     formData.append('fname', this.userForm.value.fname);
     formData.append('lname', this.userForm.value.lname);
     formData.append('email', this.userForm.value.email);
     formData.append('phone', this.userForm.value.phone);
     formData.append('address', this.userForm.value.address);
-    formData.append('photo', this.userForm.value.photo); // append photo file
+    // formData.append('photo', this.userForm.value.photo);
 
+    if (this.userForm.value.photo) {
+      formData.append('photo', this.userForm.value.photo);
+    } else {
+      formData.append('existingPhoto', this.existingPhoto);
+    }
     this.userService.updateUser(formData).subscribe(
       (response) => {
         console.log('User updated successfully', response);
