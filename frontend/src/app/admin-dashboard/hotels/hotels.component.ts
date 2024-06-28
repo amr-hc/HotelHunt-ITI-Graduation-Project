@@ -16,34 +16,55 @@ import { forkJoin } from 'rxjs';
   templateUrl: './hotels.component.html',
   styleUrl: './hotels.component.css'
 })
-export class HotelsComponent implements OnInit{
+export class HotelsComponent implements OnInit {
   hotels: Hotel[] = [];
-  currentPage: number =1;
+  filteredHotels: Hotel[] = [];
+  searchTerm: string = '';
+  currentPage: number = 1;
   isLoading: boolean = true;
 
-
-  constructor(private hotelService: HotelService,private userService: UserService,private router: Router) { }
+  constructor(
+    private hotelService: HotelService,
+    private userService: UserService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.hotelService.getAllHotels().subscribe(response => {
-      this.hotels = response.data;
-      this.loadOwnerNames();
-      this.isLoading = false;
-    }, error => {
-      this.isLoading = false;
-      console.error('Error loading hotels:', error);
-    });
+    this.hotelService.getAllHotels().subscribe(
+      response => {
+        this.hotels = response.data;
+        this.filteredHotels = this.hotels;
+        this.loadOwnerNames();
+        this.isLoading = false;
+      },
+      error => {
+        this.isLoading = false;
+        console.error('Error loading hotels:', error);
+      }
+    );
   }
 
   loadOwnerNames(): void {
-    const ownerRequests = this.hotels.map(hotel => this.userService.getUserById(hotel.owner_id));
-    forkJoin(ownerRequests).subscribe(responses => {
-      responses.forEach((user, index) => {
-        this.hotels[index].owner_name = user.fname;
-      });
-    }, error => {
-      console.error('Error loading owner names:', error);
-    });
+    const hotelsWithOwners = this.hotels.filter(hotel => hotel.owner_id !== undefined);
+    const ownerRequests = hotelsWithOwners.map(hotel => this.userService.getUserById(hotel.owner_id));
+
+    forkJoin(ownerRequests).subscribe(
+      responses => {
+        responses.forEach((user, index) => {
+          hotelsWithOwners[index].owner_name = user.fname;
+        });
+      },
+      error => {
+        console.error('Error loading owner names:', error);
+      }
+    );
+  }
+
+  filterHotels(): void {
+    this.filteredHotels = this.hotels.filter(hotel =>
+      hotel.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      hotel.city.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   viewHotelDetails(id: number): void {
@@ -58,7 +79,7 @@ export class HotelsComponent implements OnInit{
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
       cancelButtonText: 'No, keep it'
-    }).then((result) => {
+    }).then(result => {
       if (result.isConfirmed) {
         this.deleteHotel(id);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -68,22 +89,23 @@ export class HotelsComponent implements OnInit{
   }
 
   deleteHotel(id: number): void {
-    this.hotelService.deleteHotel(id).subscribe(() => {
-      this.hotels = this.hotels.filter(hotel => hotel.id !== id);
-      Swal.fire('Deleted!', 'Your hotel has been deleted.', 'success');
-    }, error => {
-      Swal.fire('Error!', 'Failed to delete hotel.', 'error');
-      console.error('Error deleting hotel:', error);
-    });
+    this.hotelService.deleteHotel(id).subscribe(
+      () => {
+        this.hotels = this.hotels.filter(hotel => hotel.id !== id);
+        this.filterHotels(); // Update filtered hotels after deletion
+        Swal.fire('Deleted!', 'Your hotel has been deleted.', 'success');
+      },
+      error => {
+        Swal.fire('Error!', 'Failed to delete hotel.', 'error');
+        console.error('Error deleting hotel:', error);
+      }
+    );
   }
 
   updateHotelStatus(hotel: Hotel): void {
     const newStatus = hotel.status;
     this.hotelService.updateHotelStatus(hotel.id, newStatus).subscribe(updatedHotel => {
-
       console.log('Hotel status updated:', updatedHotel);
     });
   }
-
-
 }
