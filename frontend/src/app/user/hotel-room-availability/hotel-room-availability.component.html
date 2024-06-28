@@ -14,6 +14,9 @@
                   <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-in Date"
                     [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" data-target="#date1"
                     data-toggle="datetimepicker" />
+                  <div *ngIf="checkinDateError" class="text-danger">{{ checkinDateError }}</div>
+                  <div *ngIf="dateError" class="text-danger">{{ dateError }}</div>
+
                 </div>
               </div>
               <div class="col-md-5">
@@ -22,6 +25,8 @@
                   <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-out Date"
                     [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" data-target="#date2"
                     data-toggle="datetimepicker" />
+                                      <div *ngIf="checkoutDateError" class="text-danger">{{ checkoutDateError }}</div>
+
                 </div>
               </div>
 
@@ -78,7 +83,8 @@
           <td>{{ room.price | currency:'USD':'symbol':'1.2-2' }}</td>
           <td>{{ room.stock }}</td>
           <td>
-            <select class="form-control" id="select-room-{{ room.id }}" (change)="onRoomSelectionChange(room.id, $event)">
+            <select class="form-control" id="select-room-{{ room.id }}"
+              (change)="onRoomSelectionChange(room.id, $event)">
               <option *ngFor="let i of getRoomOptions(room.stock)" [value]="i">{{ i }}</option>
             </select>
           </td>
@@ -94,6 +100,3 @@
 <div *ngIf="rooms.length === 0" class="alert alert-warning mx-auto w-50 rounded-5">
   <p class="text-center fs-3 bg-primary rounded-5">No rooms available for the selected dates.</p>
 </div>
-
-
-
