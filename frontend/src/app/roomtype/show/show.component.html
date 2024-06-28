@@ -1,21 +1,23 @@
-<div class="container col-6 pt-5 " *ngIf="object.id">
-    <div class="card">
-      <div class="card-body">
-        <h6> ID : {{ object.id }} </h6>
-        <hr>
-        <h6> Type : {{ object.name }} </h6>
-        <hr>
-        <h6> price : {{ object.price }} </h6>
-        <hr>
-        <h6> Description : {{ object.description }} </h6>
-        <hr>
-        <h6> Capacity : {{ object.capacity }} </h6>
+<div class="container col-md-6 pt-5" *ngIf="object.id">
+  <div class="card bg-dark text-white">
+    <div class="card-body">
+      <div class="text-center mb-3">
+        <img [src]="'http://127.0.0.1:8000/storage/' + object.photo" class="img-fluid img-thumbnail" alt="Room Photo">
       </div>
+      <h6 class="text-uppercase">ID: {{ object.id }}</h6>
+      <hr class="bg-light">
+      <h6 class="text-uppercase">Type: {{ object.name }}</h6>
+      <hr class="bg-light">
+      <h6 class="text-uppercase">Price: {{ object.price | currency }}</h6>
+      <hr class="bg-light">
+      <h6 class="text-uppercase">Description: {{ object.description }}</h6>
+      <hr class="bg-light">
+      <h6 class="text-uppercase">Capacity: {{ object.capacity }}</h6>
     </div>
   </div>
-  <div class="container col-6 pt-5" *ngIf="object.id">
-    <div class="d-grid pt-3">
-      <button class="btn btn-primary" (click)="reset()">Reset</button>
-    </div>
+</div>
+<div class="container col-md-6 pt-5" *ngIf="object.id">
+  <div class="d-grid pt-3">
+    <button class="btn btn-primary" (click)="reset()">Reset</button>
   </div>
-  
+</div>

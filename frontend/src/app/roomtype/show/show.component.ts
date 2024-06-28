@@ -31,6 +31,7 @@ export class ShowComponent {
     this.serv.getById(this.id).subscribe((data: any) => {
       console.log(data);
       this.object = data;
+      console.log("image", this.object.photo);
     });
   }
 

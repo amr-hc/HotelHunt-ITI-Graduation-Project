@@ -1,8 +1,29 @@
-.card{
-    padding: 20px;
-    background-color: #333333;
-  }
-  .card-body{
-    
-    color: aliceblue;
-  }
+/* Style for the image */
+.img-thumbnail {
+  max-height: 300px;
+  /* Limit the image height */
+  width: auto;
+  /* Maintain aspect ratio */
+  border-radius: 8px;
+  /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+}
+
+/* Centering and padding adjustments */
+.text-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+
+/* Card adjustments for dark theme */
+.card.bg-dark {
+  border: 1px solid #495057;
+
+}
+
+h6 {
+  color: #e9ecef;
+}
