@@ -48,13 +48,14 @@
           id="navbarCollapse"
         >
           <div class="navbar-nav mr-auto py-0">
-            <a routerLink="/home" class="nav-item nav-link active">Home</a>
-            <a routerLink="/about" class="nav-item nav-link">About</a>
-            <a routerLink="/hotelList" class="nav-item nav-link">Hotels</a>
+            <a routerLink="/home" routerLinkActive="active" class="nav-item nav-link">Home</a>
+            <a routerLink="/about" routerLinkActive="active" class="nav-item nav-link">About</a>
+            <a routerLink="/hotelList" routerLinkActive="active"  class="nav-item nav-link">Hotels</a>
             <div class="nav-item dropdown">
               <a
                 href="#"
                 class="nav-link dropdown-toggle"
+                routerLinkActive="active"
                 data-bs-toggle="dropdown"
                 >Pages</a
               >
@@ -64,7 +65,7 @@
                 <a routerLink="/home" class="dropdown-item">Testimonial</a>
               </div>
             </div>
-            <a routerLink="/contact" class="nav-item nav-link">Contact</a>
+            <a routerLink="/contact" routerLinkActive="active" class="nav-item nav-link">Contact</a>
           </div>
           <!-- app.component.html or navbar component template -->
 <div class="navbar-nav mr-auto py-0">
