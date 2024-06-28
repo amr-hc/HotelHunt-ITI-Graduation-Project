@@ -19,8 +19,8 @@ export class RoomtypeService {
     return this.http.get(this.url + `/${id}`)
   }
 
-  post(object : any){
-    return this.http.post(this.url , object);
+  post(object: FormData): Observable<any> {
+    return this.http.post(this.url, object);
   }
 
   put(id : any ,object : any){
