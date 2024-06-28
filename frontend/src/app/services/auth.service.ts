@@ -63,5 +63,10 @@ export class AuthService {
     return role === 'owner';
   }
 
+  isAdmin(): boolean {
+    const role = localStorage.getItem('userRole');
+    return role === 'admin';
+  }
+
 }
 

@@ -30,6 +30,8 @@ import { HotellistComponent } from './components/hotellist/hotellist.component';
 import { AuthGuard } from './guards/auth.guard';
 import { OwnerGuard } from './guards/owner.guard';
 import { AdminGuard } from './guards/admin.guard';
+import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
+import { ProfileGuard } from './guards/profile.guard';
 
 
 
@@ -54,6 +56,7 @@ export const routes: Routes = [
   {path : "update/:id" , component : UpdateComponent, canActivate: [OwnerGuard]},
   {path : "user/profile/edit" , component : EditProfileComponent, canActivate: [AuthGuard]},
   {path : "login/google" , component : ActivatedComponent },
+  {path : "unauthorized" , component : UnauthorizedComponent },
 
   // { path:'admin-dashboard',     loadChildren: () =>
   //   import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes)},
@@ -61,7 +64,7 @@ export const routes: Routes = [
   {path : "about" , component : AboutComponent },
    {path : "contact" , component :ContactComponent },
 
-  {path : "user/profile" , component : UserProfileComponent, canActivate: [AuthGuard]},
+  {path : "user/profile" , component : UserProfileComponent, canActivate: [ProfileGuard]},
 
 
   { path:'admin-dashboard',    loadChildren: () =>
