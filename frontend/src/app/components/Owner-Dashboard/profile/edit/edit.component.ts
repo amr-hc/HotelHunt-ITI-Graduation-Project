@@ -58,47 +58,58 @@ export class EditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.formSubmitted = true;
-    if (this.editForm.valid) {
-      const formData = new FormData();
-      Object.keys(this.editForm.controls).forEach(key => {
+  this.formSubmitted = true;
+  if (this.editForm.valid) {
+    const formData = new FormData();
+
+    // Append all form fields except 'photo' to FormData
+    Object.keys(this.editForm.controls).forEach(key => {
+      if (key !== 'photo') {
         formData.append(key, this.editForm.get(key)?.value);
-      });
-
-      if (this.selectedFile) {
-        formData.append('photo', this.selectedFile, this.selectedFile.name);
-      } else {
-        formData.append('photo', this.editForm.get('photo')?.value);
       }
+    });
 
-      // Log FormData content for debugging
-      formData.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-      });
-        console.log("form data is ",formData);
-
-      this.userService.updateUser(formData).subscribe(
-        (response) => {
-          this.router.navigate(['/owner/profile']);
-        },
-        (error) => {
-          console.error('Error updating user', error);
-        }
-      );
+    // Append the photo field only if a new file has been selected
+    if (this.selectedFile) {
+      formData.append('photo', this.selectedFile, this.selectedFile.name);
     }
+
+    console.log('Submitting the following FormData:');
+    formData.forEach((value, key) => {
+      if (value instanceof File) {
+        console.log(`${key}: ${value.name} (file)`);
+      } else {
+        console.log(`${key}: ${value}`);
+      }
+    });
+
+    this.userService.updateUser(formData).subscribe(
+      (response) => {
+        console.log('User updated successfully', response);
+        this.router.navigate(['/owner/profile']);
+      },
+      (error) => {
+        console.error('Error updating user', error);
+      }
+    );
   }
+}
+
 
   onFileChange(event: any) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      if (this.isImageFile(file)) {
-        this.selectedFile = file;
-      } else {
-        console.error('The selected file is not an image.');
-        this.selectedFile = null;
-      }
+  if (event.target.files.length > 0) {
+    const file = event.target.files[0];
+    if (this.isImageFile(file)) {
+      this.selectedFile = file;
+    } else {
+      console.error('The selected file is not an image.');
+      this.selectedFile = null;
     }
+  } else {
+    this.selectedFile = null;
   }
+}
+
 
   isImageFile(file: File): boolean {
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
@@ -106,6 +117,6 @@ export class EditComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.router.navigate(['/admin-dashboard/profile']);
+    this.router.navigate(['/owner/profile']);
   }
 }
