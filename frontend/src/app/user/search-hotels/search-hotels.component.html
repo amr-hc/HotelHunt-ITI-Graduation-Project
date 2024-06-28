@@ -1,47 +1,42 @@
 <app-header></app-header>
 
 <div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
-  <div class="container bg-primary-subtle w-75 mx-auto rounded-5">
+  <div class="container bg-primary-subtle rounded-5">
     <div class="bg-white shadow p-4">
-      <form (ngSubmit)="onSearch()">
-        <div class="row g-2">
-          <div class="col-md-12">
-            <div class="row g-2">
-              <div class="col-md-3">
-                <label for="City" class="mx-2">City</label>
-                <input type="text" class="form-control styled-input" placeholder="City" [(ngModel)]="city" name="city"
-                  id="City" />
-              </div>
-              <div class="col-md-3">
-                <div class="date" id="date1" data-target-input="nearest">
-                  <label for="checkIn" class="mx-2">Check-in</label>
-                  <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-in Date"
-                    [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" data-target="#date1"
-                    data-toggle="datetimepicker" />
-                </div>
-              </div>
-              <div class="col-md-3">
-                <div class="date" id="date2" data-target-input="nearest">
-                  <label for="checkOut" class="mx-2">Check-out</label>
-                  <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-out Date"
-                    [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" data-target="#date2"
-                    data-toggle="datetimepicker" />
-                </div>
-              </div>
-
-              <div class="col-md-3">
-                <label for="sort" class="mx-2">Sort By</label>
-                <select class="form-select styled-select" [(ngModel)]="sort" name="sort" id="sort">
-                  <option value="none">None</option>
-                  <option value="price">Price</option>
-                  <option value="name">Name</option>
-                  <option value="star_rating">Star Rating</option>
-                  <option value="rate">User Rating</option>
-                </select>
-              </div>
+      <form (ngSubmit)="onSearch()" class="search-bar">
+        <div class="row g-2 search-bar-container">
+          <div class="col-md-3 city">
+            <label for="City" class="styled-label">City</label>
+            <input type="text" class="form-control styled-input" placeholder="City" [(ngModel)]="city" name="city"
+              id="City" />
+          </div>
+          <div class="col-md-3 date-range">
+            <div class="date" id="date1" data-target-input="nearest">
+              <label for="checkIn" class="styled-label">Check-in</label>
+              <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-in Date"
+                [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" data-target="#date1"
+                data-toggle="datetimepicker" />
             </div>
           </div>
-          <div class="col-md-2 mx-auto">
+          <div class="col-md-3 date-range">
+            <div class="date" id="date2" data-target-input="nearest">
+              <label for="checkOut" class="styled-label">Check-out</label>
+              <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-out Date"
+                [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" data-target="#date2"
+                data-toggle="datetimepicker" />
+            </div>
+          </div>
+          <div class="col-md-3 sort-option">
+            <label for="sort" class="styled-label">Sort By</label>
+            <select class="form-select styled-select" [(ngModel)]="sort" name="sort" id="sort">
+              <option value="none">None</option>
+              <option value="price">Price</option>
+              <option value="name">Name</option>
+              <option value="star_rating">Star Rating</option>
+              <option value="rate">User Rating</option>
+            </select>
+          </div>
+          <div class="col-md-2 search-button">
             <button type="submit" class="btn btn-primary w-100 rounded-4 search-btn text-dark">Search</button>
           </div>
         </div>
@@ -51,46 +46,31 @@
 </div>
 
 <!-- Display grouped hotels -->
-<div class="results">
-  <div *ngIf="result.length === 0" class="bg-danger-subtle text-center p-4 w-100 mx-auto rounded-5 fs-3">No results
-    found.</div>
-  <div class="row" *ngIf="result.length > 0">
+<div class="results container-fluid">
+  <div *ngIf="result.length === 0" class="bg-danger-subtle text-center p-4 rounded-5 fs-3">No results found.</div>
+  <div class="row">
     <div class="col-md-12" *ngFor="let hotelGroup of result">
       <div class="card mb-3 p-3 position-relative">
         <div class="d-flex">
-          <img [src]="imagePath +hotelGroup.hotels[0].photo" alt="{{ hotelGroup.hotel_name }} image"
+          <img [src]="imagePath + hotelGroup.hotels[0].photo" alt="{{ hotelGroup.hotel_name }} image"
             class="img-fluid rounded hotel-img">
           <div class="card-body mx-3">
             <h5 class="card-title">{{ hotelGroup.hotel_name }}</h5>
-            <!-- <h6 >{{ hotelGroup.hotels[0].star_rating }}</h6> -->
-            <!-- <div class="star-rating">
-              <ng-container *ngIf="hotelGroup.hotels[0].star_rating > 1; else oneStar">
-                <span *ngFor="let star of [].constructor(hotelGroup.hotels[0].star_rating); let i = index">
-                  &#9733;
-                </span>
-              </ng-container>
-              <ng-template #oneStar>
-                <span>&#9733;</span>
-              </ng-template>
-            </div> -->
             <div class="star-rating">
               Star Rating:
               <ng-container *ngIf="hotelGroup.hotels[0].star_rating > 1; else noRatingStars">
                 <span *ngFor="let star of [].constructor(hotelGroup.hotels[0].star_rating); let i = index"
                   class="star-icon filled fs-3">&#9733;</span>
-                <span *ngFor="let star of [].constructor(5-hotelGroup.hotels[0].star_rating); let i = index"
+                <span *ngFor="let star of [].constructor(5 - hotelGroup.hotels[0].star_rating); let i = index"
                   class="star-icon fs-3">&#9733;</span>
               </ng-container>
               <ng-template #noRatingStars>
                 <span class="no-rating">No rating available</span>
               </ng-template>
-              <!-- <ng-template #oneStar>
-                <span class="star-icon fs-3">&#9733;</span>
-              </ng-template> -->
             </div>
             <div class="average-rating">
-              <div class="star-rating" *ngIf="hotelGroup.hotels[0].average_rate">
-                User Rating:
+              User Rating:
+              <ng-container *ngIf="hotelGroup.hotels[0].average_rate">
                 <ng-container *ngIf="averageRateAsNumber(hotelGroup.hotels[0].average_rate) > 1; else noRatingStars">
                   <span
                     *ngFor="let star of [].constructor(averageRateAsNumber(hotelGroup.hotels[0].average_rate)); let i = index"
@@ -102,20 +82,19 @@
                 <ng-template #noRatingStars>
                   <span class="no-rating">No rating available</span>
                 </ng-template>
-              </div>
+              </ng-container>
             </div>
-            <!-- <div>average rating {{hotelGroup.hotels[0].average_rate}}</div> -->
             <div *ngIf="hotelGroup.roomsAvailable >= 1">
               <p>{{ hotelGroup.roomsAvailable }} rooms available</p>
             </div>
             <div *ngFor="let room of hotelGroup.hotels">
               <p class="card-text">{{ room.name }} - {{ room.price }}</p>
             </div>
-
           </div>
           <a class="btn btn-primary btn-sm position-absolute bottom-0 end-0 m-1 text-dark"
-            [routerLink]="['/hotel',hotelGroup.hotels[0].hotel_id]">See Availability</a>
+            [routerLink]="['/hotel', hotelGroup.hotels[0].hotel_id]">See Availability</a>
         </div>
       </div>
     </div>
   </div>
+</div>
