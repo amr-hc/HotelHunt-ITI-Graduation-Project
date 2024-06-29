@@ -30,6 +30,19 @@
         </p>
         <p><strong>Balance:</strong> {{ hotel.balance | currency:' EGP ' }}</p>
         <p><strong>Description:</strong> {{ hotel.description }}</p>
+        <!-- <p><strong>Rating:</strong> {{ hotel.average_rate }}</p> -->
+        <p><strong>Average Rating:</strong>
+          <span class="star-rating">
+            <!-- Full stars -->
+            <ng-container *ngFor="let _ of starRange(getStarRatingStars(hotel.average_rate).fullStars)">
+              <i class="star fa fa-star"></i>
+            </ng-container>
+            <!-- Half star, if applicable -->
+            <ng-container *ngIf="getStarRatingStars(hotel.average_rate).halfStars === 1">
+              <i class="star fa fa-star-half"></i>
+            </ng-container>
+          </span>
+        </p>
 
         <button class="btn btn-primary mx-1" [routerLink]="['/owner/hotel', hotel.id]">Update</button>
         <button class="btn btn-success mx-1" [routerLink]="['/owner/hotel', hotel.id, 'addImage']">Add Image</button>
