@@ -75,6 +75,7 @@ Route::resource('availability', AvailabilityController::class);
 Route::get('availability/room/{room}', [AvailabilityController::class, 'specificRoom']);
 Route::resource('bookdetails',BookDetailsController::class);
 Route::apiResource('comments', CommentController::class);
+Route::get("comments/hotel/{hotelId}",[CommentController::class,'getCommentsByHotelId']);
 
 
 
@@ -109,14 +110,14 @@ Route::post('/forgot',[usersController::class, 'forgotPassword'] )->middleware('
 
 
 Route::post('/reset-password',[usersController::class, 'passwordUpdate'] )->middleware('guest')->name('password.update');
- 
+
 
 Route::get('/verify/{id}/{hash}', [usersController::class, 'emailConfirmVerification'])->middleware(['auth'])->name('verification.verify');
 
 
 Route::post('/re-verify', [usersController::class, 'sendEmailVerification'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
- 
+
 
 Route::get('/auth/google', [SocialiteController::class, 'redirectToGoogle']);
 
