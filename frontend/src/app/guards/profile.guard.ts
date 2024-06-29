@@ -10,7 +10,7 @@ export class ProfileGuard implements CanActivate {
 
   canActivate(): boolean {
     const user = this.authService.getCurrentUser();
-    if (user === 'owner' || user === 'admin' ) {
+    if (user === 'owner' || user === 'admin' || user === null) {
       this.router.navigate(['/unauthorized']);
       return false;
     } else {

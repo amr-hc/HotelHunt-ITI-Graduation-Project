@@ -81,6 +81,8 @@ Route::post('/search', [SearchController::class, 'searchBetweenDates']);
 Route::post('/search/hotel', [SearchController::class, 'searchInHotel']);
 Route::post('/search/country', [SearchController::class, 'searchByCountry']);
 Route::post('/search/city', [SearchController::class, 'searchByCity']);
+Route::get('countries', [SearchController::class, 'getAllCountries']);
+Route::get('cities', [SearchController::class, 'getAllCities']);
 
 Route::resource('payments', PaymentController::class);
 Route::resource('booking', BookingController::class);

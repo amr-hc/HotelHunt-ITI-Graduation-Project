@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { RoomtypeService } from '../../services/roomtype.service';
-import { RoomType } from '../../models/roomtype';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router'; // Import Router
 import { FormsModule } from '@angular/forms';
+import { RoomType2 } from '../../models/roomtype2';
 
 @Component({
   selector: 'app-update',
@@ -15,7 +15,8 @@ import { FormsModule } from '@angular/forms';
 export class UpdateComponent {
   id!: any;
   message = '';
-  hotel = new RoomType();
+  hotel = new RoomType2();
+  selectedFile: File | null = null;
 
   constructor(private serv: RoomtypeService, private activeRoute: ActivatedRoute, private router: Router) { // Inject Router
     this.id = this.activeRoute.snapshot.paramMap.get("id");
@@ -24,6 +25,10 @@ export class UpdateComponent {
         this.hotel = data;
       }
     );
+  }
+
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
   }
 
   update() {
@@ -45,13 +50,21 @@ export class UpdateComponent {
       return;
     }
 
-    this.serv.put(this.id, this.hotel).subscribe(
+    const formData = new FormData();
+    formData.append('name', this.hotel.name);
+    formData.append('price', this.hotel.price.toString());
+    formData.append('description', this.hotel.description);
+    formData.append('capacity', this.hotel.capacity.toString());
+    if (this.selectedFile) {
+      formData.append('photo', this.selectedFile);
+    }
+
+    this.serv.put(this.id, formData).subscribe(
       (data: any) => {
         this.message = 'Update Room Type Successfully';
-
         setTimeout(() => {
           this.message = '';
-          this.router.navigate(['/owner/list']); // Navigate to list after update
+          this.router.navigate(['/owner/list']);
         }, 1000);
       },
       (error) => {

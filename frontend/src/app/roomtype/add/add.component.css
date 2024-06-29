@@ -1,8 +1,37 @@
-.card{
-    padding: 20px;
-    background-color: #333;
+/* Custom CSS for Create Hotel Form */
+
+.container {
+  margin-top: 20px;
+}
+
+.card {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  border-radius: 0.5rem;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-control {
+  border-radius: 0.25rem;
+}
+
+.btn-primary {
+  width: 100%;
+  border-radius: 0.25rem;
+}
+
+.alert-success {
+  margin-top: 1rem;
+}
+
+@media (max-width: 576px) {
+  .card-body {
+    padding: 1rem;
   }
-  .card-body{
-    background-color: black;
-    color: aliceblue;
-  }
+}
