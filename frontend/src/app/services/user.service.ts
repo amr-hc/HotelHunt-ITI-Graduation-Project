@@ -8,6 +8,7 @@ import { User } from '../models/user';
 })
 export class UserService {
   private apiUrl = 'http://127.0.0.1:8000/api/users';
+  private apiUrl2 = 'http://127.0.0.1:8000/api';
 
   constructor(private http:HttpClient) { }
 
@@ -30,5 +31,13 @@ export class UserService {
   updateUser(formData: FormData): Observable<User> {
     const userId = formData.get('id');
     return this.http.post<User>(`${this.apiUrl}/${userId}?_method=PATCH`, formData);
+  }
+
+  addUser(formData: FormData): Observable<User> {
+    return this.http.post<User>(this.apiUrl, formData);
+  }
+
+  getOwnersWithoutHotels(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl2}/getownerswithouthotel`);
   }
 }

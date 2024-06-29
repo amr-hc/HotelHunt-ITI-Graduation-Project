@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { HotelService } from '../../../services/hotel.service';
 import { Hotel } from '../../../models/hotel';
 import { UserService } from '../../../services/user.service';
@@ -9,7 +9,7 @@ import { UserService } from '../../../services/user.service';
 @Component({
   selector: 'app-hotel-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterLink],
   templateUrl: './hotel-details.component.html',
   styleUrl: './hotel-details.component.css'
 })

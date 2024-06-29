@@ -42,6 +42,10 @@ export class UsersComponent {
     this.router.navigate(['/admin-dashboard/users/details', id]);
   }
 
+  editUser(id: number): void {
+    this.router.navigate(['/admin-dashboard/users/edit', id]);
+  }
+
   confirmDelete(id: number): void {
     Swal.fire({
       title: 'Are you sure?',
