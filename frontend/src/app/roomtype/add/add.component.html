@@ -1,5 +1,5 @@
 <div class="container col-md-6">
-  <h1 class="text-center mb-4">Create Hotel</h1>
+  <h1 class="text-center mb-4">Create Room Type</h1>
   <div class="card">
     <div *ngIf="message.length > 1" class="alert alert-success">
       {{ message }}
@@ -8,21 +8,19 @@
       <form>
         <div class="mb-3">
           <label for="name" class="form-label">Type</label>
-          <input [(ngModel)]="hotel.name" type="text" class="form-control" id="name" placeholder="Enter hotel type">
+          <input [(ngModel)]="hotel.name" type="text" class="form-control" id="name" name="name" placeholder="Enter room type">
         </div>
         <div class="mb-3">
           <label for="price" class="form-label">Price</label>
-          <input [(ngModel)]="hotel.price" type="text" class="form-control" id="price" placeholder="Enter price">
+          <input [(ngModel)]="hotel.price" type="text" class="form-control" id="price" name="price" placeholder="Enter price">
         </div>
         <div class="mb-3">
           <label for="description" class="form-label">Description</label>
-          <textarea [(ngModel)]="hotel.description" class="form-control" id="description" rows="3"
-            placeholder="Enter description"></textarea>
+          <textarea [(ngModel)]="hotel.description" class="form-control" id="description" name="description" rows="3" placeholder="Enter description"></textarea>
         </div>
         <div class="mb-3">
           <label for="capacity" class="form-label">Capacity</label>
-          <input [(ngModel)]="hotel.capacity" type="text" class="form-control" id="capacity"
-            placeholder="Enter capacity">
+          <input [(ngModel)]="hotel.capacity" type="text" class="form-control" id="capacity" name="capacity" placeholder="Enter capacity">
         </div>
         <div class="mb-3">
           <label for="photo" class="form-label">Photo</label>
