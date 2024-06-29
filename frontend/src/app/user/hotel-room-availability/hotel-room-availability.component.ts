@@ -46,6 +46,7 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   checkoutDateError: string = '';
   dateError: string = '';
   checkLoggedInUserRole: string = '';
+  isUserVerified: string|null = null;
   private subscriptions: Subscription[] = [];
 
 
@@ -92,8 +93,10 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.checkLoggedInUserRole = localStorage.getItem('userRole') || '';
-
+    this .isUserVerified = localStorage.getItem('verified') || null;
     console.log("User Role:", this.checkLoggedInUserRole);
+    console.log("User Verified:", this.isUserVerified);
+
 
     this.user_id = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')) : null;
     console.log('User ID:', this.user_id);
@@ -148,7 +151,7 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   }
 
   onReserve() {
-    if (this.checkLoggedInUserRole!=='user') {
+    if (this.checkLoggedInUserRole!=='guest' || this.isUserVerified!==null) {
       Swal.fire({
         title: 'Reservation Error',
         text: 'You must be a registered user to make a reservation.',
