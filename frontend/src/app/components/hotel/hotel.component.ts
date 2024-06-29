@@ -56,9 +56,10 @@ export class HotelComponent implements OnInit, OnDestroy{
           console.log("response is",images)
           this.images = images;
           console.log("Hotel images:", this.images);
-          this.loading = false;
 
-          });
+
+        });
+        this.loading = false;
       });
 
 

@@ -4,7 +4,7 @@ import { Rating, UserRating } from '../../models/rating';
 import { Subscription } from 'rxjs';
 import { RatingService } from '../../services/rating.service';
 import { HotelService } from '../../services/hotel.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-ratings',
   standalone: true,
@@ -21,6 +21,8 @@ export class RatingsComponent implements OnInit, OnDestroy {
   private ratingSubscription: Subscription | null = null;
   private userRatingSubscription: Subscription | null = null;
   user_id: number | null = 0;
+  checkLoggedInUserRole: string = '';
+
   constructor(private ratingService: RatingService,
     private HotelService: HotelService
   ) {
@@ -28,6 +30,9 @@ export class RatingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.checkLoggedInUserRole = localStorage.getItem('userRole') || '';
+
+    console.log("User Role:", this.checkLoggedInUserRole);
     this.user_id = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')) : null;
     console.log('User ID:', this.user_id);
     console.log(typeof this.user_id);
@@ -52,11 +57,21 @@ export class RatingsComponent implements OnInit, OnDestroy {
         }
       },
       (error: any) => {
-        console.error('Error fetching rating', error);
+        console.log('user is not logged in');
       }
     );
   }
   rateHotel(rating: number) {
+
+    if (this.checkLoggedInUserRole !== 'user') {
+      Swal.fire({
+        title: 'Rating Error',
+        text: 'You must be a registered user to make a reservation.',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
     if (this.hotel_id) {
       const userRating = new RatingByuser(rating, this.hotel_id);
       this.userRatingSubscription = this.ratingService.createOrUpdateUserRating(userRating).subscribe(

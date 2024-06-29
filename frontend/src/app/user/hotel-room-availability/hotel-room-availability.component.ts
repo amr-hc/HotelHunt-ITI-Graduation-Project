@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { CommentsComponent } from '../comments/comments.component';
 import { RatingsComponent } from '../ratings/ratings.component';
 import { HotelService } from '../../services/hotel.service';
+import { SearchHotelService } from '../../services/search-hotel.service';
 @Component({
   selector: 'app-hotel-room-availability',
   standalone: true,
@@ -44,6 +45,8 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   checkinDateError: string = '';
   checkoutDateError: string = '';
   dateError: string = '';
+  checkLoggedInUserRole: string = '';
+  private subscriptions: Subscription[] = [];
 
 
   constructor(
@@ -52,7 +55,8 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
     private commentService: CommentService,
     private ratingService: RatingService,
     private router: Router,
-    private HotelService: HotelService
+    private HotelService: HotelService,
+    private searchHotelService: SearchHotelService
   ) { }
   validateForm(): boolean {
     let isValid = true;
@@ -86,6 +90,11 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.checkLoggedInUserRole = localStorage.getItem('userRole') || '';
+
+    console.log("User Role:", this.checkLoggedInUserRole);
+
     this.user_id = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')) : null;
     console.log('User ID:', this.user_id);
     this.hotelIdSubscription = this.HotelService.hotelId$.subscribe(
@@ -98,9 +107,15 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
       }
     )
     const today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
-    this.checkinDate = today;
-    this.checkoutDate = today;
+    this.subscriptions.push(
+      this.searchHotelService.searchedCheckInDate$.subscribe(date => this.checkinDate = date || today),
+      this.searchHotelService.searchedCheckOutDate$.subscribe(date => this.checkoutDate = date || today)
+    );
+    if (this.hotel_id && this.checkinDate && this.checkoutDate) {
+      this.onSearch();
 
+
+    }
   }
 
 
@@ -133,6 +148,15 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   }
 
   onReserve() {
+    if (this.checkLoggedInUserRole!=='user') {
+      Swal.fire({
+        title: 'Reservation Error',
+        text: 'You must be a registered user to make a reservation.',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
     const bookingDetails: BookingDetails[] = [];
 
     this.rooms.forEach(room => {
@@ -205,6 +229,8 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
     if (this.hotelIdSubscription) {
       this.hotelIdSubscription.unsubscribe();
     }
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+
 
   }
 
