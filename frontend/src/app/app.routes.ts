@@ -32,6 +32,7 @@ import { OwnerGuard } from './guards/owner.guard';
 import { AdminGuard } from './guards/admin.guard';
 import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
 import { ProfileGuard } from './guards/profile.guard';
+import { RoomtypesComponent } from './components/roomtypes/roomtypes.component';
 
 
 
@@ -72,7 +73,7 @@ export const routes: Routes = [
     {path: 'owner', loadChildren:()=>import("./components/Owner-Dashboard/owner.routes").then(o=>o.ownerRoutes), canActivate: [OwnerGuard]},
 
   {path : "hotelList" , component : HotellistComponent},
-
+  {path : "hotels/:id" , component : RoomtypesComponent},
   //  {path:'owner', component:SidebarComponent},
   //  {path:'owner/booking' , component: BookingComponent},
   //  {path:'owner/booking/:id' , component: BookDetailsComponent},

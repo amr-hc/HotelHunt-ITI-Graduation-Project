@@ -1,0 +1,14 @@
+:root {
+    --primary: #FEA116;
+    --light: #F1F8FF;
+    --dark: #0F172B;
+}
+
+.fab{
+  color: var(--primary);
+}
+
+.fab:hover{
+  color: rgba(150, 95, 13, 0.616)
+}
+
