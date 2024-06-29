@@ -4,8 +4,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  /* background: url('path/to/your/background-image.jpg') no-repeat center center/cover; */
-  /* backdrop-filter: blur(15px); */
+  background-image: url(../../../assets/carasoul/carousel-2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
