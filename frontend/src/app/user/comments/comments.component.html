@@ -1,14 +1,25 @@
 <div class="comments-section mt-5">
   <h3 class="mb-3">Comments</h3>
   <ul class="list-group">
-    <li *ngFor="let comment of comments" class="list-group-item bg-primary-subtle mb-2">
-      <p>{{ comment.content }}</p>
-      <small class="text-muted">By {{ comment.user_name }} on {{ comment.created_at | date:'medium' }}</small>
+    <li *ngFor="let comment of comments | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage}" class="list-group-item comment-item">
+      <div class="d-flex align-items-start">
+        <img [src]="'http://localhost:8000/storage/' + comment.photo" alt="User Avatar" class="avatar mr-3">
+        <div class="comment-content">
+          <div class="comment-header d-flex justify-content-between">
+            <span class="comment-author">{{ comment.user_name }}</span>
+            <span class="comment-time text-muted">{{ comment.created_at | date:'medium' }}</span>
+          </div>
+          <p class="comment-text">{{ comment.content }}</p>
+        </div>
+      </div>
     </li>
   </ul>
   <div class="mt-3">
-    <textarea [(ngModel)]="userComment" class="form-control bg-secondary-subtle" placeholder="Add a comment"></textarea>
+    <pagination-controls (pageChange)="currentPage = $event" ></pagination-controls>
+  </div>
+  <div class="mt-3">
+    <textarea [(ngModel)]="userComment" class="form-control comment-input" placeholder="Write a comment..."></textarea>
     <div *ngIf="commentError" class="text-danger mt-2">{{ commentError }}</div>
-    <button class="btn btn-primary mt-2 rounded-5 text-dark" (click)="addComment()">Submit Comment</button>
+    <button class="btn btn-primary mt-2 rounded-5 submit-button" (click)="addComment()">Post</button>
   </div>
 </div>

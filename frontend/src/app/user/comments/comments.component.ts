@@ -6,11 +6,12 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HotelService } from '../../services/hotel.service';
 import Swal from 'sweetalert2';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @Component({
   selector: 'app-comments',
   standalone: true,
-  imports: [FormsModule,CommonModule],
+  imports: [FormsModule,CommonModule,NgxPaginationModule],
   templateUrl: './comments.component.html',
   styleUrl: './comments.component.css'
 })
@@ -25,6 +26,8 @@ export class CommentsComponent implements OnInit, OnDestroy {
   checkLoggedInUserRole: string = '';
   isUserVerified: string | null = null;
   commentError: string = '';
+  currentPage = 1;
+  itemsPerPage = 2;
   constructor(private commentService: CommentService
     , private HotelService: HotelService
   ) { }
