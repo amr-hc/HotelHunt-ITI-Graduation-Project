@@ -9,7 +9,7 @@
     justify-content: space-around;
     gap: 20px;
     width: 50%;
-    margin: 0 auto; /* Center the hotel list horizontally */
+    margin: 0 auto;
 }
 
 .hotel-card {
@@ -87,4 +87,16 @@
     object-fit: cover;
     margin: 0;
     padding: 0;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 25px;
+}
+
+.spinner-border {
+  width: 6rem;
+  height: 6rem;
 }

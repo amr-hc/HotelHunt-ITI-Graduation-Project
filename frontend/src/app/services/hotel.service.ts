@@ -83,5 +83,7 @@ export class HotelService {
     this.hotelIdSubject.next(id);
   }
 
-
+  updateHotelFeaturedStatus(id: number, isFeatured: boolean): Observable<Hotel> {
+    return this.http.patch<Hotel>(`${this.apiUrl}${id}/`, { isFeatured });
+  }
 }
