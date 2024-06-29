@@ -44,6 +44,7 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   checkinDateError: string = '';
   checkoutDateError: string = '';
   dateError: string = '';
+  checkLoggedInUserRole: string = '';
 
 
   constructor(
@@ -86,6 +87,11 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+
+    this.checkLoggedInUserRole = localStorage.getItem('userRole') || '';
+
+    console.log("User Role:", this.checkLoggedInUserRole);
+
     this.user_id = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')) : null;
     console.log('User ID:', this.user_id);
     this.hotelIdSubscription = this.HotelService.hotelId$.subscribe(
@@ -133,6 +139,15 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   }
 
   onReserve() {
+    if (this.checkLoggedInUserRole!=='user') {
+      Swal.fire({
+        title: 'Reservation Error',
+        text: 'You must be a registered user to make a reservation.',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
     const bookingDetails: BookingDetails[] = [];
 
     this.rooms.forEach(room => {
