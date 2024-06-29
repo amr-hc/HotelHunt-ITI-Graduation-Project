@@ -54,6 +54,10 @@ export class HotelsComponent implements OnInit {
     this.router.navigate(['admin-dashboard/hotels', id]);
   }
 
+  editHotelDetails(id: number): void {
+    this.router.navigate(['admin-dashboard/hotels/edit', id]);
+  }
+
   confirmDeleteHotel(id: number): void {
     Swal.fire({
       title: 'Are you sure?',
