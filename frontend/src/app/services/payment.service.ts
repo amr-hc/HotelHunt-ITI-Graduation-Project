@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Payment } from '../models/payment';
@@ -30,5 +30,9 @@ export class PaymentService {
 
   deletePayment(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+  createPaymentForOwner(value: number): Observable<any> {
+    const params = new HttpParams().set('value', value.toString());
+    return this.http.get<any>(this.apiUrl, { params });
   }
 }

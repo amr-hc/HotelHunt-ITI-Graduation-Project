@@ -14,6 +14,7 @@ import { EditComponent } from "./profile/edit/edit.component";
 import { AddComponent } from "../../roomtype/add/add.component";
 import { ShowComponent } from "../../roomtype/show/show.component";
 import { UpdateComponent } from "../../roomtype/update/update.component";
+import { AddpaymentComponent } from "./payment/addpayment/addpayment.component";
 
 export const ownerRoutes : Routes = [
   {path: '', component: OwnerDashboardComponent,
@@ -30,7 +31,8 @@ export const ownerRoutes : Routes = [
    {path: "update/:id",component:UpdateComponent},
    {path: "add", component:AddComponent},
    {path: 'profile', component:ProfileComponent},
-   {path: 'profile/edit/:id', component:EditComponent}
+   {path: 'profile/edit/:id', component:EditComponent},
+   {path: 'payment/add', component:AddpaymentComponent},
     ]
 
   }

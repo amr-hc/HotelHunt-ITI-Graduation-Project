@@ -1,0 +1,24 @@
+<div class="container mt-3 text-center">
+  <h1 class="text-primary mb-5 fs-2 fw-bold text-decoration-underline">Add Payment</h1>
+  <div class="card mx-auto" style="max-width: 100%;">
+    <div class="card-body">
+      <form [formGroup]="addPaymentForm" (ngSubmit)="onSubmit()" class="mt-3">
+        <div class="row justify-content-center">
+          <div class="col-12 col-md-8 col-lg-6">
+          
+
+            <div class="form-group mb-3">
+              <label for="amount" class="form-label">Amount</label>
+              <input type="number" id="amount" formControlName="amount" class="form-control">
+              <div *ngIf="formSubmitted && addPaymentForm.controls['amount'].invalid" class="text-danger mt-1">
+                Valid amount is required.
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Add Payment</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
