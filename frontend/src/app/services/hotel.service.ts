@@ -6,6 +6,7 @@ import { HotelImage } from '../models/hotelImage';
 import { catchError } from 'rxjs/operators';
 import {  of } from 'rxjs';
 
+import { RoomType2 } from '../models/roomtype2';
 @Injectable({
   providedIn: 'root'
 })

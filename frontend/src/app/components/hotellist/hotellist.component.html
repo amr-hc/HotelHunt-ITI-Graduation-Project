@@ -24,7 +24,7 @@
               <p class="card-text text-muted" style="height:55px;">
                 {{ (hotel.description || '').length > 80 ? (hotel.description | slice:0:80) + '...' : hotel.description || 'No description available' }}
               </p>
-              <a [routerLink]="['/hotel', hotel.id]" class="text-primary text-decoration-underline btn-hover">MORE DETAILS</a>
+              <a routerLink="/hotels/{{hotel.id}}" class="text-primary text-decoration-underline btn-hover">MORE DETAILS</a>
             </div>
           </div>
         </div>
