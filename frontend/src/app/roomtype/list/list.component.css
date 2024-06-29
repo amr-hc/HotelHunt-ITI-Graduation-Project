@@ -1,16 +1,15 @@
-/* Style for the container and card */
+/* update.component.css */
+
+/* Container and Card Styles */
 .container {
-  margin-top: 20px;
+  margin-top: 50px;
 }
 
-.card.bg-dark {
-  border: 1px solid #343a40;
-  /* Darker border to match the theme */
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  /* Add a shadow for better contrast */
-  overflow: hidden;
-  /* Ensure no overflow */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Header Styling */
@@ -27,110 +26,67 @@ h1.text-primary {
 .btn-success {
   margin: 5px;
   transition: background-color 0.3s ease;
-  /* Add smooth transition effect */
   padding: 10px 15px;
-  /* Consistent button padding */
   border-radius: 5px;
-  /* Slightly rounded corners */
   text-transform: uppercase;
-  /* Uppercase text for buttons */
   font-size: 0.875rem;
-  /* Slightly smaller font size */
 }
 
 .btn-primary:hover {
   background-color: #0056b3;
-  /* Darker primary color on hover */
 }
 
 .btn-info:hover {
   background-color: #17a2b8;
-  /* Info color on hover */
 }
 
 .btn-danger:hover {
   background-color: #c82333;
-  /* Darker danger color on hover */
 }
 
 .btn-success:hover {
   background-color: #218838;
-  /* Darker success color on hover */
 }
 
 /* Table Styling */
-.table-dark {
-  background-color: #343a40;
-  /* Match table background with card */
+.table {
+  margin-top: 20px;
 }
 
-.table-dark th,
-.table-dark td {
-  color: #f8f9fa;
-  /* Light text color for readability */
+.table th,
+.table td {
   vertical-align: middle;
-  text-transform: uppercase;
-  /* Uppercase text for table headers */
   font-size: 0.875rem;
-  /* Slightly smaller font size */
 }
 
-.thead-light th {
-  background-color: #495057;
-  /* Slightly lighter background for table headers */
-  border-bottom: 2px solid #343a40;
-  /* Dark border for headers */
+.thead-dark th {
+  background-color: #343a40;
+  color: #f8f9fa;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-bottom: 2px solid #495057;
+  padding: 10px;
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #dee2e6;
 }
 
 /* Description Field */
 .description-field {
   max-width: 200px;
-  /* Limit the width of the description */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  /* Add ellipsis for overflow */
 }
 
-/* Status Badge Styling */
-.status-badge {
-  display: inline-block;
-  padding: 0.5em 1em;
-  font-size: 1rem;
-  font-weight: bold;
-  color: #fff;
-  border-radius: 0.5em;
-  text-align: center;
-  transition: background-color 0.3s ease;
-  /* Smooth transition effect */
-}
-
-.status-in-progress {
-  background-color: #007bff;
-  /* Primary color */
-}
-
-.status-completed {
-  background-color: #28a745;
-  /* Success color */
-}
-
-.status-cancelled {
-  background-color: #d21d2f;
-  /* Danger color */
-}
-
-.status-in-progress:hover {
-  background-color: #0056b3;
-  /* Darker primary color */
-}
-
-.status-completed:hover {
-  background-color: #218838;
-  /* Darker success color */
-}
-
-.status-cancelled:hover {
-  background-color: #8b303a;
-  /* Darker danger color */
+/* Alert Styling */
+.alert-danger {
+  border-radius: 5px;
+  margin-bottom: 20px;
 }

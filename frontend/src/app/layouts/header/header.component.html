@@ -77,6 +77,8 @@
 <div class="navbar-nav mr-auto py-0">
   <a *ngIf="!authService.isLoggedIn()" routerLink="/register" class="nav-item nav-link">Register</a>
   <a *ngIf="!authService.isLoggedIn()" routerLink="/login" class="nav-item nav-link">Login</a>
+  <!-- <span *ngIf="authService.isLoggedIn()" class="nav-item nav-link">{{user?.fname}} {{user?.lname}}</span> -->
+  <!-- <img *ngIf="authService.isLoggedIn()" src="http://localhost:8000/storage/{{user?.photo}}" class="img-fluid" style="width: 25px;height:25px"/> -->
   <a *ngIf="authService.isLoggedIn()" (click)="logout()" class="nav-item nav-link">Logout</a>
 </div>
 

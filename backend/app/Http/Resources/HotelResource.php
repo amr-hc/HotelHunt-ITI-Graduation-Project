@@ -29,6 +29,7 @@ class HotelResource extends JsonResource
             "star_rating" => $this->star_rating,
             "image" => $this->photo,
             "roomtypes" => $this->roomtypes,
+            "isFeatured" => $this->isFeatured,
         ];
     }
 }

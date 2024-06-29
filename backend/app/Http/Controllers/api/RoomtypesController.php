@@ -61,11 +61,12 @@ class RoomtypesController extends Controller
 {
     $roomtype = Roomtype::findOrFail($id);
 
-    $validatedData = $request->validate([
-        'name' => 'required|string|max:255',
+    try{
+        $validatedData = $request->validate([
+        'name' => 'nullable|string|max:255',
         'description' => 'nullable|string',
-        'capacity' => 'required|integer|min:1',
-        'price' => 'required|numeric|min:0',
+        'capacity' => 'nullable|integer|min:1',
+        'price' => 'nullable|numeric|min:0',
         'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
     ]);
 
@@ -83,6 +84,9 @@ class RoomtypesController extends Controller
     $roomtype->update($validatedData);
 
     return response()->json($roomtype, 200);
+    }catch (Exception $e){
+        return response()->json(['message' => $e->getMessage()], 500);
+    }
 }
 
     public function destroy($id)

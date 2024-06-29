@@ -116,6 +116,30 @@ class SearchController extends Controller
         return $results;
     }
 
+    public function getAllCities() {
+        $cities = Hotel::select('city')->distinct()->pluck('city');
+        
+        return response()->json($cities);
+    }
+    
+    public function getAllCountries() {
+        $cities = Hotel::select('country')->distinct()->pluck('country');
+        
+        return response()->json($cities);
+    }
+
+
+    public function getCitiesWithCountries() {
+        $citiesWithCountries = \DB::table('hotels')
+        ->select('city', 'country')
+        ->distinct()
+        ->get();
+
+        return response()->json($citiesWithCountries);
+    }
+    
+    
+
 
 }
 //  public function searchBetweenDates(Request $request)

@@ -1,0 +1,55 @@
+<h3 class="text-primary text-center">Explore Hotel Options</h3>
+<div class="container-fluid booking pb-5 wow fadeIn" data-wow-delay="0.1s">
+  <div class="container bg-primary-subtle w-75 mx-auto rounded-5">
+    <div class="bg-white shadow p-4">
+      <form (ngSubmit)="onSearch()">
+        <div class="row g-2">
+          <div class="col-md-12">
+            <div class="row g-2">
+              <div class="col-md-3">
+                <label for="City" class="mx-2">City</label>
+                <input type="text" class="form-control styled-input" placeholder="City" [(ngModel)]="city" name="city"
+                  id="City" />
+                <div *ngIf="cityError" class="text-danger">{{ cityError }}</div>
+              </div>
+              <div class="col-md-3">
+                <div class="date" id="date1" data-target-input="nearest">
+                  <label for="checkIn" class="mx-2">Check-in</label>
+                  <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-in Date"
+                    [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" data-target="#date1"
+                    data-toggle="datetimepicker" />
+                  <div *ngIf="checkinDateError" class="text-danger">{{ checkinDateError }}</div>
+                  <div *ngIf="dateError" class="text-danger">{{ dateError }}</div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="date" id="date2" data-target-input="nearest">
+                  <label for="checkOut" class="mx-2">Check-out</label>
+                  <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-out Date"
+                    [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" data-target="#date2"
+                    data-toggle="datetimepicker" />
+                  <div *ngIf="checkoutDateError" class="text-danger">{{ checkoutDateError }}</div>
+
+                </div>
+              </div>
+
+              <div class="col-md-3">
+                <label for="sort" class="mx-2">Sort By</label>
+                <select class="form-select styled-select" [(ngModel)]="sort" name="sort" id="sort">
+                  <option value="none">None</option>
+                  <option value="price">Price</option>
+                  <option value="name">Name</option>
+                  <option value="star_rating">Star Rating</option>
+                  <option value="rate">User Reviews</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2 mx-auto">
+            <button type="submit" class="btn btn-primary w-100 rounded-4 search-btn text-dark">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

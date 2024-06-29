@@ -13,6 +13,7 @@ import { BookingsComponent } from './bookings/bookings.component';
 import { AddpaymentComponent } from './payment/addpayment/addpayment.component';
 import { BookDetailsComponent } from '../components/Owner-Dashboard/booking/book-details/book-details.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { BookingDetailsComponent } from './bookings/bookingdetails/bookingdetails.component';
 
 
 
@@ -33,7 +34,7 @@ export const adminRoutes: Routes = [
       { path: 'profile', component:ProfileComponent  },
       { path: 'profile/edit/:id', component:EditComponent  },
       { path: 'bookings', component:BookingsComponent  },
-      { path: 'bookings/details/:id', component:BookDetailsComponent  },
+      { path: 'bookings/details/:id', component:BookingDetailsComponent  },
     ],
   },
 ];

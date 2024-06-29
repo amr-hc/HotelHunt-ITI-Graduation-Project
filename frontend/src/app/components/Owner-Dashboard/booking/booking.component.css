@@ -1,63 +1,79 @@
- .container {
-   margin-top: 20px;
- }
+.container {
+  margin-top: 20px;
+}
 
- h2.text-center {
-   margin-top: 20px;
-   box-shadow: 2px 2px 2px #3333;
-   border-radius: 8px;
-   padding: 10px;
-   background-color: #343a40;
-   /* Bootstrap's dark color */
-   color: #ffffff;
- }
+h2.text-center {
+  margin-top: 20px;
+  box-shadow: 2px 2px 2px #3333;
+  border-radius: 8px;
+  padding: 10px;
+  background-color: #343a40;
+  /* Dark background for header */
+  color: #ffffff;
+  /* White text */
+}
 
- .table {
-   box-shadow: 2px 2px 2px #3333;
-   border-radius: 10px;
- }
+.table {
+  box-shadow: 2px 2px 2px #3333;
+  border-radius: 10px;
+  background-color: #f8f9fa;
+  /* Light background for table */
+}
 
- table.table-dark thead {
-   font-size: 16px;
-   color: white;
- }
+table.table-light thead {
+  font-size: 16px;
+  background-color: #343a40;
+  /* Dark background for header */
+  color: white;
+  /* White text */
+}
 
- table.table-dark tbody tr {
-   text-align: center;
-   font-size: 14px;
-   color: white;
- }
+table.table-light tbody tr {
+  text-align: center;
+  font-size: 14px;
+  color: #343a40;
+  /* Dark text for contrast */
+  background-color: #ffffff;
+  /* Light background for rows */
+}
 
- .form-select {
-   width: 100%;
-   max-width: 200px;
-   margin: 0 auto;
- }
+.form-select {
+  width: 100%;
+  max-width: 200px;
+  margin: 0 auto;
+  background-color: #343a40;
+  /* Dark background for select */
+  color: white;
+  /* White text */
+}
 
- .nested-table thead th {
-   background-color: #007bff;
-   /* Bootstrap's primary color */
-   color: #ffffff;
- }
+.nested-table thead th {
+  background-color: #007bff;
+  /* Primary color for nested table header */
+  color: #ffffff;
+  /* White text */
+}
 
- .nested-table tbody tr {
-   background-color: #343a40;
-   /* Bootstrap's dark color */
-   color: #ffffff;
- }
+.nested-table tbody tr {
+  background-color: #ffffff;
+  /* Light background for nested table rows */
+  color: #343a40;
+  /* Dark text for contrast */
+}
 
- .btn-primary {
-   margin-top: 5px;
-   box-shadow: 2px 2px 2px #3333;
- }
+.btn-primary {
+  margin-top: 5px;
+  box-shadow: 2px 2px 2px #3333;
+}
 
- .loading-container {
-   padding: 20px;
-   font-size: 18px;
- }
+.loading-container {
+  padding: 20px;
+  font-size: 18px;
+}
 
- .alert {
-   box-shadow: 2px 2px 2px #3333;
-   border-radius: 8px;
-   padding: 10px;
- }
+.alert {
+  box-shadow: 2px 2px 2px #3333;
+  border-radius: 8px;
+  padding: 10px;
+}
+

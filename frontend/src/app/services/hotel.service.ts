@@ -42,7 +42,7 @@ export class HotelService {
   }
 
   //update hotel status
-  updateHotelStatus(id: number, status: 'active' | 'inactive' | 'suspend'): Observable<Hotel> {
+  updateHotelStatus(id: number, status: 'active' | 'inactive'): Observable<Hotel> {
     return this.http.patch<Hotel>(`${this.apiUrl}${id}/`, { status });
   }
 
@@ -83,5 +83,7 @@ export class HotelService {
     this.hotelIdSubject.next(id);
   }
 
-
+  updateHotelFeaturedStatus(id: number, isFeatured: boolean): Observable<Hotel> {
+    return this.http.patch<Hotel>(`${this.apiUrl}${id}/`, { isFeatured });
+  }
 }

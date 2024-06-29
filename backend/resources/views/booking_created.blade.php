@@ -182,7 +182,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td style="overflow-wrap:break-word;word-break:break-word;padding:10px 10px 0px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <div style="font-size: 14px; color: #2e8fc0; line-height: 100%; text-align: center; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 100%;"><span style="font-size: 20px; line-height: 20px; font-family: georgia, palatino;"><strong><span style="line-height: 20px; font-size: 20px;">HOTEL</span></strong></span></p>
+    <p style="font-size: 14px; line-height: 100%;"><span style="font-size: 20px; line-height: 20px; font-family: georgia, palatino;"><strong><span style="line-height: 20px; font-size: 20px;">HOTELHUNT</span></strong></span></p>
   </div>
 
       </td>

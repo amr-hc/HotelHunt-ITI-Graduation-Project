@@ -16,6 +16,7 @@ use App\Http\Controllers\api\BookDetailsController;
 use App\Http\Controllers\api\BookingController;
 use App\Http\Controllers\api\PaymentController;
 use App\Http\Controllers\api\CommentController;
+use App\Http\Controllers\Api\ContactController;
 
 
 
@@ -74,6 +75,7 @@ Route::resource('availability', AvailabilityController::class);
 Route::get('availability/room/{room}', [AvailabilityController::class, 'specificRoom']);
 Route::resource('bookdetails',BookDetailsController::class);
 Route::apiResource('comments', CommentController::class);
+Route::get("comments/hotel/{hotelId}",[CommentController::class,'getCommentsByHotelId']);
 
 
 
@@ -81,6 +83,9 @@ Route::post('/search', [SearchController::class, 'searchBetweenDates']);
 Route::post('/search/hotel', [SearchController::class, 'searchInHotel']);
 Route::post('/search/country', [SearchController::class, 'searchByCountry']);
 Route::post('/search/city', [SearchController::class, 'searchByCity']);
+Route::get('countries', [SearchController::class, 'getAllCountries']);
+Route::get('cities/countries', [SearchController::class, 'getCitiesWithCountries']);
+Route::get('cities', [SearchController::class, 'getAllCities']);
 
 Route::resource('payments', PaymentController::class);
 Route::resource('booking', BookingController::class);
@@ -105,14 +110,14 @@ Route::post('/forgot',[usersController::class, 'forgotPassword'] )->middleware('
 
 
 Route::post('/reset-password',[usersController::class, 'passwordUpdate'] )->middleware('guest')->name('password.update');
- 
+
 
 Route::get('/verify/{id}/{hash}', [usersController::class, 'emailConfirmVerification'])->middleware(['auth'])->name('verification.verify');
 
 
 Route::post('/re-verify', [usersController::class, 'sendEmailVerification'])->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
- 
+
 
 Route::get('/auth/google', [SocialiteController::class, 'redirectToGoogle']);
 
@@ -125,3 +130,10 @@ Route::GET('rates/hotel/{hotel}',[RateController::class,'RateByHotel']);
 Route::GET('rates/hotel/mine/{hotel}',[RateController::class,'RateByHotelforlogin']);
 Route::GET('rates/{hotel}/{user}',[RateController::class,'RateByUserHotel']);
 Route::resource('rates', RateController::class);
+
+
+Route::apiResource('contacts', ContactController::class);
+
+Route::get('create-payment', [PaymentController::class, 'createPayment'])->name('paypal.create');
+Route::get('success-payment', [PaymentController::class, 'successPayment'])->name('paypal.success');
+Route::get('cancel-payment', [PaymentController::class, 'cancelPayment'])->name('paypal.cancel');

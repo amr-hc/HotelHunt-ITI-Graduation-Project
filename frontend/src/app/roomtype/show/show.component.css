@@ -1,3 +1,58 @@
+/* Container adjustments */
+.container {
+  margin-top: 50px;
+  /* Consistent top margin */
+}
+
+/* Header styling */
+h1 {
+  margin-bottom: 30px;
+  /* Bottom margin for spacing */
+  text-align: center;
+  /* Center-align header */
+  font-weight: bold;
+  /* Bold text */
+  color: #343a40;
+  /* Dark color for header */
+}
+
+/* Card adjustments for light theme */
+.card-light {
+  background-color: #f8f9fa;
+  /* Light color, close to white */
+  border: 1px solid #ddd;
+  /* Light border */
+  border-radius: 15px;
+  /* Rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  /* Soft shadow */
+  padding: 20px;
+  /* Padding inside card */
+}
+
+/* Text color for dark theme */
+.text-dark {
+  color: #343a40;
+  /* Dark text for contrast */
+}
+
+/* Styling for card content and horizontal rules */
+h6 {
+  color: #343a40;
+  /* Dark text */
+  margin-bottom: 10px;
+  /* Spacing */
+  font-weight: bold;
+  /* Bold text */
+  text-transform: uppercase;
+  /* Uppercase text */
+}
+
+hr.bg-dark {
+  border-top: 1px solid #ddd;
+  /* Light horizontal rule */
+}
+
 /* Style for the image */
 .img-thumbnail {
   max-height: 300px;
@@ -8,6 +63,8 @@
   /* Rounded corners */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   /* Subtle shadow */
+  border: 3px solid #000000;
+  /* Black border for image */
 }
 
 /* Centering and padding adjustments */
@@ -18,12 +75,54 @@
   padding: 15px;
 }
 
-/* Card adjustments for dark theme */
-.card.bg-dark {
-  border: 1px solid #495057;
-
+/* Button Styling */
+.btn-primary {
+  background-color: #007bff;
+  border: none;
+  padding: 10px 15px;
+  /* Consistent padding */
+  border-radius: 5px;
+  /* Rounded corners */
+  transition: background-color 0.3s ease;
+  /* Smooth transition */
+  text-transform: uppercase;
+  /* Uppercase text */
+  font-size: 0.875rem;
+  /* Font size */
 }
 
-h6 {
-  color: #e9ecef;
+.btn-primary:hover {
+  background-color: #0056b3;
+  /* Darker primary color on hover */
+}
+
+/* Styling for any alert messages */
+.alert-success,
+.alert-danger {
+  border-radius: 10px;
+  /* Rounded corners */
+  margin-bottom: 20px;
+  /* Bottom margin for spacing */
+  padding: 10px;
+  /* Padding inside alert */
+  text-align: center;
+  /* Center-align text */
+}
+
+.alert-success {
+  background-color: #d4edda;
+  /* Light green background */
+  color: #155724;
+  /* Dark green text */
+  border: 1px solid #c3e6cb;
+  /* Green border */
+}
+
+.alert-danger {
+  background-color: #f8d7da;
+  /* Light red background */
+  color: #721c24;
+  /* Dark red text */
+  border: 1px solid #f5c6cb;
+  /* Red border */
 }

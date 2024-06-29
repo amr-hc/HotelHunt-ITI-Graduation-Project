@@ -1,5 +1,5 @@
 <div class="hotel-owner-container">
-  <h2>Hotels for Owner</h2>
+  <h2 class="text-primary text-center">My Hotels</h2>
 
   <!-- Loading Indicator -->
   <div *ngIf="isLoading" class="loading-container">
@@ -12,24 +12,49 @@
   <ng-container *ngIf="!isLoading">
     <div *ngFor="let hotel of hotels" class="hotel-card">
       <div class="hotel-header">
-        <h3 class="text-primary">{{ hotel.name }}</h3>
+        <h3>{{ hotel.name }}</h3>
         <p><strong>City:</strong> {{ hotel.city }}</p>
         <p><strong>Address:</strong> {{ hotel.address }}</p>
         <p><strong>Status:</strong> {{ hotel.status }}</p>
-        <p><strong>Star Rating:</strong> {{ hotel.star_rating }}</p>
-        <p><strong>Balance:</strong> {{ hotel.balance | currency:'USD':'symbol-narrow' }}</p>
+        <p><strong>Star Rating:</strong>
+          <span class="star-rating">
+            <!-- Full stars -->
+            <ng-container *ngFor="let _ of starRange(getStarRatingStars(hotel.star_rating).fullStars)">
+              <i class="star fa fa-star"></i>
+            </ng-container>
+            <!-- Half star, if applicable -->
+            <ng-container *ngIf="getStarRatingStars(hotel.star_rating).halfStars === 1">
+              <i class="star fa fa-star-half"></i>
+            </ng-container>
+          </span>
+        </p>
+        <p><strong>Balance:</strong> {{ hotel.balance | currency:' EGP ' }}</p>
         <p><strong>Description:</strong> {{ hotel.description }}</p>
-        <p><strong>rating:</strong> {{ hotel.star_rating }}</p>
 
         <button class="btn btn-primary mx-1" [routerLink]="['/owner/hotel', hotel.id]">Update</button>
-        <button class="btn btn-success mx-1" [routerLink]="['/owner/hotel', hotel.id, 'addImage']">Add
-          Image</button>
+        <button class="btn btn-success mx-1" [routerLink]="['/owner/hotel', hotel.id, 'addImage']">Add Image</button>
       </div>
 
+      <!-- Hotel Images -->
       <div *ngIf="ownerImages[hotel.id]" class="hotel-images">
-        <h4>Images:</h4>
+        <h4 class="text-primary">Images:</h4>
         <div class="image-grid">
           <div *ngFor="let image of ownerImages[hotel.id]" class="image-item">
             <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image" />
             <button class="btn btn-danger my-2" (click)="onDeleteImage(image.id)">Delete</button>
           </div>
+        </div>
+      </div>
+
+      <!-- Hotel Comments -->
+      <div *ngIf="hotelComments[hotel.id]" class="hotel-comments">
+        <h4 class="text-primary">Comments:</h4>
+        <div *ngFor="let comment of hotelComments[hotel.id]" class="comment-item">
+          <p><strong>User:</strong> {{ comment.user_name }}</p>
+          <p><strong>Date:</strong> {{ comment.created_at | date }}</p>
+          <p>{{ comment.content }}</p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
