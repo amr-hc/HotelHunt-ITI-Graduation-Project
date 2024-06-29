@@ -87,4 +87,13 @@ export class HotelService {
   updateHotelFeaturedStatus(id: number, isFeatured: boolean): Observable<Hotel> {
     return this.http.patch<Hotel>(`${this.apiUrl}${id}/`, { isFeatured });
   }
+
+  addHotel(hotelData: any): Observable<Hotel> {
+    return this.http.post<Hotel>(this.apiUrl, hotelData);
+  }
+
+  editHotel(formData: FormData): Observable<Hotel> {
+    const hotelId = formData.get('id');
+    return this.http.post<Hotel>(`${this.apiUrl}${hotelId}?_method=PATCH`, formData);
+  }
 }

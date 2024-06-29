@@ -31,4 +31,7 @@ export class CommentService {
       map(response => response.data)
     );
   }
+  deleteComment(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}${id}`);
+  }
 }
