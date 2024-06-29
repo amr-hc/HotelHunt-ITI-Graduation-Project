@@ -127,6 +127,17 @@ class SearchController extends Controller
         
         return response()->json($cities);
     }
+
+
+    public function getCitiesWithCountries() {
+        $citiesWithCountries = \DB::table('hotels')
+        ->select('city', 'country')
+        ->distinct()
+        ->get();
+
+        return response()->json($citiesWithCountries);
+    }
+    
     
 
 

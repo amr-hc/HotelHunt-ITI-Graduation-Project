@@ -16,6 +16,7 @@ use App\Http\Controllers\api\BookDetailsController;
 use App\Http\Controllers\api\BookingController;
 use App\Http\Controllers\api\PaymentController;
 use App\Http\Controllers\api\CommentController;
+use App\Http\Controllers\Api\ContactController;
 
 
 
@@ -82,6 +83,7 @@ Route::post('/search/hotel', [SearchController::class, 'searchInHotel']);
 Route::post('/search/country', [SearchController::class, 'searchByCountry']);
 Route::post('/search/city', [SearchController::class, 'searchByCity']);
 Route::get('countries', [SearchController::class, 'getAllCountries']);
+Route::get('cities/countries', [SearchController::class, 'getCitiesWithCountries']);
 Route::get('cities', [SearchController::class, 'getAllCities']);
 
 Route::resource('payments', PaymentController::class);
@@ -127,3 +129,7 @@ Route::GET('rates/hotel/{hotel}',[RateController::class,'RateByHotel']);
 Route::GET('rates/hotel/mine/{hotel}',[RateController::class,'RateByHotelforlogin']);
 Route::GET('rates/{hotel}/{user}',[RateController::class,'RateByUserHotel']);
 Route::resource('rates', RateController::class);
+
+
+Route::apiResource('contacts', ContactController::class);
+
