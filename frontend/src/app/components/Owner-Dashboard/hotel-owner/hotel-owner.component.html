@@ -1,5 +1,5 @@
 <div class="hotel-owner-container">
-  <h2>Hotels for Owner</h2>
+  <h2 class="text-primary">My Hotel</h2>
 
   <!-- Loading Indicator -->
   <div *ngIf="isLoading" class="loading-container">
@@ -19,13 +19,12 @@
         <p><strong>Star Rating:</strong> {{ hotel.star_rating }}</p>
         <p><strong>Balance:</strong> {{ hotel.balance | currency:'USD':'symbol-narrow' }}</p>
         <p><strong>Description:</strong> {{ hotel.description }}</p>
-        <p><strong>rating:</strong> {{ hotel.star_rating }}</p>
 
         <button class="btn btn-primary mx-1" [routerLink]="['/owner/hotel', hotel.id]">Update</button>
-        <button class="btn btn-success mx-1" [routerLink]="['/owner/hotel', hotel.id, 'addImage']">Add
-          Image</button>
+        <button class="btn btn-success mx-1" [routerLink]="['/owner/hotel', hotel.id, 'addImage']">Add Image</button>
       </div>
 
+      <!-- Hotel Images -->
       <div *ngIf="ownerImages[hotel.id]" class="hotel-images">
         <h4>Images:</h4>
         <div class="image-grid">
@@ -33,3 +32,18 @@
             <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image" />
             <button class="btn btn-danger my-2" (click)="onDeleteImage(image.id)">Delete</button>
           </div>
+        </div>
+      </div>
+
+      <!-- Hotel Comments -->
+      <div *ngIf="hotelComments[hotel.id]" class="hotel-comments">
+        <h4 class="text-primary">Comments</h4>
+        <div *ngFor="let comment of hotelComments[hotel.id]" class="comment-item">
+          <p><strong>User:</strong> {{ comment.user_name }}</p>
+          <p><strong>Date:</strong> {{ comment.created_at | date }}</p>
+          <p>{{ comment.content }}</p>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

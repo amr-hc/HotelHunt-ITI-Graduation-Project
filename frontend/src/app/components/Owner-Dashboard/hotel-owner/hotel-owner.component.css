@@ -57,3 +57,24 @@
   width: 3rem;
   height: 3rem;
 }
+.hotel-comments {
+  margin-top: 15px;
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+.hotel-comments h4 {
+  margin-bottom: 10px;
+}
+
+.comment-item {
+  border: 1px solid #e1e1e1;
+  padding: 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9;
+}
+
+.comment-item p {
+  margin: 5px 0;
+}
