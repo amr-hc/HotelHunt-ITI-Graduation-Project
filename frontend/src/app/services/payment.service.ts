@@ -45,4 +45,8 @@ export class PaymentService {
 
     return this.http.get<any>(url, { params });
   }
+  getHotelPayments(): Observable<Payment[]> {
+    const url = `${this.apiBaseURL}/payment/hotel`;
+    return this.http.get<Payment[]>(url);
+  }
 }
