@@ -30,12 +30,18 @@
         <tr>
           <th>Amount</th>
           <th>Date</th>
+          <th>Method</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let payment of groupedPayments[selectedHotel] | paginate: { itemsPerPage: 8, currentPage: currentPage }">
           <td>{{ payment.amount }}</td>
           <td>{{ payment.date | date:'short' }}</td>
+          <td>{{ payment.method }}</td>
+          <td>
+            <button class="btn btn-sm btn-danger" (click)="deletePayment(payment.id)">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
