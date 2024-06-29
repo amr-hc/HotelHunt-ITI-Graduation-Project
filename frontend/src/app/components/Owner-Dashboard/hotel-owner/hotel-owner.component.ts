@@ -1,5 +1,5 @@
 import { CommentService } from './../../../services/comment.service';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -110,6 +110,15 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
         );
       }
     });
+  }
+  getStarRatingStars(starRating: number): { fullStars: number, halfStars: number } {
+  const fullStars = Math.floor(starRating);
+  const halfStars = starRating % 1 !== 0 ? 1 : 0; // Check if there's a half star
+
+  return { fullStars, halfStars };
+}
+starRange(count: number): number[] {
+    return Array.from({ length: count }).map((_, i) => i);
   }
 
   ngOnDestroy(): void {
