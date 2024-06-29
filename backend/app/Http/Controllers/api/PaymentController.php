@@ -34,7 +34,11 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        Payment::create($request->all());
+        Payment::create([
+            'amount' => $request->amount,
+            'hotel_id' => $request->hotel_id,
+            'method' => 'cash'
+        ]);
     }
 
     /**
@@ -68,7 +72,7 @@ class PaymentController extends Controller
      */
     public function destroy(Payment $payment)
     {
-        //
+        $payment->delete();
     }
 
     public function createPayment(Request $request)
@@ -77,11 +81,11 @@ class PaymentController extends Controller
         $provider = PayPal::setProvider();
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
-    
+
         $order = [
             "intent" => "CAPTURE",
             "application_context" => [
-                "return_url" => route('paypal.success'),
+                "return_url" => 'http://localhost:4200/owner/payment/paypal',
                 "cancel_url" => route('paypal.cancel'),
             ],
             "purchase_units" => [
@@ -95,9 +99,9 @@ class PaymentController extends Controller
                 ]
             ]
         ];
-    
+
         $response = $provider->createOrder($order);
-    
+
         if (isset($response['id'])) {
             foreach ($response['links'] as $link) {
                 if ($link['rel'] === 'approve') {
@@ -105,11 +109,11 @@ class PaymentController extends Controller
                 }
             }
         }
-    
+
         return redirect()->route('paypal.cancel');
     }
 
-    
+
     public function successPayment(Request $request)
 {
     $provider = PayPal::setProvider();
@@ -122,6 +126,7 @@ class PaymentController extends Controller
         $hotel_id = $response['purchase_units'][0]['reference_id'];
 
         Payment::create([
+            'method' => 'paypal',
             'hotel_id' => $hotel_id,
             'amount' => $response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['net_amount']['value'],
         ]);
@@ -137,7 +142,27 @@ class PaymentController extends Controller
     public function cancelPayment()
     {
         return 'Payment cancelled!';
-        
+
     }
 
+    public function getHotelPayments(Request $request)
+    {
+        // Extract hotel_id from request.
+        $hotelId = auth()->user()->hotels->id;
+
+        if (!$hotelId) {
+            return response()->json(['message' => 'Hotel ID is required'], 400);
+        }
+
+        // Fetch payments for the specified hotel.
+        $payments = Payment::where('hotel_id', $hotelId)->get();
+
+        if ($payments->isEmpty()) {
+            return response()->json(['message' => 'No payments found for this hotel'], 404);
+        }
+
+        return PaymentResource::collection($payments);
+    }
 }
+
+

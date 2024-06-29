@@ -1,5 +1,5 @@
 <!-- Header Start -->
-<div class="container-fluid bg-dark px-0">
+<div class="container-fluid bg-dark px-0 wow slideInLeft" data-wow-duration="2s" data-wow-delay="0.5s" >
   <div class="row gx-0">
     <div class="col-lg-3 bg-dark d-none d-lg-block">
       <a
@@ -51,11 +51,14 @@
             <a *ngIf="! authService.isOwner()" routerLink="/home" class="nav-item nav-link">Home</a>
             <a *ngIf="authService.isLoggedIn() && authService.isGuest()" routerLink="/user/profile"  routerLinkActive="active" class="nav-item nav-link">profile</a>
             <a *ngIf="authService.isLoggedIn() && authService.isOwner()" routerLink="/owner/profile"  routerLinkActive="active"  class="nav-item nav-link">profile</a>
+
             <a *ngIf="authService.isLoggedIn() && authService.isAdmin()" routerLink="/admin-dashboard"  routerLinkActive="active"  class="nav-item nav-link">Dashboard</a>
             <a *ngIf="! authService.isOwner()" routerLink="/hotelList"  routerLinkActive="active"  class="nav-item nav-link">Hotels</a>
             <a *ngIf="authService.isLoggedIn() && authService.isOwner()"  routerLinkActive="active"  routerLink="/owner/hotel" class="nav-item nav-link">Hotel</a>
             <a *ngIf="authService.isLoggedIn() && authService.isOwner()"  routerLinkActive="active"  routerLink="/owner/booking" class="nav-item nav-link">Bookings</a>
             <a *ngIf="authService.isLoggedIn() && authService.isOwner()"  routerLinkActive="active"  routerLink="/owner/list" class="nav-item nav-link">Rooms</a>
+            <a *ngIf="authService.isLoggedIn() && authService.isOwner()" routerLink="/owner/payment" routerLinkActive="active"
+              class="nav-item nav-link">Payment</a>
             <a routerLink="/about"  routerLinkActive="active"  class="nav-item nav-link">About</a>
             <!-- <div class="nav-item dropdown">
               <a

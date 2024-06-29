@@ -1,0 +1,79 @@
+/* Container styles */
+.container {
+  background-color: #f8f9fa;
+  /* Light background */
+  padding: 20px;
+  /* Padding around the container */
+  border-radius: 8px;
+  /* Rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* Subtle shadow */
+}
+
+/* Heading styles */
+h2 {
+  font-size: 2rem;
+  /* Larger font size */
+  font-weight: bold;
+  /* Bold text */
+  text-transform: uppercase;
+  /* Uppercase text */
+}
+
+/* Button styles */
+.btn {
+  padding: 10px 20px;
+  /* Padding for the button */
+  font-size: 1rem;
+  /* Font size */
+  border-radius: 25px;
+  /* Rounded button */
+}
+
+/* Table styles */
+.table {
+  margin-top: 20px;
+  /* Space above the table */
+  border: 1px solid #dee2e6;
+  /* Border for the table */
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+  /* Vertically center text */
+}
+
+.table thead th {
+  background-color: #343a40;
+  /* Dark background for the header */
+  color: white;
+  /* White text */
+  text-align: center;
+  /* Center align text */
+}
+
+.table tbody tr:hover {
+  background-color: #e9ecef;
+  /* Light hover effect */
+}
+
+/* Pagination styles */
+pagination-controls {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-controls .pagination {
+  margin: 0;
+  /* Remove default margin */
+  padding: 10px;
+  /* Padding around controls */
+}
+
+.pagination-controls .page-item.active .page-link {
+  background-color: #007bff;
+  /* Active page color */
+  border-color: #007bff;
+  /* Border color */
+}

@@ -17,15 +17,15 @@ export class AddComponent {
   message = '';
   selectedFile: File | null = null;
 
-  constructor(private serv: RoomtypeService, private router: Router) {} // Inject Router
+  constructor(private serv: RoomtypeService, private router: Router) {}
+
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
   }
 
   create() {
-
     // Validate the fields before making the API call
-    if (!this.hotel.name || !isNaN(Number(this.hotel.name))) {
+    if (!this.hotel.name || /^\d+$/.test(this.hotel.name)) {
       this.message = 'Type must be a string.';
       return;
     }
@@ -41,7 +41,6 @@ export class AddComponent {
       this.message = 'Capacity must be a valid positive number.';
       return;
     }
-
 
     const formData = new FormData();
     formData.append('name', this.hotel.name);
@@ -64,7 +63,7 @@ export class AddComponent {
         if (error.error && error.error.hotel_id) {
           this.message = error.error.hotel_id[0];
         } else {
-          this.message = 'The selected hotel id is invalid. Please try again.';
+          this.message = 'An error occurred. Please try again.';
         }
       }
     );

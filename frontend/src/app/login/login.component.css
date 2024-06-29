@@ -7,6 +7,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-image: url(../../assets/carasoul/carousel-2.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .form-container {

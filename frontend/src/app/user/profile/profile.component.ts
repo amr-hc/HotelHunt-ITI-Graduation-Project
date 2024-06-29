@@ -12,12 +12,13 @@ import { Booking } from '../../models/booking'; // Import your adjusted Booking 
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HeaderComponent } from '../../layouts/header/header.component';
 import { AuthService } from '../../services/auth.service';
+import { FooterComponent } from '../../layouts/footer/footer.component';
 
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule,FormsModule,NgxPaginationModule,HeaderComponent],
+  imports: [CommonModule,FormsModule,NgxPaginationModule,HeaderComponent,FooterComponent],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
@@ -28,8 +29,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   bookingsSub: Subscription | null = null;
   userid: number = 0;
   currentPage = 1;
-  itemsPerPage = 4;
-  visibleDetails: { [key: number]: boolean } = {};
+  itemsPerPage = 2;
+  visibleDetailsId: number | null = null;
 
   constructor(private userService: UserService, private router: Router,
               private bookingService: BookingService, private authService:AuthService) { }
@@ -82,12 +83,16 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     this.router.navigate(['/user/profile/edit']);
   }
 
-  toggleDetails(bookingId: number) {
-    this.visibleDetails[bookingId] = !this.visibleDetails[bookingId];
+  toggleDetails(bookingId: number): void {
+    if (this.visibleDetailsId === bookingId) {
+      this.visibleDetailsId = null;
+    } else {
+      this.visibleDetailsId = bookingId;
+    }
   }
 
   isDetailsVisible(bookingId: number): boolean {
-    return !!this.visibleDetails[bookingId];
+    return this.visibleDetailsId === bookingId;
   }
 
   calculateCheckoutDate(checkinDate: string, duration: number): string {

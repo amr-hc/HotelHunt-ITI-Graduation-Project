@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Payment extends Model
 {
     use HasFactory;
-    protected $fillable = ['amount','hotel_id'];
+    protected $fillable = ['amount','hotel_id','method'];
 
     function hotel(){
         return  $this->belongsTo(Hotel::class);

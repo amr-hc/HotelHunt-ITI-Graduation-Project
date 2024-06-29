@@ -1,0 +1,41 @@
+<div class="container mt-4 p-3 bg-light shadow rounded">
+  <h2 class="text-primary text-center mb-4">Payments</h2>
+
+  <div class="text-center my-4">
+    <button routerLink="/owner/payment/add" class="btn btn-dark">Add Payment</button>
+  </div>
+
+  <div *ngIf="isLoading" class="d-flex justify-content-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <div *ngIf="errorMessage" class="alert alert-danger text-center">
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!isLoading && !errorMessage" class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+      <thead class="table-dark">
+        <tr class="text-center">
+          <th>#</th>
+          <th>Amount</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let payment of payments | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index"
+          class="text-center">
+          <td>{{ payment.id }}</td>
+          <td>${{ payment.amount | number: '1.2-2' }}</td>
+          <td>{{ payment.date | date: 'medium' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <pagination-controls class="my-3" (pageChange)="currentPage = $event"
+    previousLabel="&laquo;" nextLabel="&raquo;"></pagination-controls>
+</div>

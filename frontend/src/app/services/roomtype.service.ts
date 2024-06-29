@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { RoomType } from '../models/roomtype'; // Adjust the path if needed
+import { RoomType } from '../models/roomtype';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RoomtypeService {
-  private url = "http://127.0.0.1:8000/api/roomtype"; // Corrected the URL
+  private url = "http://127.0.0.1:8000/api/roomtype";
 
-  constructor(private http : HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  get() {
-    return this.http.get(this.url+"/owner");
+  get(): Observable<any> {
+    return this.http.get(this.url + "/owner");
   }
 
-  getById( id : any) {
-    return this.http.get(this.url + `/${id}`)
+  getById(id: any): Observable<any> {
+    return this.http.get(this.url + `/${id}`);
   }
 
   post(object: FormData): Observable<any> {
@@ -28,8 +28,7 @@ export class RoomtypeService {
     return this.http.post(patchUrl, formData);
   }
 
-  delete( id : any ) {
-    return this.http.delete(this.url + `/${id}` );
+  delete(id: any): Observable<any> {
+    return this.http.delete(this.url + `/${id}`);
   }
-
 }
