@@ -23,15 +23,16 @@ export class CommentsComponent implements OnInit, OnDestroy {
   private commentSubscription: Subscription | null = null;
   user_id: number | null = 0;
   checkLoggedInUserRole: string = '';
-
-
+  isUserVerified: string | null = null;
+  commentError: string = '';
   constructor(private commentService: CommentService
     , private HotelService: HotelService
   ) { }
   ngOnInit(): void {
     this.checkLoggedInUserRole = localStorage.getItem('userRole') || '';
-
     console.log("User Role:", this.checkLoggedInUserRole);
+    this.isUserVerified = localStorage.getItem('verified') || null;
+    console.log("User Verified:", this.isUserVerified);
     this.user_id = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')) : null;
     console.log('User ID:', this.user_id);
     console.log(typeof this.user_id);
@@ -61,7 +62,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   addComment() {
-    if (this.checkLoggedInUserRole !== 'user') {
+    if (this.checkLoggedInUserRole !== 'guest' || this.isUserVerified === null) {
       Swal.fire({
         title: 'Comment Error',
         text: 'You must be a registered user to make a reservation.',
@@ -70,11 +71,17 @@ export class CommentsComponent implements OnInit, OnDestroy {
       });
       return;
     }
-    if (this.userComment.trim() && this.hotel_id) {
-      const newComment = new UserComment(this.user_id, this.hotel_id, this.userComment);
+    const trimmedComment = this.userComment.trim();
+    if (trimmedComment === '') {
+      this.commentError = 'Please enter a comment.';
+      return;
+    }
+
+    this.commentError = '';  // Clear the error if the comment is valid
+    if (this.hotel_id) {
+      const newComment = new UserComment(this.user_id, this.hotel_id, trimmedComment);
       this.commentService.createComment(newComment).subscribe(
         (comment: Comment) => {
-          // this.comments.push(comment);
           this.loadComments();
           this.userComment = '';
         },
