@@ -19,6 +19,7 @@ import { HotelImage } from '../../models/hotelImage';
 })
 export class HotellistComponent implements OnInit {
   hotels: Hotel[] = [];
+  filteredHotels: Hotel[] = [];
   hotelImages: { [key: number]: HotelImage[] } = {};
   isLoading: boolean = true;
   errorMessage: string = '';
@@ -36,6 +37,7 @@ export class HotellistComponent implements OnInit {
         console.log(response);
         this.isLoading = false;
         this.hotels = response.data;
+        this.filteredHotels = this.hotels.filter((hotel) => hotel.status === 'active');
         if (this.hotels.length === 0) {
           this.errorMessage = 'No hotels found.';
         } else {
