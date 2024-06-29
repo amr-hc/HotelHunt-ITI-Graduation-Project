@@ -164,9 +164,21 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
 
     this.rooms.forEach(room => {
       const quantity = this.selectedRooms[room.id] || 0;
+      // if (quantity > 0) {
+      //   for (let i = 0; i < quantity; i++) {
+      //     bookingDetails.push(new BookingDetails(room.id, this.checkinDate, Number(room.price)));
+      //   }
+      // }
       if (quantity > 0) {
         for (let i = 0; i < quantity; i++) {
-          bookingDetails.push(new BookingDetails(room.id, this.checkinDate, Number(room.price)));
+          // Convert the checkinDate string to a Date object
+          let bookingDate = new Date(this.checkinDate);
+          bookingDate.setDate(bookingDate.getDate() + i); // Increment the date by 'i' days
+
+          // Convert the date back to a string if needed, for example, in 'yyyy-mm-dd' format
+          let bookingDateString = bookingDate.toISOString().split('T')[0];
+
+          bookingDetails.push(new BookingDetails(room.id, bookingDateString, Number(room.price)));
         }
       }
     });
