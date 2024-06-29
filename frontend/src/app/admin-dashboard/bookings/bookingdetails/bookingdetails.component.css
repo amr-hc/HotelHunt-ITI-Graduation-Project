@@ -1,7 +1,36 @@
-h2{
-  color: #FEA116 !important;
+.loading {
+  margin-top: 3rem;
 }
 
-body{
-  background-color: yellow;
+.booking-details {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.table-responsive {
+  margin-top: 1.5rem;
+}
+
+.list-group-item {
+  font-size: 1rem;
+}
+
+.badge.bg-primary {
+  background-color: #007bff !important;
+}
+
+.text-success {
+  color: #28a745 !important;
 }

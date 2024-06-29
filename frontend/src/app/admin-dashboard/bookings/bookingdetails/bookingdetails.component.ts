@@ -10,7 +10,8 @@ import { NgxPaginationModule } from 'ngx-pagination';
   standalone: true,
   imports: [CommonModule,NgxPaginationModule],
   templateUrl: './bookingdetails.component.html',
-  styleUrl: './bookingdetails.component.css'
+  styleUrl: './bookingdetails.component.css',
+
 })
 export class BookingDetailsComponent implements OnInit {
   booking: Booking | null = null;
