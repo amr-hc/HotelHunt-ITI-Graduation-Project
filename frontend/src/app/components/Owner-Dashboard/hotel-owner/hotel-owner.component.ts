@@ -19,6 +19,7 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
   ownerImages: { [key: number]: HotelImage[] } = {};
   sub: Subscription | null = null;
   isLoading: boolean = false; // Added loading state
+ 
 
   constructor(private activatedRoute: ActivatedRoute, private hotelService: HotelService, private router: Router) { }
 
