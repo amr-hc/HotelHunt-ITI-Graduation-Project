@@ -151,7 +151,7 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   }
 
   onReserve() {
-    if (this.checkLoggedInUserRole!=='guest' || this.isUserVerified!==null) {
+    if (this.checkLoggedInUserRole!=='guest' || this.isUserVerified===null) {
       Swal.fire({
         title: 'Reservation Error',
         text: 'You must be a registered user to make a reservation.',
