@@ -1,7 +1,16 @@
-.room-item {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  
-  
+.room-item .position-relative {
+  height: 165px;
+  overflow: hidden;
+}
+
+.room-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+small.position-absolute {
+  top: 151px;
+}
+
+
