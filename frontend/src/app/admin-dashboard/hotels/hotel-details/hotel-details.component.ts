@@ -33,6 +33,7 @@ export class HotelDetailsComponent implements OnInit {
     this.hotelService.getHotelById(hotelId).subscribe(
       (response: { data: Hotel }) => {
         this.hotel = response.data;
+        console.log(this.hotel);
       },
       (error: any) => {
         console.error('Failed to fetch hotel details', error);
