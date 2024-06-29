@@ -22,7 +22,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
   private userRatingSubscription: Subscription | null = null;
   user_id: number | null = 0;
   checkLoggedInUserRole: string = '';
-
+  isUserVerified: string|null = null;
   constructor(private ratingService: RatingService,
     private HotelService: HotelService
   ) {
@@ -31,8 +31,9 @@ export class RatingsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.checkLoggedInUserRole = localStorage.getItem('userRole') || '';
-
     console.log("User Role:", this.checkLoggedInUserRole);
+    this.isUserVerified = localStorage.getItem('verified') || null;
+    console.log("User Verified:", this.isUserVerified);
     this.user_id = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')) : null;
     console.log('User ID:', this.user_id);
     console.log(typeof this.user_id);
@@ -63,7 +64,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
   }
   rateHotel(rating: number) {
 
-    if (this.checkLoggedInUserRole !== 'user') {
+    if (this.checkLoggedInUserRole !== 'guest' || this.isUserVerified === null) {
       Swal.fire({
         title: 'Rating Error',
         text: 'You must be a registered user to make a reservation.',
