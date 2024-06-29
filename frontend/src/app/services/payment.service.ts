@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { Payment } from '../models/payment';
 
 @Injectable({
@@ -46,7 +46,9 @@ export class PaymentService {
     return this.http.get<any>(url, { params });
   }
   getHotelPayments(): Observable<Payment[]> {
-    const url = `${this.apiBaseURL}/payment/hotel`;
-    return this.http.get<Payment[]>(url);
-  }
+  const url = `${this.apiBaseURL}/payment/hotel`;
+  return this.http.get<{ data: Payment[] }>(url).pipe(
+    map(response => response.data)
+  );
+}
 }

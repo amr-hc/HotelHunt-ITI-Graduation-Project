@@ -2,74 +2,45 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
-import { Payment } from '../../../models/payment';
 import { PaymentService } from '../../../services/payment.service';
+import { Payment } from '../../../models/payment';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-payment',
   standalone: true,
-  imports: [CommonModule,NgxPaginationModule,FormsModule],
+  imports: [CommonModule, NgxPaginationModule, FormsModule, RouterLink],
   templateUrl: './payment.component.html',
-  styleUrl: './payment.component.css'
+  styleUrls: ['./payment.component.css']
 })
-
 export class PaymentComponent implements OnInit {
   payments: Payment[] = [];
-  groupedPayments: { [key: string]: Payment[] } = {};
-  hotels: string[] = [];
-  selectedHotel: string | null = null;
-  isLoading: boolean = false;
-  errorMessage: string | null = null;
   currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
+  isLoading: boolean = true; // Track loading state
+  errorMessage: string | null = null; // Store error messages
 
   constructor(private paymentService: PaymentService) {}
 
   ngOnInit(): void {
-    this.isLoading = true;
-    this.paymentService.getAllPayments().subscribe(
-      (response: any) => {
-        this.payments = response.data;
-        this.groupPaymentsByHotel();
-        this.isLoading = false;
+    this.loadPayments();
+  }
+
+  loadPayments(): void {
+    this.isLoading = true; // Start loading
+    this.paymentService.getHotelPayments().subscribe(
+      data => {
+        this.payments = data;
+        this.totalItems = data.length;
+        console.log('Payments:', this.payments);
+        this.isLoading = false; // Stop loading
       },
-      (error) => {
+      error => {
         console.error('Error fetching payments', error);
-        this.errorMessage = 'Error fetching payments';
-        this.isLoading = false;
+        this.errorMessage = 'Error fetching payments. Please try again later.';
+        this.isLoading = false; // Stop loading even on error
       }
     );
   }
-
-  private groupPaymentsByHotel(): void {
-    this.groupedPayments = this.payments.reduce((acc, payment) => {
-      if (!acc[payment.hotel]) {
-        acc[payment.hotel] = [];
-        this.hotels.push(payment.hotel); // Collect unique hotels
-      }
-      acc[payment.hotel].push(payment);
-      return acc;
-    }, {} as { [key: string]: Payment[] });
-
-    // Sort hotels alphabetically
-    this.hotels.sort();
-
-    // Sort payments by date in descending order for each hotel
-    for (const hotel in this.groupedPayments) {
-      this.groupedPayments[hotel].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-    }
-  }
-
-  onHotelChange(event: Event): void {
-    const target = event.target as HTMLSelectElement;
-    this.onSelectHotel(target.value);
-  }
-
-  onSelectHotel(selectedHotel: string | null): void {
-    this.selectedHotel = selectedHotel;
-  }
-
-  clearSelection(): void {
-    this.selectedHotel = null;
-  }
 }
-
