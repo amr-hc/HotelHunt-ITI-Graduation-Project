@@ -34,7 +34,11 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        Payment::create($request->all());
+        Payment::create([
+            'amount' => $request->amount,
+            'hotel_id' => $request->hotel_id,
+            'method' => 'cash'
+        ]);
     }
 
     /**
@@ -68,7 +72,7 @@ class PaymentController extends Controller
      */
     public function destroy(Payment $payment)
     {
-        //
+        $payment->delete();
     }
 
     public function createPayment(Request $request)
@@ -122,6 +126,7 @@ class PaymentController extends Controller
         $hotel_id = $response['purchase_units'][0]['reference_id'];
 
         Payment::create([
+            'method' => 'paypal',
             'hotel_id' => $hotel_id,
             'amount' => $response['purchase_units'][0]['payments']['captures'][0]['seller_receivable_breakdown']['net_amount']['value'],
         ]);
