@@ -1,51 +1,63 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
-export class RegisterComponent {
-  userData = {
-    fname: '',
-    lname: '',
-    phone: '',
-    address: '',
-    city: '',
-    role: 'guest',
-    age: '',
-    photo: '',
-    email: '',
-    password: '',
-    password_confirmation: '',
-  };
-
-  passwordMismatch = false;
+export class RegisterComponent implements OnInit {
+  registerForm!: FormGroup;
   registrationError: string | null = null;
+  formSubmitted = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.registerForm = this.formBuilder.group({
+      fname: ['', [Validators.required, Validators.maxLength(100)]],
+      lname: ['', [Validators.required, Validators.maxLength(100)]],
+      phone: ['', [Validators.required, Validators.maxLength(25)]],
+      address: ['', [Validators.required, Validators.maxLength(255)]],
+      city: [''],
+      role: ['guest', [Validators.required, Validators.maxLength(50)]],
+      age: ['', [Validators.required, Validators.min(18)]],
+      photo: [''],
+      email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
+      password: ['', [Validators.required, Validators.minLength(8)]],
+      password_confirmation: ['', Validators.required],
+    }, { validator: this.passwordMatchValidator });
+  }
+
+  passwordMatchValidator(form: FormGroup) {
+    return form.get('password')!.value === form.get('password_confirmation')!.value
+      ? null : { 'mismatch': true };
+  }
 
   onRegister() {
-    if (this.userData.password !== this.userData.password_confirmation) {
-      this.passwordMismatch = true;
+    this.formSubmitted = true;
+
+    if (this.registerForm.invalid) {
       return;
-    } else {
-      this.passwordMismatch = false;
     }
 
-    this.authService.register(this.userData).subscribe(
+    const userData = this.registerForm.value;
+    this.authService.register(userData).subscribe(
       (res) => {
-        if (this.userData.role === 'owner') {
+        if (userData.role === 'owner') {
           this.router.navigate(['/register/hotel'], { queryParams: { owner_id: res.user.id } });
         } else {
           this.router.navigate(['/login']);
-          // console.log('Register done');
         }
       },
       (error) => {
@@ -59,12 +71,16 @@ export class RegisterComponent {
     );
   }
 
-  checkPasswordMismatch() {
-    this.passwordMismatch = this.userData.password !== this.userData.password_confirmation;
+  navigateToLogin() {
+    this.router.navigate(['/login']);
   }
 
-  navigateTologin(){
-    this.router.navigate(['/login']); 
-
+  shouldShowError(controlName: string): boolean {
+    const control = this.registerForm.get(controlName);
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || this.formSubmitted)
+    );
   }
 }

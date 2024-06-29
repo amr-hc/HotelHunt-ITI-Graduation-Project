@@ -36,7 +36,7 @@ export class VerifyAccountComponent {
 
   verifyAccount(url: string): void {
     this.http.get(url).subscribe(response => {
-      console.log(response);
+      localStorage.setItem("verified", new Date().toISOString());
       // Show SweetAlert on success
       Swal.fire({
         title: 'Email Verified!',

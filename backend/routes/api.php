@@ -106,6 +106,8 @@ Route::prefix('hotels')->group(function () {
 
 
 
+Route::get('/getownerswithouthotel',[usersController::class, 'showOwnersDoesntHave']);
+
 Route::post('/forgot',[usersController::class, 'forgotPassword'] )->middleware('guest')->name('password.email');
 
 

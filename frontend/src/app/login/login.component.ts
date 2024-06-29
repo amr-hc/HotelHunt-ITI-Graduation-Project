@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HotelService } from '../services/hotel.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -15,18 +15,27 @@ import { HotelService } from '../services/hotel.service';
 export class LoginComponent {
   loginForm: FormGroup;
   loginError: string | null = null;
+  formSubmitted = false;
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router, private hotelService:HotelService) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private hotelService: HotelService
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(8)]]
     });
   }
 
   onLogin() {
+    this.formSubmitted = true;
+
     if (this.loginForm.invalid) {
       return;
     }
+
     this.authService.login(this.loginForm.value).subscribe(
       (res) => {
         this.authService.handleLoginSuccess(res);
@@ -67,26 +76,20 @@ export class LoginComponent {
     }
   }
 
-  logout() {
-    this.authService.logout().subscribe(() => {
-      console.log('Logged out successfully');
-      this.router.navigate(['/login']);
-    });
-  }
-
-  get email() {
-    return this.loginForm.get('email');
-  }
-
-  get password() {
-    return this.loginForm.get('password');
-  }
   navigateToRegister() {
-    this.router.navigate(['/register']); // Navigate to '/register' route
+    this.router.navigate(['/register']);
   }
-  
+
   loginWithGoogle() {
     window.location.href = 'http://localhost:8000/api/auth/google';
   }
 
+  shouldShowError(controlName: string): boolean {
+    const control = this.loginForm.get(controlName);
+    return !!(
+      control &&
+      control.invalid &&
+      (control.dirty || control.touched || this.formSubmitted)
+    );
+  }
 }
