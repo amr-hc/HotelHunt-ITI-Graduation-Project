@@ -11,9 +11,7 @@
   </div>
 
   <div *ngIf="!isLoading && hotels.length > 0">
-    <h1
-      class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline"
-    >
+    <h1 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline">
       Hotels List
     </h1>
     <div class="row mb-3">
@@ -33,6 +31,7 @@
           <th>ID</th>
           <th>Name</th>
           <th>Owner</th>
+          <th>Featured</th>
           <th>City</th>
           <th>Status</th>
           <th>Balance</th>
@@ -40,47 +39,36 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="
-            let hotel of filteredHotels
-              | paginate : { itemsPerPage: 8, currentPage: currentPage }
-          "
-        >
+        <tr *ngFor="let hotel of filteredHotels | paginate: { itemsPerPage: 8, currentPage: currentPage }">
           <td>{{ hotel.id }}</td>
           <td>{{ hotel.name }}</td>
           <td>{{ hotel.owner_name }}</td>
+          <td>
+            <label class="switch">
+              <input
+              type="checkbox"
+              [checked]="hotel.isFeatured"
+              (change)="toggleFeatured(hotel)"
+              [disabled]="!hotel.isFeatured && isFeatureLimitReached()"
+            />
+              <span class="slider round"></span>
+            </label>
+          </td>
           <td>{{ hotel.city }}</td>
           <td>
-            <select
-              [(ngModel)]="hotel.status"
-              (change)="updateHotelStatus(hotel)"
-            >
+            <select [(ngModel)]="hotel.status" (change)="updateHotelStatus(hotel)">
               <option value="active">Active</option>
               <option value="inactive">Inactive</option>
-              <!-- <option value="suspend">Suspend</option> -->
             </select>
           </td>
           <td>{{ hotel.balance }}</td>
           <td>
-            <button
-              class="btn btn-primary btn-sm"
-              (click)="viewHotelDetails(hotel.id)"
-            >
-              View
-            </button>
-            <button
-              class="btn btn-danger btn-sm ms-1"
-              (click)="confirmDeleteHotel(hotel.id)"
-            >
-              Delete
-            </button>
+            <button class="btn btn-primary btn-sm" (click)="viewHotelDetails(hotel.id)">View</button>
+            <button class="btn btn-danger btn-sm ms-1" (click)="confirmDeleteHotel(hotel.id)">Delete</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <pagination-controls
-      (pageChange)="currentPage = $event"
-      class="text-center"
-    ></pagination-controls>
+    <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
   </div>
 </div>

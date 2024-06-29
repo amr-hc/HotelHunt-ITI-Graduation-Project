@@ -7,14 +7,13 @@ import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UserService } from '../../services/user.service';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-hotels',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterLink,NgxPaginationModule],
+  imports: [CommonModule, FormsModule, RouterLink, NgxPaginationModule],
   templateUrl: './hotels.component.html',
-  styleUrl: './hotels.component.css'
+  styleUrl: './hotels.component.css',
 })
 export class HotelsComponent implements OnInit {
   hotels: Hotel[] = [];
@@ -31,13 +30,12 @@ export class HotelsComponent implements OnInit {
 
   ngOnInit(): void {
     this.hotelService.getAllHotels().subscribe(
-      response => {
+      (response) => {
         this.hotels = response.data;
         this.filteredHotels = this.hotels;
-        console.log(this.filteredHotels);
         this.isLoading = false;
       },
-      error => {
+      (error) => {
         this.isLoading = false;
         console.error('Error loading hotels:', error);
       }
@@ -45,9 +43,10 @@ export class HotelsComponent implements OnInit {
   }
 
   filterHotels(): void {
-    this.filteredHotels = this.hotels.filter(hotel =>
-      hotel.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      hotel.city.toLowerCase().includes(this.searchTerm.toLowerCase())
+    this.filteredHotels = this.hotels.filter(
+      (hotel) =>
+        hotel.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        hotel.city.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
@@ -62,8 +61,8 @@ export class HotelsComponent implements OnInit {
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it'
-    }).then(result => {
+      cancelButtonText: 'No, keep it',
+    }).then((result) => {
       if (result.isConfirmed) {
         this.deleteHotel(id);
       } else if (result.dismiss === Swal.DismissReason.cancel) {
@@ -75,11 +74,11 @@ export class HotelsComponent implements OnInit {
   deleteHotel(id: number): void {
     this.hotelService.deleteHotel(id).subscribe(
       () => {
-        this.hotels = this.hotels.filter(hotel => hotel.id !== id);
-        this.filterHotels(); // Update filtered hotels after deletion
+        this.hotels = this.hotels.filter((hotel) => hotel.id !== id);
+        this.filterHotels();
         Swal.fire('Deleted!', 'Your hotel has been deleted.', 'success');
       },
-      error => {
+      (error) => {
         Swal.fire('Error!', 'Failed to delete hotel.', 'error');
         console.error('Error deleting hotel:', error);
       }
@@ -87,9 +86,31 @@ export class HotelsComponent implements OnInit {
   }
 
   updateHotelStatus(hotel: Hotel): void {
-    const newStatus = hotel.status;
-    this.hotelService.updateHotelStatus(hotel.id, newStatus).subscribe(updatedHotel => {
+    this.hotelService.updateHotelStatus(hotel.id, hotel.status).subscribe((updatedHotel) => {
       console.log('Hotel status updated:', updatedHotel);
     });
   }
-}
+
+  isFeatureLimitReached(): boolean {
+    return this.hotels.filter(h => h.isFeatured).length >= 3;
+  }
+
+  toggleFeatured(hotel: Hotel): void {
+    if (!hotel.isFeatured && this.isFeatureLimitReached()) {
+      hotel.isFeatured = false;
+      return;
+    }
+
+    hotel.isFeatured = !hotel.isFeatured;
+    this.hotelService.updateHotelFeaturedStatus(hotel.id, hotel.isFeatured).subscribe(
+      () => {
+        console.log('Hotel featured status updated:', hotel);
+      },
+      (error) => {
+        console.error('Error updating featured status:', error);
+        hotel.isFeatured = !hotel.isFeatured;
+      }
+    );
+  }
+  }
+

@@ -23,12 +23,14 @@ export class AuthService {
     localStorage.setItem('userId', credentials.user.id);
     localStorage.setItem('userRole', credentials.user.role);
     localStorage.setItem('token', credentials.token);
+    localStorage.setItem('verified', credentials.user.email_verified_at);
   }
 
   logout(): Observable<void> {
     localStorage.removeItem('userId');
     localStorage.removeItem('userRole');
     localStorage.removeItem('token');
+    localStorage.removeItem('verified');
 
     return this.http.post<void>(`${this.apiUrl}/logout`, {});
   }

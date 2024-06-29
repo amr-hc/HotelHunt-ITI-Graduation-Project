@@ -122,7 +122,13 @@ class usersController extends Controller
 
 
 
+    public function showOwnersDoesntHave()
+    {
+        User::where('role', 'owner')->whereDoesntHave('hotels')->get();
 
+        return UserResource::collection( User::where('role', 'owner')->whereDoesntHave('hotels')->get());
+    
+    }
 
 
 

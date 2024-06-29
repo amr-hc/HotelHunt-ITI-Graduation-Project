@@ -73,4 +73,10 @@ class CommentController extends Controller
         $comment->delete();
         return response()->json(null, 204);
     }
+    public function getCommentsByHotelId($hotelId){
+
+        $comments = Comment::where('hotel_id', $hotelId)->get();
+        return CommentResource::collection($comments);
+
+    }
 }

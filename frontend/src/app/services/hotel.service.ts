@@ -84,8 +84,7 @@ export class HotelService {
     this.hotelIdSubject.next(id);
   }
 
-// Fetch room types for a specific hotel
-// getRoomTypesByHotelId(hotelId: number): Observable<RoomType2[]> {
-//   return this.http.get<RoomType2[]>(`${this.apiUrl}${hotelId}/roomtypes`);
-// }
+  updateHotelFeaturedStatus(id: number, isFeatured: boolean): Observable<Hotel> {
+    return this.http.patch<Hotel>(`${this.apiUrl}${id}/`, { isFeatured });
+  }
 }

@@ -1,5 +1,9 @@
 <app-header></app-header>
-
+<div *ngIf="isLoading" class="loading-container">
+  <div class="spinner-border text-primary" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
 <section class="sec1">
   <div class="container-fluid">
     <div style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); padding: 40px 50px;">
@@ -7,7 +11,7 @@
       <div *ngFor="let hotel of filteredHotels | paginate: { itemsPerPage: 4 , currentPage: currentPage }" class="card p-0 rounded border-0 shadow wow fadeInUp" data-wow-delay="0.1s">
         <div class="position-relative row g-0">
           <div class="col-md-4 hotel-image-style">
-            <img *ngIf="hotelImages[hotel.id] && hotelImages[hotel.id].length > 0" [src]="'http://127.0.0.1:8000/storage/' + hotelImages[hotel.id][0].image" alt="Hotel Image" class="img-fluid rounded-start" />
+            <!-- <img *ngIf="hotelImages[hotel.id] && hotelImages[hotel.id].length > 0" [src]="'http://127.0.0.1:8000/storage/' + hotelImages[hotel.id][0].image" alt="Hotel Image" class="img-fluid rounded-start" /> -->
             <img src="http://localhost:8000/storage/{{hotel.image}}" alt="Hotel Image" class="img-fluid rounded-start" />
           </div>
           <div class="col-md-8 pe-lg-5">

@@ -1,10 +1,10 @@
 <!-- hotels/hotel-details/hotel-details.component.html -->
 <div class="container mt-4">
   <div *ngIf="hotel">
-    <h2 class="text-primary text-center mb-3 fs-2 fw-bold text-decoration-underline fst-italic">{{ hotel.name }} Details</h2>
+    <h2 class="text-primary text-center mb-4 fs-2 fw-bold text-decoration-underline fst-italic">{{ hotel.name }} Details</h2>
     <div class="card shadow-sm">
-      <div class="card-header bg-dark text-white">
-        <img src="http://localhost:8000/storage/{{hotel.image}}">
+      <div class="card-header bg-dark text-white d-flex align-items-center">
+        <img src="http://localhost:8000/storage/{{hotel.image}}" class="img-fluid rounded me-3" alt="{{ hotel.name }}" style="max-width: 100px; max-height: 100px;">
         <h5 class="card-title mb-0">{{ hotel.name }}</h5>
       </div>
       <div class="card-body">
@@ -17,9 +17,8 @@
           </div>
         </div>
         <div class="row mb-3">
-
           <div class="col-md-6">
-            <p ><strong >Owner:</strong> <span class="text-primary fw-bold"> {{ hotel.owner_name }}</span></p>
+            <p><strong>Owner:</strong> <span class="text-primary fw-bold">{{ hotel.owner_name }}</span></p>
           </div>
           <div class="col-md-6">
             <p><strong>Country:</strong> {{ hotel.country }}</p>
@@ -31,15 +30,8 @@
           </div>
           <div class="col-md-6">
             <p>
-              <strong>Status: </strong>
-              <span
-                class="badge"
-                [ngClass]="{
-                  'bg-success': hotel.status === 'active',
-                  'bg-danger': hotel.status === 'inactive',
-                  
-                }"
-              >
+              <strong>Status:</strong>
+              <span class="badge" [ngClass]="{'bg-success': hotel.status === 'active', 'bg-danger': hotel.status === 'inactive'}">
                 {{ hotel.status }}
               </span>
             </p>
@@ -50,25 +42,34 @@
             <p><strong>Balance:</strong> {{ hotel.balance }}</p>
           </div>
           <div class="col-md-6">
-             <p><strong>Address:</strong> {{ hotel.address }}</p>
-
+            <p><strong>Address:</strong> {{ hotel.address }}</p>
           </div>
         </div>
         <div class="row mb-3">
-
           <div class="col-md-6">
             <p>
               <strong>Star Rating:</strong>
               <span class="text-primary">
-                <ng-container
-                  *ngFor="let star of [].constructor(hotel.star_rating); let i = index"
-                >
+                <ng-container *ngFor="let star of [].constructor(hotel.star_rating); let i = index">
                   <i class="bi bi-star-fill"></i>
                 </ng-container>
                 <ng-container *ngIf="hotel.star_rating < 5">
-                  <ng-container
-                    *ngFor="let star of [].constructor(5 - hotel.star_rating); let i = index"
-                  >
+                  <ng-container *ngFor="let star of [].constructor(5 - hotel.star_rating); let i = index">
+                    <i class="bi bi-star"></i>
+                  </ng-container>
+                </ng-container>
+              </span>
+            </p>
+          </div>
+          <div class="col-md-6">
+            <p>
+              <strong>Average Rating:</strong>
+              <span class="text-primary">
+                <ng-container *ngFor="let star of [].constructor(+hotel.average_rate); let i = index">
+                  <i class="bi bi-star-fill"></i>
+                </ng-container>
+                <ng-container *ngIf="hotel.average_rate < 5">
+                  <ng-container *ngFor="let star of [].constructor(5 - +hotel.average_rate); let i = index">
                     <i class="bi bi-star"></i>
                   </ng-container>
                 </ng-container>

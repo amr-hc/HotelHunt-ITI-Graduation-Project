@@ -26,4 +26,9 @@ export class CommentService {
   createComment(userComment: UserComment): Observable<any> {
     return this.http.post(this.apiUrl, userComment)
   }
+  getCommentsByHotelId(hotelId: number): Observable<Comment[]> {
+    return this.http.get<{data: Comment[]}>(`${this.apiUrl}hotel/${hotelId}`).pipe(
+      map(response => response.data)
+    );
+  }
 }
