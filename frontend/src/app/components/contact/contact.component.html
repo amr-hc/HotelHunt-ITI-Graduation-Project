@@ -1,54 +1,64 @@
+<!-- src/app/contact/contact.component.html -->
 <app-header></app-header>
 <div class="container">
-    <section class="contact-section spad">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="contact-text">
-              <h2>Contact <span class="highlight">Info</span>
-              </h2>
-              <p class="mb-5">
-                We would genuinely love to hear from you! Whether you have questions, feedback, or suggestions, please do not hesitate to reach out to us.
-              </p>
-              <table>
-                <tbody>
-                  <tr>
-                    <td class="c-o">Address:</td>
-                    <td>856 El Gish Street. 356, Mansoura, EG</td>
-                  </tr>
-                  <tr>
-                    <td class="c-o">Phone:</td>
-                    <td>+(20) 10 77 888 999</td>
-                  </tr>
-                  <tr>
-                    <td class="c-o">Email:</td>
-                    <td>info.hotelhunt&#64;gmail.com</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+  <section class="contact-section spad">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="contact-text">
+            <h2>Contact <span class="highlight">Info</span></h2>
+            <p class="mb-5">
+              We would genuinely love to hear from you! Whether you have questions, feedback, or suggestions, please do not hesitate to reach out to us.
+            </p>
+            <table>
+              <tbody>
+                <tr>
+                  <td class="c-o">Address:</td>
+                  <td>856 El Gish Street. 356, Mansoura, EG</td>
+                </tr>
+                <tr>
+                  <td class="c-o">Phone:</td>
+                  <td>+(20) 10 77 888 999</td>
+                </tr>
+                <tr>
+                  <td class="c-o">Email:</td>
+                  <td>info.hotelhunt&#64;gmail.com</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-          <div class="col-lg-7 offset-lg-1">
-            <form (ngSubmit)="onSubmit()" class="contact-form">
-              <div class="row">
-                <div class="col-lg-6">
-                  <input type="text" placeholder="Your Name" [(ngModel)]="contact.name" name="name" required>
-                </div>
-                <div class="col-lg-6">
-                  <input type="text" placeholder="Your Email" [(ngModel)]="contact.email" name="email" required>
-                </div>
-                <div class="col-lg-12">
-                  <textarea placeholder="Your Message"  [(ngModel)]="contact.message" name="message" required></textarea>
-                  <button type="submit" class="btn btn-primary">Submit Now</button>
+        </div>
+        <div class="col-lg-7 offset-lg-1">
+          <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
+            <div class="row">
+              <div class="col-lg-6">
+                <input type="text" placeholder="Your Name" formControlName="name" required>
+                <div *ngIf="formSubmitted && shouldShowError('name')" class="text-danger">
+                  <div *ngIf="contactForm.get('name')?.errors?.['required']">Name is required.</div>
                 </div>
               </div>
-            </form>
-          </div>
-        </div>
-        <div class="map">
-          <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10784.188505644011!2d31.354458658880727!3d31.040712311786002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1543907528304" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+              <div class="col-lg-6">
+                <input type="email" placeholder="Your Email" formControlName="email" required>
+                <div *ngIf="formSubmitted && shouldShowError('email')" class="text-danger">
+                  <div *ngIf="contactForm.get('email')?.errors?.['required']">Email is required.</div>
+                  <div *ngIf="contactForm.get('email')?.errors?.['email']">Invalid email address.</div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <textarea placeholder="Your Message" formControlName="message" required></textarea>
+                <div *ngIf="formSubmitted && shouldShowError('message')" class="text-danger">
+                  <div *ngIf="contactForm.get('message')?.errors?.['required']">Message is required.</div>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Now</button>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
-    </section>
-  </div>
-  <app-footer></app-footer>
+      <div class="map">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d10784.188505644011!2d31.354458658880727!3d31.040712311786002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1543907528304" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+    </div>
+  </section>
+</div>
+<app-footer></app-footer>
