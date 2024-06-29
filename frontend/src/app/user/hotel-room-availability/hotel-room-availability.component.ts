@@ -162,27 +162,46 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
     }
     const bookingDetails: BookingDetails[] = [];
 
+    // this.rooms.forEach(room => {
+    //   const quantity = this.selectedRooms[room.id] || 0;
+    //   // if (quantity > 0) {
+    //   //   for (let i = 0; i < quantity; i++) {
+    //   //     bookingDetails.push(new BookingDetails(room.id, this.checkinDate, Number(room.price)));
+    //   //   }
+    //   // }
+    //   if (quantity > 0) {
+    //     for (let i = 0; i < quantity; i++) {
+    //       // Convert the checkinDate string to a Date object
+    //       for (let i = 0; i < quantity; i++) {
+    //         let bookingDate = new Date(this.checkinDate);
+    //         bookingDate.setDate(bookingDate.getDate() + i); // Increment the date by 'i' days
+
+    //         // Convert the date back to a string if needed, for example, in 'yyyy-mm-dd' format
+    //         let bookingDateString = bookingDate.toISOString().split('T')[0];
+
+    //         bookingDetails.push(new BookingDetails(room.id, bookingDateString, Number(room.price)));
+    //       }
+    //     }
+    //     console.log(bookingDetails);
+    //   }
+    // });
     this.rooms.forEach(room => {
       const quantity = this.selectedRooms[room.id] || 0;
-      // if (quantity > 0) {
-      //   for (let i = 0; i < quantity; i++) {
-      //     bookingDetails.push(new BookingDetails(room.id, this.checkinDate, Number(room.price)));
-      //   }
-      // }
       if (quantity > 0) {
         for (let i = 0; i < quantity; i++) {
-          // Convert the checkinDate string to a Date object
-          for (let i = 0; i < quantity; i++) {
-            let bookingDate = new Date(this.checkinDate);
-            bookingDate.setDate(bookingDate.getDate() + i); // Increment the date by 'i' days
+          const checkin = new Date(this.checkinDate);
+          const checkout = new Date(this.checkoutDate);
+          const days = (checkout.getTime() - checkin.getTime()) / (1000 * 3600 * 24);
 
-            // Convert the date back to a string if needed, for example, in 'yyyy-mm-dd' format
+          for (let j = 0; j <= days; j++) {
+            let bookingDate = new Date(checkin);
+            bookingDate.setDate(bookingDate.getDate() + j);
+
             let bookingDateString = bookingDate.toISOString().split('T')[0];
 
             bookingDetails.push(new BookingDetails(room.id, bookingDateString, Number(room.price)));
           }
         }
-        console.log(bookingDetails);
       }
     });
 
