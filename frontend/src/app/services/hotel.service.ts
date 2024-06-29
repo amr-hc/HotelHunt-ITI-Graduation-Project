@@ -6,6 +6,7 @@ import { HotelImage } from '../models/hotelImage';
 import { catchError } from 'rxjs/operators';
 import {  of } from 'rxjs';
 
+import { RoomType2 } from '../models/roomtype2';
 @Injectable({
   providedIn: 'root'
 })
@@ -83,5 +84,8 @@ export class HotelService {
     this.hotelIdSubject.next(id);
   }
 
-
+// Fetch room types for a specific hotel
+// getRoomTypesByHotelId(hotelId: number): Observable<RoomType2[]> {
+//   return this.http.get<RoomType2[]>(`${this.apiUrl}${hotelId}/roomtypes`);
+// }
 }

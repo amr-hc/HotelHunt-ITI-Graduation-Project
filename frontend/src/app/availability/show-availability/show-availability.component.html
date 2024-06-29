@@ -3,7 +3,7 @@
 
   <div class="form-group">
     <label for="monthSelect">Select Month:</label>
-    <select id="monthSelect" class="form-control" (change)="onMonthSelect($event)">
+    <select  id="monthSelect" class="form-control" (change)="onMonthSelect($event)">
       <option *ngFor="let month of months" [value]="month.value" [selected]="month.value === currentMonthValue">
         {{ month.label }}
       </option>
