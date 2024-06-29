@@ -6,6 +6,7 @@ export class Comment {
     public user_id: number,
     public user_name: string,
     public hotel_id: number,
+    public photo: string,
   ) { }
 }
 
