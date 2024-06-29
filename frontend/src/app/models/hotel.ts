@@ -8,6 +8,7 @@ export class Hotel {
     public name: string,
     public address: string,
     public country: string,
+    public isFeatured: boolean,
     public image: string,
     public photo: string,
     public city: string,
