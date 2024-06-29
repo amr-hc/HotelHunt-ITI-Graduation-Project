@@ -17,11 +17,13 @@
     <p class="mt-2">Loading owners...</p>
   </div>
 
+
   <!-- No Owners Found Message -->
   <div *ngIf="!isLoading && filteredOwners.length === 0" class="text-center mt-3">
     <p class="alert alert-info">No owners found.</p>
   </div>
 
+  <a class="btn btn-success" routerLink="/admin-dashboard/owners/add">Add Owner</a>
   <!-- Owners List -->
   <div *ngIf="!isLoading && filteredOwners.length > 0">
     <table class="table table-striped table-bordered text-center">
@@ -44,6 +46,7 @@
           <td>{{ owner.role }}</td>
           <td>
             <button class="btn btn-primary btn-sm" (click)="viewUser(owner.id)">View</button>
+            <button class="btn btn-dark btn-sm ms-1" (click)="editUser(owner.id)">Edit</button>
             <button class="btn btn-danger btn-sm ms-1" (click)="confirmDelete(owner.id)">Delete</button>
           </td>
         </tr>

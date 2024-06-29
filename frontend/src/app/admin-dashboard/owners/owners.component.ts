@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-owners',
   standalone: true,
-  imports: [CommonModule,NgxPaginationModule,FormsModule],
+  imports: [CommonModule,NgxPaginationModule,FormsModule, RouterLink],
   templateUrl: './owners.component.html',
   styleUrl: './owners.component.css'
 })
@@ -42,6 +42,10 @@ export class OwnersComponent {
 
   viewUser(id: number): void {
     this.router.navigate(['/admin-dashboard/owners/details', id]);
+  }
+
+  editUser(id: number): void {
+    this.router.navigate(['/admin-dashboard/owners/edit', id]);
   }
 
   confirmDelete(id: number): void {
