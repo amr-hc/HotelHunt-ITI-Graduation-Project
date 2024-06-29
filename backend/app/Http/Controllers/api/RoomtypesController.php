@@ -57,6 +57,11 @@ class RoomtypesController extends Controller
         return Roomtype::findOrFail($id);
     }
 
+    public function showHotel($id)
+    {
+        return Hotel::findOrFail($id)->roomtypes;
+    }
+
     public function update(Request $request, $id)
 {
     $roomtype = Roomtype::findOrFail($id);
