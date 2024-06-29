@@ -16,6 +16,7 @@ import { Router } from '@angular/router';
 import { CommentsComponent } from '../comments/comments.component';
 import { RatingsComponent } from '../ratings/ratings.component';
 import { HotelService } from '../../services/hotel.service';
+import { SearchHotelService } from '../../services/search-hotel.service';
 @Component({
   selector: 'app-hotel-room-availability',
   standalone: true,
@@ -45,6 +46,7 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   checkoutDateError: string = '';
   dateError: string = '';
   checkLoggedInUserRole: string = '';
+  private subscriptions: Subscription[] = [];
 
 
   constructor(
@@ -53,7 +55,8 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
     private commentService: CommentService,
     private ratingService: RatingService,
     private router: Router,
-    private HotelService: HotelService
+    private HotelService: HotelService,
+    private searchHotelService: SearchHotelService
   ) { }
   validateForm(): boolean {
     let isValid = true;
@@ -104,9 +107,15 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
       }
     )
     const today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
-    this.checkinDate = today;
-    this.checkoutDate = today;
+    this.subscriptions.push(
+      this.searchHotelService.searchedCheckInDate$.subscribe(date => this.checkinDate = date || today),
+      this.searchHotelService.searchedCheckOutDate$.subscribe(date => this.checkoutDate = date || today)
+    );
+    if (this.hotel_id && this.checkinDate && this.checkoutDate) {
+      this.onSearch();
 
+
+    }
   }
 
 
@@ -220,6 +229,8 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
     if (this.hotelIdSubscription) {
       this.hotelIdSubscription.unsubscribe();
     }
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+
 
   }
 
