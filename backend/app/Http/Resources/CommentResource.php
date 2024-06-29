@@ -21,6 +21,7 @@ class CommentResource extends JsonResource
             "created_at"=> $this->created_at,
             "user_id"=> $this->user_id,
             "user_name"=> $this->user->fname . ' ' . $this->user->lname,
+            "photo"=> $this->user->photo ,
             "hotel_id"=> $this->hotel_id,
         ];
 
