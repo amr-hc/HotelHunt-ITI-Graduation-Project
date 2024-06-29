@@ -21,29 +21,26 @@ export class AddpaymentComponent {
 
   constructor(
     private fb: FormBuilder,
-    private hotelService: HotelService,
     private paymentService: PaymentService,
-    private router:Router
+    private router: Router
   ) {
     this.addPaymentForm = this.fb.group({
-      amount: ['', [Validators.required, Validators.min(0.01)]],
-    });
-  }
-
-  ngOnInit(): void {
-    this.hotelService.getAllHotels().subscribe(response => {
-      this.hotels = response.data;
+      amount: ['', [Validators.required, Validators.min(0.01)]]
     });
   }
 
   onSubmit(): void {
     this.formSubmitted = true;
     if (this.addPaymentForm.valid) {
-      const newPayment: Payment = this.addPaymentForm.value;
-      this.paymentService.createPayment(newPayment).subscribe(response => {
-        this.addPaymentForm.reset();
-        this.formSubmitted = false;
-        this.router.navigate(['/admin-dashboard/payments']);
+      const amount = this.addPaymentForm.value.amount;
+      this.paymentService.createPaymentForOwner(amount).subscribe({
+        next: (response) => {
+          console.log('Payment link:', response.link);
+          window.location.href = response.link; // Redirect to the payment link
+        },
+        error: (error) => {
+          console.error('Error creating payment:', error);
+        }
       });
     }
   }
