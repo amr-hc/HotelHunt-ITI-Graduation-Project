@@ -18,6 +18,7 @@ class PaymentResource extends JsonResource
             "id"=>$this->id,
             "hotel"=>$this->hotel->name,
             "amount"=>$this->amount,
+            "method"=>$this->method,
             "date"=>$this->created_at,
         ];
     }
