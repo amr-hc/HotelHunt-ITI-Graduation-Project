@@ -1,7 +1,7 @@
 .sec3-title {
     text-align: center;
     margin-bottom: 30px;
-    font-size: 28px; /* زيادة حجم الخط */
+    font-size: 28px;
     color: #8a6d3b;
   }
   
@@ -32,16 +32,16 @@
   }
   
   .card-title {
-    font-size: 20px; /* زيادة حجم الخط */
+    font-size: 20px; 
     font-weight: bold;
     color: #8a6d3b;
-    margin-bottom: 0.25rem; /* تقليل المسافة بين العنوانين */
+    margin-bottom: 0.25rem; 
   }
   
   .card-text {
-    font-size: 16px; /* زيادة حجم الخط */
+    font-size: 16px; 
     color: #333;
-    margin-bottom: 0.25rem; /* تقليل المسافة بين العنوانين */
+    margin-bottom: 0.25rem; 
   }
   
   .button-center {
