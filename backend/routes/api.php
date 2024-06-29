@@ -134,3 +134,6 @@ Route::resource('rates', RateController::class);
 
 Route::apiResource('contacts', ContactController::class);
 
+Route::get('create-payment', [PaymentController::class, 'createPayment'])->name('paypal.create');
+Route::get('success-payment', [PaymentController::class, 'successPayment'])->name('paypal.success');
+Route::get('cancel-payment', [PaymentController::class, 'cancelPayment'])->name('paypal.cancel');

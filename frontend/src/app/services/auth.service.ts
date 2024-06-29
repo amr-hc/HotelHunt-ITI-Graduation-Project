@@ -20,7 +20,6 @@ export class AuthService {
   }
 
   handleLoginSuccess(credentials: any): void {
-    console.log(credentials);
     localStorage.setItem('userId', credentials.user.id);
     localStorage.setItem('userRole', credentials.user.role);
     localStorage.setItem('token', credentials.token);
