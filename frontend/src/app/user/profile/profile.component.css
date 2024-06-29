@@ -38,6 +38,8 @@ body {
   border: 3px solid #000000;
   border-radius: 50%;
   padding: 5px;
+  width: 220px;
+  height: 220px;
 }
 
 .profile-info {

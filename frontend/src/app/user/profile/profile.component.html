@@ -56,6 +56,7 @@
                 <th class="bg-dark text-light">Hotel</th>
                 <th class="bg-dark text-light">Status</th>
                 <th class="bg-dark text-light">Duration</th>
+                <th class="bg-dark text-light">+</th>
               </tr>
             </thead>
             <tbody>
@@ -66,10 +67,13 @@
                   <td>{{ booking.hotel }}</td>
                   <td>{{ booking.status }}</td>
                   <td>{{ booking.duration }} days</td>
+                  <td class="text-center">
+                    <i class="fas" [ngClass]="isDetailsVisible(booking.id) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                  </td>
                 </tr>
                 <!-- Booking details section -->
                 <tr *ngIf="isDetailsVisible(booking.id)">
-                  <td colspan="4">
+                  <td colspan="5">
                     <table class="table table-sm">
                       <thead>
                         <tr>
@@ -98,9 +102,10 @@
             </tbody>
           </table>
           <!-- Pagination Controls -->
-          <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
+          <pagination-controls (pageChange)="currentPage = $event" class="text-center pagination-controls"></pagination-controls>
         </div>
       </div>
     </div>
   </div>
 </div>
+<app-footer/>
