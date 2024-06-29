@@ -14,7 +14,7 @@ export class OwnerGuard implements CanActivate {
     if (user && user === 'owner') {
       return true;
     } else {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/unauthorized']);
       return false;
     }
   }
