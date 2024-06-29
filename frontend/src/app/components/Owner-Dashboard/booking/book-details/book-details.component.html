@@ -1,9 +1,9 @@
 <div class="container my-5">
-  <div class="booking-container card bg-dark text-white p-4" *ngIf="booking; else loading">
+  <div class="booking-container card p-4" *ngIf="booking; else loading">
     <div class="booking-card">
-      <h2 class="text-center text-primary mb-4">Booking Details</h2>
+      <h2 class="text-center mb-4 text-primary">Booking Details</h2>
       <div class="booking-info mb-4">
-        <p><strong>User Name: </strong> <span class="text-light">{{ booking.user_name }}</span></p>
+        <p><strong>User Name: </strong> <span>{{ booking.user_name }}</span></p>
         <p><strong>Status: </strong>
           <span class="status-badge" [ngClass]="{
             'status-in-progress': booking.status === 'progress',
@@ -11,22 +11,31 @@
             'status-cancelled': booking.status === 'cancel'
           }">{{ booking.status }}</span>
         </p>
-        <p><strong>Duration: </strong> <span class="text-light">{{ booking.duration }}</span> days</p>
-        <p><strong>Total Price: </strong> <span class="text-light">{{ booking.total_price | currency: 'EGP ' }}</span></p>
+        <p><strong>Duration: </strong> <span>{{ booking.duration }}</span> days</p>
+        <p><strong>Total Price: </strong> <span>{{ booking.total_price | currency: 'EGP ' }}</span></p>
       </div>
 
-      <h3 class="text-primary mb-3">Room Details</h3>
-      <ul class="room-details list-group">
-        <li class="room-detail list-group-item bg-secondary text-white mb-2"
-          *ngFor="let detail of booking.book_details">
-          <div class="room-info">
-            <p><strong>Room Type: </strong> <span class="text-light">{{ detail.room_name }}</span></p>
-            <p><strong>Date: </strong> <span class="text-light">{{ detail.date }}</span></p>
-            <p><strong>Price: </strong> <span class="text-light">{{ detail.price | currency: 'EGP ' }}</span>
-              </p>
+      <h3 class="text-center mb-3 text-primary">Room Details</h3>
+      <div class="accordion" id="roomDetailsAccordion">
+        <div *ngFor="let detail of booking.book_details; let i = index" class="card">
+          <div class="card-header" id="heading{{i}}">
+            <h5 class="mb-0">
+              <button class="btn btn-link text-primary" type="button" (click)="toggleAccordion(i)">
+                Room {{ i + 1 }} Details
+              </button>
+            </h5>
           </div>
-        </li>
-      </ul>
+
+          <div [ngClass]="{'collapse': !isAccordionOpen(i), 'show': isAccordionOpen(i)}" [attr.id]="'collapse' + i"
+            [attr.aria-labelledby]="'heading' + i" data-parent="#roomDetailsAccordion">
+            <div class="card-body">
+              <p><strong>Room Type: </strong> <span>{{ detail.room_name }}</span></p>
+              <p><strong>Date: </strong> <span>{{ detail.date }}</span></p>
+              <p><strong>Price: </strong> <span>{{ detail.price | currency: 'EGP ' }}</span></p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 

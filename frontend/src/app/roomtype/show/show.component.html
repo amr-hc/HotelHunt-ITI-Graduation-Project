@@ -1,5 +1,7 @@
 <div class="container col-md-6 pt-5" *ngIf="object.id">
+  <h1 class="text-primary">Room Details</h1>
   <div class="card card-light text-dark">
+
     <div class="card-body">
       <div class="text-center mb-3">
         <img [src]="'http://127.0.0.1:8000/storage/' + object.photo" class="img-fluid img-thumbnail border-dark"
@@ -9,7 +11,7 @@
       <hr class="bg-dark">
       <h6 class="text-uppercase">Type: {{ object.name }}</h6>
       <hr class="bg-dark">
-      <h6 class="text-uppercase">Price: {{ object.price | currency }}</h6>
+      <h6 class="text-uppercase">Price: {{ object.price | currency: 'EGP ' }}</h6>
       <hr class="bg-dark">
       <h6 class="text-uppercase">Description: {{ object.description }}</h6>
       <hr class="bg-dark">
