@@ -9,6 +9,7 @@ import { Payment } from '../models/payment';
 export class PaymentService {
 
   private apiUrl = 'http://127.0.0.1:8000/api/payments';
+  private apiBaseURL = 'http://localhost:8000/api';
 
   constructor(private http: HttpClient) {}
 
@@ -31,8 +32,17 @@ export class PaymentService {
   deletePayment(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-  createPaymentForOwner(value: number): Observable<any> {
-    const params = new HttpParams().set('value', value.toString());
-    return this.http.get<any>(this.apiUrl, { params });
+  createPaymentForOwner(amount: number): Observable<any> {
+    const url = `${this.apiBaseURL}/create-payment?value=${amount}`;
+    return this.http.get<any>(url);
+  }
+  confirmPayment(token: string, payerID: string): Observable<any> {
+    const params = new HttpParams()
+      .set('token', token)
+      .set('PayerID', payerID);
+
+    const url = `${this.apiBaseURL}/success-payment`;
+
+    return this.http.get<any>(url, { params });
   }
 }
