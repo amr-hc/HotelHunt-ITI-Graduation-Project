@@ -6,11 +6,15 @@ import { WelcomeComponent } from './welcome/welcome.component';
 import { ListhotelsComponent } from './listhotels/listhotels.component';
 import { NearhotelsComponent } from './nearhotelscity/nearhotels.component';
 import { NearhotelscountryComponent } from './nearhotelscountry/nearhotelscountry.component';
+import { SearchBarComponent } from './search-bar/search-bar.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeaderComponent,SliderComponent,FooterComponent,WelcomeComponent,ListhotelsComponent,NearhotelsComponent,NearhotelscountryComponent],
+  imports: [HeaderComponent, SliderComponent,
+    FooterComponent, WelcomeComponent,
+    ListhotelsComponent, NearhotelsComponent,
+    NearhotelscountryComponent,SearchBarComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
