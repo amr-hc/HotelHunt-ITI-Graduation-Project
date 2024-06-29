@@ -18,6 +18,7 @@ export class AddpaymentComponent {
   addPaymentForm: FormGroup;
   hotels: Hotel[] = [];
   formSubmitted = false;
+  loading = false; // Add this line
 
   constructor(
     private fb: FormBuilder,
@@ -32,6 +33,7 @@ export class AddpaymentComponent {
   onSubmit(): void {
     this.formSubmitted = true;
     if (this.addPaymentForm.valid) {
+      this.loading = true; // Set loading to true
       const amount = this.addPaymentForm.value.amount;
       this.paymentService.createPaymentForOwner(amount).subscribe({
         next: (response) => {
@@ -40,6 +42,7 @@ export class AddpaymentComponent {
         },
         error: (error) => {
           console.error('Error creating payment:', error);
+          this.loading = false; // Set loading to false on error
         }
       });
     }
