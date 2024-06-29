@@ -172,14 +172,17 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
       if (quantity > 0) {
         for (let i = 0; i < quantity; i++) {
           // Convert the checkinDate string to a Date object
-          let bookingDate = new Date(this.checkinDate);
-          bookingDate.setDate(bookingDate.getDate() + i); // Increment the date by 'i' days
+          for (let i = 0; i < quantity; i++) {
+            let bookingDate = new Date(this.checkinDate);
+            bookingDate.setDate(bookingDate.getDate() + i); // Increment the date by 'i' days
 
-          // Convert the date back to a string if needed, for example, in 'yyyy-mm-dd' format
-          let bookingDateString = bookingDate.toISOString().split('T')[0];
+            // Convert the date back to a string if needed, for example, in 'yyyy-mm-dd' format
+            let bookingDateString = bookingDate.toISOString().split('T')[0];
 
-          bookingDetails.push(new BookingDetails(room.id, bookingDateString, Number(room.price)));
+            bookingDetails.push(new BookingDetails(room.id, bookingDateString, Number(room.price)));
+          }
         }
+        console.log(bookingDetails);
       }
     });
 

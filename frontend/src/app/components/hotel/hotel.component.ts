@@ -39,6 +39,7 @@ export class HotelComponent implements OnInit, OnDestroy{
   images: HotelImage[] = [];
   id: number = 0;
   loading: boolean = true;
+  imagePath = "http://127.0.0.1:8000/storage/"
 
   constructor(public activatedRoute: ActivatedRoute, public hotelService:HotelService){}
 

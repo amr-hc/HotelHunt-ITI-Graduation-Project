@@ -37,6 +37,7 @@
 <!--  -->
 <div *ngIf="!loading">
   <h2 class="text-dark text-center my-3 fs-2 fw-bold fst-italic">{{ hotel?.name }}</h2>
+  <img [src]="'http://127.0.0.1:8000/storage/' + hotel?.image" class="img-fluid rounded mx-auto d-block" alt="Hotel Image">
   <div class="container mt-5">
     <div class="carousel-container mx-auto">
       <div id="carouselExampleFade" class="carousel slide text-center" data-bs-ride="false">
