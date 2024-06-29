@@ -93,6 +93,7 @@ Route::put('booking/{id}/status',[BookingController::class , 'updateStatus']);
 Route::get('booking/user-bookings/{user_id}',[BookingController::class,'getUserBookings']);
 Route::get('/booking/hotel/{hotel_id}', [BookingController::class, 'getHotelBookings']);
 Route::get('/booking/owner/{owner_id}', [BookingController::class, 'getOwnerHotelBookings']);
+Route::get('payment/hotel',[PaymentController::class, 'getHotelPayments']);
 
 
 

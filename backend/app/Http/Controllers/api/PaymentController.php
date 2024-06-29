@@ -81,7 +81,7 @@ class PaymentController extends Controller
         $provider = PayPal::setProvider();
         $provider->setApiCredentials(config('paypal'));
         $paypalToken = $provider->getAccessToken();
-    
+
         $order = [
             "intent" => "CAPTURE",
             "application_context" => [
@@ -99,9 +99,9 @@ class PaymentController extends Controller
                 ]
             ]
         ];
-    
+
         $response = $provider->createOrder($order);
-    
+
         if (isset($response['id'])) {
             foreach ($response['links'] as $link) {
                 if ($link['rel'] === 'approve') {
@@ -109,11 +109,11 @@ class PaymentController extends Controller
                 }
             }
         }
-    
+
         return redirect()->route('paypal.cancel');
     }
 
-    
+
     public function successPayment(Request $request)
 {
     $provider = PayPal::setProvider();
@@ -142,7 +142,27 @@ class PaymentController extends Controller
     public function cancelPayment()
     {
         return 'Payment cancelled!';
-        
+
     }
 
+    public function getHotelPayments(Request $request)
+    {
+        // Extract hotel_id from request.
+        $hotelId = auth()->user()->hotels->id;
+
+        if (!$hotelId) {
+            return response()->json(['message' => 'Hotel ID is required'], 400);
+        }
+
+        // Fetch payments for the specified hotel.
+        $payments = Payment::where('hotel_id', $hotelId)->get();
+
+        if ($payments->isEmpty()) {
+            return response()->json(['message' => 'No payments found for this hotel'], 404);
+        }
+
+        return PaymentResource::collection($payments);
+    }
 }
+
+
