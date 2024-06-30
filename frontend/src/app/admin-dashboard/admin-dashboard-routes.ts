@@ -23,6 +23,8 @@ import { EdithotelComponent } from './hotels/edithotel/edithotel.component';
 import { ImagesComponent } from './hotels/hotel-details/images/images.component';
 import { RoomtypesComponent } from './hotels/hotel-details/roomtypes/roomtypes.component';
 import { CommentsComponent } from './hotels/hotel-details/comments/comments.component';
+import { AddroomtypeComponent } from './hotels/hotel-details/roomtypes/addroomtype/addroomtype.component';
+import { ShowroomtypeComponent } from './hotels/hotel-details/roomtypes/showroomtype/showroomtype.component';
 
 
 
@@ -40,6 +42,8 @@ export const adminRoutes: Routes = [
       { path: 'hotels/:id/images', component: ImagesComponent },
       { path: 'hotels/:id/comments', component: CommentsComponent },
       { path: 'hotels/:id/rooms', component: RoomtypesComponent },
+      { path: 'hotels/:id/rooms/:roomId', component: ShowroomtypeComponent },
+      { path: 'hotels/:id/rooms/add', component: AddroomtypeComponent },
       { path: 'users', component:UsersComponent  },
       { path: 'users/add', component:AdduserComponent  },
       { path: 'users/edit/:id', component:EdituserComponent  },

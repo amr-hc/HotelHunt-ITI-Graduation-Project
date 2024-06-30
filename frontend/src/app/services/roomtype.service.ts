@@ -15,6 +15,10 @@ export class RoomtypeService {
     return this.http.get(this.url + "/owner");
   }
 
+  getAllRoomsByHotel(id:number): Observable<any> {
+    return this.http.get(this.url + `/hotel/${id}`);
+  }
+
   getById(id: any): Observable<any> {
     return this.http.get(this.url + `/${id}`);
   }
