@@ -2,23 +2,41 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { PaymentService } from '../../../../services/payment.service';
 import Swal from 'sweetalert2';
+import { CommonModule } from '@angular/common';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-success-payment',
   standalone: true,
-  imports: [],
+  imports: [CommonModule,NgxPaginationModule],
   templateUrl: './success-payment.component.html',
-  styleUrl: './success-payment.component.css'
+  styleUrl: './success-payment.component.css',
+  animations: [
+    trigger('fadeOut', [
+      transition(':leave', [
+        style({ opacity: 1 }),
+        animate('500ms ease-in', style({ opacity: 0 }))
+      ])
+    ]),
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('500ms ease-in', style({ opacity: 1 }))
+      ])
+    ])
+  ]
 })
 export class SuccessPaymentComponent implements OnInit {
+  loading: boolean = true;
   constructor(private activatedRoute: ActivatedRoute, private paymentService: PaymentService,private router:Router){}
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       const token = params['token'];
       const payerID = params['PayerID'];
-
       if (token && payerID) {
         this.confirmPayment(token, payerID);
+
       } else {
         console.error('Missing token or PayerID in query parameters');
       }
