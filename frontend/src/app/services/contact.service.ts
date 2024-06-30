@@ -14,4 +14,12 @@ export class ContactService {
     return this.http.post(this.apiUrl, contactData);
   }
 
+  getContacts(): Observable<any> {
+    return this.http.get(this.apiUrl);
+  }
+
+  deleteContact(contactId: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/${contactId}`);
+  }
+
 }

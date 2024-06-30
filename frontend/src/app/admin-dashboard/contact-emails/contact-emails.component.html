@@ -1,0 +1,32 @@
+<div class="container mt-4">
+  <h2 class="text-center text-primary">Contact Emails</h2>
+
+  <div *ngIf="isLoading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading emails...</p>
+  </div>
+
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <ul *ngIf="!isLoading && !error && contactEmails.length > 0" class="list-group">
+    <li *ngFor="let contact of contactEmails | paginate: { itemsPerPage: 5, currentPage: currentPage }" class="list-group-item">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <strong>Email:</strong> {{ contact.email }} <br>
+          <strong>Message:</strong> {{ contact.message }} <br>
+          <strong>Day:</strong> {{ contact.created_at | date:'medium' }}
+        </div>
+        <button class="btn btn-danger btn-sm" (click)="deleteContactEmail(contact.id)">Delete</button>
+      </div>
+    </li>
+    <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
+  </ul>
+
+  <div *ngIf="!isLoading && contactEmails.length === 0" class="alert alert-warning">
+    No emails found.
+  </div>
+</div>

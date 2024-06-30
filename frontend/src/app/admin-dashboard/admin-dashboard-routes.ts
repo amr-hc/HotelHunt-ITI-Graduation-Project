@@ -26,6 +26,7 @@ import { CommentsComponent } from './hotels/hotel-details/comments/comments.comp
 import { AddroomtypeComponent } from './hotels/hotel-details/roomtypes/addroomtype/addroomtype.component';
 import { ShowroomtypeComponent } from './hotels/hotel-details/roomtypes/showroomtype/showroomtype.component';
 import { EditroomtypeComponent } from './hotels/hotel-details/roomtypes/editroomtype/editroomtype.component';
+import { ContactEmailsComponent } from './contact-emails/contact-emails.component';
 
 
 
@@ -60,6 +61,7 @@ export const adminRoutes: Routes = [
       { path: 'profile/edit/:id', component:EditComponent  },
       { path: 'bookings', component:BookingsComponent  },
       { path: 'bookings/details/:id', component:BookingDetailsComponent  },
+      { path: 'contact', component:ContactEmailsComponent  },
     ],
   },
 ];
