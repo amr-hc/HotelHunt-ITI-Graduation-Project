@@ -1,1 +1,59 @@
-<p>roomtypes works!</p>
+<h1 class="text-center text-primary">Room List</h1>
+<div class="d-flex justify-content-end pt-1 mb-2 justify-content-center">
+  <a class="btn btn-primary w-25" routerLink="/admin-dashboard/hotels/{{ hotelId }}/rooms/add">Add Room Type</a>
+</div>
+
+<div *ngIf="message" class="alert alert-primary">
+  {{ message }}
+</div>
+<div *ngIf="roomTypes.length > 0">
+  <table class="table table-bordered text-center">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Type</th>
+        <th scope="col">Description</th>
+        <th scope="col">Capacity</th>
+        <th scope="col">Price</th>
+        <th colspan="3" scope="col">Action</th>
+        <th scope="col">Availability</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let room of roomTypes; let i = index">
+        <th scope="row">{{ i + 1 }}</th>
+        <td>{{ room.name }}</td>
+        <td class="description-field">{{ room.description }}</td>
+        <td>{{ room.capacity }}</td>
+        <td>{{ room.price | currency : "EGP " }}</td>
+        <td>
+          <a routerLink="/admin-dashboard/hotels/{{ hotelId }}/rooms/{{room.id}}" class="btn btn-info btn-sm"
+            >Show</a
+          >
+        </td>
+        <td>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="confirmDelete(room.id)"
+          >
+            Remove
+          </button>
+        </td>
+        <td>
+          <a
+            class="btn btn-primary btn-sm"
+            routerLink="/admin-dashboard/hotels/{{ room.id }}/rooms/add"
+            >Update</a
+          >
+        </td>
+        <td>
+          <a
+            class="btn btn-success btn-sm"
+            routerLink="/owner/availability/{{ room.id }}"
+            >Availability</a
+          >
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

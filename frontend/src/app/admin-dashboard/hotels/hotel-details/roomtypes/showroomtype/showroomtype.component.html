@@ -1,0 +1,11 @@
+<div class="container mt-5" *ngIf="roomType">
+  <div class="card shadow-lg mb-4 text-center">
+    <img class="card-img-top mx-auto" [src]="'http://127.0.0.1:8000/storage/' + roomType.photo" alt="Room Type Photo">
+    <div class="card-body">
+      <h5 class="card-title">{{ roomType.name }}</h5>
+      <p class="card-text"><strong>Description:</strong> {{ roomType.description }}</p>
+      <p class="card-text"><strong>Capacity:</strong> {{ roomType.capacity }}</p>
+      <p class="card-text"><strong>Price:</strong> {{ roomType.price }}</p>
+    </div>
+  </div>
+</div>

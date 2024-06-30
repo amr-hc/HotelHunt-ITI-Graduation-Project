@@ -1,0 +1,59 @@
+
+
+/* Header Styling */
+h1.text-primary {
+  font-weight: bold;
+
+}
+
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
+
+.btn-info:hover {
+  background-color: #17a2b8;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+}
+
+.btn-success:hover {
+  background-color: #218838;
+}
+
+/* Table Styling */
+.table {
+  margin-top: 20px;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+.thead-dark th {
+  background-color: #343a40;
+  color: #f8f9fa;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-bottom: 2px solid #495057;
+  padding: 10px;
+}
+
+.table-bordered {
+  border: 1px solid #dee2e6;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #dee2e6;
+}
+
+
+/* Alert Styling */
+.alert-danger {
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
