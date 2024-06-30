@@ -4,62 +4,21 @@
     <span class="visually-hidden">Loading...</span>
   </div>
 </div>
-<!-- <h2 class="text-dark text-center my-3 fs-2 fw-bold fst-italic">{{hotel?.name}}</h2> -->
-<!-- <div class="container mt-5"> -->
-  <!-- <div class="hotelname">{{hotel?.name}}</div>
-  <div class="hoteladdress">
-    <i class="bi bi-geo-alt-fill"></i> {{hotel?.city}},{{hotel?.address}}
-  </div> -->
-
-  <!-- <div class="carousel-container mx-auto" >
-    <div id="carouselExampleFade" class="carousel slide" data-bs-ride="carousel">
-      <div class="carousel-inner">
-        <div *ngFor="let image of images; let i = index" [ngClass]="{'carousel-item': true, 'active': i === 0}">
-          <img [src]="'http://127.0.0.1:8000/storage/' + image.image" class="d-block w-100 mx-auto" alt="Hotel Image">
-        </div>
-      </div>
-      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </div> -->
-    <!-- <div class="average-rate"> -->
-    <!-- <ng-container *ngFor="let star of [1, 2, 3, 4, 5]; let i = index"> -->
-    <!-- <i class="fas" [ngClass]="{'fa-star': i < hotel?.average_rate, 'fa-star-o': i >= hotel?.average_rate}"></i> -->
-    <!-- </ng-container> -->
-    <!-- </div> -->
-  <!-- </div> -->
-<!-- </div> -->
-<!--  -->
 <div *ngIf="!loading">
   <h2 class="text-dark text-center my-3 fs-2 fw-bold fst-italic">{{ hotel?.name }}</h2>
-  <img [src]="'http://127.0.0.1:8000/storage/' + hotel?.image" class="img-fluid rounded mx-auto d-block" alt="Hotel Image">
-  <div class="container mt-5">
-    <div class="carousel-container mx-auto">
-      <div id="carouselExampleFade" class="carousel slide text-center" data-bs-ride="false">
-        <div class="carousel-inner">
-          <div *ngFor="let image of images; let i = index" [ngClass]="{'carousel-item': true, 'active': i === 0}">
-            <img [src]="'http://127.0.0.1:8000/storage/' + image.image" class="d-block mx-auto" alt="Hotel Image">
-          </div>
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-      </div>
+  <div class="gallery-container w-75 mx-auto">
+    <div class="large-image">
+      <img [src]="selectedImage" class="img-fluid rounded mx-auto d-block" alt="Hotel Image">
+    </div>
+    <div class="thumbnail-images bg-primary-subtle">
+      <img *ngFor="let image of images" [src]="'http://127.0.0.1:8000/storage/' + image.image"
+        (click)="selectImage('http://127.0.0.1:8000/storage/' + image.image)"
+        [class.active]="selectedImage === 'http://127.0.0.1:8000/storage/' + image.image" class="img-thumbnail"
+        alt="Hotel Thumbnail">
     </div>
   </div>
-  <!--  -->
-  <!-- talaat -->
-  <div class="sec2">
+  <!-- Hotel Info -->
+  <!-- <div class="sec2 row">
     <div class="row">
       <div class="col-md-12 rating-star-sec">
         <table>
@@ -71,9 +30,9 @@
                   <ng-container *ngFor="let star of [].constructor(hotel?.star_rating)">
                     <i class="fas fa-star"></i>
                   </ng-container>
-                  <!-- <ng-container *ngFor="let emptyStar of [].constructor(5 - hotel?.star_rating)"> -->
-                  <!-- <i class="far fa-star"></i> -->
-                  <!-- </ng-container> -->
+                  <ng-container *ngFor="let emptyStar of [].constructor(5 - (hotel?.star_rating ?? 0))">
+                  <i class="far fa-star"></i>
+                  </ng-container>
                 </div>
               </td>
 
@@ -85,11 +44,6 @@
           </tbody>
         </table>
       </div>
-    </div>
-    <div class="row">
-      <!-- <div class="col-md-12 hoteldesc">
-        <p>{{ hotel?.description }}</p>
-      </div> -->
     </div>
     <div class="row">
       <table class="custom-hotel-table">
@@ -106,33 +60,83 @@
             <td class="h-title">Address:</td>
             <td class="h-val">{{ hotel?.address }}</td>
           </tr>
+          <tr>
+            <td class="rating-title">User Reviews</td>
+            <td>
+              <div class="rating-stars">
+                <ng-container *ngFor="let star of [].constructor(hotel?.star_rating)">
+                  <i class="fas fa-star"></i>
+                </ng-container>
+                <ng-container *ngFor="let emptyStar of [].constructor(5 - (hotel?.star_rating ?? 0))">
+                  <i class="far fa-star"></i>
+                </ng-container>
+              </div>
+            </td>
+
+          <tr>
         </tbody>
       </table>
     </div>
-  </div>
-
-  <!-- talaat -->
-  <!-- <div class="text-center">
-    <p>hotel works!</p>
-    <div>{{hotel?.id}}</div>
-    <div></div>
-    <div>{{hotel?.address}}</div>
-
-    <div>name is {{hotel?.name}}</div>
-    <div>city is {{hotel?.city}}</div>
-    <div>address is {{hotel?.address}}</div>
   </div> -->
-  <div class="images-container">
-    <div *ngFor="let image of images">
-      <!-- Use the full URL for the image source -->
-      <!-- <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image"> -->
+  <!-- Hotel Info -->
+  <div class="sec2 row">
+    <div class="col-md-6">
+      <div class="hotel-info">
+        <h3 class="mb-4">Hotel Information</h3>
+        <div class="row mb-3">
+          <div class="col-sm-4 fw-bold h-title">Country:</div>
+          <div class="col-sm-8 h-val">{{ hotel?.country }}</div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-4 fw-bold h-title">City:</div>
+          <div class="col-sm-8 h-val">{{ hotel?.city }}</div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-4 fw-bold h-title">Address:</div>
+          <div class="col-sm-8 h-val">{{ hotel?.address }}</div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-4 fw-bold h-title">Star Rating:</div>
+          <div class="col-sm-8">
+            <div class="rating-stars">
+              <ng-container *ngFor="let star of [].constructor(hotel?.star_rating)">
+                <i class="fas fa-star"></i>
+              </ng-container>
+              <ng-container *ngFor="let emptyStar of [].constructor(5 - (hotel?.star_rating ?? 0))">
+                <i class="far fa-star"></i>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <div class="col-sm-4 fw-bold h-title">User Reviews:</div>
+          <div class="col-sm-8">
+            <div class="rating-stars">
+              <div class="rating-stars">
+                <ng-container *ngFor="let star of [].constructor(hotel?.average_rate)">
+                  <i class="fas fa-star"></i>
+                </ng-container>
+                <ng-container *ngFor="let emptyStar of [].constructor(5 - (hotel?.average_rate ?? 0))">
+                  <i class="far fa-star"></i>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="hotel-description">
+        <h3 class="mb-4">Description</h3>
+        <p class="h-val">{{ hotel?.description }}bfghgbhjdfhgbjddfjhghjbfdgjgbhkfjfkgfjghkbdjhbkfdgbhjgfd</p>
+      </div>
     </div>
   </div>
-
-
-  <!-- <app-hotel-room-availability [hotel_id]="hotel?.id"></app-hotel-room-availability> -->
+  <!-- Hotel Room Availability -->
   <app-hotel-room-availability></app-hotel-room-availability>
+  <!-- Hotel Ratings & Comments -->
+  <app-ratings></app-ratings>
   <app-comments></app-comments>
 
-  <app-ratings></app-ratings>
+
 </div>

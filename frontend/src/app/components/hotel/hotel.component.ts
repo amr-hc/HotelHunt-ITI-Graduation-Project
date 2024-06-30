@@ -15,7 +15,7 @@ import { RatingsComponent } from '../../user/ratings/ratings.component';
 @Component({
   selector: 'app-hotel',
   standalone: true,
-  imports: [HotelRoomAvailabilityComponent, CommonModule, HeaderComponent,CommentsComponent,RatingsComponent],
+  imports: [HotelRoomAvailabilityComponent, CommonModule, HeaderComponent, CommentsComponent, RatingsComponent],
   templateUrl: './hotel.component.html',
   styleUrl: './hotel.component.css',
   animations: [
@@ -33,43 +33,73 @@ import { RatingsComponent } from '../../user/ratings/ratings.component';
     ])
   ]
 })
-export class HotelComponent implements OnInit, OnDestroy{
-  hotel:Hotel | null = null; ;
-  sub: Subscription | null = null;
+export class HotelComponent implements OnInit, OnDestroy {
+  hotel: Hotel | null = null;;
+  private sub: Subscription | null = null;
   images: HotelImage[] = [];
   id: number = 0;
   loading: boolean = true;
-  imagePath = "http://127.0.0.1:8000/storage/"
+  imagePath = "http://127.0.0.1:8000/storage/";
+  selectedImage: string = '';
 
-  constructor(public activatedRoute: ActivatedRoute, public hotelService:HotelService){}
+
+
+  constructor(public activatedRoute: ActivatedRoute, public hotelService: HotelService) { }
 
   ngOnInit(): void {
     this.sub = this.activatedRoute.params.subscribe(params => {
-      this.id = params['id'];
-      this.hotelService.setHotelId(this.id); // Pass the hotel ID to the service
-      this.hotelService.getHotelById(this.id).subscribe((response) => {
-        this.hotel = response.data; // Access the nested data property
-        console.log("Full response data:", response);
-        console.log("Hotel is:", this.hotel);
-        console.log("City is:", this.hotel.city);
-
-        this.hotelService.getHotelImages(this.id).subscribe((images) => {
-          console.log("response is",images)
-          this.images = images;
-          console.log("Hotel images:", this.images);
+      this.id = +params['id'];
+      this.fetchHotelData();
+    });
+  }
 
 
-        });
+
+  fetchHotelData(): void {
+    this.hotelService.setHotelId(this.id);
+    this.fetchHotelDetails();
+    this.fetchHotelImages();
+    // this.loading = false;
+  }
+
+  fetchHotelDetails(): void {
+    this.hotelService.getHotelById(this.id).subscribe({
+      next: (response: { data: Hotel | null }) => {
+        this.hotel = response.data;
+        this.selectedImage = this.imagePath + this.hotel?.image;
+        if (this.hotel?.image) {
+          this.images.push(new HotelImage(0, this.hotel.id, this.hotel.image));
+        }
+      },
+      error: (err: any) => {
+        console.error('Error fetching hotel details:', err);
+        // this.loading = false;
+      }
+    });
+  }
+
+  fetchHotelImages(): void {
+    this.hotelService.getHotelImages(this.id).subscribe({
+      next: (images) => {
+        this.images =[...this.images, ...images];
+        console.log("Hotel images loaded:");
         this.loading = false;
-      });
-
+      },
+      error: (err) => {
+        console.error('Error fetching hotel images:', err);
+      }
 
     });
 
   }
-
-  ngOnDestroy(): void {
-      this.sub?.unsubscribe();
+  selectImage(image: string): void {
+    this.selectedImage = image;
   }
+  ngOnDestroy(): void {
+    this.sub?.unsubscribe();
+  }
+  // ngOnDestroy(): void {
+  //   this.sub?.unsubscribe();
+  // }
 
 }
