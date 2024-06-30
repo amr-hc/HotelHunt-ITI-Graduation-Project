@@ -7,14 +7,6 @@ import { FooterComponent } from '../../layouts/footer/footer.component';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 
-// Extend the Window interface to include grecaptchaCallback
-declare global {
-  interface Window {
-    grecaptchaCallback: (response: string) => void;
-    grecaptcha: any;
-  }
-}
-
 @Component({
   selector: 'app-contact',
   standalone: true,
@@ -37,11 +29,35 @@ export class ContactComponent implements OnInit {
       recaptcha: ['', Validators.required] // Add recaptcha control
     });
 
-    // Listen for reCAPTCHA response
+    // Load the reCAPTCHA script
+    this.loadRecaptchaScript();
     window.grecaptchaCallback = (response: string) => {
       this.recaptchaResponse = response;
       this.contactForm.patchValue({ recaptcha: response });
     };
+  }
+
+  loadRecaptchaScript() {
+    if (!window.grecaptcha) {
+      const script = document.createElement('script');
+      script.src = 'https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit';
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    } else {
+      this.renderRecaptcha();
+    }
+
+    window.recaptchaLoaded = this.renderRecaptcha.bind(this);
+  }
+
+  renderRecaptcha() {
+    if (window.grecaptcha && document.getElementById('recaptcha-container')) {
+      window.grecaptcha.render('recaptcha-container', {
+        'sitekey': '6LdUfgQqAAAAAEDFznsS_EBOwlJ8eFajoAgGmBWB',
+        'callback': window.grecaptchaCallback,
+      });
+    }
   }
 
   onSubmit() {

@@ -50,10 +50,7 @@
                   <div *ngIf="contactForm.get('message')?.errors?.['required']">Message is required.</div>
                 </div>
                 <br />
-                <div class="g-recaptcha" 
-                     data-sitekey="6LdUfgQqAAAAAEDFznsS_EBOwlJ8eFajoAgGmBWB" 
-                     data-callback="grecaptchaCallback"
-                     data-action="LOGIN"></div>
+                <div id="recaptcha-container"></div>
                 <br />
                 <button type="submit" class="btn btn-primary">Submit Now</button>
               </div>
