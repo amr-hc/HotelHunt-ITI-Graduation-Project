@@ -153,9 +153,6 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
 
     // this.isLoading = true;
   }
-  averageRateAsNumber(average_rate: string): number {
-    return Number(average_rate); // You can also use Number(average_rate)
-  }
   navigateToHotel(hotelId: number): void {
     this.searchHotelService.setSearchCheckInDate(this.checkinDate);
     this.searchHotelService.setSearchCheckOutDate(this.checkoutDate);

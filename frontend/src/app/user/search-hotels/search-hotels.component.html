@@ -51,7 +51,7 @@
               </div>
             </div>
           </div>
-          <div class="col-md-3 col-lg-2  mx-auto">
+          <div class="col-md-3 col-lg-2 mx-auto">
             <button type="submit" class="btn btn-primary w-100 rounded-4 search-btn text-dark">Search</button>
           </div>
         </div>
@@ -94,12 +94,12 @@
             <div class="average-rating">
               <div class="star-rating" *ngIf="hotelGroup.hotels[0].average_rate">
                 <span class="text-dark"> User Reviews:</span>
-                <ng-container *ngIf="averageRateAsNumber(hotelGroup.hotels[0].average_rate) >=1; else noRatingStars">
+                <ng-container *ngIf="(hotelGroup.hotels[0].average_rate) >=1; else noRatingStars">
                   <span
-                    *ngFor="let star of [].constructor(averageRateAsNumber(hotelGroup.hotels[0].average_rate)); let i = index"
+                    *ngFor="let star of [].constructor(hotelGroup.hotels[0].average_rate); let i = index"
                     class="star-icon filled fs-3">&#9733;</span>
                   <span
-                    *ngFor="let star of [].constructor(5 - averageRateAsNumber(hotelGroup.hotels[0].average_rate)); let i = index"
+                    *ngFor="let star of [].constructor(5 - hotelGroup.hotels[0].average_rate); let i = index"
                     class="star-icon fs-3">&#9733;</span>
                 </ng-container>
                 <ng-template #noRatingStars>
