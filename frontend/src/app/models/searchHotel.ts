@@ -7,6 +7,6 @@ export class SearchHotel {
     public hotel_name: string,
     public photo: string,
     public star_rating: number,
-    public average_rate: string,
+    public average_rate: number
   ) {}
 }
