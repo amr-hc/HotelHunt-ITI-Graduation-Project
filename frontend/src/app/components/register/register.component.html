@@ -4,9 +4,9 @@
       <div class="form-header text-center text-white">
         <h4 class="text-primary">Register</h4>
       </div>
-      <!-- <div *ngIf="registrationError" class="alert alert-danger mt-3">
+      <div *ngIf="registrationError" class="alert alert-danger mt-3">
         {{ registrationError }}
-      </div> -->
+      </div>
       <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
         <div class="row">
           <div class="col-md-6">

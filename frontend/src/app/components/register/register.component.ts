@@ -54,11 +54,13 @@ export class RegisterComponent implements OnInit {
     const userData = this.registerForm.value;
     this.authService.register(userData).subscribe(
       (res) => {
-        if (userData.role === 'owner') {
-          this.router.navigate(['/register/hotel'], { queryParams: { owner_id: res.user.id } });
-        } else {
-          this.router.navigate(['/login']);
-        }
+        // if (userData.role === 'owner') {
+        //   this.router.navigate(['/register/hotel'], { queryParams: { owner_id: res.user.id } });
+        // } else {
+        //   this.router.navigate(['/login']);
+        // }
+        this.authService.handleLoginSuccess(res);
+        this.navigateToDashboardOrHome(userData.role,res);
       },
       (error) => {
         console.error('Registration failed', error);
@@ -82,5 +84,21 @@ export class RegisterComponent implements OnInit {
       control.invalid &&
       (control.dirty || control.touched || this.formSubmitted)
     );
+  }
+  private navigateToDashboardOrHome(role: string,res:any) {
+    switch (role) {
+      case 'owner':
+          this.router.navigate(['/register/hotel'], { queryParams: { owner_id: res.user.id } });
+        break;
+      case 'admin':
+        this.router.navigate(['/admin-dashboard']);
+        break;
+      case 'guest':
+        this.router.navigate(['/home']);
+        break;
+      default:
+        this.router.navigate(['/']);
+        break;
+    }
   }
 }

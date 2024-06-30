@@ -29,6 +29,9 @@ export class LoginComponent {
     });
   }
 
+  ngOnInit(){
+    this.authService.logout();
+  }
   onLogin() {
     this.formSubmitted = true;
 

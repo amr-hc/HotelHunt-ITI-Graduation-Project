@@ -93,7 +93,7 @@ export class RegisterHotelComponent implements OnInit {
       this.hotelService.registerHotel(formData).subscribe(
         (res) => {
           console.log('Hotel registered successfully', res);
-          this.router.navigate(['/login']);
+          this.router.navigate(['/owner']);
         },
         (error) => {
           console.error('Registration failed', error);
