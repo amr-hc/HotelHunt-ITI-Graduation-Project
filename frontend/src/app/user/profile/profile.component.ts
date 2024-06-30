@@ -97,7 +97,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   calculateCheckoutDate(checkinDate: string, duration: number): string {
     const checkin = new Date(checkinDate);
-    checkin.setDate(checkin.getDate() + duration-1);
+    checkin.setDate(checkin.getDate() + duration);
     return checkin.toISOString().split('T')[0]; // Return date in YYYY-MM-DD format
   }
 }
