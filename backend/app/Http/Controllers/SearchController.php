@@ -22,7 +22,7 @@ class SearchController extends Controller
         $end_date = $request->end_date;
 
         $rateSubquery = DB::table('rates')
-            ->select('hotel_id', DB::raw('AVG(rate) as average_rate'))
+            ->select('hotel_id', DB::raw('CAST(AVG(rate) AS FLOAT) as average_rate'))
             ->groupBy('hotel_id');
 
         $availableRoomsQuery = RoomType::select(
@@ -118,13 +118,13 @@ class SearchController extends Controller
 
     public function getAllCities() {
         $cities = Hotel::select('city')->distinct()->pluck('city');
-        
+
         return response()->json($cities);
     }
-    
+
     public function getAllCountries() {
         $cities = Hotel::select('country')->distinct()->pluck('country');
-        
+
         return response()->json($cities);
     }
 
@@ -137,8 +137,8 @@ class SearchController extends Controller
 
         return response()->json($citiesWithCountries);
     }
-    
-    
+
+
 
 
 }
