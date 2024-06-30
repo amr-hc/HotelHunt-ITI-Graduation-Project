@@ -33,6 +33,7 @@ class RoomtypesController extends Controller
             'description' => 'nullable|string',
             'capacity' => 'required|integer|min:1',
             'price' => 'required|numeric|min:0',
+            'hotel_id' => 'nullable|exists:hotels,id',
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
@@ -42,7 +43,13 @@ class RoomtypesController extends Controller
             $validatedData['photo'] = 'roomtypes/default.jpg';
         }
 
-        $validatedData['hotel_id'] = auth()->user()->hotels->id;
+        if(auth()->user()->role=='admin') {
+            $validatedData['hotel_id'] = $request->input('hotel_id');
+        }else{
+            $validatedData['hotel_id'] = auth()->user()->hotels->id;
+        }
+
+        
 
         $roomtype = Roomtype::create($validatedData);
 
