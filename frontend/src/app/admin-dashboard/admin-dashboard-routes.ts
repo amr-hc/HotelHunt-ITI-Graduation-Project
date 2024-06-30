@@ -25,6 +25,7 @@ import { RoomtypesComponent } from './hotels/hotel-details/roomtypes/roomtypes.c
 import { CommentsComponent } from './hotels/hotel-details/comments/comments.component';
 import { AddroomtypeComponent } from './hotels/hotel-details/roomtypes/addroomtype/addroomtype.component';
 import { ShowroomtypeComponent } from './hotels/hotel-details/roomtypes/showroomtype/showroomtype.component';
+import { EditroomtypeComponent } from './hotels/hotel-details/roomtypes/editroomtype/editroomtype.component';
 
 
 
@@ -42,8 +43,9 @@ export const adminRoutes: Routes = [
       { path: 'hotels/:id/images', component: ImagesComponent },
       { path: 'hotels/:id/comments', component: CommentsComponent },
       { path: 'hotels/:id/rooms', component: RoomtypesComponent },
-      { path: 'hotels/:id/rooms/:roomId', component: ShowroomtypeComponent },
       { path: 'hotels/:id/rooms/add', component: AddroomtypeComponent },
+      { path: 'hotels/:id/rooms/:roomId', component: ShowroomtypeComponent },
+      { path: 'hotels/:id/rooms/:roomId/edit', component: EditroomtypeComponent },
       { path: 'users', component:UsersComponent  },
       { path: 'users/add', component:AdduserComponent  },
       { path: 'users/edit/:id', component:EdituserComponent  },

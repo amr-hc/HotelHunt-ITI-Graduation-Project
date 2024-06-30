@@ -1,1 +1,73 @@
-<p>editroomtype works!</p>
+<div class="container">
+  <div class="card mt-5">
+    <div class="card-header">
+      <h2>Edit Room Type</h2>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="editForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input id="name" type="text" class="form-control" formControlName="name" />
+              <div *ngIf="formSubmitted && editForm.get('name')?.invalid" class="text-danger">
+                Name is required.
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea id="description" class="form-control" formControlName="description"></textarea>
+              <div *ngIf="formSubmitted && editForm.get('description')?.invalid" class="text-danger">
+                Description is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="form-group">
+              <label for="price">Price</label>
+              <input id="price" type="text" class="form-control" formControlName="price" />
+              <div *ngIf="formSubmitted && editForm.get('price')?.invalid" class="text-danger">
+                Valid price is required.
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 mb-3">
+            <div class="form-group">
+              <label for="capacity">Capacity</label>
+              <input id="capacity" type="text" class="form-control" formControlName="capacity" />
+              <div *ngIf="formSubmitted && editForm.get('capacity')?.invalid" class="text-danger">
+                Capacity is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <div class="form-group">
+              <label for="photo">Photo</label>
+              <input id="photo" type="file" class="form-control" (change)="onFileChange($event)" />
+              <div *ngIf="formSubmitted && editForm.get('photo')?.invalid" class="text-danger">
+                A valid image file is required.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class=" text-center mt-2">
+              <button type="submit" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-danger ms-2" (click)="onCancel()">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
