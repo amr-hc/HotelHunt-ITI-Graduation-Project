@@ -1,3 +1,4 @@
+// src/app/contact/contact.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
@@ -15,7 +16,8 @@ import Swal from 'sweetalert2';
 })
 export class ContactComponent implements OnInit {
   contactForm!: FormGroup;
-  formSubmitted=false;
+  formSubmitted = false;
+  recaptchaResponse = '';
 
   constructor(private fb: FormBuilder, private contactService: ContactService) {}
 
@@ -23,8 +25,39 @@ export class ContactComponent implements OnInit {
     this.contactForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      message: ['', Validators.required]
+      message: ['', Validators.required],
+      recaptcha: ['', Validators.required] // Add recaptcha control
     });
+
+    // Load the reCAPTCHA script
+    this.loadRecaptchaScript();
+    window.grecaptchaCallback = (response: string) => {
+      this.recaptchaResponse = response;
+      this.contactForm.patchValue({ recaptcha: response });
+    };
+  }
+
+  loadRecaptchaScript() {
+    if (!window.grecaptcha) {
+      const script = document.createElement('script');
+      script.src = 'https://www.google.com/recaptcha/api.js?onload=recaptchaLoaded&render=explicit';
+      script.async = true;
+      script.defer = true;
+      document.body.appendChild(script);
+    } else {
+      this.renderRecaptcha();
+    }
+
+    window.recaptchaLoaded = this.renderRecaptcha.bind(this);
+  }
+
+  renderRecaptcha() {
+    if (window.grecaptcha && document.getElementById('recaptcha-container')) {
+      window.grecaptcha.render('recaptcha-container', {
+        'sitekey': '6LdUfgQqAAAAAEDFznsS_EBOwlJ8eFajoAgGmBWB',
+        'callback': window.grecaptchaCallback,
+      });
+    }
   }
 
   onSubmit() {
@@ -49,6 +82,8 @@ export class ContactComponent implements OnInit {
               }).then(() => {
                 this.contactForm.reset();  // Clear the form after success confirmation
                 this.formSubmitted = false;
+                this.recaptchaResponse = '';
+                window.grecaptcha.reset(); // Reset reCAPTCHA
               });
             },
             error => {
@@ -60,6 +95,8 @@ export class ContactComponent implements OnInit {
               }).then(() => {
                 this.contactForm.reset();  // Clear the form after error confirmation
                 this.formSubmitted = false;
+                this.recaptchaResponse = '';
+                window.grecaptcha.reset(); // Reset reCAPTCHA
               });
             }
           );
@@ -72,6 +109,8 @@ export class ContactComponent implements OnInit {
           }).then(() => {
             this.contactForm.reset();  // Clear the form after cancellation confirmation
             this.formSubmitted = false;
+            this.recaptchaResponse = '';
+            window.grecaptcha.reset(); // Reset reCAPTCHA
           });
         }
       });
@@ -84,5 +123,6 @@ export class ContactComponent implements OnInit {
       control &&
       control.invalid &&
       (control.dirty || control.touched || this.formSubmitted)
-    );  }
+    );
+  }
 }

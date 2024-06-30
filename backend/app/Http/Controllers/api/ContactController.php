@@ -5,6 +5,8 @@ use App\Models\Contact;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
 
 class ContactController extends Controller
 {
@@ -25,11 +27,22 @@ class ContactController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email',
             'message' => 'required|string',
+            'recaptcha' => 'required',
         ]);
 
-        $contact = Contact::create($validatedData);
+        $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+            'secret' => '6LdUfgQqAAAAAOlv-qn0q1lYQ43df7TxtUy6kRgk',
+            'response' => $request['recaptcha'],
+        ])->json();
 
-        return response()->json($contact, 201);
+        if ($response['success']==true) {
+            $contact = Contact::create($validatedData);
+            return response()->json($contact, 201);
+        }
+
+
+        return response()->json(["message" =>"Invalid"],404);
+
     }
 
     /**
