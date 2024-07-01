@@ -55,4 +55,8 @@ export class BookingService {
       map(response => response.data)
     );
   }
+
+  deleteBooking(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}${id}`);
+  }
 }
