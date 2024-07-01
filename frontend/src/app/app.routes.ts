@@ -33,6 +33,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
 import { ProfileGuard } from './guards/profile.guard';
 import { RoomtypesComponent } from './components/roomtypes/roomtypes.component';
+import { ErrorPageComponent } from './errors/error-page/error-page.component';
 
 
 
@@ -81,5 +82,6 @@ export const routes: Routes = [
   //  {path: 'owner/hotel', component:HotelOwnerComponent},
   //  {path: 'owner/hotel/:id', component:HotelEditComponent},
   //  {path: 'owner/hotel/:id/addImage',component: AddImageComponent },
+  { path: '**', component: ErrorPageComponent }
 
 ];
