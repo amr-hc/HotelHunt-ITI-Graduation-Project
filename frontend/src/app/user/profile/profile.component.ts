@@ -13,6 +13,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { HeaderComponent } from '../../layouts/header/header.component';
 import { AuthService } from '../../services/auth.service';
 import { FooterComponent } from '../../layouts/footer/footer.component';
+import { BookingDetails2 } from '../../models/bookingDetails';
 
 
 @Component({
@@ -60,6 +61,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         (response: any) => {
           this.bookings = response.data;
           console.log("Booking data:", this.bookings);
+          this.groupBookings();
         },
         (error) => {
           console.error('Error fetching bookings data', error);
@@ -95,9 +97,25 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     return this.visibleDetailsId === bookingId;
   }
 
-  calculateCheckoutDate(checkinDate: string, duration: number): string {
-    const checkin = new Date(checkinDate);
-    checkin.setDate(checkin.getDate() + duration-1);
-    return checkin.toISOString().split('T')[0]; // Return date in YYYY-MM-DD format
-  }
+  // calculateCheckoutDate(checkinDate: string, duration: number): string {
+  //   const checkin = new Date(checkinDate);
+  //   checkin.setDate(checkin.getDate() + duration-1);
+  //   return checkin.toISOString().split('T')[0]; // Return date in YYYY-MM-DD format
+  // }
+  groupBookings(): void {
+  this.bookings.forEach(booking => {
+    const groupedDetails = booking.book_details.reduce((acc: { [key: string]: any }, detail: BookingDetails2) => {
+      if (!acc[detail.room_name]) {
+        acc[detail.room_name] = { ...detail, total_price: detail.price, count: 1 }; // Initialize count to 1
+      } else {
+        acc[detail.room_name].total_price += detail.price;
+        acc[detail.room_name].count += 1; // Increment count
+      }
+      return acc;
+    }, {});
+
+    booking.grouped_details = Object.values(groupedDetails);
+  });
+}
+
 }

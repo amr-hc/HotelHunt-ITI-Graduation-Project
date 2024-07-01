@@ -52,10 +52,12 @@
           <table class="table table-striped">
             <thead>
               <tr>
-                <th class="bg-dark text-light">Price</th>
                 <th class="bg-dark text-light">Hotel</th>
                 <th class="bg-dark text-light">Status</th>
-                <th class="bg-dark text-light">Duration</th>
+                <th class="bg-dark text-light">check_in</th>
+                <th class="bg-dark text-light">check_in</th>
+                <th class="bg-dark text-light">Price</th>
+
                 <th class="bg-dark text-light">+</th>
               </tr>
             </thead>
@@ -63,31 +65,35 @@
               <!-- Iterate over bookings -->
               <ng-container *ngFor="let booking of bookings | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
                 <tr (click)="toggleDetails(booking.id)">
-                  <td>{{ booking.total_price }}</td>
                   <td>{{ booking.hotel }}</td>
                   <td>{{ booking.status }}</td>
-                  <td>{{ booking.duration }} days</td>
+                  <td>{{ booking.check_in }}</td>
+                  <td>{{ booking.check_out }}</td>
+                  <td>{{ booking.total_price }}</td>
+
                   <td class="text-center">
                     <i class="fas" [ngClass]="isDetailsVisible(booking.id) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                   </td>
                 </tr>
                 <!-- Booking details section -->
                 <tr *ngIf="isDetailsVisible(booking.id)">
-                  <td colspan="5">
+                  <td colspan="6">
                     <table class="table table-sm">
                       <thead>
                         <tr>
+                          <th>Count</th>
                           <th>Room Name</th>
-                          <th>Check-in</th>
-                          <th>Check-out</th>
+                          <!-- <th>Check-in</th>
+                          <th>Check-out</th> -->
                           <th>Price</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr *ngFor="let detail of booking.book_details">
+                        <tr *ngFor="let detail of booking.grouped_details">
+                          <td>{{ detail.count }}</td> <!-- Display count -->
                           <td>{{ detail.room_name }}</td>
-                          <td>{{ detail.date }}</td>
-                          <td>{{ calculateCheckoutDate(detail.date, booking.duration) }}</td>
+                          <!-- <td>{{ detail.check_in }}</td>
+                          <td>{{ detail.check_out }}</td> -->
                           <td>{{ detail.price }}</td>
                         </tr>
                       </tbody>
@@ -97,7 +103,7 @@
               </ng-container>
               <!-- Handle no bookings -->
               <tr *ngIf="bookings.length === 0">
-                <td colspan="4" class="text-center">No bookings found.</td>
+                <td colspan="6" class="text-center">No bookings found.</td>
               </tr>
             </tbody>
           </table>
