@@ -3,6 +3,8 @@ export class BookingDetails2 {
     public roomType_id: number,
     public room_name:string,
     public date: string,
-    public price: number
+    public price: number,
+    public count?: number  
+
   ){}
 }
