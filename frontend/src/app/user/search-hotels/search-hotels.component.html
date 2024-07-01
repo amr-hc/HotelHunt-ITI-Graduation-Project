@@ -45,10 +45,13 @@
                       <label for="sort" class="mx-2">Sort By</label>
                       <select class="form-select styled-select" [(ngModel)]="sort" name="sort" id="sort">
                         <option value="none">None</option>
-                        <option value="price">Price</option>
                         <option value="name">Name</option>
-                        <option value="star_rating">Star Rating</option>
-                        <option value="rate">User Reviews</option>
+                        <option value="lower_price">Lower Price</option>
+                        <option value="higher_price">Higher Price</option>
+                        <option value="lower_star_rating">Lower Star Rating</option>
+                        <option value="higher_star_rating">Higher Star Rating</option>
+                        <!-- <option value="lower_average_rate">Lower Reviews</option> -->
+                        <option value="higher_average_rate">Higher Reviews</option>
                       </select>
                     </div>
                   </div>
