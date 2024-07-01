@@ -21,7 +21,7 @@ class BookDetailResource extends JsonResource
             'date' => $this->date,
             'price' => $this->price,
             'room_name' => $this->roomType->name,
-            
+
 
         ];
     }
