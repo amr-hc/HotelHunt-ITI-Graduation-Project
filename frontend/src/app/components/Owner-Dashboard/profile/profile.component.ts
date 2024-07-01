@@ -14,7 +14,7 @@ import { User } from '../../../models/user';
 export class ProfileComponent {
   user: User | null = null;
   userId: number | null = null;
-  isLoading: boolean = false;
+  loading: boolean = true;
   errorMessage: string = '';
 
   constructor(private userService: UserService, private router: Router) {}
@@ -22,18 +22,22 @@ export class ProfileComponent {
   ngOnInit(): void {
     this.userId = Number(localStorage.getItem('userId'));
     if (this.userId) {
-      this.isLoading = true;
+      // this.isLoading = true;
       this.userService.getUserById(this.userId).subscribe(
         (response: any) => {
           this.user = response.data;
-          this.isLoading = false;
+          this.loading = false;
+
+          // this.isLoading = false;
         },
         (error) => {
           console.error('Error fetching user details', error);
           this.errorMessage = 'Failed to load user details.';
-          this.isLoading = false;
+          this.loading = false;
+          // this.isLoading = false;
         }
       );
+
     }
   }
 
