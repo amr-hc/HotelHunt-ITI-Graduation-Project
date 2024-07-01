@@ -19,6 +19,7 @@ export class EditProfileComponent implements OnInit {
   user: User = new User(0, '', '', '', '', '', 'guest', 0, '');
   errorMessage: string = '';
   existingPhoto: string = '';
+  loading:boolean=true;
 
   constructor(
     private userService: UserService,
@@ -51,6 +52,7 @@ export class EditProfileComponent implements OnInit {
             phone: this.user.phone,
             address: this.user.address
           });
+          this.loading=false;
         },
         (error) => {
           console.error('Error fetching user data', error);
