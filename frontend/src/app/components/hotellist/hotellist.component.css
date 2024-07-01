@@ -100,3 +100,12 @@
   width: 6rem;
   height: 6rem;
 }
+
+.star-rating {
+  font-size: 1.5em;
+  color: #ffc107; /* Star color */
+}
+
+.star-rating .fa {
+  margin-right: 2px;
+}

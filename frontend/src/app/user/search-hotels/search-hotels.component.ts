@@ -13,7 +13,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 @Component({
   selector: 'app-search-hotels',
   standalone: true,
-  imports: [CommonModule,FormsModule,RouterLink,LayoutComponent,HeaderComponent,NgxPaginationModule],
+  imports: [CommonModule, FormsModule, RouterLink, LayoutComponent, HeaderComponent, NgxPaginationModule],
   templateUrl: './search-hotels.component.html',
   styleUrl: './search-hotels.component.css',
   animations: [
@@ -37,7 +37,7 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
   checkoutDate: string = '';
   sort: string = 'none';
   result: { hotel_name: string, roomsAvailable: number, hotels: SearchHotel[] }[] = [];
-  imagePath ="http://127.0.0.1:8000/storage/"
+  imagePath = "http://127.0.0.1:8000/storage/";
   private searchSubscription: Subscription | null = null;
   isLoading: boolean = true;
   averageRating: number = 0;
@@ -47,9 +47,12 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
   checkoutDateError: string = '';
   dateError: string = '';
   private subscriptions: Subscription[] = [];
+  today: string = '';
+  minCheckoutDate: string = '';
+  searcherdCheckInDate: string = '';
+  searcherdCheckOutDate: string = '';
+  constructor(private searchHotelService: SearchHotelService, private router: Router) { }
 
-
-  constructor(private searchHotelService: SearchHotelService,private router: Router) { }
   validateForm(): boolean {
     let isValid = true;
 
@@ -76,9 +79,17 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
     if (this.checkinDate && this.checkoutDate) {
       const checkin = new Date(this.checkinDate);
       const checkout = new Date(this.checkoutDate);
+      const today = new Date(this.today);
 
-      if (checkin > checkout) {
-        this.dateError = 'Check-in date cannot be later than check-out date';
+      // Create a date object for tomorrow
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+
+      if (checkin >= checkout) {
+        this.dateError = 'Check-in date cannot be later than or the same as check-out date';
+        isValid = false;
+      } else if (checkin < today || checkout < tomorrow) {
+        this.dateError = 'Check-in date cannot be in the past and check-out date must be at least tomorrow';
         isValid = false;
       } else {
         this.dateError = '';
@@ -87,40 +98,42 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
 
     return isValid;
   }
+
   ngOnInit(): void {
-    const today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
+    // this.today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
+    // this.minCheckoutDate = this.today;
+    const today = new Date();
+    this.today = today.toISOString().substr(0, 10);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    this.minCheckoutDate = tomorrow.toISOString().substr(0, 10);
+
     this.subscriptions.push(
       this.searchHotelService.searchedCity$.subscribe(city => this.city = city || 'cairo'),
-      this.searchHotelService.searchedCheckInDate$.subscribe(date => this.checkinDate = date || today),
-      this.searchHotelService.searchedCheckOutDate$.subscribe(date => this.checkoutDate = date || today),
+      this.searchHotelService.searchedCheckInDate$.subscribe(date => this.checkinDate = date || this.today),
+      this.searchHotelService.searchedCheckOutDate$.subscribe(date => this.checkoutDate = date || this.minCheckoutDate),
       this.searchHotelService.sortBy$.subscribe(sort => this.sort = sort || 'none')
     );
-    // this.isLoading = true;
-    // Trigger search on init if all parameters are available
+
     if (this.city && this.checkinDate && this.checkoutDate) {
       this.onSearch();
-      // this.isLoading = false;
     }
     setTimeout(() => {
       this.isLoading = false;
-    }, 300);
-
-
-    // const today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
-    // this.checkinDate = today;
-    // this.checkoutDate = today;
-    // this.city = 'cairo';
-    // // this.onSearch();
+    }, 800);
   }
 
   onSearch() {
     if (!this.validateForm()) {
       return;
     }
+    const checkout = new Date(this.checkoutDate);
+    checkout.setDate(checkout.getDate() - 1);
+    const adjustedCheckoutDate = checkout.toISOString().substr(0, 10);
     const searchParams = {
       city: this.city,
       start_date: this.checkinDate,
-      end_date: this.checkoutDate,
+      end_date: adjustedCheckoutDate,
       sort: this.sort
     };
 
@@ -143,27 +156,35 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
           roomsAvailable: groupedHotels[hotelName].length,
           hotels: groupedHotels[hotelName]
         }));
-        // this.isLoading = true;
-
+        this.searcherdCheckInDate = this.checkinDate;
+        this.searcherdCheckOutDate = this.checkoutDate;
       },
       (error: any) => {
         console.error('Error fetching hotels', error);
       }
     );
-
-    // this.isLoading = true;
   }
+
   navigateToHotel(hotelId: number): void {
-    this.searchHotelService.setSearchCheckInDate(this.checkinDate);
-    this.searchHotelService.setSearchCheckOutDate(this.checkoutDate);
+    this.searchHotelService.setSearchCheckInDate(this.searcherdCheckInDate);
+    this.searchHotelService.setSearchCheckOutDate(this.searcherdCheckOutDate);
     this.router.navigate(['/hotel', hotelId]);
   }
+
   ngOnDestroy(): void {
-    // Clean up the subscription if needed
     if (this.searchSubscription) {
       this.searchSubscription.unsubscribe();
     }
     this.subscriptions.forEach(subscription => subscription.unsubscribe());
+  }
 
+  onCheckinDateChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const checkinDate = new Date(input.value);
+    checkinDate.setDate(checkinDate.getDate() + 1); // Add one day
+    this.minCheckoutDate = checkinDate.toISOString().substr(0, 10);
+    if (new Date(this.checkoutDate) <= checkinDate) {
+      this.checkoutDate = this.minCheckoutDate; // Reset checkout date if it's invalid
+    }
   }
 }

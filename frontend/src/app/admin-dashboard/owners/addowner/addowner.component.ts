@@ -77,7 +77,7 @@ export class AddownerComponent {
             }
           });
         } else {
-          this.errorMessage = 'Failed to add user. Please try again.';
+          this.errorMessage = 'Failed to add owner. Please try again.';
         }
       }
     );

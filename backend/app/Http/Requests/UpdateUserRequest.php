@@ -23,7 +23,7 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['nullable', 'string', 'email', 'max:255'],
+            'email' => ['nullable', 'string', 'email', 'max:255',Rule::unique('users')->ignore($this->user)],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
             'phone' => ['nullable', 'string', 'max:25'],
             'address' => ['nullable', 'string', 'max:255'],
@@ -40,6 +40,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'email.email' => 'Please provide a valid email address.',
+            'email.unique' => 'The email has already been taken.',
             'password.min' => 'Password must be at least :min characters long.',
             'password.confirmed' => 'Password confirmation does not match.',
             'phone.max' => 'Phone number must not exceed :max characters.',

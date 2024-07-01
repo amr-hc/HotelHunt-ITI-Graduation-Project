@@ -4,6 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\HotelResource;
+use Illuminate\Validation\Rule;
 use App\Models\Hotel;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreHotelRequest;
@@ -70,6 +71,20 @@ class HotelsController extends Controller
                 // unlink(storage_path('app/public/'. $hotel->photo));
             }
         }
+
+        $request->validate([
+            'name' => [
+                'string',
+                'min:3',
+                'max:100',
+                Rule::unique('hotels')->ignore($hotel->id),
+            ],
+        ], [
+            'name.string' => 'The hotel name must be a string.',
+            'name.min' => 'The hotel name must be at least :min characters.',
+            'name.max' => 'The hotel name may not be greater than :max characters.',
+            'name.unique' => 'The hotel name has already been taken.',
+        ]);
 
         $hotel->update($request->all());
 

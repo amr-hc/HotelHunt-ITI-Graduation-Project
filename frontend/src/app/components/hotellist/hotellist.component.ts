@@ -34,7 +34,6 @@ export class HotellistComponent implements OnInit {
   getAllHotels(): void {
     this.hotelService.getAllHotels().subscribe(
       (response: any) => {
-        console.log(response);
         this.isLoading = false;
         this.hotels = response.data;
         this.filteredHotels = this.hotels.filter((hotel) => hotel.status === 'active');
@@ -57,12 +56,24 @@ export class HotellistComponent implements OnInit {
       this.hotelService.getHotelImages(hotel.id).subscribe(
         (images: HotelImage[]) => {
           this.hotelImages[hotel.id] = images;
-          console.log(`Images for hotel ${hotel.id}:`, images);
         },
         (error: any) => {
           console.error(`Error fetching images for hotel ${hotel.id}:`, error);
         }
       );
     });
+  }
+
+  getStars(rate: number): string[] {
+    const fullStars = Math.floor(rate);
+    const halfStar = rate % 1 >= 0.5;
+    const stars = Array(fullStars).fill('fa fa-star text-warning');
+    if (halfStar) {
+      stars.push('fa fa-star-half-alt text-warning');
+    }
+    while (stars.length < 5) {
+      stars.push('fa fa-star-o text-warning');
+    }
+    return stars;
   }
 }

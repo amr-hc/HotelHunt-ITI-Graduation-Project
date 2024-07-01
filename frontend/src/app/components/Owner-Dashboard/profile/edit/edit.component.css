@@ -1,9 +1,48 @@
-.container {
-  max-width: 600px;
+/* Custom Styles */
+.bg-tan {
+  background-color: #d2b48c;
 }
+
+.form-label {
+  font-weight: bold;
+}
+
+.form-control {
+  border: 1px solid #d2b48c;
+  border-radius: 4px;
+}
+
+.form-control-file {
+  border: none;
+}
+
+.btn-success {
+  background-color: #3b7c27;
+  border-color: #28a745;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.text-danger {
+  font-size: 0.875em;
+}
+
 .card {
-  margin-top: 20px;
+  border: 1px solid #d2b48c;
+  border-radius: 10px;
 }
-.text-center {
-  text-align: center;
+
+.card-header {
+  padding: 1rem;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.text-primary {
+  color: #363532 !important;
 }

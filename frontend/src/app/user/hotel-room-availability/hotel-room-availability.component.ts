@@ -7,10 +7,6 @@ import { CommonModule } from '@angular/common';
 import { BookingService } from '../../services/booking.service';
 import { BookingData } from '../../models/booking-data';
 import { BookingDetails } from '../../models/booking-details';
-import { CommentService } from '../../services/comment.service';
-import { RatingService } from '../../services/rating.service';
-import { Rating, UserRating } from '../../models/rating';
-import { Comment, UserComment } from '../../models/comment';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { CommentsComponent } from '../comments/comments.component';
@@ -25,21 +21,14 @@ import { SearchHotelService } from '../../services/search-hotel.service';
   styleUrls: ['./hotel-room-availability.component.css']
 })
 export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
-  // @Input() hotel_id: number | undefined;
   hotel_id: number| null = 0;
   private hotelIdSubscription: Subscription | null = null;
   checkinDate: string = '';
   checkoutDate: string = '';
   rooms: HotelRoomSearch[] = [];
   selectedRooms: { [roomId: number]: number } = {};
-  comments: Comment[] = [];
-  userComment: string = '';
-  rating: number = 0;
-  userRating: UserRating | null = null;
   private searchSubscription: Subscription | null = null;
   private bookingSubscription: Subscription | null = null;
-  private commentSubscription: Subscription | null = null;
-  private ratingSubscription: Subscription | null = null;
   user_id: number | null = 0;
   duration: number = 0;
   checkinDateError: string = '';
@@ -48,13 +37,15 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
   checkLoggedInUserRole: string = '';
   isUserVerified: string|null = null;
   private subscriptions: Subscription[] = [];
+  today: string = '';
+  minCheckoutDate: string = '';
+  searcherdCheckInDate: string = '';
+  searcherdCheckOutDate: string = '';
 
 
   constructor(
     private hotelRoomSearchService: HotelRoomSearchService,
     private bookingService: BookingService,
-    private commentService: CommentService,
-    private ratingService: RatingService,
     private router: Router,
     private HotelService: HotelService,
     private searchHotelService: SearchHotelService
@@ -78,9 +69,17 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
     if (this.checkinDate && this.checkoutDate) {
       const checkin = new Date(this.checkinDate);
       const checkout = new Date(this.checkoutDate);
+      const today = new Date(this.today);
 
-      if (checkin > checkout) {
-        this.dateError = 'Check-in date cannot be later than check-out date';
+      // Create a date object for tomorrow
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+
+      if (checkin >= checkout) {
+        this.dateError = 'Check-in date cannot be later than or the same as check-out date';
+        isValid = false;
+      } else if (checkin < today || checkout < tomorrow) {
+        this.dateError = 'Check-in date cannot be in the past and check-out date must be at least tomorrow';
         isValid = false;
       } else {
         this.dateError = '';
@@ -109,10 +108,15 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
         console.error('Error fetching hotel ID', error);
       }
     )
-    const today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
+    // const today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
+    const today = new Date();
+    this.today = today.toISOString().substr(0, 10);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    this.minCheckoutDate = tomorrow.toISOString().substr(0, 10);
     this.subscriptions.push(
-      this.searchHotelService.searchedCheckInDate$.subscribe(date => this.checkinDate = date || today),
-      this.searchHotelService.searchedCheckOutDate$.subscribe(date => this.checkoutDate = date || today)
+      this.searchHotelService.searchedCheckInDate$.subscribe(date => this.checkinDate = date || this.today),
+      this.searchHotelService.searchedCheckOutDate$.subscribe(date => this.checkoutDate = date || this.minCheckoutDate)
     );
     if (this.hotel_id && this.checkinDate && this.checkoutDate) {
       this.onSearch();
@@ -126,22 +130,35 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
     if (!this.validateForm()) {
       return;
     }
+    const checkout = new Date(this.checkoutDate);
+    checkout.setDate(checkout.getDate() - 1);
+    const adjustedCheckoutDate = checkout.toISOString().substr(0, 10);
     const searchParams = {
       hotel_id: this.hotel_id,
       start_date: this.checkinDate,
-      end_date: this.checkoutDate
+      end_date: adjustedCheckoutDate
     };
 
     this.searchSubscription = this.hotelRoomSearchService.getAllHotelRooms(searchParams).subscribe(
       (data: HotelRoomSearch[]) => {
         this.rooms = data;
+        this.searcherdCheckInDate = this.checkinDate;
+        this.searcherdCheckOutDate = this.checkoutDate;
       },
       (error: any) => {
         console.error('Error fetching hotel rooms', error);
       }
     );
   }
-
+  onCheckinDateChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const checkinDate = new Date(input.value);
+    checkinDate.setDate(checkinDate.getDate() + 1); // Add one day
+    this.minCheckoutDate = checkinDate.toISOString().substr(0, 10);
+    if (new Date(this.checkoutDate) <= checkinDate) {
+      this.checkoutDate = this.minCheckoutDate; // Reset checkout date if it's invalid
+    }
+  }
   getRoomOptions(stock: number): number[] {
     return Array.from({ length: stock + 1 }, (_, index) => index);
   }
@@ -160,31 +177,9 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
       });
       return;
     }
+    this.checkinDate = this.searcherdCheckInDate;
+    this.checkoutDate = this.searcherdCheckOutDate;
     const bookingDetails: BookingDetails[] = [];
-
-    // this.rooms.forEach(room => {
-    //   const quantity = this.selectedRooms[room.id] || 0;
-    //   // if (quantity > 0) {
-    //   //   for (let i = 0; i < quantity; i++) {
-    //   //     bookingDetails.push(new BookingDetails(room.id, this.checkinDate, Number(room.price)));
-    //   //   }
-    //   // }
-    //   if (quantity > 0) {
-    //     for (let i = 0; i < quantity; i++) {
-    //       // Convert the checkinDate string to a Date object
-    //       for (let i = 0; i < quantity; i++) {
-    //         let bookingDate = new Date(this.checkinDate);
-    //         bookingDate.setDate(bookingDate.getDate() + i); // Increment the date by 'i' days
-
-    //         // Convert the date back to a string if needed, for example, in 'yyyy-mm-dd' format
-    //         let bookingDateString = bookingDate.toISOString().split('T')[0];
-
-    //         bookingDetails.push(new BookingDetails(room.id, bookingDateString, Number(room.price)));
-    //       }
-    //     }
-    //     console.log(bookingDetails);
-    //   }
-    // });
     this.rooms.forEach(room => {
       const quantity = this.selectedRooms[room.id] || 0;
       if (quantity > 0) {
@@ -193,7 +188,7 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
           const checkout = new Date(this.checkoutDate);
           const days = (checkout.getTime() - checkin.getTime()) / (1000 * 3600 * 24);
 
-          for (let j = 0; j <= days; j++) {
+          for (let j = 0; j < days; j++) {
             let bookingDate = new Date(checkin);
             bookingDate.setDate(bookingDate.getDate() + j);
 
@@ -210,7 +205,7 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
       const start = new Date(this.checkinDate);
       const end = new Date(this.checkoutDate);
       const diffTime = Math.abs(end.getTime() - start.getTime());
-      this.duration = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) +1;
+      this.duration = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
       console.log(this.duration);
 
       Swal.fire({
@@ -254,14 +249,6 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
 
     if (this.bookingSubscription) {
       this.bookingSubscription.unsubscribe();
-    }
-
-    if (this.commentSubscription) {
-      this.commentSubscription.unsubscribe();
-    }
-
-    if (this.ratingSubscription) {
-      this.ratingSubscription.unsubscribe();
     }
     if (this.hotelIdSubscription) {
       this.hotelIdSubscription.unsubscribe();

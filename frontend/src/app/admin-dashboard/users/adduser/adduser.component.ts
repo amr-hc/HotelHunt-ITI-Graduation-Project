@@ -74,6 +74,7 @@ export class AdduserComponent {
         this.router.navigate(['/admin-dashboard/users']);
       },
       (error) => {
+        console.log(error);
         if (error.status === 422 && error.error.errors) {
           // Handle validation errors
           this.errorMessage = ''; // Clear previous error message
