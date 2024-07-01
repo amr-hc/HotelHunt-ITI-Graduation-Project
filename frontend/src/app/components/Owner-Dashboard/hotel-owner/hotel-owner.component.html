@@ -35,6 +35,18 @@
         </p>
         <p><strong>Balance:</strong> {{ hotel.balance | currency:'EGP ' }}</p>
         <p><strong>Description:</strong> {{ hotel.description }}</p>
+
+        <p><strong>User Rating :</strong>
+          <span class="star-rating">
+            <ng-container *ngFor="let _ of starRange(getStarRatingStars(hotel.average_rate).fullStars)">
+              <i class="star fa fa-star text-warning"></i>
+            </ng-container>
+            <ng-container *ngIf="getStarRatingStars(hotel.star_rating).halfStars === 1">
+              <i class="star fa fa-star-half text-warning"></i>
+            </ng-container>
+          </span>
+        </p>
+
       </div>
 
       <!-- Hotel Images -->
@@ -48,7 +60,7 @@
             </div>
           </div>
         </div>
-        <pagination-controls (pageChange)="onPageChange(hotel.id, $event)"></pagination-controls>
+        <pagination-controls class="text-center" (pageChange)="onPageChange(hotel.id, $event)"></pagination-controls>
       </div>
 
       <!-- Hotel Comments -->

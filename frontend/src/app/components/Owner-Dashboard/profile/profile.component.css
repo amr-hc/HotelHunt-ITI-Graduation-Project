@@ -2,79 +2,75 @@
 .bg-tan {
     background-color: #d2b48c;
   }
-  
+
   .profile-card {
     border: 1px solid #d2b48c;
     border-radius: 15px;
   }
-  
+
   .card-header {
     padding: 1rem;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
   }
-  
+
   .card-body {
     padding: 2rem;
   }
-  
+
   .profile-photo {
     width: 150px;
     height: 150px;
     object-fit: cover;
     border: 2px solid #d2b48c;
   }
-  
+
   .profile-details {
     font-size: 1.1em;
     display: flex;
     flex-direction: column;
     justify-content: center;
   }
-  
+
   .profile-item {
     display: flex;
     justify-content: space-between;
     padding: 0.5rem 0;
     border-bottom: 1px solid #f0f0f0;
   }
-  
+
   .profile-item strong {
     margin-right: 5px;
   }
-  
+
   .profile-item span {
     flex-grow: 1;
     text-align: left;
     margin-left: 10px;
   }
-  
+
   .profile-item:last-child {
     border-bottom: none;
   }
-  
-  .text-primary {
-    color: #272421
-    !important;
-  }
-  
+
+
+
   .btn-primary {
-    background-color: #ce6c0b;
+
     border-color: #d2b48c;
     transition: background-color 0.3s, border-color 0.3s;
   }
-  
+
   .btn-primary:hover {
     background-color: #b35907;
     border-color: #cda172;
   }
-  
+
   .loading .spinner-border {
     width: 3rem;
     height: 3rem;
   }
-  
+
   .loading p {
     font-size: 1.2em;
   }
-  
