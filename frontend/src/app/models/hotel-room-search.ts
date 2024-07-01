@@ -6,5 +6,6 @@ export class HotelRoomSearch {
     public price: number,
     public stock: number,
     public description: string,
+    public capacity: number
   ) {}
 }
