@@ -56,13 +56,25 @@ class SearchController extends Controller
         )
         ->havingRaw('COUNT(availabilities.date) >= DATEDIFF(?, ?)', [$end_date, $start_date]);
 
-        if ($request->sort == "rate") {
+        if ($request->sort == "lower_average_rate") {
+            $availableRoomsQuery->orderBy('rate_averages.average_rate', 'asc');
+        }
+        elseif($request->sort == "higher_average_rate"){
             $availableRoomsQuery->orderBy('rate_averages.average_rate', 'desc');
-        } elseif ($request->sort == "price") {
-            $availableRoomsQuery->orderBy('roomtypes.price');
-        } elseif ($request->sort == "name") {
+        }
+         elseif ($request->sort == "lower_price") {
+            $availableRoomsQuery->orderBy('roomtypes.price', 'asc');
+        }
+        elseif ($request->sort == "higher_price") {
+            $availableRoomsQuery->orderBy('roomtypes.price', 'desc');
+        }
+
+         elseif ($request->sort == "name") {
             $availableRoomsQuery->orderBy('hotels.name');
-        } elseif ($request->sort == "star_rating") {
+        } elseif ($request->sort == "lower_star_rating") {
+            $availableRoomsQuery->orderBy('hotels.star_rating', 'asc');
+        }
+        elseif ($request->sort == "higher_star_rating") {
             $availableRoomsQuery->orderBy('hotels.star_rating', 'desc');
         }
 
