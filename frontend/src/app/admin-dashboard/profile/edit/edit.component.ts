@@ -18,6 +18,8 @@ export class EditComponent implements OnInit {
   user: User | null = null;
   formSubmitted: boolean = false;
   selectedFile: File | null = null;
+  errorMessage = '';
+
 
   constructor(
     private fb: FormBuilder,
@@ -82,7 +84,20 @@ export class EditComponent implements OnInit {
           this.router.navigate(['/admin-dashboard/profile']);
         },
         (error) => {
-          console.error('Error updating user', error);
+          console.log(error);
+          if (error.status === 422 && error.error.errors) {
+            this.errorMessage = '';
+            Object.keys(error.error.errors).forEach((field) => {
+              const fieldErrors = error.error.errors[field];
+              if (Array.isArray(fieldErrors)) {
+                fieldErrors.forEach((errorText) => {
+                  this.errorMessage += `${errorText}\n`;
+                });
+              }
+            });
+          } else {
+            this.errorMessage = 'Failed to add user. Please try again.';
+          }
         }
       );
     }

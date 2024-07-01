@@ -9,9 +9,6 @@
         <div class="form-header text-center text-white">
           <h2 class="text-primary mt-4">Add Hotel</h2>
         </div>
-        <div *ngIf="registrationError" class="alert alert-danger mt-3">
-          {{ registrationError }}
-        </div>
         <div class="row mt-3">
           <div class="col-md-6">
             <div class="form-group">
@@ -167,6 +164,9 @@
         </a>
       </div>
       </form>
+      <div *ngIf="registrationError" class="alert alert-danger mt-3">
+        {{ registrationError }}
+      </div>
     </div>
   </div>
 </div>

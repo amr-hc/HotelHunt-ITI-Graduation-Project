@@ -22,7 +22,7 @@ class StoreHotelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:3','max:100'],
+            'name' => ['required', 'string', 'min:3','max:100','unique:hotels,name'],
             'country' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
@@ -36,7 +36,8 @@ class StoreHotelRequest extends FormRequest
     {
         return [
             'name.required' => 'The Title is required',
-            'name.integer' => 'The Title must be a integer',
+            'name.unique' => 'The Name has already been taken. Please choose a different name.',
+            'name.string' => 'The Title must be a string',
             'name.min' => 'The Title must be at least 3 characters',
             'name.max' => 'The Title cannot be more than 255 characters',
             'owner_id.required'=>"Owner Name is required",
