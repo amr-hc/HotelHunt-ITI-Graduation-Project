@@ -171,12 +171,30 @@ class BookingController extends Controller
     /**
      * Remove the specified resource from storage.
      */
+    // public function destroy(string $id)
+    // {
+    //     $booking = Booking::findOrFail($id);
+    //     $booking->delete();
+    //     return response()->json(null, 204);
+    // }
     public function destroy(string $id)
     {
-        $booking = Booking::findOrFail($id);
-        $booking->delete();
-        return response()->json(null, 204);
+        try {
+            $booking = Booking::findOrFail($id);
+
+            if ($booking->status === 'completed') {
+                return response()->json(['error' => 'Booking with status "completed" cannot be canceled.'], 403);
+            }
+
+            $booking->status = 'cancel';
+            $booking->save();
+
+            return response()->json(['message' => 'Booking status updated to "cancel".'], 200);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to update booking status: ' . $e->getMessage()], 500);
+        }
     }
+
 
 
     public function getUserBookings($user_id)
