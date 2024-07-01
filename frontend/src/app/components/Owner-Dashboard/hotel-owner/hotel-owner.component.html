@@ -1,73 +1,82 @@
 <div class="hotel-owner-container">
-  <h2 class="text-primary text-center">My Hotel</h2>
+  <h2 class="text-primary text-center my-4">My Hotels</h2>
 
   <!-- Loading Indicator -->
-  <div *ngIf="isLoading" class="loading-container">
+  <div *ngIf="isLoading" class="loading-container d-flex justify-content-center align-items-center">
     <div class="spinner-border text-primary" role="status">
-      <span class="sr-only">Loading...</span>
+      <span class="visually-hidden">Loading...</span>
     </div>
   </div>
 
   <!-- Hotels List -->
   <ng-container *ngIf="!isLoading">
-    <div *ngFor="let hotel of hotels" class="hotel-card">
-      <div class="hotel-header">
-        <h3>{{ hotel.name }}</h3>
+    <div *ngFor="let hotel of hotels" class="hotel-card card mb-4 shadow-sm">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h3 class="card-title mb-0">{{ hotel.name }}</h3>
+        <div>
+          <button class="btn btn-primary btn-sm mx-1" [routerLink]="['/owner/hotel', hotel.id]">Update</button>
+          <button class="btn btn-success btn-sm mx-1" [routerLink]="['/owner/hotel', hotel.id, 'addImage']">Add Image</button>
+        </div>
+      </div>
+
+      <div class="card-body">
         <p><strong>City:</strong> {{ hotel.city }}</p>
         <p><strong>Address:</strong> {{ hotel.address }}</p>
         <p><strong>Status:</strong> {{ hotel.status }}</p>
         <p><strong>Star Rating:</strong>
           <span class="star-rating">
-            <!-- Full stars -->
             <ng-container *ngFor="let _ of starRange(getStarRatingStars(hotel.star_rating).fullStars)">
-              <i class="star fa fa-star"></i>
+              <i class="star fa fa-star text-warning"></i>
             </ng-container>
-            <!-- Half star, if applicable -->
             <ng-container *ngIf="getStarRatingStars(hotel.star_rating).halfStars === 1">
-              <i class="star fa fa-star-half"></i>
+              <i class="star fa fa-star-half text-warning"></i>
             </ng-container>
           </span>
         </p>
-        <p><strong>Balance:</strong> {{ hotel.balance | currency:' EGP ' }}</p>
+        <p><strong>Balance:</strong> {{ hotel.balance | currency:'EGP ' }}</p>
         <p><strong>Description:</strong> {{ hotel.description }}</p>
-        <!-- <p><strong>Rating:</strong> {{ hotel.average_rate }}</p> -->
-        <p><strong>Average Rating:</strong>
-          <span class="star-rating">
-            <!-- Full stars -->
-            <ng-container *ngFor="let _ of starRange(getStarRatingStars(hotel.average_rate).fullStars)">
-              <i class="star fa fa-star"></i>
-            </ng-container>
-            <!-- Half star, if applicable -->
-            <ng-container *ngIf="getStarRatingStars(hotel.average_rate).halfStars === 1">
-              <i class="star fa fa-star-half"></i>
-            </ng-container>
-          </span>
-        </p>
-
-        <button class="btn btn-primary mx-1" [routerLink]="['/owner/hotel', hotel.id]">Update</button>
-        <button class="btn btn-success mx-1" [routerLink]="['/owner/hotel', hotel.id, 'addImage']">Add Image</button>
       </div>
 
       <!-- Hotel Images -->
-      <div *ngIf="ownerImages[hotel.id]" class="hotel-images">
+      <div *ngIf="ownerImages[hotel.id]" class="hotel-images px-3 pb-3">
         <h4 class="text-primary">Images:</h4>
-        <div class="image-grid">
-          <div *ngFor="let image of ownerImages[hotel.id]" class="image-item">
-            <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image" />
-            <button class="btn btn-danger my-2" (click)="onDeleteImage(image.id)">Delete</button>
+        <div class="image-grid row">
+          <div *ngFor="let image of (ownerImages[hotel.id] | paginate: { itemsPerPage: 4, currentPage: imagePage[hotel.id] })" class="image-item col-md-3 mb-3">
+            <div class="position-relative">
+              <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image" class="img-fluid rounded shadow-sm" />
+              <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" (click)="onDeleteImage(image.id)">Delete</button>
+            </div>
           </div>
         </div>
+        <pagination-controls (pageChange)="onPageChange(hotel.id, $event)"></pagination-controls>
       </div>
 
       <!-- Hotel Comments -->
-      <div *ngIf="hotelComments[hotel.id]" class="hotel-comments">
-        <h4 class="text-primary">Comments:</h4>
-        <div *ngFor="let comment of hotelComments[hotel.id]" class="comment-item">
-          <p><strong>User:</strong> {{ comment.user_name }}</p>
-          <p><strong>Date:</strong> {{ comment.created_at | date }}</p>
-          <p>{{ comment.content }}</p>
+      <div *ngIf="hotelComments[hotel.id]" class="hotel-comments px-3 pb-3">
+        <h4 class="text-primary mb-4">Comments:</h4>
+
+        <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div *ngFor="let comment of hotelComments[hotel.id]; let i = index" class="carousel-item" [ngClass]="{'active': i === 0}">
+              <div class="testimonial-item text-center">
+                <div class="testimonial-content">
+                  <p class="testimonial-text">{{ comment.content }}</p>
+                  <p class="testimonial-author"><strong>{{ comment.user_name }}</strong> - {{ comment.created_at | date }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+
+          <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
         </div>
       </div>
-    </div>
-  </ng-container>
-</div>
+
+

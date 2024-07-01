@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [FormsModule, CommonModule],
   templateUrl: './search-bar.component.html',
-  styleUrl: './search-bar.component.css'
+  styleUrls: ['./search-bar.component.css']
 })
 export class SearchBarComponent implements OnInit, OnDestroy {
   city: string = '';
@@ -20,7 +20,35 @@ export class SearchBarComponent implements OnInit, OnDestroy {
   checkinDateError: string = '';
   checkoutDateError: string = '';
   dateError: string = '';
-  constructor(private searcHotelService: SearchHotelService, private router: Router) { }
+  today: string = '';
+  minCheckoutDate: string = '';
+
+  constructor(private searchHotelService: SearchHotelService, private router: Router) { }
+
+  ngOnInit(): void {
+    const today = new Date();
+    this.today = today.toISOString().substr(0, 10);
+    this.checkinDate = this.today;
+
+    const tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+    this.minCheckoutDate = tomorrow.toISOString().substr(0, 10);
+    this.checkoutDate = this.minCheckoutDate;
+
+    this.city = 'cairo';
+  }
+
+  onCheckinDateChange(event: any) {
+    const checkinDate = new Date(event.target.value);
+    const nextDay = new Date(checkinDate);
+    nextDay.setDate(checkinDate.getDate() + 1);
+    this.minCheckoutDate = nextDay.toISOString().substr(0, 10);
+
+    if (new Date(this.checkoutDate) <= checkinDate) {
+      this.checkoutDate = this.minCheckoutDate;
+    }
+  }
+
   validateForm(): boolean {
     let isValid = true;
 
@@ -44,12 +72,21 @@ export class SearchBarComponent implements OnInit, OnDestroy {
     } else {
       this.checkoutDateError = '';
     }
+
     if (this.checkinDate && this.checkoutDate) {
       const checkin = new Date(this.checkinDate);
       const checkout = new Date(this.checkoutDate);
+      const today = new Date(this.today);
 
-      if (checkin > checkout) {
-        this.dateError = 'Check-in date cannot be later than check-out date';
+      // Create a date object for tomorrow
+      const tomorrow = new Date(today);
+      tomorrow.setDate(today.getDate() + 1);
+
+      if (checkin >= checkout) {
+        this.dateError = 'Check-in date cannot be later than or the same as check-out date';
+        isValid = false;
+      } else if (checkin < today || checkout < tomorrow) {
+        this.dateError = 'Check-in date cannot be in the past and check-out date must be at least tomorrow';
         isValid = false;
       } else {
         this.dateError = '';
@@ -58,25 +95,17 @@ export class SearchBarComponent implements OnInit, OnDestroy {
 
     return isValid;
   }
-  ngOnInit(): void {
-    const today = new Date().toISOString().substr(0, 10); // Get today's date in yyyy-mm-dd format
-    this.checkinDate = today;
-    this.checkoutDate = today;
-    this.city = 'cairo';
-  }
+
   onSearch() {
-    console.log(this.city, this.checkinDate, this.checkoutDate, this.sort);
     if (!this.validateForm()) {
       return;
     }
-    this.searcHotelService.setSearchCheckInDate(this.checkinDate);
-    this.searcHotelService.setSearchCheckOutDate(this.checkoutDate);
-    this.searcHotelService.setSearchCity(this.city);
-    this.searcHotelService.setSearchSortBy(this.sort);
+    this.searchHotelService.setSearchCheckInDate(this.checkinDate);
+    this.searchHotelService.setSearchCheckOutDate(this.checkoutDate);
+    this.searchHotelService.setSearchCity(this.city);
+    this.searchHotelService.setSearchSortBy(this.sort);
     this.router.navigate(['/search']);
-
-  }
-  ngOnDestroy(): void {
   }
 
+  ngOnDestroy(): void { }
 }

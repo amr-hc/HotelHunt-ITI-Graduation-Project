@@ -1,52 +1,44 @@
-<div class="container mt-1" *ngIf="user; else loading">
-  <div class="card">
-    <div class="card-header text-center">
-      <h2 class="text-primary">{{ user.fname }} {{ user.lname }}</h2>
+<div class="container mt-5" *ngIf="user; else loading">
+  <div class="card profile-card shadow-lg border-0 rounded-lg">
+    <div class="card-header text-center bg-tan">
+      <h2 class="text-primary m-0">{{ user.fname }} {{ user.lname }}</h2>
     </div>
-    <div class="card-body">
+    <div class="card-body p-4">
       <div class="row">
         <div class="col-md-4 text-center">
-          <img src="http://127.0.0.1:8000/storage/{{ user.photo }}" alt="{{ user.fname }} {{ user.lname }}" class="rounded-circle mb-3" style="max-width: 280px; height: 100%;">
+          <img
+            src="http://127.0.0.1:8000/storage/{{ user.photo }}"
+            alt="{{ user.fname }} {{ user.lname }}"
+            class="rounded-circle mb-3 profile-photo img-thumbnail"
+          />
         </div>
-        <div class="col-md-8">
-          <table class="table table-bordered">
-            <tbody>
-              <tr>
-                <th>ID</th>
-                <td>{{ user.id }}</td>
-              </tr>
-              <tr>
-                <th>First Name</th>
-                <td>{{ user.fname }}</td>
-              </tr>
-              <tr>
-                <th>Last Name</th>
-                <td>{{ user.lname }}</td>
-              </tr>
-              <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-              </tr>
-              <tr>
-                <th>Phone</th>
-                <td>{{ user.phone }}</td>
-              </tr>
-              <tr>
-                <th>Address</th>
-                <td>{{ user.address }}</td>
-              </tr>
-              <tr>
-                <th>Role</th>
-                <td>{{ user.role }}</td>
-              </tr>
-              <tr>
-                <th>Age</th>
-                <td>{{ user.age }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="col-md-8 profile-details">
+          <div class="profile-item">
+            <strong>ID:  </strong> <span>{{ user.id }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>First Name:</strong> <span>{{ user.fname }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>Last Name:</strong> <span>{{ user.lname }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>Email:</strong> <span>{{ user.email }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>Phone:</strong> <span>{{ user.phone }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>Address:</strong> <span>{{ user.address }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>Role:</strong> <span>{{ user.role }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>Age:</strong> <span>{{ user.age }}</span>
+          </div>
           <div class="text-center mt-4">
-            <button class="btn btn-primary" (click)="editProfile(user.id)">Edit Profile</button>
+            <button class="btn btn-primary px-4" (click)="editProfile(user.id)">Edit Profile</button>
           </div>
         </div>
       </div>

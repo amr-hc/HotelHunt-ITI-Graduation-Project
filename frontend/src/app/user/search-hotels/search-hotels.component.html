@@ -22,8 +22,8 @@
                 <div class="date" id="date1" data-target-input="nearest">
                   <label for="checkIn" class="mx-2">Check-in</label>
                   <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-in Date"
-                    [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" data-target="#date1"
-                    data-toggle="datetimepicker" />
+                    [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" data-target="#date1" [min]="today"
+                    (change)="onCheckinDateChange($event)" />
                   <div *ngIf="checkinDateError" class="text-danger">{{ checkinDateError }}</div>
                   <div *ngIf="dateError" class="text-danger">{{ dateError }}</div>
                 </div>
@@ -32,10 +32,8 @@
                 <div class="date" id="date2" data-target-input="nearest">
                   <label for="checkOut" class="mx-2">Check-out</label>
                   <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-out Date"
-                    [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" data-target="#date2"
-                    data-toggle="datetimepicker" />
+                    [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" data-target="#date2" [min]="minCheckoutDate" />
                   <div *ngIf="checkoutDateError" class="text-danger">{{ checkoutDateError }}</div>
-
                 </div>
               </div>
 

@@ -62,7 +62,7 @@
             <tbody>
               <!-- Iterate over bookings -->
               <ng-container *ngFor="let booking of bookings | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                <tr (click)="toggleDetails(booking.id)">
+                <tr (click)="toggleDetails(booking.id)" class="cursor-pointer">
                   <td>{{ booking.total_price }}</td>
                   <td>{{ booking.hotel }}</td>
                   <td>{{ booking.status }}</td>

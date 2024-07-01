@@ -52,9 +52,7 @@ export class AddhotelComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getOwnersWithoutHotels().subscribe({
       next: (response: any) => {
-        console.log('Response from getOwnersWithoutHotels:', response); // Log the response
-
-        // Extract the owners from the data property
+        console.log('Response from getOwnersWithoutHotels:', response);
         if (response && response.data && Array.isArray(response.data)) {
           this.owners = response.data;
         } else {

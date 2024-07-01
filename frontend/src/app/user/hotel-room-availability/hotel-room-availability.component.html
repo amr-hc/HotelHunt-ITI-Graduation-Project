@@ -13,7 +13,7 @@
                   <label for="checkIn" class="form-label styled-label mx-2">Check-in</label>
                   <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-in Date"
                     [(ngModel)]="checkinDate" name="checkinDate" id="checkIn" data-target="#date1"
-                    data-toggle="datetimepicker" />
+                    data-toggle="datetimepicker" [min]="today" (change)="onCheckinDateChange($event)" />
                   <div *ngIf="checkinDateError" class="text-danger">{{ checkinDateError }}</div>
                   <div *ngIf="dateError" class="text-danger">{{ dateError }}</div>
 
@@ -24,8 +24,8 @@
                   <label for="checkOut" class="form-label styled-label mx-2">Check-out</label>
                   <input type="date" class="form-control datetimepicker-input styled-date" placeholder="Check-out Date"
                     [(ngModel)]="checkoutDate" name="checkoutDate" id="checkOut" data-target="#date2"
-                    data-toggle="datetimepicker" />
-                                      <div *ngIf="checkoutDateError" class="text-danger">{{ checkoutDateError }}</div>
+                    data-toggle="datetimepicker" [min]="minCheckoutDate" />
+                    <div *ngIf="checkoutDateError" class="text-danger">{{ checkoutDateError }}</div>
 
                 </div>
               </div>
