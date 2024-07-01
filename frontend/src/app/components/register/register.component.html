@@ -71,7 +71,8 @@
               <input type="text" formControlName="city" class="form-control" placeholder="City">
             </div>
             <div class="form-group">
-              <input type="number" formControlName="age" class="form-control" placeholder="Age">
+              <input type="number" formControlName="age" (input)="validateAge()"
+              min="0" class="form-control" placeholder="Age">
               <div *ngIf="shouldShowError('age')" class="text-danger">
                 <div *ngIf="registerForm.get('age')?.errors?.['required']">Age is required.</div>
                 <div *ngIf="registerForm.get('age')?.errors?.['min']">You must be at least 18 years old.</div>

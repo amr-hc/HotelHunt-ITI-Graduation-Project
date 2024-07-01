@@ -40,12 +40,15 @@ class BookingController extends Controller
             'books_details.*.roomType_id' => 'required|exists:roomtypes,id',
             'books_details.*.date' => 'required|date',
             'books_details.*.price' => 'required|numeric',
+            'check_in' => 'required|date',
+            'check_out' => 'required|date',
+
         ]);
 
         DB::beginTransaction();
 
         try {
-            $booking = Booking::create($request->only(['user_id', 'duration', 'status']));
+            $booking = Booking::create($request->only(['user_id', 'duration', 'status','check_in','check_out']));
 
             foreach ($request->books_details as $detail) {
                 BookDetail::create([
@@ -94,13 +97,15 @@ class BookingController extends Controller
             'book_details.*.roomType_id' => 'sometimes|required|exists:roomtypes,id',
             'book_details.*.date' => 'sometimes|required|date',
             'book_details.*.price' => 'sometimes|required|numeric',
+            'check_in' => 'sometimes|required|date',
+            'check_out' => 'sometimes|required|date',
         ]);
 
         DB::beginTransaction();
 
         try {
 
-            $booking->update($request->only(['user_id', 'duration', 'status']));
+            $booking->update($request->only(['user_id', 'duration', 'status','check_in','check_out']));
 
             if ($request->has('book_details')) {
                 foreach ($request->book_details as $detail) {

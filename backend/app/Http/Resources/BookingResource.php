@@ -22,6 +22,8 @@ class BookingResource extends JsonResource
             'duration' => $this->duration,
             'status' => $this->status,
             'hotel' => $this->HotelName,
+            'check_in' => $this->check_in,
+            'check_out' => $this->check_out,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
             'book_details' => BookDetailResource::collection($this->whenLoaded('book_details')),

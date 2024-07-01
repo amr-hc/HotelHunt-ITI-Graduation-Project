@@ -9,6 +9,10 @@ export class Booking {
     public status: string,
     public hotel: string,
     public total_price:number,
-    public book_details: BookingDetails2[]
+    public check_in: string,
+    public check_out: string,
+    public book_details: BookingDetails2[],
+    public grouped_details?: BookingDetails2[] 
+
   ) {}
 }
