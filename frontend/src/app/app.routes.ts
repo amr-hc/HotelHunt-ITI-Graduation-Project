@@ -69,8 +69,9 @@ export const routes: Routes = [
 
 
   { path:'admin-dashboard',    loadChildren: () =>
-    import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes), canActivate: [AdminGuard]},
-    {path: 'owner', loadChildren:()=>import("./components/Owner-Dashboard/owner.routes").then(o=>o.ownerRoutes), canActivate: [OwnerGuard]},
+    import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes), canActivate: [AdminGuard]
+  },
+  { path: 'owner', loadChildren: () => import("./components/Owner-Dashboard/owner.routes").then(o => o.ownerRoutes), canActivate: [OwnerGuard] },
 
   {path : "hotelList" , component : HotellistComponent},
   {path : "hotels/:id" , component : RoomtypesComponent},
