@@ -96,7 +96,7 @@ class SearchController extends Controller
         $end_date = $request->end_date;
         $hotel_id = $request->hotel_id;
 
-        $availableRooms = RoomType::select('roomtypes.id', 'roomtypes.name', 'roomtypes.price','roomtypes.description')
+        $availableRooms = RoomType::select('roomtypes.id', 'roomtypes.name', 'roomtypes.price','roomtypes.description','roomtypes.capacity')
         ->selectRaw('MIN(availabilities.stock) AS stock')
         ->join('availabilities', 'roomtypes.id', '=', 'availabilities.room_type_id')
         ->join('hotels', 'roomtypes.hotel_id', '=', 'hotels.id')
@@ -104,7 +104,7 @@ class SearchController extends Controller
         ->whereBetween('availabilities.date', [$start_date, $end_date])
         ->where('hotels.id', $hotel_id)
         ->where('hotels.status', 'active')
-        ->groupBy('roomtypes.id','roomtypes.name', 'roomtypes.price','roomtypes.description')
+        ->groupBy('roomtypes.id','roomtypes.name', 'roomtypes.price','roomtypes.description','roomtypes.capacity')
         ->havingRaw('COUNT(*) > DATEDIFF(?, ?)', [$end_date, $start_date])
         ->orderBy('roomtypes.price')->get();
         return $availableRooms;
