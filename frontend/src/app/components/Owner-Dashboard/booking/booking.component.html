@@ -19,6 +19,8 @@
         <tr>
           <th>ID</th>
           <th>User Name</th>
+          <th>Check In</th>
+          <th>Check Out</th>
           <th>Duration</th>
           <th>Status</th>
           <th>Book Details</th>
@@ -30,6 +32,8 @@
         <tr *ngFor="let book of booking">
           <td>{{ book.id }}</td>
           <td>{{ book.user_name }}</td>
+          <td>{{book.check_in}}</td>
+          <td>{{book.check_out}}</td>
           <td>{{ book.duration }} Days</td>
           <td>
             <select class="form-select" [(ngModel)]="book.status" (change)="onStatusChange(book.status, book.id)">
