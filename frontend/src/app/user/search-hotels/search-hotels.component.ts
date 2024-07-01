@@ -9,11 +9,12 @@ import { LayoutComponent } from '../../layout/layout.component';
 import { HeaderComponent } from '../../layouts/header/header.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { FooterComponent } from '../../layouts/footer/footer.component';
 
 @Component({
   selector: 'app-search-hotels',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, LayoutComponent, HeaderComponent, NgxPaginationModule],
+  imports: [CommonModule, FormsModule, RouterLink, LayoutComponent, HeaderComponent, NgxPaginationModule,FooterComponent],
   templateUrl: './search-hotels.component.html',
   styleUrl: './search-hotels.component.css',
   animations: [

@@ -10,12 +10,13 @@ import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../layouts/header/header.component';
 import { CommentsComponent } from '../../user/comments/comments.component';
 import { RatingsComponent } from '../../user/ratings/ratings.component';
+import { FooterComponent } from '../../layouts/footer/footer.component';
 
 
 @Component({
   selector: 'app-hotel',
   standalone: true,
-  imports: [HotelRoomAvailabilityComponent, CommonModule, HeaderComponent, CommentsComponent, RatingsComponent],
+  imports: [HotelRoomAvailabilityComponent, CommonModule, HeaderComponent, CommentsComponent, RatingsComponent,FooterComponent],
   templateUrl: './hotel.component.html',
   styleUrl: './hotel.component.css',
   animations: [

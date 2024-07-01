@@ -56,13 +56,25 @@ class SearchController extends Controller
         )
         ->havingRaw('COUNT(availabilities.date) >= DATEDIFF(?, ?)', [$end_date, $start_date]);
 
-        if ($request->sort == "rate") {
+        if ($request->sort == "lower_average_rate") {
+            $availableRoomsQuery->orderBy('rate_averages.average_rate', 'asc');
+        }
+        elseif($request->sort == "higher_average_rate"){
             $availableRoomsQuery->orderBy('rate_averages.average_rate', 'desc');
-        } elseif ($request->sort == "price") {
-            $availableRoomsQuery->orderBy('roomtypes.price');
-        } elseif ($request->sort == "name") {
+        }
+         elseif ($request->sort == "lower_price") {
+            $availableRoomsQuery->orderBy('roomtypes.price', 'asc');
+        }
+        elseif ($request->sort == "higher_price") {
+            $availableRoomsQuery->orderBy('roomtypes.price', 'desc');
+        }
+
+         elseif ($request->sort == "name") {
             $availableRoomsQuery->orderBy('hotels.name');
-        } elseif ($request->sort == "star_rating") {
+        } elseif ($request->sort == "lower_star_rating") {
+            $availableRoomsQuery->orderBy('hotels.star_rating', 'asc');
+        }
+        elseif ($request->sort == "higher_star_rating") {
             $availableRoomsQuery->orderBy('hotels.star_rating', 'desc');
         }
 
@@ -84,7 +96,7 @@ class SearchController extends Controller
         $end_date = $request->end_date;
         $hotel_id = $request->hotel_id;
 
-        $availableRooms = RoomType::select('roomtypes.id', 'roomtypes.name', 'roomtypes.price','roomtypes.description')
+        $availableRooms = RoomType::select('roomtypes.id', 'roomtypes.name', 'roomtypes.price','roomtypes.description','roomtypes.capacity')
         ->selectRaw('MIN(availabilities.stock) AS stock')
         ->join('availabilities', 'roomtypes.id', '=', 'availabilities.room_type_id')
         ->join('hotels', 'roomtypes.hotel_id', '=', 'hotels.id')
@@ -92,7 +104,7 @@ class SearchController extends Controller
         ->whereBetween('availabilities.date', [$start_date, $end_date])
         ->where('hotels.id', $hotel_id)
         ->where('hotels.status', 'active')
-        ->groupBy('roomtypes.id','roomtypes.name', 'roomtypes.price','roomtypes.description')
+        ->groupBy('roomtypes.id','roomtypes.name', 'roomtypes.price','roomtypes.description','roomtypes.capacity')
         ->havingRaw('COUNT(*) > DATEDIFF(?, ?)', [$end_date, $start_date])
         ->orderBy('roomtypes.price')->get();
         return $availableRooms;

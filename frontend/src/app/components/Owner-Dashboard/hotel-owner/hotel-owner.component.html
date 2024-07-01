@@ -9,13 +9,14 @@
   </div>
 
   <!-- Hotels List -->
-  <ng-container *ngIf="!isLoading">
+  <div *ngIf="!isLoading">
     <div *ngFor="let hotel of hotels" class="hotel-card card mb-4 shadow-sm">
       <div class="card-header d-flex justify-content-between align-items-center">
         <h3 class="card-title mb-0">{{ hotel.name }}</h3>
         <div>
           <button class="btn btn-primary btn-sm mx-1" [routerLink]="['/owner/hotel', hotel.id]">Update</button>
-          <button class="btn btn-success btn-sm mx-1" [routerLink]="['/owner/hotel', hotel.id, 'addImage']">Add Image</button>
+          <button class="btn btn-success btn-sm mx-1" [routerLink]="['/owner/hotel', hotel.id, 'addImage']">Add
+            Image</button>
         </div>
       </div>
 
@@ -53,10 +54,14 @@
       <div *ngIf="ownerImages[hotel.id]" class="hotel-images px-3 pb-3">
         <h4 class="text-primary">Images:</h4>
         <div class="image-grid row">
-          <div *ngFor="let image of (ownerImages[hotel.id] | paginate: { itemsPerPage: 4, currentPage: imagePage[hotel.id] })" class="image-item col-md-3 mb-3">
+          <div
+            *ngFor="let image of (ownerImages[hotel.id] | paginate: { itemsPerPage: 4, currentPage: imagePage[hotel.id] })"
+            class="image-item col-md-3 mb-3">
             <div class="position-relative">
-              <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image" class="img-fluid rounded shadow-sm" />
-              <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1" (click)="onDeleteImage(image.id)"><i class="bi bi-x-square-fill"></i></button>
+              <img [src]="'http://127.0.0.1:8000/storage/' + image.image" alt="Hotel Image"
+                class="img-fluid rounded shadow-sm" />
+              <button class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                (click)="onDeleteImage(image.id)"><i class="bi bi-x-square"></i></button>
             </div>
           </div>
         </div>
@@ -69,26 +74,33 @@
 
         <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
-            <div *ngFor="let comment of hotelComments[hotel.id]; let i = index" class="carousel-item" [ngClass]="{'active': i === 0}">
+            <div *ngFor="let comment of hotelComments[hotel.id]; let i = index" class="carousel-item"
+              [ngClass]="{'active': i === 0}">
               <div class="testimonial-item text-center">
                 <div class="testimonial-content">
                   <p class="testimonial-text">{{ comment.content }}</p>
-                  <p class="testimonial-author"><strong>{{ comment.user_name }}</strong> - {{ comment.created_at | date }}</p>
+                  <p class="testimonial-author"><strong>{{ comment.user_name }}</strong> - {{ comment.created_at | date
+                    }}</p>
                 </div>
               </div>
             </div>
           </div>
 
-          <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="prev">
+          <button class="carousel-control-prev" type="button" data-bs-target="#testimonialCarousel"
+            data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
           </button>
 
-          <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel" data-bs-slide="next">
+          <button class="carousel-control-next" type="button" data-bs-target="#testimonialCarousel"
+            data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
           </button>
         </div>
       </div>
 
+    </div>
+  <div>
 
+</div>

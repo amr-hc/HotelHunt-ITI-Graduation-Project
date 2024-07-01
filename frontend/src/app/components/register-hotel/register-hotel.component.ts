@@ -20,6 +20,7 @@ export class RegisterHotelComponent implements OnInit {
   cities: string[] = [];
   showAddCityInput = false;
   newCity = '';
+  loading:boolean=true;
 
   constructor(
     private fb: FormBuilder,
@@ -50,6 +51,7 @@ export class RegisterHotelComponent implements OnInit {
     this.locationService.getCountries().subscribe((data) => {
       this.countries = data;
     });
+    this.loading=false;
   }
 
   validateImageFile(control: any) {
