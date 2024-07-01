@@ -7,6 +7,7 @@ export class Payment {
     public hotel: string,
     public method: string,
     public balance: number,
+    public hotel_name: string,
   ) {}
 }
 

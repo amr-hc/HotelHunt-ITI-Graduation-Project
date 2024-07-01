@@ -9,19 +9,20 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-payment',
   standalone: true,
-  imports: [CommonModule,NgxPaginationModule,FormsModule],
+  imports: [CommonModule, NgxPaginationModule, FormsModule],
   templateUrl: './payment.component.html',
-  styleUrl: './payment.component.css'
+  styleUrls: ['./payment.component.css']
 })
-
 export class PaymentComponent implements OnInit {
   payments: Payment[] = [];
   groupedPayments: { [key: string]: Payment[] } = {};
   hotels: string[] = [];
-  selectedHotel: string | null = null;
+  selectedHotel: string | null = 'select';
+  selectedMonth: string | null = 'select';
   isLoading: boolean = false;
   errorMessage: string | null = null;
   currentPage: number = 1;
+  months: string[] = [];
 
   constructor(private paymentService: PaymentService) {}
 
@@ -50,29 +51,43 @@ export class PaymentComponent implements OnInit {
       acc[payment.hotel].push(payment);
       return acc;
     }, {} as { [key: string]: Payment[] });
-    this.hotels = [];
-    for (const hotel in this.groupedPayments) {
-      if (this.groupedPayments.hasOwnProperty(hotel)) {
-        this.hotels.push(hotel);
-      }
-    }
+
+    this.hotels = Object.keys(this.groupedPayments);
     this.hotels.sort();
+
     for (const hotel in this.groupedPayments) {
       this.groupedPayments[hotel].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
     }
+
+    this.initializeMonths();
+  }
+
+  private initializeMonths(): void {
+    const monthsSet = new Set<string>();
+    this.payments.forEach(payment => {
+      const month = new Date(payment.date).toLocaleString('default', { month: 'long', year: 'numeric' });
+      monthsSet.add(month);
+    });
+    this.months = Array.from(monthsSet).sort();
   }
 
   onHotelChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
-    this.onSelectHotel(target.value);
+    this.selectedHotel = target.value;
   }
 
-  onSelectHotel(selectedHotel: string | null): void {
-    this.selectedHotel = selectedHotel;
+  onMonthChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    this.selectedMonth = target.value;
   }
 
   clearSelection(): void {
-    this.selectedHotel = null;
+    this.selectedHotel = 'select';
+    this.selectedMonth = 'select';
+  }
+
+  hasSelection(): boolean {
+    return this.selectedHotel !== 'select' || this.selectedMonth !== 'select';
   }
 
   deletePayment(id: number): void {
@@ -99,5 +114,25 @@ export class PaymentComponent implements OnInit {
       }
     });
   }
-}
 
+  getFilteredPayments(): Payment[] {
+    if (this.selectedHotel === 'select' && this.selectedMonth === 'select') {
+      return [];
+    }
+
+    let filteredPayments = this.payments;
+
+    if (this.selectedHotel !== 'select' && this.selectedHotel !== 'all') {
+      filteredPayments = filteredPayments.filter(payment => payment.hotel === this.selectedHotel);
+    }
+
+    if (this.selectedMonth !== 'select' && this.selectedMonth !== 'all') {
+      filteredPayments = filteredPayments.filter(payment => {
+        const paymentMonth = new Date(payment.date).toLocaleString('default', { month: 'long', year: 'numeric' });
+        return paymentMonth === this.selectedMonth;
+      });
+    }
+
+    return filteredPayments;
+  }
+}
