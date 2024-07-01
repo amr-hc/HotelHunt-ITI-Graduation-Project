@@ -182,8 +182,8 @@ class BookingController extends Controller
         try {
             $booking = Booking::findOrFail($id);
 
-            if ($booking->status === 'complete') {
-                return response()->json(['error' => 'Booking with status "complete" cannot be canceled.'], 403);
+            if ($booking->status === 'completed') {
+                return response()->json(['error' => 'Booking with status "completed" cannot be canceled.'], 403);
             }
 
             $booking->status = 'cancel';
