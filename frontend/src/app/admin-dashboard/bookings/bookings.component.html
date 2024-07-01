@@ -34,7 +34,7 @@
           <tr>
             <th>ID</th>
             <th>User Name</th>
-            <th>Duration</th>
+            <!-- <th>Duration</th> -->
             <th>Status</th>
             <th>Total Price</th>
             <th>Actions</th>
@@ -44,7 +44,7 @@
           <tr *ngFor="let booking of groupedBookings[selectedHotel]| paginate: { itemsPerPage: 5, currentPage: currentPage }">
             <td>{{ booking.id }}</td>
             <td>{{ booking.user_name }}</td>
-            <td>{{ booking.duration }} Days</td>
+            <!-- <td>{{ booking.duration }} Days</td> -->
             <td>
               <select [(ngModel)]="booking.status" (change)="onStatusChange(booking.status, booking.id)"
                 class="form-select">
