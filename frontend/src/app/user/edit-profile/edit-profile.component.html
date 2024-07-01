@@ -7,6 +7,9 @@
 <div *ngIf="!loading">
   <div class="container mt-4">
     <h2 class="text-center text-primary">Edit Profile</h2>
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+      {{ errorMessage }}
+    </div>
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-container">
       <div class="form-group">
         <label for="fname" class="text-dark">First Name</label>

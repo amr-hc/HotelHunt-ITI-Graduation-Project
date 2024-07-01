@@ -84,7 +84,11 @@ export class EditProfileComponent implements OnInit {
       },
       (error) => {
         console.error('Error updating user', error);
-        this.errorMessage = 'Failed to update user';
+        if (error.error && error.error.message){
+          this.errorMessage = error.error.message;
+        }else{
+          this.errorMessage = 'Failed to update user';
+        }
       }
     );
   }
