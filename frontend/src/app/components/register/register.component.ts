@@ -66,6 +66,7 @@ export class RegisterComponent implements OnInit {
         console.error('Registration failed', error);
         if (error.error && error.error.message) {
           this.registrationError = error.error.message;
+          console.log(this.registrationError);
         } else {
           this.registrationError = 'Failed to register. Please try again later.';
         }
@@ -99,6 +100,12 @@ export class RegisterComponent implements OnInit {
       default:
         this.router.navigate(['/']);
         break;
+    }
+  }
+  validateAge() {
+    const ageControl = this.registerForm.get('age');
+    if (ageControl && ageControl.value < 0) {
+      ageControl.setValue(0);
     }
   }
 }
