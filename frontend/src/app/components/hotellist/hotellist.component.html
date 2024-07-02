@@ -5,10 +5,10 @@
       <div class="container-fluid">
         <div style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); padding: 40px 50px;">
           <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-          <div *ngFor="let hotel of filteredHotels | paginate: { itemsPerPage: 4 , currentPage: currentPage }" class="card p-0 rounded border-0 shadow wow fadeInUp" data-wow-delay="0.1s">
+          <div *ngFor="let hotel of filteredHotels | paginate: { itemsPerPage: 6 , currentPage: currentPage }" class="card p-0 rounded border-0 shadow wow fadeInUp" data-wow-delay="0.1s">
             <div class="position-relative row g-0">
-              <div class="col-md-4 hotel-image-style">
-                <img src="http://localhost:8000/storage/{{hotel.image}}" alt="Hotel Image" class="img-fluid rounded-start" />
+              <div class="col-md-4 hotel-image-style" style=" height: 200px; ">
+                <img src="http://localhost:8000/storage/{{hotel.image}}"  alt="Hotel Image" class="img-fluid rounded-start w-100 h-100" />
               </div>
               <div class="col-md-8 pe-lg-5">
                 <div class="card-body">
@@ -20,7 +20,7 @@
                   <p class="card-text text-muted">
                     {{ (hotel.description || '').length > 80 ? (hotel.description | slice:0:80) + '...' : hotel.description || 'No description available' }}
                   </p>
-                  <div class="star-rating">
+                  <div class="star-rating" >
                     <ng-container *ngFor="let star of getStars(hotel.average_rate)">
                       <i [class]="star"></i>
                     </ng-container>
