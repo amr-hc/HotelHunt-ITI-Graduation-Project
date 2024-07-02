@@ -14,7 +14,7 @@
   <div *ngIf="errorMessage" class="alert alert-danger text-center">
     {{ errorMessage }}
   </div>
-  <div class="text-primary">Your balance is {{payments[0].balance}}</div>
+  <div ><h5 class="text-primary">Your balance is {{payments[0].balance}}</h5></div>
   <div *ngIf="!isLoading && !errorMessage" class="table-responsive">
     <table class="table table-bordered table-hover align-middle">
       <thead class="table-dark">
