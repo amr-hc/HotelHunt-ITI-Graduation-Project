@@ -20,31 +20,66 @@
             <div *ngIf="formSubmitted && editForm.get('name')?.errors?.['maxlength']" class="text-danger">
               Name must not exceed 100 characters.
             </div>
-          </div>
-
-          <!-- Country -->
-          <div class="form-group mb-2">
-            <label for="country">Country</label>
-            <input type="text" id="country" class="form-control" formControlName="country" />
-            <div *ngIf="formSubmitted && editForm.get('country')?.errors?.['required']" class="text-danger">
-              Country is required.
-            </div>
-            <div *ngIf="formSubmitted && editForm.get('country')?.errors?.['maxlength']" class="text-danger">
-              Country must not exceed 255 characters.
+            <div *ngIf="formSubmitted && editForm.get('name')?.errors?.['pattern']" class="text-danger">
+              Name must must be only characters.
             </div>
           </div>
 
-          <!-- City -->
-          <div class="form-group mb-2">
-            <label for="city">City</label>
-            <input type="text" id="city" class="form-control" formControlName="city" />
-            <div *ngIf="formSubmitted && editForm.get('city')?.errors?.['required']" class="text-danger">
-              City is required.
-            </div>
-            <div *ngIf="formSubmitted && editForm.get('city')?.errors?.['maxlength']" class="text-danger">
-              City must not exceed 255 characters.
-            </div>
+          <div class="form-group">
+            <label for="country" class="text-dark">Country</label>
+            <select
+              formControlName="country"
+              class="form-control"
+              (change)="onCountryChange($event)"
+            >
+              <option
+                *ngFor="let country of countries"
+                [value]="country.name.common"
+              >
+                {{ country.name.common }}
+              </option>
+            </select>
+              <div *ngIf="formSubmitted && editForm.get('country')?.errors?.['required']">
+                Country is required.
+              </div>
           </div>
+
+          <div class="form-group">
+            <label for="city" class="text-dark">City</label>
+            <select
+              formControlName="city"
+              class="form-control"
+              (change)="onCityChange($event)"
+            >
+              <option *ngFor="let city of cities" [value]="city">
+                {{ city }}
+              </option>
+              <option value="Other">Other</option>
+            </select>
+              <div *ngIf="formSubmitted && editForm.get('city')?.errors?.['required']">
+                City is required.
+              </div>
+          </div>
+
+          <div *ngIf="showAddCityInput" class="form-group">
+            <label for="newCity" class="text-dark">Add New City</label>
+            <input
+              type="text"
+              [(ngModel)]="newCity"
+              name="newCity"
+              class="form-control"
+              placeholder="New City"
+              [ngModelOptions]="{ standalone: true }"
+            />
+            <button
+              type="button"
+              class="btn btn-primary mt-1"
+              (click)="addNewCity()"
+            >
+              Add City
+            </button>
+          </div>
+
         </div>
 
         <!-- Right Column -->
@@ -56,8 +91,14 @@
             <div *ngIf="formSubmitted && editForm.get('address')?.errors?.['required']" class="text-danger">
               Address is required.
             </div>
+            <div *ngIf="formSubmitted && editForm.get('address')?.errors?.['minlength']" class="text-danger">
+              Address must be at least 8 characters.
+            </div>
             <div *ngIf="formSubmitted && editForm.get('address')?.errors?.['maxlength']" class="text-danger">
               Address must not exceed 255 characters.
+            </div>
+            <div *ngIf="formSubmitted && editForm.get('address')?.errors?.['pattern']" class="text-danger">
+              Address must contain characters.
             </div>
           </div>
 
@@ -75,12 +116,25 @@
           <div class="form-group mb-2">
             <label for="description">Description</label>
             <textarea id="description" class="form-control" formControlName="description"></textarea>
+            <div *ngIf="formSubmitted && editForm.get('description')?.errors?.['minlength']" class="text-danger">
+              Description must be at least 8 characters.
+            </div>
+            <div *ngIf="formSubmitted && editForm.get('description')?.errors?.['maxlength']" class="text-danger">
+              Description can't exceed 255 characters.
+            </div>
+            <div *ngIf="formSubmitted && editForm.get('description')?.errors?.['pattern']" class="text-danger">
+              Description must contain characters.
+            </div>
           </div>
 
           <!-- Star Rating -->
           <div class="form-group mb-2">
             <label for="star_rating">Star Rating</label>
-            <input type="number" id="star_rating" class="form-control" formControlName="star_rating" />
+            <select formControlName="star_rating" class="form-control">
+              <option *ngFor="let rating of [1, 2, 3, 4, 5]" [value]="rating">
+                {{ rating }}
+              </option>
+            </select>
             <div *ngIf="formSubmitted && editForm.get('star_rating')?.errors?.['required']" class="text-danger">
               Star rating is required.
             </div>
@@ -88,7 +142,7 @@
         </div>
 
         <!-- Image -->
-        <div class="col-12">
+
           <div class="form-group mb-2">
             <label for="image">Image</label>
             <input type="file" class="form-control-file" id="image" (change)="onFileChange($event)" accept="image/*" />
@@ -96,7 +150,7 @@
               The file must be an image.
             </div>
           </div>
-        </div>
+
 
         <!-- Buttons -->
         <div class="col-12 text-center">

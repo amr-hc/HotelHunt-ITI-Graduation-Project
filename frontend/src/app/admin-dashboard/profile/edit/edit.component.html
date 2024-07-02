@@ -1,4 +1,4 @@
-<div class="container mt-1">
+<div class="container mt-3">
   <div class="card">
     <div class="card-header text-center">
       <h2 class="text-primary">Edit Profile</h2>
@@ -85,12 +85,6 @@
             >
               Please provide a valid email address.
             </div>
-            <div
-              *ngIf="formSubmitted && editForm.get('email')?.errors?.['maxlength']"
-              class="text-danger"
-            >
-              Email must not exceed 255 characters.
-            </div>
           </div>
 
           <!-- Phone -->
@@ -109,10 +103,22 @@
               Phone is required.
             </div>
             <div
+              *ngIf="formSubmitted && editForm.get('phone')?.errors?.['minlength']"
+              class="text-danger"
+            >
+              Phone number must be at least 10 numbers.
+            </div>
+            <div
               *ngIf="formSubmitted && editForm.get('phone')?.errors?.['maxlength']"
               class="text-danger"
             >
-              Phone number must not exceed 25 characters.
+              Phone number can't exceed 15 numbers.
+            </div>
+            <div
+              *ngIf="formSubmitted && editForm.get('phone')?.errors?.['pattern']"
+              class="text-danger"
+            >
+              Phone number must be numbers.
             </div>
           </div>
 
@@ -130,6 +136,12 @@
               class="text-danger"
             >
               Address is required.
+            </div>
+            <div
+              *ngIf="formSubmitted && editForm.get('address')?.errors?.['minlength']"
+              class="text-danger"
+            >
+              Address must be at least 8 characters.
             </div>
             <div
               *ngIf="formSubmitted && editForm.get('address')?.errors?.['maxlength']"
@@ -159,6 +171,18 @@
               class="text-danger"
             >
               Age must be at least 18 years old.
+            </div>
+            <div
+              *ngIf="formSubmitted && editForm.get('age')?.errors?.['pattern']"
+              class="text-danger"
+            >
+              Age must be a number.
+            </div>
+            <div
+              *ngIf="formSubmitted && editForm.get('age')?.errors?.['max']"
+              class="text-danger"
+            >
+              Age can't exceed 120.
             </div>
           </div>
 

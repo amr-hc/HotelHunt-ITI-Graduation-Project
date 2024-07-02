@@ -32,14 +32,43 @@ export class EditroomtypeComponent implements OnInit {
     private router: Router
   ) {
     this.editForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100),
+          Validators.pattern(/^[a-zA-Z]*$/),
+        ],
+      ],
+      description: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(255),
+          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/),
+        ],
+      ],
       price: [
         '',
-        [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')],
+        [
+          Validators.required,
+          Validators.min(0.01),
+          Validators.max(999999.0),
+          Validators.pattern(/^\d+(\.\d{1,2})?$/),
+        ],
       ],
       hotel_id: ['', Validators.required],
-      capacity: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
+      capacity: [
+        '',
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.max(12),
+          Validators.pattern('^\\d+$'),
+        ],
+      ],
       photo: [null, Validators.required],
     });
   }
@@ -120,7 +149,7 @@ export class EditroomtypeComponent implements OnInit {
 
   onCancel(): void {
     this.router.navigate([
-      '/admin-dashboard/hotels/' + this.hotelId + '/rooms/' ,
+      '/admin-dashboard/hotels/' + this.hotelId + '/rooms/',
     ]);
   }
 }

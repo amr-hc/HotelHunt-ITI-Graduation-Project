@@ -1,15 +1,25 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-addowner',
   standalone: true,
-  imports: [CommonModule,FormsModule,ReactiveFormsModule,RouterLink],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
   templateUrl: './addowner.component.html',
-  styleUrl: './addowner.component.css'
+  styleUrls: ['./addowner.component.css'],
 })
 export class AddownerComponent {
   addUserForm: FormGroup;
@@ -24,18 +34,50 @@ export class AddownerComponent {
   ) {
     this.addUserForm = this.formBuilder.group(
       {
-        fname: ['', Validators.required],
-        lname: ['', Validators.required],
+        fname: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(100),
+          ],
+        ],
+        lname: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(3),
+            Validators.maxLength(100),
+          ],
+        ],
         email: ['', [Validators.required, Validators.email]],
-        phone: ['', Validators.required],
-        address: ['', Validators.required],
+        phone: [
+          '',
+          [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(15),
+          Validators.pattern(/^[0-9]+$/)]
+        ],
+        address: [
+          '',
+          [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.maxLength(255),
+            Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/)
+          ],
+        ],
         password: ['', [Validators.required, Validators.minLength(8)]],
         password_confirmation: ['', Validators.required],
-        age: ['', [Validators.required, Validators.min(18)]],
+        age: [
+          '',
+          [Validators.required, Validators.min(18), Validators.max(120), Validators.pattern('^\\d+$')],
+        ],
         role: ['owner', Validators.required],
       },
       {
-        validator: this.passwordMatchValidator(),
+        validator: this.passwordMatchValidator,
       }
     );
   }
@@ -51,36 +93,59 @@ export class AddownerComponent {
       return;
     }
 
-    const formData = new FormData();
-    Object.keys(this.addUserForm.value).forEach((key) => {
-      formData.append(key, this.addUserForm.get(key)?.value);
-    });
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to add this owner?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, add it!',
+      cancelButtonText: 'No, cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const formData = new FormData();
+        Object.keys(this.addUserForm.value).forEach((key) => {
+          formData.append(key, this.addUserForm.get(key)?.value);
+        });
 
-    this.userService.addUser(formData).subscribe(
-      () => {
-        this.success = true;
-        this.addUserForm.reset();
-        this.submitted = false;
-        this.errorMessage = ''; // Clear error message on success
-        this.router.navigate(['/admin-dashboard/owners']);
-      },
-      (error) => {
-        if (error.status === 422 && error.error.errors) {
-          // Handle validation errors
-          this.errorMessage = ''; // Clear previous error message
-          Object.keys(error.error.errors).forEach((field) => {
-            const fieldErrors = error.error.errors[field];
-            if (Array.isArray(fieldErrors)) {
-              fieldErrors.forEach((errorText) => {
-                this.errorMessage += `${errorText}\n`;
+        this.userService.addUser(formData).subscribe(
+          () => {
+            this.success = true;
+            this.addUserForm.reset();
+            this.submitted = false;
+            this.errorMessage = '';
+
+            Swal.fire({
+              icon: 'success',
+              title: 'Success!',
+              text: 'Owner added successfully.',
+            });
+
+            this.router.navigate(['/admin-dashboard/owners']);
+          },
+          (error) => {
+            if (error.status === 422 && error.error.errors) {
+              this.errorMessage = '';
+              Object.keys(error.error.errors).forEach((field) => {
+                const fieldErrors = error.error.errors[field];
+                if (Array.isArray(fieldErrors)) {
+                  fieldErrors.forEach((errorText) => {
+                    this.errorMessage += `${errorText}\n`;
+                  });
+                }
               });
+            } else {
+              this.errorMessage = 'Failed to add owner. Please try again.';
             }
-          });
-        } else {
-          this.errorMessage = 'Failed to add owner. Please try again.';
-        }
+
+            Swal.fire({
+              icon: 'error',
+              title: 'Error!',
+              text: this.errorMessage,
+            });
+          }
+        );
       }
-    );
+    });
   }
 
   onFileChange(event: any) {
@@ -88,18 +153,18 @@ export class AddownerComponent {
     this.addUserForm.patchValue({ photo: file });
   }
 
-  // Custom validator function to check if password and password_confirmation match
-  passwordMatchValidator(): Validators {
-    return (control: AbstractControl): ValidationErrors | null => {
-      const password = control.get('password')?.value;
-      const confirmPassword = control.get('password_confirmation')?.value;
+  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const password = control.get('password')?.value;
+    const confirmPassword = control.get('password_confirmation')?.value;
 
-      if (password !== confirmPassword) {
-        return { passwordMismatch: true };
-      } else {
-        return null;
-      }
-    };
+    if (password !== confirmPassword) {
+      control
+        .get('password_confirmation')
+        ?.setErrors({ passwordMismatch: true });
+      return { passwordMismatch: true };
+    } else {
+      control.get('password_confirmation')?.setErrors(null);
+      return null;
+    }
   }
-
 }

@@ -19,7 +19,13 @@
     <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
   </div>
 
-  <div *ngIf="hotelId && hotelComments[hotelId] && hotelComments[hotelId].length === 0" class="no-comments alert alert-primary" role="alert">
+  <div *ngIf="hotelId && hotelComments[hotelId] && hotelComments[hotelId].length === 0" class="no-comments alert alert-primary text-center fs-5" role="alert">
     No comments available for this hotel.
   </div>
+
+  <div class="mt-3 text-center">
+    <a routerLink="/admin-dashboard/hotels/{{hotelId}}" class="btn btn-danger">Back</a>
+  </div>
 </div>
+
+

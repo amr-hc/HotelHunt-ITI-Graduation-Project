@@ -1,0 +1,29 @@
+.table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table th,
+.table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 767px) {
+  .table th,
+  .table td {
+    white-space: normal;
+    font-size: 0.875rem;
+  }
+
+  .table img {
+    height: 20px;
+    width: 25px;
+  }
+
+  .btn {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+  }
+}

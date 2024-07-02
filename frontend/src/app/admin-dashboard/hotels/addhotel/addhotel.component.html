@@ -35,6 +35,15 @@
                 <div *ngIf="registerForm.get('address')?.errors?.['required']">
                   Address is required.
                 </div>
+                <div *ngIf="registerForm.get('address')?.errors?.['minlength']">
+                  Address must be at least 8 characters.
+                </div>
+                <div *ngIf="registerForm.get('address')?.errors?.['maxlength']">
+                  Address can't exceed 255 characters.
+                </div>
+                <div *ngIf="registerForm.get('address')?.errors?.['pattern']">
+                  Address must contain characters
+                </div>
               </div>
             </div>
             <div class="form-group">
@@ -90,10 +99,13 @@
                   Hotel Name is required.
                 </div>
                 <div *ngIf="registerForm.get('name')?.errors?.['minlength']">
-                  Hotel Name must be at least 3 characters long.
+                  Hotel Name must be at least 3 characters.
                 </div>
                 <div *ngIf="registerForm.get('name')?.errors?.['maxlength']">
                   Hotel Name cannot exceed 100 characters.
+                </div>
+                <div *ngIf="registerForm.get('name')?.errors?.['pattern']">
+                  Hotel Name must be only characters.
                 </div>
               </div>
             </div>
@@ -106,6 +118,17 @@
                 style="height: 50px"
                 placeholder="Description"
               ></textarea>
+              <div *ngIf="shouldShowError('description')" class="text-danger">
+              <div *ngIf="registerForm.get('description')?.errors?.['minlength']">
+                Description must be at least 8 characters.
+              </div>
+              <div *ngIf="registerForm.get('description')?.errors?.['maxlength']">
+                Description cannot exceed 255 characters.
+              </div>
+              <div *ngIf="registerForm.get('description')?.errors?.['pattern']">
+                Description must contain characters.
+              </div>
+              </div>
             </div>
             <div class="form-group">
               <label for="starRating" class="text-dark">Star Rating</label>
@@ -149,10 +172,17 @@
               />
               <div *ngIf="shouldShowError('image')" class="text-danger">
                 <div *ngIf="registerForm.get('image')?.errors?.['required']">
-                  Image is required
+                  Image is required.
+                </div>
+                <div *ngIf="registerForm.get('image')?.errors?.['invalidImageType']">
+                  Only PNG, JPEG, and JPG files are allowed.
+                </div>
+                <div *ngIf="registerForm.get('image')?.errors?.['invalidImageSize']">
+                  Image size must not exceed 2MB.
                 </div>
               </div>
             </div>
+
           </div>
         </div>
         <div class="text-center">
@@ -171,7 +201,7 @@
   </div>
 </div>
 <ng-template #noOwnersTemplate>
-  <div class="alert alert-warning" role="alert">
+  <div class="alert alert-info text-center" role="alert">
     No owners available without hotels. You cannot add a hotel at this moment.
   </div>
 </ng-template>

@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-addroomtype',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './addroomtype.component.html',
   styleUrl: './addroomtype.component.css',
 })
@@ -28,12 +28,44 @@ export class AddroomtypeComponent implements OnInit {
     private route: ActivatedRoute
   ) {
     this.roomTypeForm = this.fb.group({
-      name: ['', Validators.required],
-      description: ['', Validators.required],
-      price: ['', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]{1,2})?$')]],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100),
+          Validators.pattern(/^[a-zA-Z]*$/),
+        ],
+      ],
+      description: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(255),
+          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/),
+        ],
+      ],
+      price: [
+        '',
+        [
+          Validators.required,
+          Validators.min(0.01),
+          Validators.max(999999.0),
+          Validators.pattern(/^\d+(\.\d{1,2})?$/),
+        ],
+      ],
       hotel_id: ['', Validators.required],
-      capacity: ['', [Validators.required, Validators.pattern('^[0-9]+$')]],
-      photo: [null, Validators.required],
+      capacity: [
+        '',
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.max(12),
+          Validators.pattern('^\\d+$'),
+        ],
+      ],
+      photo: [null, [this.validateImageFile, Validators.required]],
     });
   }
 
@@ -49,12 +81,12 @@ export class AddroomtypeComponent implements OnInit {
     });
   }
 
-  onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
-    if (this.selectedFile) {
-      this.roomTypeForm.patchValue({
-        photo: this.selectedFile,
-      });
+  onFileSelected(event: any) {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+      this.roomTypeForm.patchValue({ photo: file });
+      this.roomTypeForm.get('photo')?.updateValueAndValidity();
     }
   }
 
@@ -62,7 +94,10 @@ export class AddroomtypeComponent implements OnInit {
     if (this.roomTypeForm.valid) {
       const formData = new FormData();
       formData.append('name', this.roomTypeForm.get('name')?.value);
-      formData.append('description', this.roomTypeForm.get('description')?.value);
+      formData.append(
+        'description',
+        this.roomTypeForm.get('description')?.value
+      );
       formData.append('price', this.roomTypeForm.get('price')?.value);
       formData.append('capacity', this.roomTypeForm.get('capacity')?.value);
       if (this.hotelId) {
@@ -75,7 +110,9 @@ export class AddroomtypeComponent implements OnInit {
       this.roomtypeService.post(formData).subscribe(
         (response) => {
           console.log('Room type added successfully', response);
-          this.router.navigate([`admin-dashboard/hotels/${this.hotelId}/rooms`]);
+          this.router.navigate([
+            `admin-dashboard/hotels/${this.hotelId}/rooms`,
+          ]);
         },
         (error) => {
           console.error('Error adding room type', error);
@@ -85,5 +122,19 @@ export class AddroomtypeComponent implements OnInit {
       console.warn('Form is invalid');
       this.roomTypeForm.markAllAsTouched();
     }
+  }
+
+  validateImageFile(control: any) {
+    const file = control.value;
+    if (file) {
+      const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+      if (!allowedTypes.includes(file.type)) {
+        return { invalidImageType: true };
+      }
+      if (file.size > 2048 * 1024) {
+        return { invalidImageSize: true };
+      }
+    }
+    return null;
   }
 }

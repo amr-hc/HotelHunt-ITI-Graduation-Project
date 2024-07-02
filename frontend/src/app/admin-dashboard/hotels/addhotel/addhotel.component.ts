@@ -1,5 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, NgModel, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  NgModel,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { User } from '../../../models/user';
 import { HotelService } from '../../../services/hotel.service';
 import { UserService } from '../../../services/user.service';
@@ -13,9 +20,9 @@ import { HotelsService } from '../../../services/hotels.service';
 @Component({
   selector: 'app-addhotel',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule,FormsModule,RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink],
   templateUrl: './addhotel.component.html',
-  styleUrl: './addhotel.component.css'
+  styleUrl: './addhotel.component.css',
 })
 export class AddhotelComponent implements OnInit {
   owners: User[] = [];
@@ -31,21 +38,44 @@ export class AddhotelComponent implements OnInit {
     private fb: FormBuilder,
     private hotelService: HotelsService,
     private router: Router,
-    private userService:UserService,
+    private userService: UserService,
     private activatedRoute: ActivatedRoute,
     private locationService: LocationService,
     private cityService: CityService
   ) {
     this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      name: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(100),
+          Validators.pattern(/^[a-zA-Z]*$/),
+        ],
+      ],
       country: ['', [Validators.required, Validators.maxLength(255)]],
       city: ['', [Validators.required, Validators.maxLength(255)]],
-      address: ['', [Validators.required, Validators.maxLength(255)]],
-      owner_id: ['', [Validators.required, Validators.max(100), Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
+      address: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(255),
+          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/)
+        ],
+      ],
+      owner_id: ['', Validators.required],
       status: [''],
-      description: [''],
+      description: [
+        '',
+        [
+          Validators.minLength(8),
+          Validators.maxLength(255),
+          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/),
+        ],
+      ],
       star_rating: ['', Validators.required],
-      image: [null, [this.validateImageFile,Validators.required]],
+      image: [null, [this.validateImageFile, Validators.required]],
     });
   }
 
@@ -66,7 +96,7 @@ export class AddhotelComponent implements OnInit {
       error: (error) => {
         console.error('Error fetching owners', error);
         this.noOwnersAvailable = true;
-      }
+      },
     });
 
     this.locationService.getCountries().subscribe((data) => {
@@ -81,7 +111,7 @@ export class AddhotelComponent implements OnInit {
       if (!allowedTypes.includes(file.type)) {
         return { invalidImageType: true };
       }
-      if (file.size > 2048 * 1024) { // Convert to bytes
+      if (file.size > 2048 * 1024) {
         return { invalidImageSize: true };
       }
     }
@@ -92,6 +122,7 @@ export class AddhotelComponent implements OnInit {
     const file: File = event.target.files[0];
     if (file) {
       this.registerForm.patchValue({ image: file });
+      this.registerForm.get('image')?.updateValueAndValidity();
     }
   }
 
@@ -104,7 +135,10 @@ export class AddhotelComponent implements OnInit {
       formData.append('address', this.registerForm.value.address);
       formData.append('owner_id', this.registerForm.value.owner_id);
       formData.append('description', this.registerForm.value.description);
-      formData.append('star_rating', this.registerForm.value.star_rating.toString());
+      formData.append(
+        'star_rating',
+        this.registerForm.value.star_rating.toString()
+      );
       if (this.registerForm.value.status) {
         formData.append('status', this.registerForm.value.status);
       }
@@ -122,7 +156,8 @@ export class AddhotelComponent implements OnInit {
           if (error.error && error.error.message) {
             this.registrationError = error.error.message;
           } else {
-            this.registrationError = 'Failed to register. Please try again later.';
+            this.registrationError =
+              'Failed to register. Please try again later.';
           }
         }
       );
@@ -132,7 +167,7 @@ export class AddhotelComponent implements OnInit {
   }
 
   markFormGroupTouched(formGroup: FormGroup) {
-    Object.values(formGroup.controls).forEach(control => {
+    Object.values(formGroup.controls).forEach((control) => {
       control.markAsTouched();
 
       if (control instanceof FormGroup) {
@@ -144,11 +179,15 @@ export class AddhotelComponent implements OnInit {
   onCountryChange(event: Event) {
     const selectElement = event.target as HTMLSelectElement;
     const selectedCountryName = selectElement.value;
-    const selectedCountry = this.countries.find(c => c.name.common === selectedCountryName);
+    const selectedCountry = this.countries.find(
+      (c) => c.name.common === selectedCountryName
+    );
     if (selectedCountry) {
-      this.cityService.getCities(selectedCountry.cca2).subscribe((data: any) => {
-        this.cities = data.data.map((city: any) => city.name);
-      });
+      this.cityService
+        .getCities(selectedCountry.cca2)
+        .subscribe((data: any) => {
+          this.cities = data.data.map((city: any) => city.name);
+        });
     }
   }
 
@@ -180,7 +219,7 @@ export class AddhotelComponent implements OnInit {
     const control = this.registerForm.get(controlName);
     return control && control.touched && control.invalid;
   }
+
+
+
 }
-
-
-
