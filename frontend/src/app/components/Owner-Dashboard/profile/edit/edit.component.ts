@@ -99,23 +99,43 @@ private setBackendErrors(errors: any): void {
   });
 }
 
-  onFileChange(event: any) {
-  if (event.target.files.length > 0) {
+  onFileChange(event: any): void {
     const file = event.target.files[0];
-    if (this.isImageFile(file)) {
-      this.selectedFile = file;
+    const photoControl = this.editForm.get('photo');
+
+    if (file) {
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+      const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
+
+      // Reset previous errors
+      photoControl?.setErrors(null);
+
+      // Validate file type
+      if (!allowedTypes.includes(file.type)) {
+        console.error('The selected file is not an image.');
+        photoControl?.setErrors({ invalidFileType: true });
+        this.selectedFile = null;
+      } else if (file.size > maxSizeInBytes) {
+        // Validate file size
+        console.error('The selected file is too large.');
+        photoControl?.setErrors({ fileTooLarge: true });
+        this.selectedFile = null;
+      } else {
+        // If file is valid
+        this.selectedFile = file;
+        photoControl?.setValue(file);
+      }
     } else {
-      console.error('The selected file is not an image.');
+      // No file selected
       this.selectedFile = null;
+      photoControl?.setValue(null);
+      photoControl?.setErrors({ required: true });
     }
-  } else {
-    this.selectedFile = null;
   }
-}
 
 
   isImageFile(file: File): boolean {
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const allowedTypes = ['image/jpeg', 'image/png','image/jpg', 'image/gif'];
     return allowedTypes.includes(file.type);
   }
 

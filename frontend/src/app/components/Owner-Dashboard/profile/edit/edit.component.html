@@ -96,6 +96,12 @@
           <div>
             <input type="file" class="form-control-file" id="photo" (change)="onFileChange($event)" />
           </div>
+          <div *ngIf="editForm.get('photo')?.errors?.['invalidFileType']" class="text-danger">
+            Invalid file type. Please select a JPEG, PNG, or GIF image.
+          </div>
+          <div *ngIf="editForm.get('photo')?.errors?.['fileTooLarge']" class="text-danger">
+            File is too large. The maximum size is 2MB.
+          </div>
         </div>
 
         <!-- Buttons -->
