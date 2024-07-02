@@ -67,6 +67,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         },
         (error) => {
           console.error('Error fetching bookings data', error);
+          this.loading=false;
         }
       );
     } else {
