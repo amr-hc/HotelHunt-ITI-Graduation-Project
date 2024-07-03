@@ -1,111 +1,136 @@
 <app-header></app-header>
-<div class="container mt-4">
-  <div class="row">
-    <!-- Profile section (left column) -->
-    <div class="col-lg-4">
-      <div class="profile-container card bg-primary text-white">
-        <div class="profile-image text-center mt-3">
-          <h2 class="card-title text-center mb-4">{{ user?.fname }} {{ user?.lname }}'s Profile</h2>
-          <img *ngIf="user?.photo" [src]="'http://127.0.0.1:8000/storage/' + user?.photo" alt="User Photo" width="200" class="rounded-circle img-thumbnail">
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-8">
-      <div class="card-body profile-details">
-        <div class="profile-details">
-          <table class="table table-sm table-bordered">
-            <tbody>
-              <tr>
-                <th scope="row">Email</th>
-                <td>{{ user?.email }}</td>
-              </tr>
-              <tr>
-                <th scope="row">Phone</th>
-                <td>{{ user?.phone }}</td>
-              </tr>
-              <tr>
-                <th scope="row">Address</th>
-                <td>{{ user?.address }}</td>
-              </tr>
-              <tr>
-                <th scope="row">Role</th>
-                <td>{{ user?.role }}</td>
-              </tr>
-              <tr>
-                <th scope="row">Age</th>
-                <td>{{ user?.age }}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <button class="btn btn-primary mt-3 w-50" (click)="navigateToEditProfile()">Edit Profile</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bookings section (right column) -->
-  <div class="row mt-4">
-    <div class="col-lg-12">
-      <div class="bookings-container card text-white">
-        <div class="card-body">
-          <h3 class="card-title">Bookings</h3>
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th class="bg-dark text-light">Price</th>
-                <th class="bg-dark text-light">Hotel</th>
-                <th class="bg-dark text-light">Status</th>
-                <th class="bg-dark text-light">Duration</th>
-                <th class="bg-dark text-light">+</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Iterate over bookings -->
-              <ng-container *ngFor="let booking of bookings | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                <tr (click)="toggleDetails(booking.id)" class="cursor-pointer">
-                  <td>{{ booking.total_price }}</td>
-                  <td>{{ booking.hotel }}</td>
-                  <td>{{ booking.status }}</td>
-                  <td>{{ booking.duration }} days</td>
-                  <td class="text-center">
-                    <i class="fas" [ngClass]="isDetailsVisible(booking.id) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
-                  </td>
-                </tr>
-                <!-- Booking details section -->
-                <tr *ngIf="isDetailsVisible(booking.id)">
-                  <td colspan="5">
-                    <table class="table table-sm">
-                      <thead>
-                        <tr>
-                          <th>Room Name</th>
-                          <th>Check-in</th>
-                          <th>Check-out</th>
-                          <th>Price</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr *ngFor="let detail of booking.book_details">
-                          <td>{{ detail.room_name }}</td>
-                          <td>{{ detail.date }}</td>
-                          <td>{{ calculateCheckoutDate(detail.date, booking.duration) }}</td>
-                          <td>{{ detail.price }}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              </ng-container>
-              <!-- Handle no bookings -->
-              <tr *ngIf="bookings.length === 0">
-                <td colspan="4" class="text-center">No bookings found.</td>
-              </tr>
-            </tbody>
-          </table>
-          <!-- Pagination Controls -->
-          <pagination-controls (pageChange)="currentPage = $event" class="text-center pagination-controls"></pagination-controls>
-        </div>
-      </div>
-    </div>
+<div *ngIf="loading" class="loading-spinner">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
   </div>
 </div>
-<app-footer/>
+<div *ngIf="!loading">
+  <div class="container mt-4 py-5">
+    <div class="row">
+      <!-- Profile section (left column) -->
+      <div class="col-md-3 profile-nav shadow-lg h-100 p-0">
+        <div class="user-heading round bg-gradient-primary text-center">
+          <img *ngIf="user?.photo" [src]="'http://127.0.0.1:8000/storage/' + user?.photo" alt="User Photo" width="150" class="card-img-top border border-2 rounded-circle my-3">
+          <h4 class="text-white font-weight-bolder mt-2">{{ user?.fname }} {{ user?.lname }}</h4>
+          <p class="text-sm">{{ user?.email }}</p>
+          <a class="text-white"><i class="fa-brands fa-facebook-f mx-1"></i></a>
+          <a class="text-white"><i class="fa-brands fa-twitter mx-1"></i></a>
+          <a class="text-white"><i class="fa-brands fa-instagram mx-1"></i></a>
+        </div>
+
+        <ul class="nav flex-column bg-white">
+          <li>
+            <button class="btn btn-primary mt-3 w-50" (click)="navigateToEditProfile()">Edit Profile</button>
+          </li>
+        </ul>
+      </div>
+
+      <!-- User Details section (right column) -->
+      <div class="col-md-9">
+        <div class="profile-info shadow-lg px-5 my-1">
+          <div class="bg-white rounded px-3 py-4 d-md-flex justify-content-between">
+            <div class="d-flex">
+              <div>
+                <p>First Name :</p>
+                <p>Last Name :</p>
+                <p>Address :</p>
+              </div>
+              <div>
+                <p class="mx-2 text-dark font-weight-bold">{{ user?.fname }}</p>
+                <p class="mx-2 text-dark font-weight-bold">{{ user?.lname  }}</p>
+                <p class="mx-2 text-dark font-weight-bold">{{ user?.address }}</p>
+              </div>
+            </div>
+            <div class="d-flex">
+              <div>
+                <p>Email :</p>
+                <p>Mobile :</p>
+                <p>Age :</p>
+              </div>
+              <div>
+                <p class="mx-2 text-dark font-weight-bold">{{ user?.email }}</p>
+                <p class="mx-2 text-dark font-weight-bold">{{ user?.phone }}</p>
+                <p class="mx-2 text-dark font-weight-bold">{{ user?.age }}</p>
+              </div>
+            </div>
+          </div>
+          <!-- <button class="btn btn-primary mt-3 w-50" (click)="navigateToEditProfile()">Edit Profile</button> -->
+        </div>
+
+        <!-- Bookings section (right column) -->
+        <div class="bookings-container card shadow-lg p-4 mt-4 responsive-table" >
+          <div class="card-body">
+            <h3 class="card-title">Bookings</h3>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th class="bg-dark text-light">Hotel</th>
+                  <th class="bg-dark text-light">Status</th>
+                  <th class="bg-dark text-light">Check Out</th>
+                  <th class="bg-dark text-light">Check Out</th>
+                  <th class="bg-dark text-light">Price</th>
+                  <th class="bg-dark text-light">Action</th>
+
+                  <th class="bg-dark text-light">+</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Iterate over bookings -->
+                <ng-container *ngFor="let booking of bookings | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                  <tr (click)="toggleDetails(booking.id)" class="cursor-pointer">
+                    <!-- <td>{{ booking.total_price }}</td> -->
+                    <td>{{ booking.hotel }}</td>
+                    <td>{{ booking.status }}</td>
+                    <td>{{ booking.check_in }}</td>
+                    <td>{{ booking.check_out }}</td>
+                    <td>{{ booking.total_price }}</td>
+                    <td>
+                      <button (click)="handleDeleteBooking(booking)" class="btn btn-danger btn-sm">Cancel</button>
+                    </td>
+
+
+                    <td class="text-center">
+                      <i class="fas" [ngClass]="isDetailsVisible(booking.id) ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                    </td>
+                  </tr>
+                  <!-- Booking details section -->
+                  <tr *ngIf="isDetailsVisible(booking.id)">
+                    <td colspan="7">
+                      <table class="table table-sm">
+                        <thead>
+                          <tr>
+                            <th>Number Of Rooms</th>
+                            <th>Room Name</th>
+                            <!-- <th>Check-in</th>
+                            <th>Check-out</th> -->
+                            <th>Price</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let detail of booking.grouped_details">
+                            <td>{{ detail.count }}</td> <!-- Display count -->
+                            <td>{{ detail.room_name }}</td>
+                            <!-- <td>{{ detail.check_in }}</td>
+                            <td>{{ detail.check_out }}</td> -->
+                            <td>{{ detail.price }}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </td>
+                  </tr>
+                </ng-container>
+                <!-- Handle no bookings -->
+                <tr *ngIf="bookings.length === 0">
+                  <td colspan="6" class="text-center">No bookings found.</td>
+                </tr>
+              </tbody>
+            </table>
+            <!-- Pagination Controls -->
+            <pagination-controls (pageChange)="currentPage = $event" class="text-center pagination-controls"></pagination-controls>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-footer></app-footer>
+</div>

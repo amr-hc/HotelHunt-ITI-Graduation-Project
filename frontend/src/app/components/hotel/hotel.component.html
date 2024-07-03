@@ -17,67 +17,7 @@
         alt="Hotel Thumbnail">
     </div>
   </div>
-  <!-- Hotel Info -->
-  <!-- <div class="sec2 row">
-    <div class="row">
-      <div class="col-md-12 rating-star-sec">
-        <table>
-          <tbody>
-            <tr>
-              <td class="rating-title">Star Rating</td>
-              <td>
-                <div class="rating-stars">
-                  <ng-container *ngFor="let star of [].constructor(hotel?.star_rating)">
-                    <i class="fas fa-star"></i>
-                  </ng-container>
-                  <ng-container *ngFor="let emptyStar of [].constructor(5 - (hotel?.star_rating ?? 0))">
-                  <i class="far fa-star"></i>
-                  </ng-container>
-                </div>
-              </td>
 
-            <tr>
-              <td class="description-title">Description:</td>
-              <td class="rating-num">{{hotel?.description}} </td>
-
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-    <div class="row">
-      <table class="custom-hotel-table">
-        <tbody>
-          <tr>
-            <td class="h-title">Country:</td>
-            <td class="h-val">{{ hotel?.country }}</td>
-          </tr>
-          <tr>
-            <td class="h-title">City:</td>
-            <td class="h-val">{{ hotel?.city }}</td>
-          </tr>
-          <tr>
-            <td class="h-title">Address:</td>
-            <td class="h-val">{{ hotel?.address }}</td>
-          </tr>
-          <tr>
-            <td class="rating-title">User Reviews</td>
-            <td>
-              <div class="rating-stars">
-                <ng-container *ngFor="let star of [].constructor(hotel?.star_rating)">
-                  <i class="fas fa-star"></i>
-                </ng-container>
-                <ng-container *ngFor="let emptyStar of [].constructor(5 - (hotel?.star_rating ?? 0))">
-                  <i class="far fa-star"></i>
-                </ng-container>
-              </div>
-            </td>
-
-          <tr>
-        </tbody>
-      </table>
-    </div>
-  </div> -->
   <!-- Hotel Info -->
   <div class="sec2 row">
     <div class="col-md-6">
@@ -137,6 +77,6 @@
   <!-- Hotel Ratings & Comments -->
   <app-ratings></app-ratings>
   <app-comments></app-comments>
-
+  <app-footer></app-footer>
 
 </div>

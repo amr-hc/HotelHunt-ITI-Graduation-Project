@@ -217,7 +217,8 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
         cancelButtonText: 'Cancel'
       }).then((result) => {
         if (result.isConfirmed) {
-          const bookingData = new BookingData(this.user_id, this.duration, 'progress', bookingDetails);
+          const bookingData = new BookingData(this.user_id, this.duration, 'progress',
+            this.checkinDate,this.checkoutDate,bookingDetails);
           console.log(bookingData);
 
           this.bookingSubscription = this.bookingService.bookingRoom(bookingData).subscribe(

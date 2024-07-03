@@ -1,10 +1,9 @@
-/* src/styles.css */
 body {
   font-family: Arial, sans-serif;
 }
 
 .sidebar {
-  height: 100vh;
+  min-height: 100vh;
   border-right: 1px solid #ddd;
 }
 

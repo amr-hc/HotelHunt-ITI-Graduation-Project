@@ -1,52 +1,74 @@
 <app-header></app-header>
-<div class="container mt-4">
-  <h2 class="text-center text-primary">Edit Profile</h2>
-  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-container">
-    <div class="form-group">
-      <label for="fname" class="text-dark">First Name</label>
-      <input type="text" class="form-control form-control-dark" id="fname" formControlName="fname">
-      <div *ngIf="userForm.get('fname')!.touched && userForm.get('fname')!.errors?.['required']" class="text-danger">
-        First Name is required
-      </div>
+<div *ngIf="loading" class="loading-spinner">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Loading...</span>
+  </div>
+</div>
+<div *ngIf="!loading">
+  <div class="container mt-4">
+    <h2 class="text-center text-primary">Edit Profile</h2>
+    <div *ngIf="errorMessage" class="alert alert-danger mt-3">
+      {{ errorMessage }}
     </div>
-    <div class="form-group">
-      <label for="lname" class="text-dark">Last Name</label>
-      <input type="text" class="form-control form-control-dark" id="lname" formControlName="lname">
-      <div *ngIf="userForm.get('lname')!.touched && userForm.get('lname')!.errors?.['required']" class="text-danger">
-        Last Name is required
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form-container">
+      <div class="form-group">
+        <label for="fname" class="text-dark">First Name</label>
+        <input type="text" class="form-control form-control-dark" id="fname" formControlName="fname">
+        <div *ngIf="userForm.get('fname')!.touched && userForm.get('fname')!.errors?.['required']" class="text-danger">
+          First Name is required
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="email" class="text-dark">Email</label>
-      <input type="email" class="form-control form-control-dark" id="email" formControlName="email">
-      <div *ngIf="userForm.get('email')!.touched && userForm.get('email')!.errors?.['required']" class="text-danger">
-        Email is required
+      <div class="form-group">
+        <label for="lname" class="text-dark">Last Name</label>
+        <input type="text" class="form-control form-control-dark" id="lname" formControlName="lname">
+        <div *ngIf="userForm.get('lname')!.touched && userForm.get('lname')!.errors?.['required']" class="text-danger">
+          Last Name is required
+        </div>
       </div>
-      <div *ngIf="userForm.get('email')!.touched && userForm.get('email')!.errors?.['email']" class="text-danger">
-        Please enter a valid email address
+      <div class="form-group">
+        <label for="email" class="text-dark">Email</label>
+        <input type="email" class="form-control form-control-dark" id="email" formControlName="email">
+        <div *ngIf="userForm.get('email')!.touched && userForm.get('email')!.errors?.['required']" class="text-danger">
+          Email is required
+        </div>
+        <div *ngIf="userForm.get('email')!.touched && userForm.get('email')!.errors?.['email']" class="text-danger">
+          Please enter a valid email address
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="phone" class="text-dark">Phone</label>
-      <input type="tel" class="form-control form-control-dark" id="phone" formControlName="phone">
-      <div *ngIf="userForm.get('phone')!.touched && userForm.get('phone')!.errors?.['required']" class="text-danger">
-        Phone is required
+      <div class="form-group">
+        <label for="phone" class="text-dark">Phone</label>
+        <input type="tel" class="form-control form-control-dark" id="phone" formControlName="phone">
+
+        <div *ngIf="userForm.get('phone')!.touched && userForm.get('phone')!.errors?.['required']" class="text-danger">
+          Phone is required.
+        </div>
+        <div *ngIf="userForm.get('phone')!.touched && userForm.get('phone')!.errors?.['minlength']" class="text-danger">
+          Phone number must be at least 11 digits.
+        </div>
+        <div *ngIf="userForm.get('phone')!.touched && userForm.get('phone')!.errors?.['maxlength']" class="text-danger">
+          Phone number cannot exceed 13 digits.
+        </div>
+        <div *ngIf="userForm.get('phone')!.touched && userForm.get('phone')!.errors?.['pattern']" class="text-danger">
+          Phone must contain only digits.
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="address" class="text-dark">Address</label>
-      <textarea class="form-control form-control-dark" id="address" formControlName="address" rows="3"></textarea>
-      <div *ngIf="userForm.get('address')!.touched && userForm.get('address')!.errors?.['required']" class="text-danger">
-        Address is required
+
+      <div class="form-group">
+        <label for="address" class="text-dark">Address</label>
+        <textarea class="form-control form-control-dark" id="address" formControlName="address" rows="3"></textarea>
+        <div *ngIf="userForm.get('address')!.touched && userForm.get('address')!.errors?.['required']" class="text-danger">
+          Address is required
+        </div>
       </div>
-    </div>
-    <div class="form-group">
-      <label for="photo" class="text-dark">Profile Photo</label>
-      <div>
-        <input type="file"  accept="image/*" class="form-control-file " id="photo" (change)="onFileChange($event)">
+      <div class="form-group">
+        <label for="photo" class="text-dark">Profile Photo</label>
+        <div>
+          <input type="file"  accept="image/*" class="form-control-file " id="photo" (change)="onFileChange($event)">
+        </div>
       </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-    <button type="button" class="btn btn-dark" (click)="resetForm()">Reset</button>
-  </form>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+      <button type="button" class="btn btn-dark" (click)="resetForm()">Reset</button>
+    </form>
+  </div>
+<app-footer></app-footer>
 </div>

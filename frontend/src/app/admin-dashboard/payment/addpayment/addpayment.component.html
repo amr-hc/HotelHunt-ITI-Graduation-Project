@@ -20,7 +20,7 @@
               <label for="amount" class="form-label">Amount</label>
               <input type="number" id="amount" formControlName="amount" class="form-control">
               <div *ngIf="formSubmitted && addPaymentForm.controls['amount'].invalid" class="text-danger mt-1">
-                Valid amount is required.
+                Valid amount is required, can't exceed 999999
               </div>
             </div>
 

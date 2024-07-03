@@ -1,0 +1,88 @@
+.calendar-months {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+  }
+  
+  .calendar-month {
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ccc;
+    text-align: center;
+    background-color: #af8309;
+    color: #ccc;
+  }
+  
+  .calendar-month:hover {
+    background-color: #3f3826;
+  }
+  
+  .card {
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-body {
+    padding: 15px;
+  }
+  
+  .card-title {
+    margin-bottom: 10px;
+    font-size: 1.25rem;
+  }
+  
+  .card-text {
+    font-size: 1rem;
+  }
+  
+  .card-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    border: none;
+    border-top: 1px solid #d48f0f;
+    background-color: #dd9d25;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 12px;
+  }
+  
+  .card-button:hover {
+    background-color: #978266;
+  }
+  
+  .modal-content {
+    border-radius: 10px;
+  }
+  
+  .modal-body {
+    padding: 20px;
+  }
+  
+  .modal-footer {
+    justify-content: space-between;
+  }
+  
+  .btn {
+    margin-right: 10px;
+  }
+  
+  .text-danger {
+    margin-top: 5px;
+    font-size: 14px;
+  }
+  
+  /* Custom styles for Update button */
+  .btn-success {
+    background-color: #006400 !important;
+    border-color: #3f3826 !important;
+  }
+  
+  .btn-success:hover {
+    background-color: #dd9d25 !important;
+    border-color: #978266 !important;
+  }
+  

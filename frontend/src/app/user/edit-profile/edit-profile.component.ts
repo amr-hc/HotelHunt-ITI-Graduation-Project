@@ -19,6 +19,7 @@ export class EditProfileComponent implements OnInit {
   user: User = new User(0, '', '', '', '', '', 'guest', 0, '');
   errorMessage: string = '';
   existingPhoto: string = '';
+  loading:boolean=true;
 
   constructor(
     private userService: UserService,
@@ -29,7 +30,7 @@ export class EditProfileComponent implements OnInit {
       fname: ['', Validators.required],
       lname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.maxLength(13),Validators.minLength(11), Validators.pattern(/^[0-9]+$/)]],
       address: ['', Validators.required],
       photo: ['']  // for image file
 
@@ -51,6 +52,7 @@ export class EditProfileComponent implements OnInit {
             phone: this.user.phone,
             address: this.user.address
           });
+          this.loading=false;
         },
         (error) => {
           console.error('Error fetching user data', error);
@@ -61,6 +63,10 @@ export class EditProfileComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.userForm.invalid) {
+      // this.errorMessage = 'Please correct the errors in the form.';
+      return;
+    }
     const formData = new FormData();
     formData.append('id', this.user.id.toString());
     formData.append('fname', this.userForm.value.fname);
@@ -82,7 +88,11 @@ export class EditProfileComponent implements OnInit {
       },
       (error) => {
         console.error('Error updating user', error);
-        this.errorMessage = 'Failed to update user';
+        if (error.error && error.error.message){
+          this.errorMessage = error.error.message;
+        }else{
+          this.errorMessage = 'Failed to update user';
+        }
       }
     );
   }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HotelsService } from '../../../../services/hotels.service';
 import { CommentService } from '../../../../services/comment.service';
@@ -11,7 +11,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 @Component({
   selector: 'app-comments',
   standalone: true,
-  imports: [CommonModule, NgxPaginationModule],
+  imports: [CommonModule, NgxPaginationModule,RouterLink],
   templateUrl: './comments.component.html',
   styleUrl: './comments.component.css',
 })

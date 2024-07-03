@@ -99,7 +99,7 @@ class usersController extends Controller
                 } catch (\Exception $e) {
                     Log::error('Failed to delete old photo: ' . $e->getMessage());
                 }
-                
+
             }
         }
 
@@ -117,6 +117,8 @@ class usersController extends Controller
     public function destroy(string $id)
     {
         //
+        User::destroy($id);
+        return response()->json(['message' => 'user deleted successfully'], 200);
     }
 
 
@@ -127,7 +129,7 @@ class usersController extends Controller
         User::where('role', 'owner')->whereDoesntHave('hotels')->get();
 
         return UserResource::collection( User::where('role', 'owner')->whereDoesntHave('hotels')->get());
-    
+
     }
 
 

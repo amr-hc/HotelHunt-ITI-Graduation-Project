@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Route, Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Subscription } from 'rxjs';
 import { HotelImage } from '../../../../models/hotelImage';
@@ -11,7 +11,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 @Component({
   selector: 'app-images',
   standalone: true,
-  imports: [CommonModule,NgxPaginationModule],
+  imports: [CommonModule,NgxPaginationModule,RouterLink],
   templateUrl: './images.component.html',
   styleUrl: './images.component.css',
 })
@@ -22,6 +22,7 @@ export class ImagesComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
   selectedFiles: FileList | undefined;
   currentPage: number = 1;
+  errorMessage = '';
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -55,6 +56,7 @@ export class ImagesComponent implements OnInit, OnDestroy {
       (error) => {
         this.isLoading = false;
         console.error(`Error fetching images for hotel ${hotelId}:`, error);
+        this.errorMessage = `Error fetching images for hotel ${hotelId}`
       }
     );
   }
@@ -71,13 +73,14 @@ export class ImagesComponent implements OnInit, OnDestroy {
       this.hotelService.addHotelImages(this.hotelId, this.selectedFiles).subscribe(
         (response) => {
           console.log('Images uploaded successfully:', response);
-          // Update the ownerImages array with the new images
           if (this.hotelId) {
             this.fetchHotelImages(this.hotelId);
+            this.errorMessage='';
           }
         },
         (error) => {
           console.error('Error uploading images:', error);
+          this.errorMessage = 'Only Images are allowed'
         }
       );
     }

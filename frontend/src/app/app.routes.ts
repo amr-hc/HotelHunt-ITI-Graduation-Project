@@ -33,6 +33,7 @@ import { AdminGuard } from './guards/admin.guard';
 import { UnauthorizedComponent } from './errors/unauthorized/unauthorized.component';
 import { ProfileGuard } from './guards/profile.guard';
 import { RoomtypesComponent } from './components/roomtypes/roomtypes.component';
+import { ErrorPageComponent } from './errors/error-page/error-page.component';
 
 
 
@@ -69,8 +70,9 @@ export const routes: Routes = [
 
 
   { path:'admin-dashboard',    loadChildren: () =>
-    import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes), canActivate: [AdminGuard]},
-    {path: 'owner', loadChildren:()=>import("./components/Owner-Dashboard/owner.routes").then(o=>o.ownerRoutes), canActivate: [OwnerGuard]},
+    import('./admin-dashboard/admin-dashboard-routes').then((m) => m.adminRoutes), canActivate: [AdminGuard]
+  },
+  { path: 'owner', loadChildren: () => import("./components/Owner-Dashboard/owner.routes").then(o => o.ownerRoutes), canActivate: [OwnerGuard] },
 
   {path : "hotelList" , component : HotellistComponent},
   {path : "hotels/:id" , component : RoomtypesComponent},
@@ -80,5 +82,6 @@ export const routes: Routes = [
   //  {path: 'owner/hotel', component:HotelOwnerComponent},
   //  {path: 'owner/hotel/:id', component:HotelEditComponent},
   //  {path: 'owner/hotel/:id/addImage',component: AddImageComponent },
+  { path: '**', component: ErrorPageComponent }
 
 ];

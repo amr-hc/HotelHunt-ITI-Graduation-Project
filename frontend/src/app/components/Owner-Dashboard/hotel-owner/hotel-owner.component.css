@@ -1,80 +1,104 @@
-/* Styles for hotel card and its components */
-
+/* Style for hotel-owner container */
 .hotel-owner-container {
   padding: 20px;
 }
 
+.loading-container {
+  height: 100vh;
+}
+
 .hotel-card {
   border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.hotel-header {
-  margin-bottom: 15px;
+.card-header {
+  background-color: #f8f9fa;
+  padding: 10px 20px;
 }
 
-.hotel-header h3 {
-  margin-top: 0;
-  font-size: 24px;
-  color: #333;
+.card-title {
+  font-size: 1.5rem;
+  color: #007bff;
 }
 
-.hotel-header p {
-  margin: 5px 0;
-  font-size: 16px;
-}
-
-/* Styles for hotel images */
-
-.hotel-images {
-  margin-top: 10px;
+.star-rating .star {
+  font-size: 1.2rem;
 }
 
 .image-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  grid-gap: 10px;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .image-item img {
-  width: 100%;
-  height: 150px;
-  /* Fixed height */
-  object-fit: cover;
-  /* Ensures the image covers the area without distorting */
+  max-width: 100%;
+  width: 20rem;
+  height: 20rem;
+}
+
+.image-item .btn {
+  font-size: 0.8rem;
+}
+
+/* Style for testimonial-section */
+.testimonial-section {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border: 1px solid #ddd;
   border-radius: 8px;
+  margin-top: 20px;
+}
+
+/* Style for Testimonials title */
+.testimonial-section h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Style for carousel items */
+.carousel-item {
+  padding: 20px;
+  text-align: center;
+}
+
+/* Style for testimonial items */
+.testimonial-item {
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Styles for hotel comments */
-
-.hotel-comments {
-  margin-top: 15px;
-  padding: 10px;
-  border-top: 1px solid #ddd;
-}
-
-.comment-item {
-  border: 1px solid #e1e1e1;
-  padding: 10px;
-  border-radius: 4px;
+.testimonial-text {
+  font-style: italic;
   margin-bottom: 10px;
-  background-color: #f9f9f9;
 }
 
-.comment-item p {
-  margin: 5px 0;
-}
-.star-rating {
-  color: #f0ad4e;
-  /* Adjust the color of the stars */
+.testimonial-author {
+  font-weight: bold;
+  color: #ff9900;
 }
 
-.star {
-  font-size: 18px;
-  /* Adjust the size of the stars */
+/* Style for carousel controls */
+.carousel-control-prev, .carousel-control-next {
+  width: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon {
+  color: white;
+}
+
+.carousel-control-prev {
+  left: -40px;
+}
+
+.carousel-control-next {
+  right: -40px;
 }

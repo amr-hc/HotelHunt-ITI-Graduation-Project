@@ -8,62 +8,69 @@
 
   <!-- Error Message -->
   <div *ngIf="errorMessage" class="alert alert-danger mt-3">
-    {{ errorMessage }}
+    No bookings found.
   </div>
 
   <!-- Booking List -->
   <div *ngIf="!isLoading && !errorMessage && booking.length > 0" class="booking-list mt-4">
     <h2 class="text-center text-primary">Bookings List</h2>
-    <table class="table table-light table-hover table-bordered mt-3">
-      <thead class="bg-dark">
-        <tr>
-          <th>ID</th>
-          <th>User Name</th>
-          <th>Duration</th>
-          <th>Status</th>
-          <th>Book Details</th>
-          <th>Total Price</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let book of booking">
-          <td>{{ book.id }}</td>
-          <td>{{ book.user_name }}</td>
-          <td>{{ book.duration }} Days</td>
-          <td>
-            <select class="form-select" [(ngModel)]="book.status" (change)="onStatusChange(book.status, book.id)">
-              <option value="progress">In Progress</option>
-              <option value="cancel">Cancelled</option>
-              <option value="completed">Completed</option>
-            </select>
-          </td>
-
-          <td>
-            <table class="nested-table table table-bordered table-light">
-              <thead class="bg-primary text-white">
-                <tr>
-                  <th>Room Type</th>
-                  <th>Date</th>
-                  <th>Price</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let detail of book.book_details">
-                  <td>{{ detail.room_name }}</td>
-                  <td>{{ detail.date }}</td>
-                  <td>{{ detail.price | currency: 'EGP ' }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </td>
-          <td>{{ book.total_price | currency:'EGP ':'symbol' }}</td>
-          <td>
-            <button [routerLink]="['/owner/booking', book.id]" class="btn btn-primary">View</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table table-light table-hover table-bordered mt-3">
+        <thead class="bg-dark">
+          <tr>
+            <th>ID</th>
+            <th>User Name</th>
+            <th>Check In</th>
+            <th>Check Out</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>Book Details</th>
+            <th>Total Price</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let book of booking">
+            <td data-label="ID">{{ book.id }}</td>
+            <td data-label="User Name">{{ book.user_name }}</td>
+            <td data-label="Check In">{{book.check_in}}</td>
+            <td data-label="Check Out">{{book.check_out}}</td>
+            <td data-label="Duration">{{ book.duration }} Days</td>
+            <td data-label="Status">
+              <select class="form-select" [(ngModel)]="book.status" (change)="onStatusChange(book.status, book.id)">
+                <option value="progress">In Progress</option>
+                <option value="cancel">Cancelled</option>
+                <option value="completed">Completed</option>
+              </select>
+            </td>
+            <td data-label="Book Details">
+              <div class="nested-table-container">
+                <table class="nested-table table table-bordered table-light">
+                  <thead class="bg-primary text-white">
+                    <tr>
+                      <th>Room Type</th>
+                      <th>Date</th>
+                      <th>Price</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let detail of book.book_details">
+                      <td data-label="Room Type">{{ detail.room_name }}</td>
+                      <td data-label="Date">{{ detail.date }}</td>
+                      <td data-label="Price">{{ detail.price | currency: 'EGP ' }}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </td>
+            <td data-label="Total Price">{{ book.total_price | currency:'EGP ':'symbol' }}</td>
+            <td data-label="Actions">
+              <button [routerLink]="['/owner/booking', book.id]" class="btn btn-primary">View</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!-- No Bookings Found -->

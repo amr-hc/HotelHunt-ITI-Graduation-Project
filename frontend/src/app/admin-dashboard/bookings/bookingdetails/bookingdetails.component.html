@@ -1,5 +1,4 @@
 <div class="container mt-5">
-  <!-- Loading Spinner -->
   <div *ngIf="isLoading" class="loading text-center mt-3">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
@@ -7,56 +6,60 @@
     <p class="mt-2">Loading booking details...</p>
   </div>
 
-  <!-- Error Message -->
   <div *ngIf="errorMessage" class="alert alert-danger mt-3">
     {{ errorMessage }}
   </div>
 
-  <!-- Booking Details -->
-  <div *ngIf="booking && !isLoading && !errorMessage" class="booking-details">
-    <h2 class="text-primary text-center mb-4">Booking Details</h2>
+  <div *ngIf="booking && !isLoading && !errorMessage" class="booking-details card">
+    <div class="card-header text-center">
+      <h2 class="text-primary mb-0">Booking Details</h2>
+    </div>
 
-    <div class="row">
-      <div class="col-md-4">
-        <h3 class="text-secondary">Booking Information</h3>
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item">
-            <strong>Booking ID:</strong> {{ booking.id }}
-          </li>
-          <li class="list-group-item">
-            <strong>User Name:</strong> {{ booking.user_name }}
-          </li>
-          <li class="list-group-item">
-            <strong>Duration:</strong> {{ booking.duration }} Days
-          </li>
-          <li class="list-group-item">
-            <strong>Status:</strong> <span class="badge bg-primary">{{ booking.status }}</span>
-          </li>
-          <li class="list-group-item">
-            <strong>Total Price:</strong> <span class="text-success">${{ booking.total_price }}</span>
-          </li>
-        </ul>
-      </div>
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <h3 class="text-secondary">Booking Information</h3>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+              <strong>User Name:</strong> {{ booking.user_name }}
+            </li>
+            <li class="list-group-item">
+              <strong>Check In:</strong> {{ booking.check_in }}
+            </li>
+            <li class="list-group-item">
+              <strong>Check Out:</strong> {{ booking.check_out }}
+            </li>
+            <li class="list-group-item">
+              <strong>Status:</strong> <span class="badge bg-primary">{{ booking.status }}</span>
+            </li>
+            <li class="list-group-item">
+              <strong>Total Price:</strong> <span class="text-success">${{ booking.total_price }}</span>
+            </li>
+          </ul>
+        </div>
 
-      <div class="col-md-8">
-        <h3 class="text-secondary">Room Details</h3>
-        <div class="table-responsive">
-          <table class="table table-striped table-bordered text-center">
-            <thead class="bg-dark text-white">
-              <tr>
-                <th>Room Type</th>
-                <th>Date</th>
-                <th>Price</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let detail of booking.book_details">
-                <td>{{ detail.room_name }}</td>
-                <td>{{ detail.date }}</td>
-                <td>${{ detail.price }}</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="col-md-8">
+          <h3 class="text-secondary text-center">Room Details</h3>
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered text-center">
+              <thead class="bg-dark text-white">
+                <tr>
+                  <th>Room Type</th>
+                  <th>Price</th>
+                  <th>Total Price</th>
+                  <th>Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let detail of groupedDetails">
+                  <td>{{ detail.room_name }}</td>
+                  <td>${{ detail.price }}</td>
+                  <td>${{ detail.total_price }}</td>
+                  <td>{{ detail.count }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

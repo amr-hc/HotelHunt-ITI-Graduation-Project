@@ -16,6 +16,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   loginError: string | null = null;
   formSubmitted = false;
+  loading:boolean=true;
 
   constructor(
     private fb: FormBuilder,
@@ -43,6 +44,7 @@ export class LoginComponent {
       (res) => {
         this.authService.handleLoginSuccess(res);
         this.redirectUserBasedOnRole(res.user.role, res.user.id);
+        this.loading=false;
       },
       (error) => {
         console.error('Login failed', error);

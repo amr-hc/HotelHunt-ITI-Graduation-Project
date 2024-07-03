@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../../../models/user';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators  } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -8,9 +13,9 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-edit',
   standalone: true,
-  imports: [CommonModule,ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './edit.component.html',
-  styleUrl: './edit.component.css'
+  styleUrl: './edit.component.css',
 })
 export class EditComponent implements OnInit {
   editForm: FormGroup;
@@ -18,6 +23,7 @@ export class EditComponent implements OnInit {
   user: User | null = null;
   formSubmitted: boolean = false;
   selectedFile: File | null = null;
+  errorMessage = '';
 
   constructor(
     private fb: FormBuilder,
@@ -27,13 +33,43 @@ export class EditComponent implements OnInit {
   ) {
     this.editForm = this.fb.group({
       id: [''],
-      fname: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(3)]],
-      lname: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
-      phone: ['', [Validators.required, Validators.maxLength(25)]],
-      address: ['', [Validators.required, Validators.maxLength(255)]],
-      age: ['', [Validators.required, Validators.min(18)]],
-      photo: ['']
+      fname: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(100),
+          Validators.minLength(3),
+        ],
+      ],
+      lname: [
+        '',
+        [
+          Validators.required,
+          Validators.maxLength(100),
+          Validators.minLength(3),
+        ],
+      ],
+      email: ['', [Validators.required, Validators.email]],
+      phone: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(15),
+          Validators.pattern(/^[0-9]+$/),
+        ],
+      ],
+      address: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.maxLength(255),
+          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/)
+        ],
+      ],
+      age: ['', [Validators.required, Validators.min(18), Validators.max(120), Validators.pattern('^\\d+$')]],
+      photo: [''],
     });
   }
 
@@ -60,7 +96,7 @@ export class EditComponent implements OnInit {
     this.formSubmitted = true;
     if (this.editForm.valid) {
       const formData = new FormData();
-      Object.keys(this.editForm.controls).forEach(key => {
+      Object.keys(this.editForm.controls).forEach((key) => {
         if (key !== 'photo' || this.selectedFile) {
           formData.append(key, this.editForm.get(key)?.value);
         }
@@ -82,7 +118,20 @@ export class EditComponent implements OnInit {
           this.router.navigate(['/admin-dashboard/profile']);
         },
         (error) => {
-          console.error('Error updating user', error);
+          console.log(error);
+          if (error.status === 422 && error.error.errors) {
+            this.errorMessage = '';
+            Object.keys(error.error.errors).forEach((field) => {
+              const fieldErrors = error.error.errors[field];
+              if (Array.isArray(fieldErrors)) {
+                fieldErrors.forEach((errorText) => {
+                  this.errorMessage += `${errorText}\n`;
+                });
+              }
+            });
+          } else {
+            this.errorMessage = 'Failed to add user. Please try again.';
+          }
         }
       );
     }

@@ -27,7 +27,7 @@ export class AddpaymentComponent {
   ) {
     this.addPaymentForm = this.fb.group({
       hotel_id: ['', Validators.required],
-      amount: ['', [Validators.required, Validators.min(0.01)]],
+      amount: ['', [Validators.required, Validators.min(0.01), Validators.max(999999.0),Validators.pattern(/^\d+(\.\d{1,2})?$/),]],
     });
   }
 

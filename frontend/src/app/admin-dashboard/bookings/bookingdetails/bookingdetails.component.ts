@@ -5,20 +5,26 @@ import { ActivatedRoute } from '@angular/router';
 import { BookingService } from '../../../services/booking.service';
 import { NgxPaginationModule } from 'ngx-pagination';
 
+interface GroupedBookingDetail {
+  room_name: string;
+  total_price: number;
+  count: number;
+  price: number;
+}
+
 @Component({
   selector: 'app-bookingdetails',
   standalone: true,
-  imports: [CommonModule,NgxPaginationModule],
+  imports: [CommonModule, NgxPaginationModule],
   templateUrl: './bookingdetails.component.html',
-  styleUrl: './bookingdetails.component.css',
-
+  styleUrls: ['./bookingdetails.component.css'],
 })
 export class BookingDetailsComponent implements OnInit {
   booking: Booking | null = null;
   isLoading: boolean = false;
   errorMessage: string = '';
-  currentPage: number =1;
-
+  currentPage: number = 1;
+  groupedDetails: GroupedBookingDetail[] = [];
 
   constructor(private route: ActivatedRoute, private bookingService: BookingService) {}
 
@@ -32,6 +38,7 @@ export class BookingDetailsComponent implements OnInit {
     this.bookingService.getBookingById(id).subscribe({
       next: (booking) => {
         this.booking = booking;
+        this.groupBookings();
         this.isLoading = false; // Finish loading
       },
       error: (error) => {
@@ -40,5 +47,22 @@ export class BookingDetailsComponent implements OnInit {
         this.isLoading = false; // Finish loading (on error)
       }
     });
+  }
+
+  groupBookings(): void {
+    if (this.booking && this.booking.book_details) {
+      const groupedDetails = this.booking.book_details.reduce((acc: { [key: string]: GroupedBookingDetail }, detail: any) => {
+        if (!acc[detail.room_name]) {
+          acc[detail.room_name] = { room_name: detail.room_name, total_price: parseFloat(detail.price), count: 1, price: parseFloat(detail.price) }; // Initialize count to 1 and set price
+        } else {
+          acc[detail.room_name].total_price += parseFloat(detail.price);
+          acc[detail.room_name].count += 1; // Increment count
+        }
+        return acc;
+      }, {});
+
+      this.groupedDetails = Object.values(groupedDetails);
+      console.log(this.groupedDetails);
+    }
   }
 }

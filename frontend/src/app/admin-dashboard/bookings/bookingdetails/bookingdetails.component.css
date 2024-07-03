@@ -1,36 +1,30 @@
-.loading {
-  margin-top: 3rem;
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  margin-top: 20px;
 }
 
-.booking-details {
-  background-color: #f9f9f9;
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid rgba(0,0,0,0.125);
+}
+
+.card-body {
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-h3 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.table-responsive {
-  margin-top: 1.5rem;
 }
 
 .list-group-item {
-  font-size: 1rem;
+  border: none;
 }
 
-.badge.bg-primary {
-  background-color: #007bff !important;
+.table {
+  margin-top: 20px;
 }
 
-.text-success {
-  color: #28a745 !important;
+.table th, .table td {
+  vertical-align: middle;
+}
+
+.badge {
+  font-size: 0.9em;
 }

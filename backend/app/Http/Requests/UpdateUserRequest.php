@@ -42,6 +42,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'email.email' => 'Please provide a valid email address.',
+            'email.unique' => 'The email has already been taken.',
             'password.min' => 'Password must be at least :min characters long.',
             'password.confirmed' => 'Password confirmation does not match.',
             'phone.max' => 'Phone number must not exceed :max characters.',

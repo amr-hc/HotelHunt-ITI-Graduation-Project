@@ -8,11 +8,11 @@ import { Hotel } from '../../../models/hotel';
 import { HotelImage } from '../../../models/hotelImage';
 import Swal from 'sweetalert2';
 import { Comment } from '../../../models/comment';
-
+import { NgxPaginationModule, PaginatePipe, PaginationControlsComponent } from 'ngx-pagination';
 @Component({
   selector: 'app-hotel-owner',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink,NgxPaginationModule],
   templateUrl: './hotel-owner.component.html',
   styleUrls: ['./hotel-owner.component.css']
 })
@@ -20,6 +20,7 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
   hotels: Hotel[] = [];
   ownerImages: { [key: number]: HotelImage[] } = {};
   hotelComments: { [key: number]: Comment[] } = {}; // Store comments per hotel
+  imagePage: { [key: number]: number } = {}; // Track the current page for each hotel's images
   sub: Subscription | null = null;
   isLoading: boolean = false;
 
@@ -121,7 +122,14 @@ starRange(count: number): number[] {
     return Array.from({ length: count }).map((_, i) => i);
   }
 
+
+  onPageChange(hotelId: number, page: number): void {
+    this.imagePage[hotelId] = page;
+  }
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
+  
+
+
 }

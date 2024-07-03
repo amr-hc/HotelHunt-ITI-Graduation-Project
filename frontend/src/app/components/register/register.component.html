@@ -57,7 +57,9 @@
               <input type="text" formControlName="phone" class="form-control" placeholder="Phone">
               <div *ngIf="shouldShowError('phone')" class="text-danger">
                 <div *ngIf="registerForm.get('phone')?.errors?.['required']">Phone is required.</div>
-                <div *ngIf="registerForm.get('phone')?.errors?.['maxlength']">Phone cannot exceed 25 characters.</div>
+                <div *ngIf="registerForm.get('phone')?.errors?.['maxlength']">Phone cannot exceed 13 characters.</div>
+                <div *ngIf="registerForm.get('phone')?.errors?.['minlength']">Phone must be at least 11 characters long.</div>
+                <div *ngIf="registerForm.get('phone')?.errors?.['pattern']">Phone must be a valid 11-digit number.</div>
               </div>
             </div>
             <div class="form-group">
@@ -71,10 +73,12 @@
               <input type="text" formControlName="city" class="form-control" placeholder="City">
             </div>
             <div class="form-group">
-              <input type="number" formControlName="age" class="form-control" placeholder="Age">
+              <input type="number" formControlName="age" (input)="validateAge()"
+              min="0" class="form-control" placeholder="Age">
               <div *ngIf="shouldShowError('age')" class="text-danger">
                 <div *ngIf="registerForm.get('age')?.errors?.['required']">Age is required.</div>
                 <div *ngIf="registerForm.get('age')?.errors?.['min']">You must be at least 18 years old.</div>
+                <div *ngIf="registerForm.get('age')?.errors?.['max']">You must be no older than 120 years old..</div>
               </div>
             </div>
             <div class="form-group">

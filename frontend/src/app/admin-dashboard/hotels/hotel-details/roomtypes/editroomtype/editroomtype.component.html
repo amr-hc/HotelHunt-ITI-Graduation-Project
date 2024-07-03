@@ -11,7 +11,18 @@
               <label for="name">Name</label>
               <input id="name" type="text" class="form-control" formControlName="name" />
               <div *ngIf="formSubmitted && editForm.get('name')?.invalid" class="text-danger">
-                Name is required.
+                <div *ngIf="editForm.get('name')?.errors?.['required']">
+                  Name is required.
+                </div>
+                <div *ngIf="editForm.get('name')?.errors?.['minlength']">
+                  Name must be at least 3 characters long.
+                </div>
+                <div *ngIf="editForm.get('name')?.errors?.['maxlength']">
+                  Name cannot exceed 100 characters.
+                </div>
+                <div *ngIf="editForm.get('name')?.errors?.['pattern']">
+                  Name must contain only letters.
+                </div>
               </div>
             </div>
           </div>
@@ -20,7 +31,18 @@
               <label for="description">Description</label>
               <textarea id="description" class="form-control" formControlName="description"></textarea>
               <div *ngIf="formSubmitted && editForm.get('description')?.invalid" class="text-danger">
-                Description is required.
+                <div *ngIf="editForm.get('description')?.errors?.['required']">
+                  Description is required.
+                </div>
+                <div *ngIf="editForm.get('description')?.errors?.['minlength']">
+                  Description must be at least 8 characters long.
+                </div>
+                <div *ngIf="editForm.get('description')?.errors?.['maxlength']">
+                  Description cannot exceed 255 characters.
+                </div>
+                <div *ngIf="editForm.get('description')?.errors?.['pattern']">
+                  Description must contain at least one letter and can include numbers and spaces.
+                </div>
               </div>
             </div>
           </div>
@@ -30,9 +52,20 @@
           <div class="col-md-6 mb-3">
             <div class="form-group">
               <label for="price">Price</label>
-              <input id="price" type="text" class="form-control" formControlName="price" />
+              <input id="price" type="number" class="form-control" formControlName="price" />
               <div *ngIf="formSubmitted && editForm.get('price')?.invalid" class="text-danger">
-                Valid price is required.
+                <div *ngIf="editForm.get('price')?.errors?.['required']">
+                  Price is required.
+                </div>
+                <div *ngIf="editForm.get('price')?.errors?.['pattern']">
+                  Price is should be a number.
+                </div>
+                <div *ngIf="editForm.get('price')?.errors?.['min']">
+                  Price must be at least 0.01.
+                </div>
+                <div *ngIf="editForm.get('price')?.errors?.['max']">
+                  Price cannot exceed 999999.0.
+                </div>
               </div>
             </div>
           </div>
@@ -41,7 +74,18 @@
               <label for="capacity">Capacity</label>
               <input id="capacity" type="text" class="form-control" formControlName="capacity" />
               <div *ngIf="formSubmitted && editForm.get('capacity')?.invalid" class="text-danger">
-                Capacity is required.
+                <div *ngIf="editForm.get('capacity')?.errors?.['required']">
+                  Capacity is required.
+                </div>
+                <div *ngIf="editForm.get('capacity')?.errors?.['min']">
+                  Capacity must be at least 1.
+                </div>
+                <div *ngIf="editForm.get('capacity')?.errors?.['pattern']">
+                  Capacity must be a number.
+                </div>
+                <div *ngIf="editForm.get('capacity')?.errors?.['max']">
+                  Capacity cannot exceed 12.
+                </div>
               </div>
             </div>
           </div>
@@ -53,7 +97,12 @@
               <label for="photo">Photo</label>
               <input id="photo" type="file" class="form-control" (change)="onFileChange($event)" />
               <div *ngIf="formSubmitted && editForm.get('photo')?.invalid" class="text-danger">
-                A valid image file is required.
+                <div *ngIf="editForm.get('photo')?.errors?.['required']">
+                  Photo is required.
+                </div>
+                <div *ngIf="editForm.get('photo')?.errors?.['invalidFileType']">
+                  Invalid file type. Only JPEG, PNG, and GIF are allowed.
+                </div>
               </div>
             </div>
           </div>
@@ -61,7 +110,7 @@
 
         <div class="row">
           <div class="col-12">
-            <div class=" text-center mt-2">
+            <div class="text-center mt-2">
               <button type="submit" class="btn btn-primary">Submit</button>
               <button type="button" class="btn btn-danger ms-2" (click)="onCancel()">Cancel</button>
             </div>
