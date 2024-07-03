@@ -17,7 +17,6 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        // $paymentBill=Payment::all();
         return PaymentResource::collection(Payment::all());
     }
 
@@ -34,6 +33,10 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+            'hotel_id' => 'required|exists:hotels,id',
+        ]);
         Payment::create([
             'amount' => $request->amount,
             'hotel_id' => $request->hotel_id,
@@ -49,17 +52,8 @@ class PaymentController extends Controller
         return new PaymentResource($payment);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Payment $payment)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
+
     public function update(Request $request, Payment $payment)
     {
         $payment->update($request->all());
@@ -67,9 +61,7 @@ class PaymentController extends Controller
         return response()->json(['message' => 'Payment updated successfully'],200);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+  
     public function destroy(Payment $payment)
     {
         $payment->delete();
@@ -77,6 +69,9 @@ class PaymentController extends Controller
 
     public function createPayment(Request $request)
     {
+        $request->validate([
+            'value' => 'required|numeric|min:0',
+        ]);
 
         $provider = PayPal::setProvider();
         $provider->setApiCredentials(config('paypal'));
@@ -141,20 +136,17 @@ class PaymentController extends Controller
 
     public function cancelPayment()
     {
-        return 'Payment cancelled!';
-
+        return response()->json(['message' => 'Payment cancelled'], 400);
     }
 
     public function getHotelPayments(Request $request)
     {
-        // Extract hotel_id from request.
         $hotelId = auth()->user()->hotels->id;
 
         if (!$hotelId) {
             return response()->json(['message' => 'Hotel ID is required'], 400);
         }
 
-        // Fetch payments for the specified hotel.
         $payments = Payment::where('hotel_id', $hotelId)->get();
 
         if ($payments->isEmpty()) {

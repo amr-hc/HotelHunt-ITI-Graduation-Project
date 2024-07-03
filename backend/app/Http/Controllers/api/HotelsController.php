@@ -7,6 +7,7 @@ use App\Http\Resources\HotelResource;
 use App\Models\Hotel;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreHotelRequest;
+use Illuminate\Support\Facades\Log;
 
 class HotelsController extends Controller
 {
@@ -67,7 +68,11 @@ class HotelsController extends Controller
             $photoPath = $request->file('image')->store('hotels');
             $request->merge(['photo' => $photoPath]);
             if ($hotel->photo!= 'hotels/default.jpg') {
-                // unlink(storage_path('app/public/'. $hotel->photo));
+                try {
+                    unlink(storage_path('app/public/'. $hotel->photo));
+                } catch (\Exception $e) {
+                    Log::error('Failed to delete old photo: ' . $e->getMessage());
+                }
             }
         }
 
@@ -90,12 +95,10 @@ class HotelsController extends Controller
     {
         $hotels = Hotel::where('owner_id', $ownerId)->get();
 
-        // Check if any hotels are found
         if ($hotels->isEmpty()) {
             return response()->json(['message' => 'No hotels found for this owner'], 404);
         }
 
-        // Return the hotels data
         return HotelResource::collection($hotels);
     }
 }

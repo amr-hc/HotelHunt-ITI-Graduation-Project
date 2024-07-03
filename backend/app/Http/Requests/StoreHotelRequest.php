@@ -22,7 +22,7 @@ class StoreHotelRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:3','max:100'],
+            'name' => ['required', 'string', 'min:3','max:100','unique:hotels,name'],
             'country' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
