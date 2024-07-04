@@ -1,23 +1,27 @@
-<app-header></app-header>
-
-<div class="container mt-5 sec3 " >
-  <h2 class="sec3-title">All Rooms</h2>
-  <div class="row">
-    <div class="col-md-4 wow slideInUp " *ngFor="let room of roomTypes"  data-wow-duration="2s" data-wow-delay="0.5s">
-      <div class="card fixed-card mb-3">
-        <img [src]="'http://127.0.0.1:8000/storage/' + room.photo" class="card-img-top " alt="{{ room.name }}">
-        <div class="card-body">
-          <h5 class="card-title">{{ room.name }}</h5>
-          <!-- <p class="card-text ">{{ room.description }}</p> -->
-          <p class="card-text "><strong>Capacity</strong>:Max persion {{ room.capacity }}</p>
-          <p class="card-text"><strong>Price Per Night</strong>: ${{ room.price }}</p>
-          <div class="button-center">
-            <a href="#" class="btn btn-primary">Book Now</a>
+<div class="wrapper">
+  <app-header></app-header>
+  <div class="content">
+    <div class="container mt-5 sec3 ">
+      <h2 class="sec3-title">All Rooms</h2>
+      <div class="row">
+        <div class="col-md-4 wow slideInUp " *ngFor="let room of roomTypes" data-wow-duration="2s"
+          data-wow-delay="0.5s">
+          <div class="card fixed-card mb-3">
+            <img [src]="'http://127.0.0.1:8000/storage/' + room.photo" class="card-img-top " alt="{{ room.name }}">
+            <div class="card-body">
+              <h5 class="card-title">{{ room.name }}</h5>
+              <!-- <p class="card-text ">{{ room.description }}</p> -->
+              <p class="card-text "><strong>Capacity</strong>:Max persion {{ room.capacity }}</p>
+              <p class="card-text"><strong>Price Per Night</strong>: ${{ room.price }}</p>
+              <div class="button-center">
+                <a href="#" class="btn btn-primary">Book Now</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<app-footer></app-footer>
+  <app-footer></app-footer>
 
+</div>
