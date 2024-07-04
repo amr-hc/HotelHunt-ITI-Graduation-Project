@@ -28,7 +28,16 @@ export class UpdateComponent {
   }
 
   onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
+    const file = event.target.files[0];
+    const allowedTypes = ['image/jpeg', 'image/png','image/jpg', 'image/gif', 'image/bmp'];
+
+    if (file && allowedTypes.includes(file.type)) {
+      this.selectedFile = file;
+      this.message = '';
+    } else {
+      this.selectedFile = null;
+      this.message = 'Please upload a valid image file (jpeg, png, gif,jpg, bmp).';
+    }
   }
 
   update() {
@@ -41,12 +50,24 @@ export class UpdateComponent {
       this.message = 'Price must be a valid positive number.';
       return;
     }
-    if (!this.hotel.description || this.hotel.description.length < 10) {
-      this.message = 'Description must be at least 10 characters long.';
+    if (isNaN(Number(this.hotel.price)) || this.hotel.price > 100000) {
+      this.message = 'Price can not exceed 100,000';
+      return;
+    }
+    if (!this.hotel.description || this.hotel.description.length < 8) {
+      this.message = 'Description must be at least 8 characters long.';
       return;
     }
     if (isNaN(Number(this.hotel.capacity)) || this.hotel.capacity <= 0) {
       this.message = 'Capacity must be a valid positive number.';
+      return;
+    }
+    if (isNaN(Number(this.hotel.capacity)) || this.hotel.capacity > 12) {
+      this.message = 'Capacity can not be larger than 12';
+      return;
+    }
+    if (!this.selectedFile) {
+      this.message = 'Please select an image file.';
       return;
     }
 
