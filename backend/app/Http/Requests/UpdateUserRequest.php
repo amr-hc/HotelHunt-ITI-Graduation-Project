@@ -22,10 +22,12 @@ class UpdateUserRequest extends FormRequest
      */
     public function rules(): array
     {
+        $userId = $this->route('user');
+
         return [
-            'email' => ['nullable', 'string', 'email', 'max:255',Rule::unique('users')->ignore($this->user)],
+            'email' => ['nullable', 'string', 'email', 'max:255',Rule::unique('users')->ignore($userId)],
             'password' => ['nullable', 'string', 'min:8', 'confirmed'],
-            'phone' => ['nullable', 'string', 'max:25'],
+            'phone' => ['nullable', 'string', 'max:25',Rule::unique('users')->ignore($userId)],
             'address' => ['nullable', 'string', 'max:255'],
             'role' => ['nullable', 'string', 'max:50'],
             'fname' => ['nullable', 'string', 'max:100'],
