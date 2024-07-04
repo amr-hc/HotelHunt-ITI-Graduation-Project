@@ -1,3 +1,7 @@
 <div class="spinner-overlay">
   <div class="spinner"></div>
 </div>
+
+<div *ngIf="registrationError" class="alert alert-danger mt-3">
+  {{ registrationError }}
+</div>

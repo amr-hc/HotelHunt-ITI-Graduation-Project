@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -20,23 +20,30 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
       fname: ['', [Validators.required, Validators.maxLength(100)]],
       lname: ['', [Validators.required, Validators.maxLength(100)]],
-      phone: ['', [Validators.required, Validators.maxLength(25)]],
+      phone: ['', [Validators.required, Validators.maxLength(13),Validators.minLength(11), Validators.pattern(/^[0-9]+$/)]],
       address: ['', [Validators.required, Validators.maxLength(255)]],
       city: [''],
       role: ['guest', [Validators.required, Validators.maxLength(50)]],
-      age: ['', [Validators.required, Validators.min(18)]],
+      age: ['', [Validators.required, Validators.min(18),Validators.max(120)]],
       photo: [''],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       password_confirmation: ['', Validators.required],
     }, { validator: this.passwordMatchValidator });
+
+    this.route.queryParams.subscribe(params => {
+      if (params['error']) {
+        this.registrationError = params['error'];
+      }
+    });
   }
 
   passwordMatchValidator(form: FormGroup) {
@@ -63,9 +70,15 @@ export class RegisterComponent implements OnInit {
         this.navigateToDashboardOrHome(userData.role,res);
       },
       (error) => {
-        console.error('Registration failed', error);
+        console.error('Registration failed :', error);
         if (error.error && error.error.message) {
-          this.registrationError = error.error.message;
+        console.error('Registration failed error: ', error.error);
+
+          if (error.error.message === "Email not Signup yet") {
+            this.registrationError = "Your email is not signed up yet. Please register.";
+          } else {
+            this.registrationError = error.error.message;
+          }
           console.log(this.registrationError);
         } else {
           this.registrationError = 'Failed to register. Please try again later.';

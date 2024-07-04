@@ -30,7 +30,7 @@ export class EditProfileComponent implements OnInit {
       fname: ['', Validators.required],
       lname: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', Validators.required],
+      phone: ['', [Validators.required, Validators.maxLength(13),Validators.minLength(11), Validators.pattern(/^[0-9]+$/)]],
       address: ['', Validators.required],
       photo: ['']  // for image file
 
@@ -63,6 +63,10 @@ export class EditProfileComponent implements OnInit {
   }
 
   onSubmit(): void {
+    if (this.userForm.invalid) {
+      // this.errorMessage = 'Please correct the errors in the form.';
+      return;
+    }
     const formData = new FormData();
     formData.append('id', this.user.id.toString());
     formData.append('fname', this.userForm.value.fname);

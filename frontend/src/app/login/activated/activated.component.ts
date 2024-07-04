@@ -1,9 +1,12 @@
+import { CommonModule } from '@angular/common';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-activated',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './activated.component.html',
   styleUrls: ['./activated.component.css']
 })
@@ -54,12 +57,12 @@ export class ActivatedComponent implements OnInit {
 
         if (error.status === 404) {
           this.registrationError = 'You do not have an account. Please register.'; // Set custom error message
-          this.router.navigate(['/register']);
+          this.router.navigate(['/register'], { queryParams: { error: this.registrationError } });
         } else {
           this.registrationError = 'An unexpected error occurred. Please try again.';
-          this.router.navigate(['/register']);
+          this.router.navigate(['/register'], { queryParams: { error: this.registrationError } });
         }
-
+        console.log("reee"+ this.registrationError); // Add log to see if the error message is being set
         this.loading = false;
       }
     });

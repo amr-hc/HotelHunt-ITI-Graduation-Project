@@ -38,10 +38,21 @@
       <div class="form-group">
         <label for="phone" class="text-dark">Phone</label>
         <input type="tel" class="form-control form-control-dark" id="phone" formControlName="phone">
+
         <div *ngIf="userForm.get('phone')!.touched && userForm.get('phone')!.errors?.['required']" class="text-danger">
-          Phone is required
+          Phone is required.
+        </div>
+        <div *ngIf="userForm.get('phone')!.touched && userForm.get('phone')!.errors?.['minlength']" class="text-danger">
+          Phone number must be at least 11 digits.
+        </div>
+        <div *ngIf="userForm.get('phone')!.touched && userForm.get('phone')!.errors?.['maxlength']" class="text-danger">
+          Phone number cannot exceed 13 digits.
+        </div>
+        <div *ngIf="userForm.get('phone')!.touched && userForm.get('phone')!.errors?.['pattern']" class="text-danger">
+          Phone must contain only digits.
         </div>
       </div>
+
       <div class="form-group">
         <label for="address" class="text-dark">Address</label>
         <textarea class="form-control form-control-dark" id="address" formControlName="address" rows="3"></textarea>
