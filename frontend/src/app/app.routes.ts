@@ -74,7 +74,7 @@ export const routes: Routes = [
   },
   { path: 'owner', loadChildren: () => import("./components/Owner-Dashboard/owner.routes").then(o => o.ownerRoutes), canActivate: [OwnerGuard] },
 
-  {path : "hotelList" , component : HotellistComponent},
+  {path : "hotels" , component : HotellistComponent},
   {path : "hotels/:id" , component : RoomtypesComponent},
   //  {path:'owner', component:SidebarComponent},
   //  {path:'owner/booking' , component: BookingComponent},
