@@ -33,12 +33,16 @@ export class AddComponent {
       this.message = 'Price must be a valid positive number.';
       return;
     }
-    if (!this.hotel.description || this.hotel.description.length < 10) {
-      this.message = 'Description must be at least 10 characters long.';
+    if (!this.hotel.description || this.hotel.description.length < 8) {
+      this.message = 'Description must be at least 8 characters long.';
       return;
     }
     if (isNaN(Number(this.hotel.capacity)) || this.hotel.capacity <= 0) {
       this.message = 'Capacity must be a valid positive number.';
+      return;
+    }
+    if (isNaN(Number(this.hotel.capacity)) || this.hotel.capacity > 5) {
+      this.message = 'Capacity can not be larger than 5';
       return;
     }
 
