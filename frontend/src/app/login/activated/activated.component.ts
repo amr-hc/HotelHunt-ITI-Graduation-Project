@@ -45,10 +45,13 @@ export class ActivatedComponent implements OnInit {
         const token = response.token;
         const id = userData.id;
         const role = userData.role;
+        const verified = userData.email_verified_at;
 
         localStorage.setItem('token', token);
         localStorage.setItem('userId', id.toString());
         localStorage.setItem('userRole', role);
+        localStorage.setItem('verified', verified);
+        console.log(userData);
 
         this.redirectBasedOnRole(role);
       },
