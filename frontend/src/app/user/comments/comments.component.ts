@@ -68,7 +68,7 @@ export class CommentsComponent implements OnInit, OnDestroy {
     if (this.checkLoggedInUserRole !== 'guest' || this.isUserVerified === null) {
       Swal.fire({
         title: 'Comment Error',
-        text: 'You must be a registered user to make a reservation.',
+        text: 'You must be a registered user to comment.',
         icon: 'warning',
         confirmButtonText: 'OK'
       });

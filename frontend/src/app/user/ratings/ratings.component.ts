@@ -67,7 +67,7 @@ export class RatingsComponent implements OnInit, OnDestroy {
     if (this.checkLoggedInUserRole !== 'guest' || this.isUserVerified === null) {
       Swal.fire({
         title: 'Rating Error',
-        text: 'You must be a registered user to make a reservation.',
+        text: 'You must be a registered user to add a rating.',
         icon: 'warning',
         confirmButtonText: 'OK'
       });
