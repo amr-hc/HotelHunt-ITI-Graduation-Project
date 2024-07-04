@@ -121,7 +121,7 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
     }
     setTimeout(() => {
       this.isLoading = false;
-    }, 800);
+    }, 1200);
   }
 
   onSearch() {
