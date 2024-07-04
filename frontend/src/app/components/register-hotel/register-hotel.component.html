@@ -11,7 +11,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="name" class="text-dark">Hotel Name</label>
+              <label for="name" class="text-primary">Hotel Name</label>
               <input type="text" formControlName="name" class="form-control" placeholder="Hotel Name">
               <div *ngIf="shouldShowError('name')" class="text-danger">
                 <div *ngIf="registerForm.get('name')?.errors?.['required']">Hotel Name is required.</div>
@@ -22,7 +22,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="address" class="text-dark">Address</label>
+              <label for="address" class="text-primary">Address</label>
               <input type="text" formControlName="address" class="form-control" placeholder="Address">
               <div *ngIf="shouldShowError('address')" class="text-danger">
                 <div *ngIf="registerForm.get('address')?.errors?.['required']">Address is required.</div>
@@ -34,7 +34,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="country" class="text-dark">Country</label>
+              <label for="country" class="text-primary">Country</label>
               <select formControlName="country" class="form-control" (change)="onCountryChange($event)">
                 <option *ngFor="let country of countries" [value]="country.name.common">{{ country.name.common }}</option>
               </select>
@@ -45,7 +45,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="description" class="text-dark">Description</label>
+              <label for="description" class="text-primary">Description</label>
               <textarea formControlName="description" class="form-control" rows="4" style="height: 50px;" placeholder="Description"></textarea>
             </div>
           </div>
@@ -54,7 +54,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="city" class="text-dark">City</label>
+              <label for="city" class="text-primary">City</label>
               <select formControlName="city" class="form-control" (change)="onCityChange($event)">
                 <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
                 <option value="Other">Other</option>
@@ -66,7 +66,7 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="starRating" class="text-dark">Star Rating</label>
+              <label for="starRating" class="text-primary">Star Rating</label>
               <select formControlName="star_rating" class="form-control">
                 <option *ngFor="let rating of [1, 2, 3, 4, 5]" [value]="rating">{{ rating }}</option>
               </select>
@@ -77,7 +77,7 @@
           </div>
         </div>
         <div *ngIf="showAddCityInput" class="form-group">
-          <label for="newCity" class="text-dark">Add New City</label>
+          <label for="newCity" class="text-primary">Add New City</label>
           <input type="text" [(ngModel)]="newCity" name="newCity" class="form-control" placeholder="New City" [ngModelOptions]="{ standalone: true }">
           <button type="button" class="btn btn-primary mt-1" (click)="addNewCity()">Add City</button>
         </div>
