@@ -16,7 +16,7 @@ export class LoginComponent {
   loginForm: FormGroup;
   loginError: string | null = null;
   formSubmitted = false;
-  loading:boolean=true;
+  loading:boolean=false;
 
   constructor(
     private fb: FormBuilder,
@@ -40,6 +40,7 @@ export class LoginComponent {
       return;
     }
 
+    this.loading=true;
     this.authService.login(this.loginForm.value).subscribe(
       (res) => {
         this.authService.handleLoginSuccess(res);
@@ -49,6 +50,7 @@ export class LoginComponent {
       (error) => {
         console.error('Login failed', error);
         this.loginError = error.error && error.error.message ? error.error.message : 'Failed to login. Please try again later.';
+        this.loading=false;
       }
     );
   }
