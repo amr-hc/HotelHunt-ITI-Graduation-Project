@@ -45,17 +45,17 @@
               <thead class="bg-dark text-white">
                 <tr>
                   <th>Room Type</th>
+                  <th>Number of rooms</th>
                   <th>Price</th>
                   <th>Total Price</th>
-                  <th>Count</th>
                 </tr>
               </thead>
               <tbody>
                 <tr *ngFor="let detail of groupedDetails">
                   <td>{{ detail.room_name }}</td>
+                  <td>{{ detail.count }}</td>
                   <td>${{ detail.price }}</td>
                   <td>${{ detail.total_price }}</td>
-                  <td>{{ detail.count }}</td>
                 </tr>
               </tbody>
             </table>

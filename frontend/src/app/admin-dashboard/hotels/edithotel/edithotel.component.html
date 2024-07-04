@@ -21,7 +21,7 @@
               Name must not exceed 100 characters.
             </div>
             <div *ngIf="formSubmitted && editForm.get('name')?.errors?.['pattern']" class="text-danger">
-              Name must must be only characters.
+              Hotel Name should have at least one alphabetical character.
             </div>
           </div>
 

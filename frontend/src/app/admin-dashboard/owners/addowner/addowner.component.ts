@@ -40,6 +40,8 @@ export class AddownerComponent {
             Validators.required,
             Validators.minLength(3),
             Validators.maxLength(100),
+            Validators.pattern("^[A-Za-z]+$"),
+
           ],
         ],
         lname: [
@@ -48,6 +50,8 @@ export class AddownerComponent {
             Validators.required,
             Validators.minLength(3),
             Validators.maxLength(100),
+            Validators.pattern("^[A-Za-z]+$"),
+
           ],
         ],
         email: ['', [Validators.required, Validators.email]],
@@ -65,7 +69,7 @@ export class AddownerComponent {
             Validators.required,
             Validators.minLength(8),
             Validators.maxLength(255),
-            Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/)
+            Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/),
           ],
         ],
         password: ['', [Validators.required, Validators.minLength(8)]],

@@ -40,4 +40,8 @@ export class UserService {
   getOwnersWithoutHotels(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl2}/getownerswithouthotel`);
   }
+
+  editVerification(id: number, data: Partial<User>): Observable<any> {
+    return this.http.post<User>(`${this.apiUrl}/${id}?_method=PATCH`, data);
+  }
 }

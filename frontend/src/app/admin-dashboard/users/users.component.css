@@ -5,10 +5,9 @@
 
 .table th,
 .table td {
-  /* white-space: nowrap;
+   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; */
-  max-width: 80px; /* Adjust as needed */
+  text-overflow: ellipsis;
 }
 
 @media (max-width: 767px) {

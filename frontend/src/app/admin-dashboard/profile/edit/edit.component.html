@@ -22,6 +22,12 @@
               First name is required.
             </div>
             <div
+            *ngIf="formSubmitted && editForm.get('fname')?.errors?.['pattern']"
+            class="text-danger"
+          >
+            First Name must be all characters
+          </div>
+            <div
               *ngIf="formSubmitted && editForm.get('fname')?.errors?.['minlength']"
               class="text-danger"
             >
@@ -50,6 +56,12 @@
             >
               Last name is required.
             </div>
+            <div
+            *ngIf="formSubmitted && editForm.get('lname')?.errors?.['pattern']"
+            class="text-danger"
+          >
+            Last Name must be all characters
+          </div>
             <div
               *ngIf="formSubmitted && editForm.get('lname')?.errors?.['minlength']"
               class="text-danger"
@@ -159,6 +171,7 @@
               id="age"
               class="form-control"
               formControlName="age"
+              min="18"
             />
             <div
               *ngIf="formSubmitted && editForm.get('age')?.errors?.['required']"

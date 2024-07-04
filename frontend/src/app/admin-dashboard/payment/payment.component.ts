@@ -31,6 +31,8 @@ export class PaymentComponent implements OnInit {
     this.paymentService.getAllPayments().subscribe(
       (response: any) => {
         this.payments = response.data;
+        // Sort payments by date in descending order
+        this.payments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         console.log('Payments:', this.payments);
         this.groupPaymentsByHotel();
         this.isLoading = false;
@@ -42,6 +44,7 @@ export class PaymentComponent implements OnInit {
       }
     );
   }
+
 
   private groupPaymentsByHotel(): void {
     this.groupedPayments = this.payments.reduce((acc, payment) => {
@@ -133,6 +136,10 @@ export class PaymentComponent implements OnInit {
       });
     }
 
+    // Sort the filtered payments by date in descending order
+    filteredPayments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+
     return filteredPayments;
   }
+
 }

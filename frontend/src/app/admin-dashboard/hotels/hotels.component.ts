@@ -58,36 +58,36 @@ export class HotelsComponent implements OnInit {
     this.router.navigate(['admin-dashboard/hotels/edit', id]);
   }
 
-  confirmDeleteHotel(id: number): void {
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover this hotel!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.deleteHotel(id);
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        Swal.fire('Cancelled', 'Your hotel is safe :)', 'info');
-      }
-    });
-  }
+  // confirmDeleteHotel(id: number): void {
+  //   Swal.fire({
+  //     title: 'Are you sure?',
+  //     text: 'You will not be able to recover this hotel!',
+  //     icon: 'warning',
+  //     showCancelButton: true,
+  //     confirmButtonText: 'Yes, delete it!',
+  //     cancelButtonText: 'No, keep it',
+  //   }).then((result) => {
+  //     if (result.isConfirmed) {
+  //       this.deleteHotel(id);
+  //     } else if (result.dismiss === Swal.DismissReason.cancel) {
+  //       Swal.fire('Cancelled', 'Your hotel is safe :)', 'info');
+  //     }
+  //   });
+  // }
 
-  deleteHotel(id: number): void {
-    this.hotelService.deleteHotel(id).subscribe(
-      () => {
-        this.hotels = this.hotels.filter((hotel) => hotel.id !== id);
-        this.filterHotels();
-        Swal.fire('Deleted!', 'Your hotel has been deleted.', 'success');
-      },
-      (error) => {
-        Swal.fire('Error!', 'Failed to delete hotel.', 'error');
-        console.error('Error deleting hotel:', error);
-      }
-    );
-  }
+  // deleteHotel(id: number): void {
+  //   this.hotelService.deleteHotel(id).subscribe(
+  //     () => {
+  //       this.hotels = this.hotels.filter((hotel) => hotel.id !== id);
+  //       this.filterHotels();
+  //       Swal.fire('Deleted!', 'Your hotel has been deleted.', 'success');
+  //     },
+  //     (error) => {
+  //       Swal.fire('Error!', 'Failed to delete hotel.', 'error');
+  //       console.error('Error deleting hotel:', error);
+  //     }
+  //   );
+  // }
 
   updateHotelStatus(hotel: Hotel): void {
     this.hotelService.updateHotelStatus(hotel.id, hotel.status).subscribe((updatedHotel) => {

@@ -8,6 +8,7 @@ export class User {
     public address: string,
     public role: 'admin' | 'owner' | 'guest',
     public age: number,
-    public photo: string
+    public photo: string,
+    public email_verified_at?: any
   ) {}
 }

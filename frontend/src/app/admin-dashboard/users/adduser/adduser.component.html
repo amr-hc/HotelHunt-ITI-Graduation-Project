@@ -9,6 +9,7 @@
             <input type="text" id="fname" formControlName="fname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['fname'].errors }">
             <div *ngIf="submitted && f['fname'].errors" class="invalid-feedback">
               <div *ngIf="f['fname'].errors['required']">First Name is required</div>
+              <div *ngIf="f['fname'].errors['pattern']">First Name must be all characters</div>
               <div *ngIf="f['fname'].errors['minlength']">First Name should be at least 3 characters</div>
               <div *ngIf="f['fname'].errors['maxlength']">First Name shouldn't exceed 100 characters</div>
             </div>
@@ -18,6 +19,7 @@
             <input type="text" id="lname" formControlName="lname" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['lname'].errors }">
             <div *ngIf="submitted && f['lname'].errors" class="invalid-feedback">
               <div *ngIf="f['lname'].errors['required']">Last Name is required</div>
+              <div *ngIf="f['lname'].errors['pattern']">Last Name must be all characters</div>
               <div *ngIf="f['lname'].errors['minlength']">Last Name should be at least 3 characters</div>
               <div *ngIf="f['lname'].errors['maxlength']">Last Name shouldn't exceed 100 characters</div>
             </div>
@@ -57,7 +59,7 @@
           </div>
           <div class="col">
             <label for="age" class="form-label">Age</label>
-            <input type="number" id="age" formControlName="age" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['age'].errors }">
+            <input type="number" id="age" formControlName="age" min="18" class="form-control" [ngClass]="{ 'is-invalid': submitted && f['age'].errors }">
             <div *ngIf="submitted && f['age'].errors" class="invalid-feedback">
               <div *ngIf="f['age'].errors['required']">Age is required</div>
               <div *ngIf="f['age'].errors['min']">Age must be at least 18</div>

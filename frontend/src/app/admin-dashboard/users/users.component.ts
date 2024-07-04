@@ -29,6 +29,7 @@ export class UsersComponent {
       (response: any) => {
         this.users = response.data;
         this.filteredUsers = this.users.filter((user) => user.role === 'guest');
+        console.log(this.filteredUsers);
         this.isLoading = false;
       },
       (error) => {
@@ -84,6 +85,24 @@ export class UsersComponent {
       user.role === 'guest' &&
       (user.fname.toLowerCase().includes(searchTermLower) ||
        user.email.toLowerCase().includes(searchTermLower))
+    );
+  }
+
+  toggleEmailVerified(id: number, event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    const currentDate = isChecked ? new Date() : null;
+    console.log(`Toggling email_verified_at for user ID ${id} to ${currentDate}`);
+    this.userService.editVerification(id, { email_verified_at: currentDate }).subscribe(
+      (response) => {
+        console.log('Response from server:', response);
+        const user = this.filteredUsers.find(user => user.id === id);
+        if (user) {
+          user.email_verified_at = currentDate;
+        }
+      },
+      (error) => {
+        console.error('Error updating email verification status', error);
+      }
     );
   }
 }

@@ -105,7 +105,7 @@
                   Hotel Name cannot exceed 100 characters.
                 </div>
                 <div *ngIf="registerForm.get('name')?.errors?.['pattern']">
-                  Hotel Name must be only characters.
+                  Hotel Name should have at least one alphabetical character.
                 </div>
               </div>
             </div>
