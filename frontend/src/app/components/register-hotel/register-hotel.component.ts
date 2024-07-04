@@ -20,7 +20,7 @@ export class RegisterHotelComponent implements OnInit {
   cities: string[] = [];
   showAddCityInput = false;
   newCity = '';
-  loading:boolean=true;
+  loading:boolean=false;
 
   constructor(
     private fb: FormBuilder,
@@ -91,11 +91,12 @@ export class RegisterHotelComponent implements OnInit {
       if (this.registerForm.value.image) {
         formData.append('image', this.registerForm.value.image);
       }
-
+      this.loading=true;
       this.hotelService.registerHotel(formData).subscribe(
         (res) => {
           console.log('Hotel registered successfully', res);
           this.router.navigate(['/owner']);
+          this.loading=false;
         },
         (error) => {
           console.error('Registration failed', error);
@@ -104,6 +105,7 @@ export class RegisterHotelComponent implements OnInit {
           } else {
             this.registrationError = 'Failed to register. Please try again later.';
           }
+          this.loading=false;
         }
       );
     } else {

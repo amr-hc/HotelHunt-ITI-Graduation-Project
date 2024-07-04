@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   registrationError: string | null = null;
   formSubmitted = false;
+  loading:boolean=false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -59,6 +60,7 @@ export class RegisterComponent implements OnInit {
     }
 
     const userData = this.registerForm.value;
+    this.loading=true;
     this.authService.register(userData).subscribe(
       (res) => {
         // if (userData.role === 'owner') {
@@ -67,7 +69,8 @@ export class RegisterComponent implements OnInit {
         //   this.router.navigate(['/login']);
         // }
         this.authService.handleLoginSuccess(res);
-        this.navigateToDashboardOrHome(userData.role,res);
+        this.navigateToDashboardOrHome(userData.role, res);
+        this.loading = false;
       },
       (error) => {
         console.error('Registration failed :', error);
@@ -83,6 +86,7 @@ export class RegisterComponent implements OnInit {
         } else {
           this.registrationError = 'Failed to register. Please try again later.';
         }
+        this.loading = false;
       }
     );
   }
