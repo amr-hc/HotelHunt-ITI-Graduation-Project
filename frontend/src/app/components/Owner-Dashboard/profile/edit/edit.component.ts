@@ -33,7 +33,7 @@ export class EditComponent implements OnInit {
       email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
       phone: ['', [Validators.required, Validators.maxLength(25)]],
       address: ['', [Validators.required, Validators.maxLength(255)]],
-      age: ['', [Validators.required, Validators.min(18)]],
+      age: ['', [Validators.required, Validators.min(18), Validators.max(80)]],
       photo: [''],
     });
   }

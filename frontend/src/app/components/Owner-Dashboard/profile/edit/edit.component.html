@@ -56,7 +56,7 @@
         <!-- Phone -->
         <div class="form-group mb-3">
           <label for="phone" class="form-label">Phone</label>
-          <input type="text" id="phone" class="form-control" formControlName="phone" />
+          <input type="number" id="phone" class="form-control" formControlName="phone" />
           <div *ngIf="formSubmitted && editForm.get('phone')?.errors?.['required']" class="text-danger">
             Phone is required.
           </div>
@@ -87,6 +87,9 @@
           </div>
           <div *ngIf="formSubmitted && editForm.get('age')?.errors?.['min']" class="text-danger">
             Age must be at least 18 years old.
+          </div>
+          <div *ngIf="formSubmitted && editForm.get('age')?.errors?.['max']" class="text-danger">
+            Age must be at Max 80 years old.
           </div>
         </div>
 
