@@ -1,82 +1,94 @@
-<app-header></app-header>
-<div *ngIf="loading" class="loading-spinner">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-</div>
-<div *ngIf="!loading">
-  <h2 class="text-dark text-center my-3 fs-2 fw-bold fst-italic">{{ hotel?.name }}</h2>
-  <div class="gallery-container w-75 mx-auto">
-    <div class="large-image">
-      <img [src]="selectedImage" class="img-fluid rounded mx-auto d-block" alt="Hotel Image">
+<div class="wrapper">
+  <app-header></app-header>
+  <div class="content">
+    <div *ngIf="loading" class="loading-spinner">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
     </div>
-    <div class="thumbnail-images bg-primary-subtle">
-      <img *ngFor="let image of images" [src]="'http://127.0.0.1:8000/storage/' + image.image"
-        (click)="selectImage('http://127.0.0.1:8000/storage/' + image.image)"
-        [class.active]="selectedImage === 'http://127.0.0.1:8000/storage/' + image.image" class="img-thumbnail"
-        alt="Hotel Thumbnail">
-    </div>
-  </div>
+    <div *ngIf="!loading && errorMessage === ''">
+      <h2 class="text-dark text-center my-3 fs-2 fw-bold fst-italic">{{ hotel?.name }}</h2>
+      <div class="gallery-container w-75 mx-auto">
+        <div class="large-image">
+          <img [src]="selectedImage" class="img-fluid rounded mx-auto d-block" alt="Hotel Image">
+        </div>
+        <div class="thumbnail-images bg-primary-subtle">
+          <img *ngFor="let image of images" [src]="'http://127.0.0.1:8000/storage/' + image.image"
+            (click)="selectImage('http://127.0.0.1:8000/storage/' + image.image)"
+            [class.active]="selectedImage === 'http://127.0.0.1:8000/storage/' + image.image" class="img-thumbnail"
+            alt="Hotel Thumbnail">
+        </div>
+      </div>
 
-  <!-- Hotel Info -->
-  <div class="sec2 row">
-    <div class="col-md-6">
-      <div class="hotel-info">
-        <h3 class="mb-4">Hotel Information</h3>
-        <div class="row mb-3">
-          <div class="col-sm-4 fw-bold h-title">Country:</div>
-          <div class="col-sm-8 h-val">{{ hotel?.country }}</div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-sm-4 fw-bold h-title">City:</div>
-          <div class="col-sm-8 h-val">{{ hotel?.city }}</div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-sm-4 fw-bold h-title">Address:</div>
-          <div class="col-sm-8 h-val">{{ hotel?.address }}</div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-sm-4 fw-bold h-title">Star Rating:</div>
-          <div class="col-sm-8">
-            <div class="rating-stars">
-              <ng-container *ngFor="let star of [].constructor(hotel?.star_rating)">
-                <i class="fas fa-star"></i>
-              </ng-container>
-              <ng-container *ngFor="let emptyStar of [].constructor(5 - (hotel?.star_rating ?? 0))">
-                <i class="far fa-star"></i>
-              </ng-container>
+      <!-- Hotel Info -->
+      <div class="sec2 row">
+        <div class="col-md-6">
+          <div class="hotel-info">
+            <h3 class="mb-4">Hotel Information</h3>
+            <div class="row mb-3">
+              <div class="col-sm-4 fw-bold h-title">Country:</div>
+              <div class="col-sm-8 h-val">{{ hotel?.country }}</div>
             </div>
-          </div>
-        </div>
-        <div class="row mb-3">
-          <div class="col-sm-4 fw-bold h-title">User Reviews:</div>
-          <div class="col-sm-8">
-            <div class="rating-stars">
-              <div class="rating-stars">
-                <ng-container *ngFor="let star of [].constructor(hotel?.average_rate)">
-                  <i class="fas fa-star"></i>
-                </ng-container>
-                <ng-container *ngFor="let emptyStar of [].constructor(5 - (hotel?.average_rate ?? 0))">
-                  <i class="far fa-star"></i>
-                </ng-container>
+            <div class="row mb-3">
+              <div class="col-sm-4 fw-bold h-title">City:</div>
+              <div class="col-sm-8 h-val">{{ hotel?.city }}</div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-sm-4 fw-bold h-title">Address:</div>
+              <div class="col-sm-8 h-val">{{ hotel?.address }}</div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-sm-4 fw-bold h-title">Star Rating:</div>
+              <div class="col-sm-8">
+                <div class="rating-stars">
+                  <ng-container *ngFor="let star of [].constructor(hotel?.star_rating)">
+                    <i class="fas fa-star"></i>
+                  </ng-container>
+                  <ng-container *ngFor="let emptyStar of [].constructor(5 - (hotel?.star_rating ?? 0))">
+                    <i class="far fa-star"></i>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-sm-4 fw-bold h-title">User Reviews:</div>
+              <div class="col-sm-8">
+                <div class="rating-stars">
+                  <div class="rating-stars">
+                    <ng-container *ngFor="let star of [].constructor(hotel?.average_rate)">
+                      <i class="fas fa-star"></i>
+                    </ng-container>
+                    <ng-container *ngFor="let emptyStar of [].constructor(5 - (hotel?.average_rate ?? 0))">
+                      <i class="far fa-star"></i>
+                    </ng-container>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="col-md-6">
+          <div class="hotel-description">
+            <h3 class="mb-4">Description</h3>
+            <p class="h-val">{{ hotel?.description }}</p>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="col-md-6">
-      <div class="hotel-description">
-        <h3 class="mb-4">Description</h3>
-        <p class="h-val">{{ hotel?.description }}bfghgbhjdfhgbjddfjhghjbfdgjgbhkfjfkgfjghkbdjhbkfdgbhjgfd</p>
-      </div>
-    </div>
-  </div>
-  <!-- Hotel Room Availability -->
-  <app-hotel-room-availability></app-hotel-room-availability>
-  <!-- Hotel Ratings & Comments -->
-  <app-ratings></app-ratings>
-  <app-comments></app-comments>
-  <app-footer></app-footer>
+      <!-- Hotel Room Availability -->
+      <app-hotel-room-availability></app-hotel-room-availability>
+      <!-- Hotel Ratings & Comments -->
+      <app-ratings></app-ratings>
+      <app-comments></app-comments>
 
+
+    </div>
+    <div *ngIf="!loading && errorMessage !== ''"
+      class="alert alert-danger mx-auto rounded-5 col-10 col-md-8 mt-5 d-flex align-items-center">
+      <p class="text-center fs-3 m-auto">{{ errorMessage }}</p>
+    </div>
+
+  </div>
+  <app-footer></app-footer>
 </div>
+
+

@@ -31,16 +31,11 @@ export class RatingsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.checkLoggedInUserRole = localStorage.getItem('userRole') || '';
-    console.log("User Role:", this.checkLoggedInUserRole);
     this.isUserVerified = localStorage.getItem('verified') || null;
-    console.log("User Verified:", this.isUserVerified);
     this.user_id = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')) : null;
-    console.log('User ID:', this.user_id);
-    console.log(typeof this.user_id);
     this.hotelIdSubscription = this.HotelService.hotelId$.subscribe(
       (id) => {
         this.hotel_id = id;
-        console.log('Hotel ID:', this.hotel_id);
       },
       (error: any) => {
         console.error('Error fetching hotel ID', error);
@@ -58,7 +53,6 @@ export class RatingsComponent implements OnInit, OnDestroy {
         }
       },
       (error: any) => {
-        console.log('user is not logged in');
       }
     );
   }

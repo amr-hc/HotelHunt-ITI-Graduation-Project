@@ -42,6 +42,7 @@ export class HotelComponent implements OnInit, OnDestroy {
   loading: boolean = true;
   imagePath = "http://127.0.0.1:8000/storage/";
   selectedImage: string = '';
+  errorMessage: string = '';
 
 
 
@@ -73,8 +74,9 @@ export class HotelComponent implements OnInit, OnDestroy {
         }
       },
       error: (err: any) => {
-        console.error('Error fetching hotel details:', err);
-        // this.loading = false;
+        // console.error('Error fetching hotel details:', err);
+        this.errorMessage = 'Error fetching hotel details. Please try again later.';
+        this.loading = false;
       }
     });
   }
@@ -83,11 +85,12 @@ export class HotelComponent implements OnInit, OnDestroy {
     this.hotelService.getHotelImages(this.id).subscribe({
       next: (images) => {
         this.images =[...this.images, ...images];
-        console.log("Hotel images loaded:");
         this.loading = false;
       },
       error: (err) => {
-        console.error('Error fetching hotel images:', err);
+        // console.error('Error fetching hotel images:', err);
+        // this.errorMessage = 'Error fetching hotel images. Please try again later.';
+        this.loading = false;
       }
 
     });

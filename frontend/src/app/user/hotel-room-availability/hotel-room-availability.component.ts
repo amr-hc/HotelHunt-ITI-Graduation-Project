@@ -93,16 +93,12 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
 
     this.checkLoggedInUserRole = localStorage.getItem('userRole') || '';
     this .isUserVerified = localStorage.getItem('verified') || null;
-    console.log("User Role:", this.checkLoggedInUserRole);
-    console.log("User Verified:", this.isUserVerified);
 
 
     this.user_id = localStorage.getItem('userId') ? Number(localStorage.getItem('userId')) : null;
-    console.log('User ID:', this.user_id);
     this.hotelIdSubscription = this.HotelService.hotelId$.subscribe(
       (id) => {
         this.hotel_id = id;
-        console.log('Hotel ID:', this.hotel_id);
       },
       (error: any) => {
         console.error('Error fetching hotel ID', error);
@@ -206,7 +202,6 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
       const end = new Date(this.checkoutDate);
       const diffTime = Math.abs(end.getTime() - start.getTime());
       this.duration = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      console.log(this.duration);
 
       Swal.fire({
         title: 'Confirm Reservation',
@@ -219,17 +214,14 @@ export class HotelRoomAvailabilityComponent implements OnInit, OnDestroy {
         if (result.isConfirmed) {
           const bookingData = new BookingData(this.user_id, this.duration, 'progress',
             this.checkinDate,this.checkoutDate,bookingDetails);
-          console.log(bookingData);
 
           this.bookingSubscription = this.bookingService.bookingRoom(bookingData).subscribe(
             response => {
-              console.log('Booking successful', response);
               Swal.fire('Reserved!', 'Your rooms have been reserved.', 'success');
               this.router.navigate(['/user/profile']);
 
             },
             error => {
-              console.error('Booking failed', error);
               Swal.fire('Error', 'Failed to reserve rooms.', 'error');
             }
           );
