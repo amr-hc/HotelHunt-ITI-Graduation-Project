@@ -65,10 +65,10 @@ export class CommentsComponent implements OnInit, OnDestroy {
   }
 
   addComment() {
-    if (this.checkLoggedInUserRole !== 'guest' || this.isUserVerified === null) {
+    if (this.checkLoggedInUserRole !== 'guest' || this.isUserVerified === 'null' || this.isUserVerified === 'undefined') {
       Swal.fire({
         title: 'Comment Error',
-        text: 'You must be a registered user to comment.',
+        text: 'You must be a verified registered user to comment.',
         icon: 'warning',
         confirmButtonText: 'OK'
       });
