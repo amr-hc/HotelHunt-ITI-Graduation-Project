@@ -20,35 +20,40 @@
         </div>
       </div>
 
-      <div class="card-body">
-        <p><strong>City:</strong> {{ hotel.city }}</p>
-        <p><strong>Address:</strong> {{ hotel.address }}</p>
-        <p><strong>Status:</strong> {{ hotel.status }}</p>
-        <p><strong>Star Rating:</strong>
-          <span class="star-rating">
-            <ng-container *ngFor="let _ of starRange(getStarRatingStars(hotel.star_rating).fullStars)">
-              <i class="star fa fa-star text-warning"></i>
-            </ng-container>
-            <ng-container *ngIf="getStarRatingStars(hotel.star_rating).halfStars === 1">
-              <i class="star fa fa-star-half text-warning"></i>
-            </ng-container>
-          </span>
-        </p>
-        <p><strong>Balance:</strong> {{ hotel.balance | currency:'EGP ' }}</p>
-        <p><strong>Description:</strong> {{ hotel.description }}</p>
+      <div class="card-body d-flex justify-content-between">
+        <div class="hotel-details">
+          <p><strong>City:</strong> {{ hotel.city }}</p>
+          <p><strong>Address:</strong> {{ hotel.address }}</p>
+          <p><strong>Status:</strong> {{ hotel.status }}</p>
+          <p><strong>Star Rating:</strong>
+            <span class="star-rating">
+              <ng-container *ngFor="let _ of starRange(getStarRatingStars(hotel.star_rating).fullStars)">
+                <i class="star fa fa-star text-warning"></i>
+              </ng-container>
+              <ng-container *ngIf="getStarRatingStars(hotel.star_rating).halfStars === 1">
+                <i class="star fa fa-star-half text-warning"></i>
+              </ng-container>
+            </span>
+          </p>
+          <p><strong>Balance:</strong> {{ hotel.balance | currency:'EGP ' }}</p>
+          <p><strong>Description:</strong> {{ hotel.description }}</p>
 
-        <p><strong>User Rating :</strong>
-          <span class="star-rating">
-            <ng-container *ngFor="let _ of starRange(getStarRatingStars(hotel.average_rate).fullStars)">
-              <i class="star fa fa-star text-warning"></i>
-            </ng-container>
-            <ng-container *ngIf="getStarRatingStars(hotel.star_rating).halfStars === 1">
-              <i class="star fa fa-star-half text-warning"></i>
-            </ng-container>
-          </span>
-        </p>
-
+          <p><strong>User Rating :</strong>
+            <span class="star-rating">
+              <ng-container *ngFor="let _ of starRange(getStarRatingStars(hotel.average_rate).fullStars)">
+                <i class="star fa fa-star text-warning"></i>
+              </ng-container>
+              <ng-container *ngIf="getStarRatingStars(hotel.star_rating).halfStars === 1">
+                <i class="star fa fa-star-half text-warning"></i>
+              </ng-container>
+            </span>
+          </p>
+        </div>
+        <div class="hotel-image mx-auto">
+          <img [src]="'http://127.0.0.1:8000/storage/' + hotel.image" alt="Hotel Image" class="img-fluid rounded shadow-sm" />
+        </div>
       </div>
+
 
       <!-- Hotel Images -->
       <div *ngIf="ownerImages[hotel.id]" class="hotel-images px-3 pb-3">
