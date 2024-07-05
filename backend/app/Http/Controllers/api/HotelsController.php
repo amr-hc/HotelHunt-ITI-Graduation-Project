@@ -63,6 +63,7 @@ class HotelsController extends Controller
      */
     public function update(Request $request, $id)
     {
+        
         $hotel = Hotel::findOrFail($id);
 
         if ($request->hasFile('image')) {
