@@ -70,7 +70,7 @@
         <div *ngIf="result.length === 0" class="bg-danger-subtle text-center p-4 w-100 mx-auto rounded-5 fs-3">No
           results found.</div>
         <div class="row" *ngIf="result.length > 0">
-          <h4 class="text-center">{{ city }}: {{result.length}} properties found</h4>
+          <h4 class="text-center">{{ searcheCity|titlecase }}: {{result.length}} properties found</h4>
           <div *ngFor="let hotelGroup of result | paginate: { itemsPerPage: 3, currentPage: currentPage }">
 
             <div class="card mb-3 p-3 position-relative">

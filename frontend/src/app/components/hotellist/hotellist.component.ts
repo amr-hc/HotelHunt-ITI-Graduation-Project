@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Hotel } from '../../models/hotel';
-import { HotelsService } from '../../services/hotels.service';
 import { HotelService } from '../../services/hotel.service';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -8,7 +7,7 @@ import { HeaderComponent } from '../../layouts/header/header.component';
 import { SliderComponent } from '../../layouts/slider/slider.component';
 import { FooterComponent } from '../../layouts/footer/footer.component';
 import { RouterModule } from '@angular/router';
-import { HotelImage } from '../../models/hotelImage';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-hotellist',
@@ -17,13 +16,13 @@ import { HotelImage } from '../../models/hotelImage';
   templateUrl: './hotellist.component.html',
   styleUrls: ['./hotellist.component.css']
 })
-export class HotellistComponent implements OnInit {
+export class HotellistComponent implements OnInit, OnDestroy {
   hotels: Hotel[] = [];
   filteredHotels: Hotel[] = [];
-  hotelImages: { [key: number]: HotelImage[] } = {};
   isLoading: boolean = true;
   errorMessage: string = '';
   currentPage: number = 1;
+  private subscriptions: Subscription[] = [];
 
   constructor(private hotelService: HotelService) { }
 
@@ -31,38 +30,30 @@ export class HotellistComponent implements OnInit {
     this.getAllHotels();
   }
 
+
+
   getAllHotels(): void {
-    this.hotelService.getAllHotels().subscribe(
+    const hotelsSubscription = this.hotelService.getAllHotels().subscribe(
       (response: any) => {
         this.isLoading = false;
         this.hotels = response.data;
         this.filteredHotels = this.hotels.filter((hotel) => hotel.status === 'active');
         if (this.hotels.length === 0) {
           this.errorMessage = 'No hotels found.';
+          this.isLoading = false;
         } else {
-          this.fetchHotelImages();
+          this.isLoading = false;
         }
       },
       (error: any) => {
-        this.isLoading = false;
         this.errorMessage = 'Failed to fetch hotels.';
         console.error('Error fetching hotels:', error);
+        this.isLoading = false;
       }
     );
+    this.subscriptions.push(hotelsSubscription);
   }
 
-  fetchHotelImages(): void {
-    this.hotels.forEach(hotel => {
-      this.hotelService.getHotelImages(hotel.id).subscribe(
-        (images: HotelImage[]) => {
-          this.hotelImages[hotel.id] = images;
-        },
-        (error: any) => {
-          console.error(`Error fetching images for hotel ${hotel.id}:`, error);
-        }
-      );
-    });
-  }
 
   getStars(rate: number): string[] {
     const fullStars = Math.floor(rate);
@@ -75,5 +66,9 @@ export class HotellistComponent implements OnInit {
       stars.push('fa fa-star-o text-warning');
     }
     return stars;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
   }
 }
