@@ -1,29 +1,67 @@
 <div class="container mt-5">
   <div class="card shadow-lg border-0 rounded-lg p-4">
-    <h1 class="text-center mb-4">Edit Hotel</h1>
-    <form [formGroup]="hotelForm">
+    <h1 class="text-center mb-4 text-primary">Edit Hotel</h1>
+    <form [formGroup]="hotelForm" (ngSubmit)="save()">
       <div class="form-group mb-3">
         <label for="name">Name</label>
         <input id="name" class="form-control" formControlName="name" placeholder="Enter hotel name">
+        <div *ngIf="hotelForm.get('name')?.touched && hotelForm.get('name')?.invalid" class="text-danger">
+          <div *ngIf="hotelForm.get('name')?.errors?.['required']">Name is required.</div>
+          <div *ngIf="hotelForm.get('name')?.errors?.['minlength']">Name must be at least 3 characters long.</div>
+          <div *ngIf="hotelForm.get('name')?.errors?.['maxlength']">Name cannot exceed 100 characters.</div>
+        </div>
       </div>
+
       <div class="form-group mb-3">
         <label for="city">City</label>
         <input id="city" class="form-control" formControlName="city" placeholder="Enter city name">
+        <div *ngIf="hotelForm.get('city')?.touched && hotelForm.get('city')?.invalid" class="text-danger">
+          <div *ngIf="hotelForm.get('city')?.errors?.['required']">City is required.</div>
+          <div *ngIf="hotelForm.get('city')?.errors?.['minlength']">City must be at least 3 characters long.</div>
+          <div *ngIf="hotelForm.get('city')?.errors?.['maxlength']">City cannot exceed 50 characters.</div>
+        </div>
       </div>
+
       <div class="form-group mb-3">
         <label for="country">Country</label>
         <input id="country" class="form-control" formControlName="country" placeholder="Enter country name">
+        <div *ngIf="hotelForm.get('country')?.touched && hotelForm.get('country')?.invalid" class="text-danger">
+          <div *ngIf="hotelForm.get('country')?.errors?.['required']">Country is required.</div>
+          <div *ngIf="hotelForm.get('country')?.errors?.['minlength']">Country must be at least 3 characters long.</div>
+          <div *ngIf="hotelForm.get('country')?.errors?.['maxlength']">Country cannot exceed 50 characters.</div>
+        </div>
       </div>
+
       <div class="form-group mb-3">
         <label for="address">Address</label>
         <input id="address" class="form-control" formControlName="address" placeholder="Enter address">
+        <div *ngIf="hotelForm.get('address')?.touched && hotelForm.get('address')?.invalid" class="text-danger">
+          <div *ngIf="hotelForm.get('address')?.errors?.['required']">Address is required.</div>
+          <div *ngIf="hotelForm.get('address')?.errors?.['minlength']">Address must be at least 5 characters long.</div>
+          <div *ngIf="hotelForm.get('address')?.errors?.['maxlength']">Address cannot exceed 255 characters.</div>
+        </div>
       </div>
+
+      <div class="form-group mb-3">
+        <label for="status">Status</label>
+        <input id="status" class="form-control" formControlName="status" placeholder="Enter status">
+        <div *ngIf="hotelForm.get('status')?.touched && hotelForm.get('status')?.invalid" class="text-danger">
+          <div *ngIf="hotelForm.get('status')?.errors?.['required']">Status is required.</div>
+        </div>
+      </div>
+
       <div class="form-group mb-3">
         <label for="description">Description</label>
-        <textarea id="description" class="form-control" formControlName="description" rows="4" placeholder="Enter description"></textarea>
+        <textarea id="description" class="form-control" formControlName="description" rows="4"
+          placeholder="Enter description"></textarea>
+        <div *ngIf="hotelForm.get('description')?.touched && hotelForm.get('description')?.invalid" class="text-danger">
+          <div *ngIf="hotelForm.get('description')?.errors?.['maxlength']">Description cannot exceed 500 characters.
+          </div>
+        </div>
       </div>
+
       <div class="text-center">
-        <button class="btn btn-primary px-5 py-2" type="button" (click)="save()">Save</button>
+        <button class="btn btn-primary px-5 py-2" type="submit" [disabled]="hotelForm.invalid">Save</button>
       </div>
     </form>
   </div>
