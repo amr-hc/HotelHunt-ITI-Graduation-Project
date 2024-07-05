@@ -1,7 +1,12 @@
 <div class="wrapper">
   <app-header></app-header>
   <div class="content">
-    <section class="sec1">
+    <div *ngIf="isLoading" class="loading-spinner">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <section *ngIf="!isLoading" class="sec1">
       <div class="container-fluid">
         <div style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); padding: 40px 50px;">
           <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
