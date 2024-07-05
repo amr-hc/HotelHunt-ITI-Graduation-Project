@@ -1,48 +1,54 @@
 <!-- <div *ngIf="!loading"> -->
-  <div class="container mt-5" *ngIf="user; else loading;">
-    <div class="card profile-card shadow-lg border-0 rounded-lg">
-      <div class="card-header text-center">
-        <h2 class="text-primary m-0">{{ user.fname }} {{ user.lname }}</h2>
-      </div>
-      <div class="card-body p-4">
-        <div class="row">
-          <div class="col-md-4 text-center">
-            <img src="http://127.0.0.1:8000/storage/{{ user.photo }}" alt="{{ user.fname }} {{ user.lname }}"
-              class="img-fluid rounded-circle w-50 mt-4" />
-          </div>
-          <div class="col-md-8 profile-details">
-            <div class="profile-item">
+<div class="container mt-5" *ngIf="user; else loading;">
+  <div class="card profile-card shadow-lg border-0 rounded-lg">
+    <div class="card-header text-center">
+      <h2 class="text-primary m-0">{{ user.fname }} {{ user.lname }}</h2>
+    </div>
+    <div class="card-body p-4">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <img src="http://127.0.0.1:8000/storage/{{ user.photo }}" alt="{{ user.fname }} {{ user.lname }}"
+            class="img-fluid rounded-circle w-50 mt-4" />
+        </div>
+        <div class="col-md-8 profile-details">
+          <!-- <div class="profile-item">
               <strong>ID: </strong> <span>{{ user.id }}</span>
-            </div>
-            <div class="profile-item">
-              <strong>First Name:</strong> <span>{{ user.fname }}</span>
-            </div>
-            <div class="profile-item">
-              <strong>Last Name:</strong> <span>{{ user.lname }}</span>
-            </div>
-            <div class="profile-item">
-              <strong>Email:</strong> <span>{{ user.email }}</span>
-            </div>
-            <div class="profile-item">
-              <strong>Phone:</strong> <span>{{ user.phone }}</span>
-            </div>
-            <div class="profile-item">
-              <strong>Address:</strong> <span>{{ user.address }}</span>
-            </div>
-            <div class="profile-item">
-              <strong>Role:</strong> <span>{{ user.role }}</span>
-            </div>
-            <div class="profile-item">
-              <strong>Age:</strong> <span>{{ user.age }}</span>
-            </div>
-            <div class="text-center mt-4">
-              <button class="btn btn-primary px-4" (click)="editProfile(user.id)">Edit Profile</button>
-            </div>
+            </div> -->
+          <div class="profile-item">
+            <strong>Status:</strong>
+            <span [ngClass]="{'text-success': verified === 'activated', 'text-danger': verified === 'unactivated'}">{{
+              verified }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>First Name:</strong> <span>{{ user.fname }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>Last Name:</strong> <span>{{ user.lname }}</span>
+          </div>
+
+          <div class="profile-item">
+            <strong>Email:</strong> <span>{{ user.email }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>Phone:</strong> <span>{{ user.phone }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>Address:</strong> <span>{{ user.address }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>Role:</strong> <span>{{ user.role }}</span>
+          </div>
+          <div class="profile-item">
+            <strong>Age:</strong> <span>{{ user.age }}</span>
+          </div>
+          <div class="text-center mt-4">
+            <button class="btn btn-primary px-4" (click)="editProfile(user.id)">Edit Profile</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 <!-- </div> -->
 <<ng-template #loading>
   <div *ngIf="loading" class="loading-spinner">
@@ -50,10 +56,4 @@
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
-</ng-template>
-
-
-
-
-
-
+  </ng-template>

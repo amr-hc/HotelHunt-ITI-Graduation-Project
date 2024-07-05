@@ -16,11 +16,19 @@ export class ProfileComponent {
   userId: number | null = null;
   loading: boolean = true;
   errorMessage: string = '';
+  verified: string = '';
 
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
     this.userId = Number(localStorage.getItem('userId'));
+    const verified = localStorage.getItem('verified');
+    console.log(verified);
+    if (verified === 'null') {
+      this.verified = 'unactivated';
+    } else {
+      this.verified = 'activated';
+    }
     if (this.userId) {
       // this.isLoading = true;
       this.userService.getUserById(this.userId).subscribe(
