@@ -1,13 +1,27 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-slider',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink,CommonModule],
   templateUrl: './slider.component.html',
   styleUrl: './slider.component.css'
 })
 export class SliderComponent {
+  notActivatedMessage: string | null = null;
 
-}
+  constructor(private route: ActivatedRoute) {}
+
+  ngOnInit(): void {
+    const verified = localStorage.getItem('verified');
+    if (!verified || !Date.parse(verified)) {
+      this.notActivatedMessage = 'Your account is not activated. Please check your email for the activation link.';
+      setTimeout(() => {
+        this.notActivatedMessage = null;
+      }, 3000);
+    }
+    }
+  }
+

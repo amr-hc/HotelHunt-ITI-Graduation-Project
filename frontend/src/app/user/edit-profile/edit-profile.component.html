@@ -17,12 +17,18 @@
         <div *ngIf="userForm.get('fname')!.touched && userForm.get('fname')!.errors?.['required']" class="text-danger">
           First Name is required
         </div>
+        <div *ngIf="userForm.get('fname')!.touched && userForm.get('fname')!.errors?.['pattern']" class="text-danger">
+          First Name should only contain letters (A-Z, a-z).
+        </div>
       </div>
       <div class="form-group">
         <label for="lname" class="text-dark">Last Name</label>
         <input type="text" class="form-control form-control-dark" id="lname" formControlName="lname">
         <div *ngIf="userForm.get('lname')!.touched && userForm.get('lname')!.errors?.['required']" class="text-danger">
           Last Name is required
+        </div>
+        <div *ngIf="userForm.get('lname')!.touched && userForm.get('lname')!.errors?.['pattern']" class="text-danger">
+          Last Name should only contain letters (A-Z, a-z).
         </div>
       </div>
       <div class="form-group">
@@ -58,6 +64,9 @@
         <textarea class="form-control form-control-dark" id="address" formControlName="address" rows="3"></textarea>
         <div *ngIf="userForm.get('address')!.touched && userForm.get('address')!.errors?.['required']" class="text-danger">
           Address is required
+        </div>
+        <div *ngIf="userForm.get('address')!.touched && userForm.get('address')!.errors?.['pattern']" class="text-danger">
+          Address should only contain letters (A-Z, a-z), numbers (0-9), spaces, commas, apostrophes ('), hyphens (-), and underscores (_).
         </div>
       </div>
       <div class="form-group">

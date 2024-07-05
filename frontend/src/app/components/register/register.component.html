@@ -22,6 +22,9 @@
                 <div *ngIf="registerForm.get('fname')?.errors?.['maxlength'] && formSubmitted">
                   First Name cannot exceed 100 characters.
                 </div>
+                <div *ngIf="registerForm.get('fname')?.errors?.['pattern'] && formSubmitted" class="text-danger">
+                  First Name should only contain letters (A-Z, a-z).
+                </div>
               </div>
             </div>
             <div class="form-group">
@@ -30,6 +33,9 @@
                 <div *ngIf="registerForm.get('lname')?.errors?.['required']">Last Name is required.</div>
                 <div *ngIf="registerForm.get('lname')?.errors?.['maxlength'] && formSubmitted">
                   Last Name cannot exceed 100 characters.
+                </div>
+                <div *ngIf="registerForm.get('lname')?.errors?.['pattern'] && formSubmitted" class="text-danger">
+                  Last Name should only contain letters (A-Z, a-z).
                 </div>
               </div>
             </div>
@@ -72,10 +78,21 @@
               <div *ngIf="shouldShowError('address')" class="text-danger">
                 <div *ngIf="registerForm.get('address')?.errors?.['required']">Address is required.</div>
                 <div *ngIf="registerForm.get('address')?.errors?.['maxlength']">Address cannot exceed 255 characters.</div>
+                <div *ngIf="registerForm.get('address')?.errors?.['pattern'] && formSubmitted" class="text-danger">
+                  Address should only contain letters (A-Z, a-z), numbers (0-9), spaces, commas, apostrophes ('), hyphens (-), and underscores (_).
+                </div>
               </div>
             </div>
             <div class="form-group">
               <input type="text" formControlName="city" class="form-control" placeholder="City">
+              <div *ngIf="shouldShowError('city')" class="text-danger">
+                <div *ngIf="registerForm.get('city')?.errors?.['required'] && formSubmitted" class="text-danger">
+                  City is required.
+                </div>
+                <div *ngIf="registerForm.get('city')?.errors?.['pattern'] && formSubmitted" class="text-danger">
+                  City should only contain letters (A-Z, a-z), numbers (0-9), spaces, commas, apostrophes ('), hyphens (-), and underscores (_).
+                </div>
+              </div>
             </div>
             <div class="form-group">
               <input type="number" formControlName="age" (input)="validateAge()"

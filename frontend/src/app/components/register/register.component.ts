@@ -27,11 +27,11 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
-      fname: ['', [Validators.required, Validators.maxLength(100)]],
-      lname: ['', [Validators.required, Validators.maxLength(100)]],
+      fname: ['', [Validators.required, Validators.maxLength(100),Validators.pattern("^[A-Za-z]+$")]],
+      lname: ['', [Validators.required, Validators.maxLength(100),Validators.pattern("^[A-Za-z]+$")]],
       phone: ['', [Validators.required, Validators.maxLength(13),Validators.minLength(11), Validators.pattern(/^[0-9]+$/)]],
-      address: ['', [Validators.required, Validators.maxLength(255)]],
-      city: [''],
+      address: ['', [Validators.required, Validators.maxLength(255),Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/)]],
+      city: ['',[Validators.required,Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/)]],
       role: ['guest', [Validators.required, Validators.maxLength(50)]],
       age: ['', [Validators.required, Validators.min(18),Validators.max(120)]],
       photo: [''],
@@ -73,16 +73,16 @@ export class RegisterComponent implements OnInit {
         this.loading = false;
       },
       (error) => {
-        console.error('Registration failed :', error);
+        // console.error('Registration failed :', error);
         if (error.error && error.error.message) {
-        console.error('Registration failed error: ', error.error);
+        // console.error('Registration failed error: ', error.error);
 
           if (error.error.message === "Email not Signup yet") {
             this.registrationError = "Your email is not signed up yet. Please register.";
           } else {
             this.registrationError = error.error.message;
           }
-          console.log(this.registrationError);
+          // console.log(this.registrationError);
         } else {
           this.registrationError = 'Failed to register. Please try again later.';
         }

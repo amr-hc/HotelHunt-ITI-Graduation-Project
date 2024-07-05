@@ -48,7 +48,7 @@ export class LoginComponent {
         this.loading=false;
       },
       (error) => {
-        console.error('Login failed', error);
+        // console.error('Login failed', error);
         this.loginError = error.error && error.error.message ? error.error.message : 'Failed to login. Please try again later.';
         this.loading=false;
       }
@@ -73,7 +73,7 @@ export class LoginComponent {
             }
           },
           (error) => {
-            console.error('Error fetching hotels for owner', error);
+            // console.error('Error fetching hotels for owner', error);
             this.router.navigate(['/login']);
           }
         );

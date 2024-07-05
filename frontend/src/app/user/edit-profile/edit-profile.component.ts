@@ -27,11 +27,11 @@ export class EditProfileComponent implements OnInit {
     private formBuilder: FormBuilder
   ) {
     this.userForm = this.formBuilder.group({
-      fname: ['', Validators.required],
-      lname: ['', Validators.required],
+      fname: ['', [Validators.required, Validators.maxLength(100),Validators.pattern("^[A-Za-z]+$")]],
+      lname: ['', [Validators.required, Validators.maxLength(100),Validators.pattern("^[A-Za-z]+$")]],
       email: ['', [Validators.required, Validators.email]],
       phone: ['', [Validators.required, Validators.maxLength(13),Validators.minLength(11), Validators.pattern(/^[0-9]+$/)]],
-      address: ['', Validators.required],
+      address: ['', [Validators.required, Validators.maxLength(255),Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/)]],
       photo: ['']  // for image file
 
     });

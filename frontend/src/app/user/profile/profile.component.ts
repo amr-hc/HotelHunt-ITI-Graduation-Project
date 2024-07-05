@@ -39,7 +39,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const userid = localStorage.getItem('userId');
-    console.log("User ID from localStorage:", userid);
+    // console.log("User ID from localStorage:", userid);
     if (userid) {
       this.userid = +userid;
     }
@@ -51,27 +51,27 @@ export class UserProfileComponent implements OnInit, OnDestroy {
         (response: any) => {
           // console.log("Response data:", response);
           this.user = response.data;
-          console.log("User data:", this.user);
+          // console.log("User data:", this.user);
         },
         (error) => {
-          console.error('Error fetching user data', error);
+          // console.error('Error fetching user data', error);
         }
       );
 
       this.bookingsSub = this.bookingService.getUserBookings(this.userid).subscribe(
         (response: any) => {
           this.bookings = response.data;
-          console.log("Booking data:", this.bookings);
+          // console.log("Booking data:", this.bookings);
           this.groupBookings();
           this.loading=false;
         },
         (error) => {
-          console.error('Error fetching bookings data', error);
+          // console.error('Error fetching bookings data', error);
           this.loading=false;
         }
       );
     } else {
-      console.error('User ID is not available');
+      // console.error('User ID is not available');
     }
   }
 
@@ -149,7 +149,7 @@ cancelBooking(bookingId: number, event?: Event): void {
   const bookingToUpdate = this.bookings.find(b => b.id === bookingId);
 
   if (!bookingToUpdate) {
-    console.error(`Booking with id ${bookingId} not found.`);
+    // console.error(`Booking with id ${bookingId} not found.`);
     return;
   }
 
