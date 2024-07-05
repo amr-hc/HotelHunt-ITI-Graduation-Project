@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,6 +13,7 @@ import { HotelService } from '../../../services/hotel.service';
 import { CommonModule } from '@angular/common';
 import { LocationService } from '../../../services/location.service';
 import { CityService } from '../../../services/city.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edithotel',
@@ -21,7 +22,7 @@ import { CityService } from '../../../services/city.service';
   templateUrl: './edithotel.component.html',
   styleUrl: './edithotel.component.css',
 })
-export class EdithotelComponent {
+export class EdithotelComponent implements OnDestroy {
   editForm: FormGroup;
   hotelId: number | null = null;
   hotel: Hotel | null = null;
@@ -32,6 +33,7 @@ export class EdithotelComponent {
   cities: string[] = [];
   showAddCityInput = false;
   newCity = '';
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private fb: FormBuilder,
@@ -80,7 +82,7 @@ export class EdithotelComponent {
   ngOnInit(): void {
     this.hotelId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.hotelId) {
-      this.hotelService.getHotelById(this.hotelId).subscribe(
+      const hotelSubscription = this.hotelService.getHotelById(this.hotelId).subscribe(
         (response: any) => {
           this.hotel = response.data;
           console.log(this.hotel);
@@ -93,10 +95,17 @@ export class EdithotelComponent {
           console.error('Error fetching hotel details', error);
         }
       );
+      this.subscriptions.add(hotelSubscription);
     }
-    this.locationService.getCountries().subscribe((data) => {
+
+    const countriesSubscription = this.locationService.getCountries().subscribe((data) => {
       this.countries = data;
     });
+    this.subscriptions.add(countriesSubscription);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   onSubmit(): void {
@@ -113,7 +122,6 @@ export class EdithotelComponent {
         formData.append('image', this.selectedFile, this.selectedFile.name);
       }
 
-      // Log FormData content for debugging
       console.log('Submitting the following FormData:');
       formData.forEach((value, key) => {
         console.log(`${key}: ${value}`);

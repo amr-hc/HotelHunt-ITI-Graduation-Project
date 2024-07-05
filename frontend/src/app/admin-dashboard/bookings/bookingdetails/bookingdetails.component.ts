@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Booking } from '../../../models/booking';
 import { ActivatedRoute } from '@angular/router';
 import { BookingService } from '../../../services/booking.service';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { Subscription } from 'rxjs';
 
 interface GroupedBookingDetail {
   room_name: string;
@@ -19,12 +20,13 @@ interface GroupedBookingDetail {
   templateUrl: './bookingdetails.component.html',
   styleUrls: ['./bookingdetails.component.css'],
 })
-export class BookingDetailsComponent implements OnInit {
+export class BookingDetailsComponent implements OnInit, OnDestroy {
   booking: Booking | null = null;
   isLoading: boolean = false;
   errorMessage: string = '';
   currentPage: number = 1;
   groupedDetails: GroupedBookingDetail[] = [];
+  private subscription: Subscription = new Subscription();
 
   constructor(private route: ActivatedRoute, private bookingService: BookingService) {}
 
@@ -35,7 +37,7 @@ export class BookingDetailsComponent implements OnInit {
   loadBooking(): void {
     const id = +this.route.snapshot.paramMap.get('id')!;
     this.isLoading = true; // Start loading
-    this.bookingService.getBookingById(id).subscribe({
+    const bookingSub = this.bookingService.getBookingById(id).subscribe({
       next: (booking) => {
         this.booking = booking;
         this.groupBookings();
@@ -47,6 +49,7 @@ export class BookingDetailsComponent implements OnInit {
         this.isLoading = false; // Finish loading (on error)
       }
     });
+    this.subscription.add(bookingSub);
   }
 
   groupBookings(): void {
@@ -64,5 +67,9 @@ export class BookingDetailsComponent implements OnInit {
       this.groupedDetails = Object.values(groupedDetails);
       console.log(this.groupedDetails);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

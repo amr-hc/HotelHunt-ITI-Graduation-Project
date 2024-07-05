@@ -1,25 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../../models/user';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { CommonModule } from '@angular/common';
-import { HotelsService } from '../../../services/hotels.service';
 import { Hotel } from '../../../models/hotel';
 import { HotelService } from '../../../services/hotel.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ownersdetails',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './ownersdetails.component.html',
   styleUrl: './ownersdetails.component.css'
 })
-
-export class OwnersdetailsComponent implements OnInit {
+export class OwnersdetailsComponent implements OnInit, OnDestroy {
   user: User | undefined;
   hotels: Hotel[] = [];
   isLoading: boolean = true;
   hotelsLoading: boolean = true;
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -36,7 +36,7 @@ export class OwnersdetailsComponent implements OnInit {
   }
 
   private fetchUserDetails(userId: number): void {
-    this.userService.getUserById(userId).subscribe(
+    const userSub = this.userService.getUserById(userId).subscribe(
       (response: any) => {
         this.user = response.data;
         this.isLoading = false;
@@ -46,10 +46,11 @@ export class OwnersdetailsComponent implements OnInit {
         console.error('Error fetching user details', error);
       }
     );
+    this.subscriptions.add(userSub);
   }
 
   private fetchAllHotels(ownerId: number): void {
-    this.hotelService.getAllHotels().subscribe(
+    const hotelsSub = this.hotelService.getAllHotels().subscribe(
       (response: any) => {
         this.hotels = response.data.filter((hotel: Hotel) => hotel.owner_id === ownerId);
         this.hotelsLoading = false;
@@ -59,5 +60,10 @@ export class OwnersdetailsComponent implements OnInit {
         console.error('Error fetching hotels', error);
       }
     );
+    this.subscriptions.add(hotelsSub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Payment } from '../../models/payment';
 import { PaymentService } from '../../services/payment.service';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-payment',
@@ -13,7 +14,7 @@ import Swal from 'sweetalert2';
   templateUrl: './payment.component.html',
   styleUrls: ['./payment.component.css']
 })
-export class PaymentComponent implements OnInit {
+export class PaymentComponent implements OnInit, OnDestroy {
   payments: Payment[] = [];
   groupedPayments: { [key: string]: Payment[] } = {};
   hotels: string[] = [];
@@ -23,12 +24,13 @@ export class PaymentComponent implements OnInit {
   errorMessage: string | null = null;
   currentPage: number = 1;
   months: string[] = [];
+  private subscriptions: Subscription = new Subscription();
 
   constructor(private paymentService: PaymentService) {}
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.paymentService.getAllPayments().subscribe(
+    const paymentSubscription = this.paymentService.getAllPayments().subscribe(
       (response: any) => {
         this.payments = response.data;
         // Sort payments by date in descending order
@@ -43,8 +45,12 @@ export class PaymentComponent implements OnInit {
         this.isLoading = false;
       }
     );
+    this.subscriptions.add(paymentSubscription);
   }
 
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 
   private groupPaymentsByHotel(): void {
     this.groupedPayments = this.payments.reduce((acc, payment) => {
@@ -103,7 +109,7 @@ export class PaymentComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.paymentService.deletePayment(id).subscribe(
+        const deleteSubscription = this.paymentService.deletePayment(id).subscribe(
           () => {
             this.payments = this.payments.filter(payment => payment.id !== id);
             this.groupPaymentsByHotel();
@@ -114,6 +120,7 @@ export class PaymentComponent implements OnInit {
             Swal.fire('Error!', 'Failed to delete payment.', 'error');
           }
         );
+        this.subscriptions.add(deleteSubscription);
       }
     });
   }
@@ -141,5 +148,4 @@ export class PaymentComponent implements OnInit {
 
     return filteredPayments;
   }
-
 }

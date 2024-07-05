@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   FormsModule,
-  NgModel,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -16,15 +15,16 @@ import { CommonModule } from '@angular/common';
 import { LocationService } from '../../../services/location.service';
 import { CityService } from '../../../services/city.service';
 import { HotelsService } from '../../../services/hotels.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-addhotel',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterLink],
   templateUrl: './addhotel.component.html',
-  styleUrl: './addhotel.component.css',
+  styleUrls: ['./addhotel.component.css'],
 })
-export class AddhotelComponent implements OnInit {
+export class AddhotelComponent implements OnInit, OnDestroy {
   owners: User[] = [];
   noOwnersAvailable: boolean = false;
   registerForm: FormGroup;
@@ -33,6 +33,7 @@ export class AddhotelComponent implements OnInit {
   cities: string[] = [];
   showAddCityInput = false;
   newCity = '';
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private fb: FormBuilder,
@@ -80,7 +81,7 @@ export class AddhotelComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.userService.getOwnersWithoutHotels().subscribe({
+    const ownersSub = this.userService.getOwnersWithoutHotels().subscribe({
       next: (response: any) => {
         console.log('Response from getOwnersWithoutHotels:', response);
         if (response && response.data && Array.isArray(response.data)) {
@@ -98,10 +99,12 @@ export class AddhotelComponent implements OnInit {
         this.noOwnersAvailable = true;
       },
     });
+    this.subscription.add(ownersSub);
 
-    this.locationService.getCountries().subscribe((data) => {
+    const countriesSub = this.locationService.getCountries().subscribe((data) => {
       this.countries = data;
     });
+    this.subscription.add(countriesSub);
   }
 
   validateImageFile(control: any) {
@@ -146,7 +149,7 @@ export class AddhotelComponent implements OnInit {
         formData.append('image', this.registerForm.value.image);
       }
 
-      this.hotelService.registerHotel(formData).subscribe(
+      const registerSub = this.hotelService.registerHotel(formData).subscribe(
         (res) => {
           console.log('Hotel registered successfully', res);
           this.router.navigate(['/admin-dashboard/hotels']);
@@ -161,6 +164,7 @@ export class AddhotelComponent implements OnInit {
           }
         }
       );
+      this.subscription.add(registerSub);
     } else {
       this.markFormGroupTouched(this.registerForm);
     }
@@ -183,11 +187,12 @@ export class AddhotelComponent implements OnInit {
       (c) => c.name.common === selectedCountryName
     );
     if (selectedCountry) {
-      this.cityService
+      const citiesSub = this.cityService
         .getCities(selectedCountry.cca2)
         .subscribe((data: any) => {
           this.cities = data.data.map((city: any) => city.name);
         });
+      this.subscription.add(citiesSub);
     }
   }
 
@@ -220,6 +225,7 @@ export class AddhotelComponent implements OnInit {
     return control && control.touched && control.invalid;
   }
 
-
-
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }
