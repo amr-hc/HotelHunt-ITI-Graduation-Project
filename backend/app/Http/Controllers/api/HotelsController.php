@@ -63,8 +63,8 @@ class HotelsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        
         $hotel = Hotel::findOrFail($id);
+        $this->authorize('update', $hotel);
 
         if ($request->hasFile('image')) {
             $photoPath = $request->file('image')->store('hotels');
@@ -103,12 +103,15 @@ class HotelsController extends Controller
      */
     public function destroy($id)
     {
+        $this->authorize('isAdmin');
         Hotel::destroy($id);
         return response()->json(['message' => 'Hotel deleted successfully'], 200);
     }
 
     public function getHotelForOwner($ownerId)
     {
+        $this->authorize('isAdmin');
+
         $hotels = Hotel::where('owner_id', $ownerId)->get();
 
         if ($hotels->isEmpty()) {

@@ -7,10 +7,16 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\Policies\UserPolicy;
 
 
 use App\Models\User;
+use App\Policies\UserPolicy;
+
+use App\Models\Hotel;
+use App\Policies\HotelPolicy;
+
+
+
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -21,7 +27,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
-        User::class => UserPolicy::class
+        User::class => UserPolicy::class,
+        Hotel::class => HotelPolicy::class
     ];
 
     /**

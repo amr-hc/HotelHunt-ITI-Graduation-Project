@@ -37,7 +37,7 @@ class HotelPolicy
      */
     public function update(User $user, Hotel $hotel): bool
     {
-        return false;
+        return $user->id == $hotel->user->id || $user->role == 'admin';
     }
 
     /**
