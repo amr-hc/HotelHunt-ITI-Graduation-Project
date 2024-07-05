@@ -110,8 +110,6 @@ class HotelsController extends Controller
 
     public function getHotelForOwner($ownerId)
     {
-        $this->authorize('isAdmin');
-
         $hotels = Hotel::where('owner_id', $ownerId)->get();
 
         if ($hotels->isEmpty()) {

@@ -28,8 +28,8 @@ export class EditComponent implements OnInit {
   ) {
     this.editForm = this.fb.group({
       id: [''],
-      fname: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(3)]],
-      lname: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(3)]],
+      fname: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern('^[a-zA-Z]+$')]],
+      lname: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern('^[a-zA-Z]+$')]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
       phone: ['', [Validators.required, Validators.maxLength(25)]],
       address: ['', [Validators.required, Validators.maxLength(255)]],

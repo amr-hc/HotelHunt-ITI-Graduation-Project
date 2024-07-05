@@ -1,7 +1,3 @@
-<div *ngIf="notActivatedMessage" class="alert alert-success text-center">
-  {{ notActivatedMessage }}
-</div>
-
 <div class="container-fluid p-0 mb-5">
   <div id="header-carousel" class="carousel slide" data-bs-ride="carousel">
     <div class="carousel-inner">
@@ -14,6 +10,11 @@
         <div
           class="carousel-caption d-flex flex-column align-items-center justify-content-center"
         >
+          <div class="alert-container p-3 activemessage">
+            <div *ngIf="notActivatedMessage" class="alert alert-success text-center">
+              {{ notActivatedMessage }}
+            </div>
+          </div>
           <div class="p-3" style="max-width: 700px">
             <h6
               class="section-title text-white text-uppercase mb-3 animated slideInDown"
@@ -40,6 +41,11 @@
         <div
           class="carousel-caption d-flex flex-column align-items-center justify-content-center"
         >
+          <div class="alert-container p-3" style="max-width: 700px; position: relative; top: -50px;">
+            <div *ngIf="notActivatedMessage" class="alert alert-success text-center">
+              {{ notActivatedMessage }}
+            </div>
+          </div>
           <div class="p-3" style="max-width: 700px">
             <h6
               class="section-title text-white text-uppercase mb-3 animated slideInDown"
@@ -50,7 +56,7 @@
               Discover Brand Luxurious Hotels
             </h1>
             <a
-              href=""
+              routerLink="/hotels"
               class="btn btn-primary py-md-3 px-md-5 me-3 animated slideInLeft"
               >Explore Hotels</a
             >

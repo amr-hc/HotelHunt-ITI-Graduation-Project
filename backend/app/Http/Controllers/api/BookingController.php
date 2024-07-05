@@ -23,6 +23,7 @@ class BookingController extends Controller
      */
     public function index()
 {
+    $this->authorize('isAdmin');
     $bookings = Booking::with('book_details.roomType.hotel')->get();
     return BookingResource::collection($bookings);
 }
@@ -82,65 +83,68 @@ class BookingController extends Controller
      * Update the specified resource in storage.
      */
      public function update(Request $request, string $id)
-{
-    // Outer try-catch block
-    try {
-        $booking = Booking::findOrFail($id);
+    {
+        $this->authorize('isAdmin');
 
-        // Validate the request
-        $request->validate([
-            'user_id' => 'sometimes|required|exists:users,id',
-            'duration' => 'sometimes|required|numeric',
-            'status' => 'sometimes|required|in:completed,progress,cancel',
-            'book_details' => 'sometimes|required|array',
-            'book_details.*.id' => 'sometimes|exists:book_details,id',
-            'book_details.*.roomType_id' => 'sometimes|required|exists:roomtypes,id',
-            'book_details.*.date' => 'sometimes|required|date',
-            'book_details.*.price' => 'sometimes|required|numeric',
-            'check_in' => 'sometimes|required|date',
-            'check_out' => 'sometimes|required|date',
-        ]);
-
-        DB::beginTransaction();
-
+        // Outer try-catch block
         try {
+            $booking = Booking::findOrFail($id);
 
-            $booking->update($request->only(['user_id', 'duration', 'status','check_in','check_out']));
+            // Validate the request
+            $request->validate([
+                'user_id' => 'sometimes|required|exists:users,id',
+                'duration' => 'sometimes|required|numeric',
+                'status' => 'sometimes|required|in:completed,progress,cancel',
+                'book_details' => 'sometimes|required|array',
+                'book_details.*.id' => 'sometimes|exists:book_details,id',
+                'book_details.*.roomType_id' => 'sometimes|required|exists:roomtypes,id',
+                'book_details.*.date' => 'sometimes|required|date',
+                'book_details.*.price' => 'sometimes|required|numeric',
+                'check_in' => 'sometimes|required|date',
+                'check_out' => 'sometimes|required|date',
+            ]);
 
-            if ($request->has('book_details')) {
-                foreach ($request->book_details as $detail) {
-                    if (isset($detail['id'])) {
-                        $bookDetail = BookDetail::findOrFail($detail['id']);
-                        $bookDetail->update($detail);
-                    } else {
-                        BookDetail::create([
-                            'roomType_id' => $detail['roomType_id'],
-                            'book_id' => $booking->id,
-                            'date' => $detail['date'],
-                            'price' => $detail['price'],
-                        ]);
+            DB::beginTransaction();
+
+            try {
+
+                $booking->update($request->only(['user_id', 'duration', 'status','check_in','check_out']));
+
+                if ($request->has('book_details')) {
+                    foreach ($request->book_details as $detail) {
+                        if (isset($detail['id'])) {
+                            $bookDetail = BookDetail::findOrFail($detail['id']);
+                            $bookDetail->update($detail);
+                        } else {
+                            BookDetail::create([
+                                'roomType_id' => $detail['roomType_id'],
+                                'book_id' => $booking->id,
+                                'date' => $detail['date'],
+                                'price' => $detail['price'],
+                            ]);
+                        }
                     }
                 }
+
+                DB::commit();
+                return response()->json($booking->load('book_details'), 200);
+            } catch (Exception $innerException) {
+                DB::rollBack();
+                Log::error('Failed to update booking details: ' . $innerException->getMessage());
+                return response()->json(['error' => 'Failed to update booking details: ' . $innerException->getMessage()], 500);
             }
 
-            DB::commit();
-            return response()->json($booking->load('book_details'), 200);
-        } catch (Exception $innerException) {
-            DB::rollBack();
-            Log::error('Failed to update booking details: ' . $innerException->getMessage());
-            return response()->json(['error' => 'Failed to update booking details: ' . $innerException->getMessage()], 500);
+        } catch (ValidationException $validationException) {
+            return response()->json(['error' => $validationException->errors()], 422);
+        } catch (Exception $outerException) {
+            Log::error('Failed to update booking: ' . $outerException->getMessage());
+            return response()->json(['error' => 'Failed to update booking: ' . $outerException->getMessage()], 500);
         }
-
-    } catch (ValidationException $validationException) {
-        return response()->json(['error' => $validationException->errors()], 422);
-    } catch (Exception $outerException) {
-        Log::error('Failed to update booking: ' . $outerException->getMessage());
-        return response()->json(['error' => 'Failed to update booking: ' . $outerException->getMessage()], 500);
     }
-}
 
     public function updateStatus(Request $request, string $id)
     {
+        $this->authorize('isAdmin');
         try {
             // Validate the request data
             $validatedData = $request->validate([
@@ -169,19 +173,13 @@ class BookingController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    // public function destroy(string $id)
-    // {
-    //     $booking = Booking::findOrFail($id);
-    //     $booking->delete();
-    //     return response()->json(null, 204);
-    // }
+
     public function destroy(string $id)
     {
+
         try {
             $booking = Booking::findOrFail($id);
+            $this->authorize('delete', $booking);
 
             if ($booking->status === 'completed') {
                 return response()->json(['error' => 'Booking with status "completed" cannot be canceled.'], 403);
@@ -254,22 +252,7 @@ public function getOwnerHotelBookings($owner_id)
 }
 
 
-public function cancel(string $id) {
-    try {
-        $booking = Booking::findOrFail($id);
 
-        if ($booking->status === 'completed' || $booking->status === 'cancel') {
-            return response()->json(['error' => 'Booking with status completed or cancel cannot be canceled.'], 403);
-        }
-
-        $booking->status = 'cancel';
-        $booking->save();
-
-        return response()->json(['message' => 'Booking status updated to cancel.'], 200);
-    } catch (Exception $e) {
-        return response()->json(['error' => 'Failed to update booking status: '. $e->getMessage()], 500);
-    }
-}
 
 
 }

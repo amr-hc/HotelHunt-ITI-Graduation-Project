@@ -15,6 +15,7 @@ class ContactController extends Controller
      */
     public function index()
     {
+        $this->authorize('isAdmin');
         return Contact::all();
     }
 
@@ -50,6 +51,7 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
+        $this->authorize('isAdmin');
         return $contact;
     }
 
@@ -66,6 +68,7 @@ class ContactController extends Controller
      */
     public function destroy(Contact $contact)
     {
+        $this->authorize('isAdmin');
         $contact->delete();
 
         return response()->json(null, 204);

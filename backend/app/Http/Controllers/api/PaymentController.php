@@ -17,6 +17,7 @@ class PaymentController extends Controller
      */
     public function index()
     {
+        $this->authorize('isAdmin');
         return PaymentResource::collection(Payment::all());
     }
 
@@ -33,6 +34,7 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('isAdmin');
         $request->validate([
             'amount' => 'required|numeric|min:0',
             'hotel_id' => 'required|exists:hotels,id',
@@ -56,6 +58,7 @@ class PaymentController extends Controller
 
     public function update(Request $request, Payment $payment)
     {
+        $this->authorize('isAdmin');
         $payment->update($request->all());
 
         return response()->json(['message' => 'Payment updated successfully'],200);
@@ -64,6 +67,7 @@ class PaymentController extends Controller
   
     public function destroy(Payment $payment)
     {
+        $this->authorize('isAdmin');
         $payment->delete();
     }
 

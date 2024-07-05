@@ -18,6 +18,9 @@
           <div *ngIf="formSubmitted && editForm.get('fname')?.errors?.['maxlength']" class="text-danger">
             First Name must not exceed 100 characters.
           </div>
+          <div *ngIf="formSubmitted && editForm.get('fname')?.errors?.['pattern']" class="text-danger">
+            First Name must contain only letters.
+          </div>
         </div>
 
         <!-- Last Name -->
@@ -32,6 +35,9 @@
           </div>
           <div *ngIf="formSubmitted && editForm.get('lname')?.errors?.['maxlength']" class="text-danger">
             Last Name must not exceed 100 characters.
+          </div>
+          <div *ngIf="formSubmitted && editForm.get('lname')?.errors?.['pattern']" class="text-danger">
+            Last Name must contain only letters.
           </div>
         </div>
 
