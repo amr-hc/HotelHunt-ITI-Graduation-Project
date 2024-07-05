@@ -69,6 +69,9 @@
           <div *ngIf="formSubmitted && editForm.get('phone')?.errors?.['maxlength']" class="text-danger">
             Phone number must not exceed 25 characters.
           </div>
+          <div *ngIf="formSubmitted && editForm.get('phone')?.errors?.['pattern']" class="text-danger">
+            Phone number must contain only numbers.
+          </div>
         </div>
 
         <!-- Address -->
@@ -96,6 +99,9 @@
           </div>
           <div *ngIf="formSubmitted && editForm.get('age')?.errors?.['max']" class="text-danger">
             Age must be at Max 80 years old.
+          </div>
+          <div *ngIf="formSubmitted && editForm.get('age')?.errors?.['pattern']" class="text-danger">
+            Age must contain only numbers.
           </div>
         </div>
 
