@@ -64,10 +64,10 @@ export class RatingsComponent implements OnInit, OnDestroy {
   }
   rateHotel(rating: number) {
 
-    if (this.checkLoggedInUserRole !== 'guest' || this.isUserVerified === null) {
+    if (this.checkLoggedInUserRole !== 'guest' || this.isUserVerified === 'null' || this.isUserVerified === 'undefined') {
       Swal.fire({
         title: 'Rating Error',
-        text: 'You must be a registered user to add a rating.',
+        text: 'You must be a verified registered user to add a rating.',
         icon: 'warning',
         confirmButtonText: 'OK'
       });

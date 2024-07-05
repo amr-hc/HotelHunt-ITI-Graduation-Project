@@ -88,6 +88,9 @@ class usersController extends Controller
     public function update(UpdateUserRequest $request, string $id)
     {
         $user = User::findOrFail($id);
+
+        $this->authorize('update', $user);
+
         $validatedData = $request->validated();
 
         if ($request->hasFile('photo')) {
@@ -116,8 +119,8 @@ class usersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        User::destroy($id);
+        $this->authorize('isAdmin');
+        $user = User::destroy($id);
         return response()->json(['message' => 'user deleted successfully'], 200);
     }
 
@@ -126,6 +129,8 @@ class usersController extends Controller
 
     public function showOwnersDoesntHave()
     {
+        $this->authorize('isAdmin');
+
         User::where('role', 'owner')->whereDoesntHave('hotels')->get();
 
         return UserResource::collection( User::where('role', 'owner')->whereDoesntHave('hotels')->get());
