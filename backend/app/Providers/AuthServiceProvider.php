@@ -15,7 +15,8 @@ use App\Policies\UserPolicy;
 use App\Models\Hotel;
 use App\Policies\HotelPolicy;
 
-
+use App\Models\Booking;
+use App\Policies\BookingPolicy;
 
 
 class AuthServiceProvider extends ServiceProvider
@@ -28,7 +29,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         User::class => UserPolicy::class,
-        Hotel::class => HotelPolicy::class
+        Hotel::class => HotelPolicy::class,
+        Booking::class => BookingPolicy::class
     ];
 
     /**
