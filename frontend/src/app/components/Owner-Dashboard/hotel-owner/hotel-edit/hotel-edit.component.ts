@@ -8,13 +8,14 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-hotel-edit',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule,FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './hotel-edit.component.html',
   styleUrl: './hotel-edit.component.css'
 })
 export class HotelEditComponent implements OnInit {
   hotel: Hotel | null = null;
   hotelForm: FormGroup;
+
   constructor(
     private activateRoute: ActivatedRoute,
     private hotelService: HotelService,
@@ -22,12 +23,12 @@ export class HotelEditComponent implements OnInit {
     private router: Router
   ) {
     this.hotelForm = this.fb.group({
-      name: ['', Validators.required],
-      city: ['', Validators.required],
-      country: ['',Validators.required],
-      address: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      country: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      address: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]],
       status: ['', Validators.required],
-      description: ['']
+      description: ['', Validators.maxLength(500)]
     });
   }
 
@@ -55,12 +56,7 @@ export class HotelEditComponent implements OnInit {
   save(): void {
     if (this.hotelForm.valid && this.hotel) {
       const updatedHotel = {
-        name: this.hotelForm.get('name')?.value,
-        city: this.hotelForm.get('city')?.value,
-        country: this.hotelForm.get('country')?.value,
-        address: this.hotelForm.get('address')?.value,
-        status: this.hotelForm.get('status')?.value,
-        description: this.hotelForm.get('description')?.value
+        ...this.hotelForm.value
       };
 
       this.hotelService.updateHotel(updatedHotel, this.hotel.id).subscribe(
@@ -72,11 +68,8 @@ export class HotelEditComponent implements OnInit {
           console.error('Error updating hotel:', error);
         }
       );
+    } else {
+      console.error('Form is invalid');
     }
   }
-
-  
-
-
-
 }
