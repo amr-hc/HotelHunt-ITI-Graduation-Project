@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -11,6 +10,7 @@ import { UserService } from '../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-editowner',
@@ -19,13 +19,14 @@ import Swal from 'sweetalert2';
   templateUrl: './editowner.component.html',
   styleUrl: './editowner.component.css',
 })
-export class EditownerComponent {
+export class EditownerComponent implements OnInit, OnDestroy {
   editForm: FormGroup;
   userId: number | null = null;
   user: User | null = null;
   formSubmitted: boolean = false;
   selectedFile: File | null = null;
   errorMessage = '';
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private fb: FormBuilder,
@@ -42,7 +43,6 @@ export class EditownerComponent {
           Validators.minLength(3),
           Validators.maxLength(100),
           Validators.pattern("^[A-Za-z]+$"),
-
         ],
       ],
       lname: [
@@ -52,7 +52,6 @@ export class EditownerComponent {
           Validators.minLength(3),
           Validators.maxLength(100),
           Validators.pattern("^[A-Za-z]+$"),
-
         ],
       ],
       email: ['', [Validators.required, Validators.email]],
@@ -82,7 +81,7 @@ export class EditownerComponent {
   ngOnInit(): void {
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.userId) {
-      this.userService.getUserById(this.userId).subscribe(
+      const getUserSubscription = this.userService.getUserById(this.userId).subscribe(
         (response: any) => {
           this.user = response.data;
           console.log(this.user);
@@ -95,9 +94,9 @@ export class EditownerComponent {
           console.error('Error fetching user details', error);
         }
       );
+      this.subscriptions.add(getUserSubscription);
     }
   }
-
 
   onSubmit(): void {
     this.formSubmitted = true;
@@ -129,7 +128,7 @@ export class EditownerComponent {
             console.log(`${key}: ${value}`);
           });
 
-          this.userService.updateUser(formData).subscribe(
+          const updateUserSubscription = this.userService.updateUser(formData).subscribe(
             (response) => {
               console.log('User updated successfully', response);
               Swal.fire({
@@ -156,7 +155,7 @@ export class EditownerComponent {
                   }
                 });
                 console.log(errorMessage);
-              }else {
+              } else {
                 this.errorMessage = 'Failed to add owner. Please try again.';
               }
 
@@ -167,13 +166,14 @@ export class EditownerComponent {
               });
             }
           );
-        }
-        else {
+          this.subscriptions.add(updateUserSubscription);
+        } else {
           this.formSubmitted = false;
         }
       });
     }
   }
+
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -196,5 +196,9 @@ export class EditownerComponent {
 
   onCancel(): void {
     this.router.navigate(['/admin-dashboard/owners']);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

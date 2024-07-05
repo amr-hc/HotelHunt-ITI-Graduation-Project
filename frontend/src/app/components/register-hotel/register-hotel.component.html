@@ -89,6 +89,12 @@
 
         <div class="form-group">
           <input type="file" accept="image/*" (change)="onFileSelected($event)" class="form-control">
+          <div *ngIf="registerForm.get('image')?.errors?.['invalidImageType']" class="text-danger">
+            Invalid file type. Only PNG, JPEG, and JPG files are allowed.
+          </div>
+          <div *ngIf="registerForm.get('image')?.errors?.['invalidImageSize']" class="text-danger">
+            File size exceeds 2MB.
+          </div>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Register Hotel</button>
       </form>

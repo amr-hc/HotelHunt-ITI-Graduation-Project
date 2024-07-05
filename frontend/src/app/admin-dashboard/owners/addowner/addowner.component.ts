@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -13,6 +13,7 @@ import { UserService } from '../../../services/user.service';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-addowner',
@@ -21,11 +22,12 @@ import Swal from 'sweetalert2';
   templateUrl: './addowner.component.html',
   styleUrls: ['./addowner.component.css'],
 })
-export class AddownerComponent {
+export class AddownerComponent implements OnDestroy {
   addUserForm: FormGroup;
   submitted = false;
   success = false;
   errorMessage = '';
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -111,7 +113,7 @@ export class AddownerComponent {
           formData.append(key, this.addUserForm.get(key)?.value);
         });
 
-        this.userService.addUser(formData).subscribe(
+        const addUserSubscription = this.userService.addUser(formData).subscribe(
           () => {
             this.success = true;
             this.addUserForm.reset();
@@ -148,6 +150,8 @@ export class AddownerComponent {
             });
           }
         );
+
+        this.subscriptions.add(addUserSubscription);
       }
     });
   }
@@ -170,5 +174,9 @@ export class AddownerComponent {
       control.get('password_confirmation')?.setErrors(null);
       return null;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

@@ -8,6 +8,8 @@ use App\Models\Rate;
 use App\Models\Hotel;
 use App\Models\User;
 use App\Http\Resources\RateResource;
+use Illuminate\Support\Facades\DB;
+
 
 class RateController extends Controller
 {
@@ -92,5 +94,19 @@ class RateController extends Controller
     public function destroy(string $id)
     {
         $rate = Rate::destroy($id);
+    }
+
+
+    public function canRate(string $id){
+        $can=DB::table('hotels')
+        ->join('roomtypes', 'roomtypes.hotel_id', '=', 'hotels.id')
+        ->join('book_details', 'book_details.roomtype_id', '=', 'roomtypes.id')
+        ->join('booking', 'booking.id', '=', 'book_details.book_id')
+        ->where('booking.status','!=' ,'cancel')
+        ->where('hotels.id', $id)
+        ->where('booking.user_id',auth()->user()->id )
+        ->exists();
+
+        return ["can"=> $can];
     }
 }

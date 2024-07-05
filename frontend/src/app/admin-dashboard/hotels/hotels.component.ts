@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Hotel } from '../../models/hotel';
 import { HotelService } from '../../services/hotel.service';
 import { FormsModule } from '@angular/forms';
@@ -7,20 +7,22 @@ import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UserService } from '../../services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-hotels',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink, NgxPaginationModule],
   templateUrl: './hotels.component.html',
-  styleUrl: './hotels.component.css',
+  styleUrls: ['./hotels.component.css'],
 })
-export class HotelsComponent implements OnInit {
+export class HotelsComponent implements OnInit, OnDestroy {
   hotels: Hotel[] = [];
   filteredHotels: Hotel[] = [];
   searchTerm: string = '';
   currentPage: number = 1;
   isLoading: boolean = true;
+  private subscription: Subscription = new Subscription();
 
   constructor(
     private hotelService: HotelService,
@@ -29,9 +31,10 @@ export class HotelsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.hotelService.getAllHotels().subscribe(
+    const hotelsSub = this.hotelService.getAllHotels().subscribe(
       (response) => {
         this.hotels = response.data;
+        console.log(this.hotels);
         this.filteredHotels = this.hotels;
         this.isLoading = false;
       },
@@ -40,6 +43,7 @@ export class HotelsComponent implements OnInit {
         console.error('Error loading hotels:', error);
       }
     );
+    this.subscription.add(hotelsSub);
   }
 
   filterHotels(): void {
@@ -58,41 +62,45 @@ export class HotelsComponent implements OnInit {
     this.router.navigate(['admin-dashboard/hotels/edit', id]);
   }
 
-  // confirmDeleteHotel(id: number): void {
-  //   Swal.fire({
-  //     title: 'Are you sure?',
-  //     text: 'You will not be able to recover this hotel!',
-  //     icon: 'warning',
-  //     showCancelButton: true,
-  //     confirmButtonText: 'Yes, delete it!',
-  //     cancelButtonText: 'No, keep it',
-  //   }).then((result) => {
-  //     if (result.isConfirmed) {
-  //       this.deleteHotel(id);
-  //     } else if (result.dismiss === Swal.DismissReason.cancel) {
-  //       Swal.fire('Cancelled', 'Your hotel is safe :)', 'info');
-  //     }
-  //   });
-  // }
+  confirmDeleteHotel(id: number): void {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will not be able to recover this hotel!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, delete it!',
+      cancelButtonText: 'No, keep it',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.deleteHotel(id);
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire('Cancelled', 'Your hotel is safe :)', 'info');
+      }
+    });
+  }
 
-  // deleteHotel(id: number): void {
-  //   this.hotelService.deleteHotel(id).subscribe(
-  //     () => {
-  //       this.hotels = this.hotels.filter((hotel) => hotel.id !== id);
-  //       this.filterHotels();
-  //       Swal.fire('Deleted!', 'Your hotel has been deleted.', 'success');
-  //     },
-  //     (error) => {
-  //       Swal.fire('Error!', 'Failed to delete hotel.', 'error');
-  //       console.error('Error deleting hotel:', error);
-  //     }
-  //   );
-  // }
+  deleteHotel(id: number): void {
+    const deleteSub = this.hotelService.deleteHotel(id).subscribe(
+      () => {
+        this.hotels = this.hotels.filter((hotel) => hotel.id !== id);
+        this.filterHotels();
+        Swal.fire('Deleted!', 'Your hotel has been deleted.', 'success');
+      },
+      (error) => {
+        Swal.fire('Error!', 'Failed to delete hotel.', 'error');
+        console.error('Error deleting hotel:', error);
+      }
+    );
+    this.subscription.add(deleteSub);
+  }
 
   updateHotelStatus(hotel: Hotel): void {
-    this.hotelService.updateHotelStatus(hotel.id, hotel.status).subscribe((updatedHotel) => {
-      console.log('Hotel status updated:', updatedHotel);
-    });
+    const statusSub = this.hotelService.updateHotelStatus(hotel.id, hotel.status).subscribe(
+      (updatedHotel) => {
+        console.log('Hotel status updated:', updatedHotel);
+      }
+    );
+    this.subscription.add(statusSub);
   }
 
   isFeatureLimitReached(): boolean {
@@ -106,7 +114,7 @@ export class HotelsComponent implements OnInit {
     }
 
     hotel.isFeatured = !hotel.isFeatured;
-    this.hotelService.updateHotelFeaturedStatus(hotel.id, hotel.isFeatured).subscribe(
+    const featuredSub = this.hotelService.updateHotelFeaturedStatus(hotel.id, hotel.isFeatured).subscribe(
       () => {
         console.log('Hotel featured status updated:', hotel);
       },
@@ -115,6 +123,10 @@ export class HotelsComponent implements OnInit {
         hotel.isFeatured = !hotel.isFeatured;
       }
     );
-  }
+    this.subscription.add(featuredSub);
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+}

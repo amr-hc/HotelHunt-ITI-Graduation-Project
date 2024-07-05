@@ -1,14 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../../models/user';
-import {
-  FormBuilder,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserService } from '../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit',
@@ -17,13 +13,14 @@ import { CommonModule } from '@angular/common';
   templateUrl: './edit.component.html',
   styleUrl: './edit.component.css',
 })
-export class EditComponent implements OnInit {
+export class EditComponent implements OnInit, OnDestroy {
   editForm: FormGroup;
   userId: number | null = null;
   user: User | null = null;
   formSubmitted: boolean = false;
   selectedFile: File | null = null;
   errorMessage = '';
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private fb: FormBuilder,
@@ -40,7 +37,6 @@ export class EditComponent implements OnInit {
           Validators.maxLength(100),
           Validators.minLength(3),
           Validators.pattern("^[A-Za-z]+$"),
-
         ],
       ],
       lname: [
@@ -50,7 +46,6 @@ export class EditComponent implements OnInit {
           Validators.maxLength(100),
           Validators.minLength(3),
           Validators.pattern("^[A-Za-z]+$"),
-
         ],
       ],
       email: ['', [Validators.required, Validators.email]],
@@ -80,7 +75,7 @@ export class EditComponent implements OnInit {
   ngOnInit(): void {
     this.userId = Number(localStorage.getItem('userId'));
     if (this.userId) {
-      this.userService.getUserById(this.userId).subscribe(
+      const userSubscription = this.userService.getUserById(this.userId).subscribe(
         (response: any) => {
           this.user = response.data;
           console.log(this.user);
@@ -93,7 +88,12 @@ export class EditComponent implements OnInit {
           console.error('Error fetching user details', error);
         }
       );
+      this.subscriptions.add(userSubscription);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   onSubmit(): void {
@@ -116,7 +116,7 @@ export class EditComponent implements OnInit {
         console.log(`${key}: ${value}`);
       });
 
-      this.userService.updateUser(formData).subscribe(
+      const updateSubscription = this.userService.updateUser(formData).subscribe(
         (response) => {
           console.log('User updated successfully', response);
           this.router.navigate(['/admin-dashboard/profile']);
@@ -138,6 +138,7 @@ export class EditComponent implements OnInit {
           }
         }
       );
+      this.subscriptions.add(updateSubscription);
     }
   }
 

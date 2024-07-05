@@ -8,13 +8,15 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-hotel-edit',
   standalone: true,
-  imports: [ReactiveFormsModule,CommonModule,FormsModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './hotel-edit.component.html',
   styleUrl: './hotel-edit.component.css'
 })
 export class HotelEditComponent implements OnInit {
   hotel: Hotel | null = null;
   hotelForm: FormGroup;
+  selectedFile: File | null = null;
+
   constructor(
     private activateRoute: ActivatedRoute,
     private hotelService: HotelService,
@@ -22,12 +24,12 @@ export class HotelEditComponent implements OnInit {
     private router: Router
   ) {
     this.hotelForm = this.fb.group({
-      name: ['', Validators.required],
-      city: ['', Validators.required],
-      country: ['',Validators.required],
-      address: ['', Validators.required],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      country: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      address: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]],
       status: ['', Validators.required],
-      description: ['']
+      description: ['', Validators.maxLength(500)]
     });
   }
 
@@ -52,18 +54,28 @@ export class HotelEditComponent implements OnInit {
     }
   }
 
+  onFileChange(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
   save(): void {
     if (this.hotelForm.valid && this.hotel) {
-      const updatedHotel = {
-        name: this.hotelForm.get('name')?.value,
-        city: this.hotelForm.get('city')?.value,
-        country: this.hotelForm.get('country')?.value,
-        address: this.hotelForm.get('address')?.value,
-        status: this.hotelForm.get('status')?.value,
-        description: this.hotelForm.get('description')?.value
-      };
+      const formData = new FormData();
+      formData.append('name', this.hotelForm.get('name')?.value);
+      formData.append('city', this.hotelForm.get('city')?.value);
+      formData.append('country', this.hotelForm.get('country')?.value);
+      formData.append('address', this.hotelForm.get('address')?.value);
+      formData.append('status', this.hotelForm.get('status')?.value);
+      formData.append('description', this.hotelForm.get('description')?.value);
 
-      this.hotelService.updateHotel(updatedHotel, this.hotel.id).subscribe(
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile, this.selectedFile.name);
+      }
+
+      this.hotelService.updateHotel(formData, this.hotel.id).subscribe(
         response => {
           console.log('Hotel updated successfully:', response.message);
           this.router.navigate(['/owner/hotel']);
@@ -72,11 +84,8 @@ export class HotelEditComponent implements OnInit {
           console.error('Error updating hotel:', error);
         }
       );
+    } else {
+      console.error('Form is invalid');
     }
   }
-
-  
-
-
-
 }

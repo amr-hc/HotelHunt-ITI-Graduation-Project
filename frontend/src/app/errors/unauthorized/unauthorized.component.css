@@ -1,16 +1,13 @@
-body {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-  background-color: #0F172B;
-  color: #FEA116;
-}
-
 .unauthorized-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #0F172B;
+  color: #FEA116;
 }
 
 .unauthorized-content {
@@ -24,11 +21,15 @@ body {
 
 h1 {
   font-size: 2.5rem;
+  color: #FEA116;
+
   margin-bottom: 20px;
 }
 
 p {
   font-size: 1.2rem;
+  color: #FEA116;
+
   margin-bottom: 20px;
 }
 

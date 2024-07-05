@@ -38,7 +38,7 @@
           <p><strong>Balance:</strong> {{ hotel.balance | currency:'EGP ' }}</p>
           <p><strong>Description:</strong> {{ hotel.description }}</p>
 
-          <p><strong>User Rating :</strong>
+          <p *ngIf="hotel.average_rate"><strong>User Rating :</strong>
             <span class="star-rating">
               <ng-container *ngFor="let _ of starRange(getStarRatingStars(hotel.average_rate).fullStars)">
                 <i class="star fa fa-star text-warning"></i>
