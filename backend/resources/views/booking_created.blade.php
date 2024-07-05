@@ -1,44 +1,3 @@
-<!-- <!DOCTYPE html>
-<html>
-<head>
-    <title>Booking Confirmation</title>
-    <style>
-        /* Add your custom styles here */
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .content {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin-top: 20px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #007bff;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        .button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-</head>
-<body>
-    <div class="content">
-        <h1>Hello!</h1>
-        <p>Your booking has been created.</p>
-        <p>Booking ID: {{ $booking->id }}</p>
-        <p>Booking Date: {{ $booking->created_at }}</p>
-        <a href="{{ url('/bookings/' . $booking->id) }}" class="button">View Booking</a>
-        <p>Thank you for using our application!</p>
-    </div>
-</body>
-</html> -->
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 <head>
@@ -537,7 +496,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td style="overflow-wrap:break-word;word-break:break-word;padding:13px 10px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <div style="font-size: 14px; color: #ffffff; line-height: 100%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 100%;"><span style="font-family: georgia, palatino; font-size: 16px; line-height: 16px;">Sunday, June, 10, 20xx</span></p>
+    <p style="font-size: 14px; line-height: 100%;"><span style="font-family: georgia, palatino; font-size: 16px; line-height: 16px;">{{$booking->check_in}}</span></p>
   </div>
 
       </td>
@@ -597,7 +556,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
       <td style="overflow-wrap:break-word;word-break:break-word;padding:13px 10px;font-family:arial,helvetica,sans-serif;" align="left">
         
   <div style="font-size: 14px; color: #ffffff; line-height: 100%; text-align: left; word-wrap: break-word;">
-    <p style="font-size: 14px; line-height: 100%;"><span style="font-family: georgia, palatino; font-size: 16px; line-height: 16px;">Sunday, June, 10, 20xx</span></p>
+    <p style="font-size: 14px; line-height: 100%;"><span style="font-family: georgia, palatino; font-size: 16px; line-height: 16px;">{{$booking->check_out}}</span></p>
   </div>
 
       </td>
@@ -942,7 +901,7 @@ table, td { color: #000000; } #u_body a { color: #0000ee; text-decoration: under
   <!--[if mso]><style>.v-button {background: transparent !important;}</style><![endif]-->
 <div align="center">
   <!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://unlayer.com/" style="height:42px; v-text-anchor:middle; width:234px;" arcsize="9.5%"  stroke="f" fillcolor="#404041"><w:anchorlock/><center style="color:#FFFFFF;"><![endif]-->
-    <a href="https://unlayer.com/" target="_blank" class="v-button" style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #404041; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;border-top-color: #CCC; border-top-style: solid; border-top-width: 0px; border-left-color: #CCC; border-left-style: solid; border-left-width: 1px; border-right-color: #CCC; border-right-style: solid; border-right-width: 1px; border-bottom-color: #CCC; border-bottom-style: solid; border-bottom-width: 0px;font-size: 14px;">
+    <a href="http://localhost:4200/home" target="_blank" class="v-button" style="box-sizing: border-box;display: inline-block;text-decoration: none;-webkit-text-size-adjust: none;text-align: center;color: #FFFFFF; background-color: #404041; border-radius: 4px;-webkit-border-radius: 4px; -moz-border-radius: 4px; width:auto; max-width:100%; overflow-wrap: break-word; word-break: break-word; word-wrap:break-word; mso-border-alt: none;border-top-color: #CCC; border-top-style: solid; border-top-width: 0px; border-left-color: #CCC; border-left-style: solid; border-left-width: 1px; border-right-color: #CCC; border-right-style: solid; border-right-width: 1px; border-bottom-color: #CCC; border-bottom-style: solid; border-bottom-width: 0px;font-size: 14px;">
       <span style="display:block;padding:13px 20px;line-height:120%;"><span style="font-size: 14px; line-height: 16.8px;">CHECK THE LIST OF THINGS</span></span>
     </a>
     <!--[if mso]></center></v:roundrect><![endif]-->

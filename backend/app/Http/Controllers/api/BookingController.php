@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 use App\Notifications\BookingCreated;
+use App\Notifications\BookingCancelled;
 
 
 class BookingController extends Controller
@@ -31,7 +32,6 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request
         $request->validate([
             'user_id' => 'required|exists:users,id',
             'duration' => 'required|numeric',
@@ -147,14 +147,15 @@ class BookingController extends Controller
                 'status' => 'string|in:progress,cancel,completed'
             ]);
 
-            // Find the booking by ID
             $booking = Booking::findOrFail($id);
 
-            // Update the status
             $booking->status = $validatedData['status'];
             $booking->save();
 
-            // Return a successful response
+            if($booking->status == 'cancel'){
+                $booking->user->notify(new BookingCancelled($booking));
+            }
+
             return response()->json([
                 'message' => 'Booking status updated successfully.',
                 'booking' => $booking
