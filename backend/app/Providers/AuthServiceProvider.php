@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Policies\UserPolicy;
+
 
 use App\Models\User;
 
@@ -19,6 +21,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
+        User::class => UserPolicy::class
     ];
 
     /**
@@ -40,6 +43,11 @@ class AuthServiceProvider extends ServiceProvider
                 ->line('Click the button below to verify your email address.')
                 ->action('Verify Email Address', $new_url);
         });
+
+        Gate::define('isAdmin', function (User $user) {
+            return $user->role == 'admin';
+        });
+
 
     }
 }
