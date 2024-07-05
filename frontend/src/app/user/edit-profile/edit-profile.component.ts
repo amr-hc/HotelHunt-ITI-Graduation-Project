@@ -99,12 +99,15 @@ export class EditProfileComponent implements OnInit {
 
   // Method to handle file input change
   onFileChange(event: any) {
+    const fileControl = this.userForm.get('photo');
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       if (this.isImageFile(file)) {
         this.userForm.get('photo')!.setValue(file);
       } else {
         this.errorMessage = 'Only JPEG, PNG, and GIF files are allowed.';
+        fileControl!.setErrors({ invalidFileType: true });
+
       }
     }
   }
