@@ -2,6 +2,7 @@
   <div class="card shadow-lg border-0 rounded-lg p-4">
     <h1 class="text-center mb-4 text-primary">Edit Hotel</h1>
     <form [formGroup]="hotelForm" (ngSubmit)="save()">
+      <!-- Hotel Name Field -->
       <div class="form-group mb-3">
         <label for="name">Name</label>
         <input id="name" class="form-control" formControlName="name" placeholder="Enter hotel name">
@@ -12,6 +13,7 @@
         </div>
       </div>
 
+      <!-- City Field -->
       <div class="form-group mb-3">
         <label for="city">City</label>
         <input id="city" class="form-control" formControlName="city" placeholder="Enter city name">
@@ -22,6 +24,7 @@
         </div>
       </div>
 
+      <!-- Country Field -->
       <div class="form-group mb-3">
         <label for="country">Country</label>
         <input id="country" class="form-control" formControlName="country" placeholder="Enter country name">
@@ -32,6 +35,7 @@
         </div>
       </div>
 
+      <!-- Address Field -->
       <div class="form-group mb-3">
         <label for="address">Address</label>
         <input id="address" class="form-control" formControlName="address" placeholder="Enter address">
@@ -42,14 +46,9 @@
         </div>
       </div>
 
-      <div class="form-group mb-3">
-        <label for="status">Status</label>
-        <input id="status" class="form-control" formControlName="status" placeholder="Enter status">
-        <div *ngIf="hotelForm.get('status')?.touched && hotelForm.get('status')?.invalid" class="text-danger">
-          <div *ngIf="hotelForm.get('status')?.errors?.['required']">Status is required.</div>
-        </div>
-      </div>
 
+
+      <!-- Description Field -->
       <div class="form-group mb-3">
         <label for="description">Description</label>
         <textarea id="description" class="form-control" formControlName="description" rows="4"
@@ -59,7 +58,12 @@
           </div>
         </div>
       </div>
+      <div class="form-group mb-3">
+        <label for="image">Image</label>
+        <input id="image" type="file" class="form-control" (change)="onFileChange($event)">
+      </div>
 
+      <!-- Save Button -->
       <div class="text-center">
         <button class="btn btn-primary px-5 py-2" type="submit" [disabled]="hotelForm.invalid">Save</button>
       </div>

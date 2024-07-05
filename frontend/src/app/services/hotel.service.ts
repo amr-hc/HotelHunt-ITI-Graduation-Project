@@ -63,8 +63,8 @@ export class HotelService {
     );
   }
 
-  updateHotel(hotelData: any, id: number): Observable<{ message: string }> {
-    return this.http.put<{ message: string }>(`${this.apiUrl}${id}`, hotelData);
+  updateHotel(hotelData: FormData, id: number): Observable<{ message: string }> {
+    return this.http.post<{ message: string }>(`${this.apiUrl}${id}?_method=patch`, hotelData);
   }
   addHotelImages(id: number, images: FileList): Observable<HotelImage[]> {
     const formData = new FormData();

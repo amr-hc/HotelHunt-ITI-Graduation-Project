@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 export class HotelEditComponent implements OnInit {
   hotel: Hotel | null = null;
   hotelForm: FormGroup;
+  selectedFile: File | null = null;
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -53,13 +54,28 @@ export class HotelEditComponent implements OnInit {
     }
   }
 
+  onFileChange(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
   save(): void {
     if (this.hotelForm.valid && this.hotel) {
-      const updatedHotel = {
-        ...this.hotelForm.value
-      };
+      const formData = new FormData();
+      formData.append('name', this.hotelForm.get('name')?.value);
+      formData.append('city', this.hotelForm.get('city')?.value);
+      formData.append('country', this.hotelForm.get('country')?.value);
+      formData.append('address', this.hotelForm.get('address')?.value);
+      formData.append('status', this.hotelForm.get('status')?.value);
+      formData.append('description', this.hotelForm.get('description')?.value);
 
-      this.hotelService.updateHotel(updatedHotel, this.hotel.id).subscribe(
+      if (this.selectedFile) {
+        formData.append('image', this.selectedFile, this.selectedFile.name);
+      }
+
+      this.hotelService.updateHotel(formData, this.hotel.id).subscribe(
         response => {
           console.log('Hotel updated successfully:', response.message);
           this.router.navigate(['/owner/hotel']);
