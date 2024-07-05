@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -10,6 +10,7 @@ import { UserService } from '../../../services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edituser',
@@ -18,13 +19,14 @@ import Swal from 'sweetalert2';
   templateUrl: './edituser.component.html',
   styleUrl: './edituser.component.css',
 })
-export class EdituserComponent {
+export class EdituserComponent implements OnDestroy {
   editForm: FormGroup;
   userId: number | null = null;
   user: User | null = null;
   formSubmitted: boolean = false;
   selectedFile: File | null = null;
   errorMessage = '';
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private fb: FormBuilder,
@@ -81,7 +83,7 @@ export class EdituserComponent {
   ngOnInit(): void {
     this.userId = Number(this.route.snapshot.paramMap.get('id'));
     if (this.userId) {
-      this.userService.getUserById(this.userId).subscribe(
+      const userSubscription = this.userService.getUserById(this.userId).subscribe(
         (response: any) => {
           this.user = response.data;
           console.log(this.user);
@@ -94,9 +96,9 @@ export class EdituserComponent {
           console.error('Error fetching user details', error);
         }
       );
+      this.subscriptions.add(userSubscription);
     }
   }
-
 
   onSubmit(): void {
     this.formSubmitted = true;
@@ -128,7 +130,7 @@ export class EdituserComponent {
             console.log(`${key}: ${value}`);
           });
 
-          this.userService.updateUser(formData).subscribe(
+          const updateSubscription = this.userService.updateUser(formData).subscribe(
             (response) => {
               console.log('User updated successfully', response);
               Swal.fire({
@@ -155,7 +157,7 @@ export class EdituserComponent {
                   }
                 });
                 console.log(errorMessage);
-              }else {
+              } else {
                 this.errorMessage = 'Failed to add user. Please try again.';
               }
 
@@ -166,13 +168,14 @@ export class EdituserComponent {
               });
             }
           );
-        }
-        else {
+          this.subscriptions.add(updateSubscription);
+        } else {
           this.formSubmitted = false;
         }
       });
     }
   }
+
   onFileChange(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
@@ -195,5 +198,9 @@ export class EdituserComponent {
 
   onCancel(): void {
     this.router.navigate(['/admin-dashboard/users']);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

@@ -47,7 +47,7 @@
               <th>ID</th>
               <th>Image</th>
               <th>First Name</th>
-              <th>Verified</th>
+              <th>Active</th>
               <th>Email</th>
               <th>Role</th>
               <th>Actions</th>
@@ -86,8 +86,8 @@
                   >
                     {{
                       user.email_verified_at !== null
-                        ? "Verified"
-                        : "Not Verified"
+                        ? "Active"
+                        : "Not Active"
                     }}
                   </label>
                 </div>

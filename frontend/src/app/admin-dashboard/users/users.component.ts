@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
@@ -6,26 +6,27 @@ import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [CommonModule, RouterLink,NgxPaginationModule,FormsModule],
+  imports: [CommonModule, RouterLink, NgxPaginationModule, FormsModule],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css',
 })
-export class UsersComponent {
+export class UsersComponent implements OnInit, OnDestroy {
   users: User[] = [];
   filteredUsers: User[] = [];
   currentPage: number = 1;
   isLoading: boolean = true;
   searchTerm: string = '';
+  private subscriptions: Subscription = new Subscription();
 
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
-    this.userService.getAllUsers().subscribe(
+    const userSubscription = this.userService.getAllUsers().subscribe(
       (response: any) => {
         this.users = response.data;
         this.filteredUsers = this.users.filter((user) => user.role === 'guest');
@@ -37,6 +38,11 @@ export class UsersComponent {
         console.error('Error fetching users', error);
       }
     );
+    this.subscriptions.add(userSubscription);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   viewUser(id: number): void {
@@ -64,7 +70,7 @@ export class UsersComponent {
   }
 
   deleteUser(id: number): void {
-    this.userService.deleteUser(id).subscribe(
+    const deleteSubscription = this.userService.deleteUser(id).subscribe(
       () => {
         Swal.fire(
           'Deleted!',
@@ -77,6 +83,7 @@ export class UsersComponent {
         console.error('Error deleting user', error);
       }
     );
+    this.subscriptions.add(deleteSubscription);
   }
 
   searchUsers(): void {
@@ -92,7 +99,7 @@ export class UsersComponent {
     const isChecked = (event.target as HTMLInputElement).checked;
     const currentDate = isChecked ? new Date() : null;
     console.log(`Toggling email_verified_at for user ID ${id} to ${currentDate}`);
-    this.userService.editVerification(id, { email_verified_at: currentDate }).subscribe(
+    const verificationSubscription = this.userService.editVerification(id, { email_verified_at: currentDate }).subscribe(
       (response) => {
         console.log('Response from server:', response);
         const user = this.filteredUsers.find(user => user.id === id);
@@ -104,5 +111,6 @@ export class UsersComponent {
         console.error('Error updating email verification status', error);
       }
     );
+    this.subscriptions.add(verificationSubscription);
   }
 }

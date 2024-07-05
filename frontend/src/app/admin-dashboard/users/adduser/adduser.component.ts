@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -13,6 +13,7 @@ import { User } from '../../../models/user';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-adduser',
@@ -21,11 +22,12 @@ import Swal from 'sweetalert2';
   templateUrl: './adduser.component.html',
   styleUrl: './adduser.component.css',
 })
-export class AdduserComponent {
+export class AdduserComponent implements OnDestroy {
   addUserForm: FormGroup;
   submitted = false;
   success = false;
   errorMessage = '';
+  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -115,7 +117,7 @@ export class AdduserComponent {
           formData.append(key, this.addUserForm.get(key)?.value);
         });
 
-        this.userService.addUser(formData).subscribe(
+        const addUserSubscription = this.userService.addUser(formData).subscribe(
           () => {
             this.success = true;
             this.addUserForm.reset();
@@ -152,6 +154,8 @@ export class AdduserComponent {
             });
           }
         );
+
+        this.subscriptions.add(addUserSubscription);
       }
     });
   }
@@ -174,5 +178,9 @@ export class AdduserComponent {
       control.get('password_confirmation')?.setErrors(null);
       return null;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
