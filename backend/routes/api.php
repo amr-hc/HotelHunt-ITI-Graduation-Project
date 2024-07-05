@@ -90,6 +90,7 @@ Route::get('cities', [SearchController::class, 'getAllCities']);
 
 Route::resource('payments', PaymentController::class);
 Route::resource('booking', BookingController::class);
+Route::get('booking/cancel/{id}',[BookingController::class , 'cancel']);
 Route::put('booking/{id}/status',[BookingController::class , 'updateStatus']);
 Route::get('booking/user-bookings/{user_id}',[BookingController::class,'getUserBookings']);
 Route::get('/booking/hotel/{hotel_id}', [BookingController::class, 'getHotelBookings']);

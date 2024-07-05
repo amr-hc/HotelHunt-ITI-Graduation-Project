@@ -63,7 +63,7 @@ class BookingController extends Controller
 
             $booking->user->notify(new BookingCreated($booking));
             return response()->json($booking->load('book_details'), 201);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['error' => 'Failed to create booking: ' . $e->getMessage()], 500);
         }
@@ -125,7 +125,7 @@ class BookingController extends Controller
 
             DB::commit();
             return response()->json($booking->load('book_details'), 200);
-        } catch (\Exception $innerException) {
+        } catch (Exception $innerException) {
             DB::rollBack();
             Log::error('Failed to update booking details: ' . $innerException->getMessage());
             return response()->json(['error' => 'Failed to update booking details: ' . $innerException->getMessage()], 500);
@@ -133,7 +133,7 @@ class BookingController extends Controller
 
     } catch (ValidationException $validationException) {
         return response()->json(['error' => $validationException->errors()], 422);
-    } catch (\Exception $outerException) {
+    } catch (Exception $outerException) {
         Log::error('Failed to update booking: ' . $outerException->getMessage());
         return response()->json(['error' => 'Failed to update booking: ' . $outerException->getMessage()], 500);
     }
@@ -190,7 +190,7 @@ class BookingController extends Controller
             $booking->save();
 
             return response()->json(['message' => 'Booking status updated to "cancel".'], 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['error' => 'Failed to update booking status: ' . $e->getMessage()], 500);
         }
     }
@@ -206,7 +206,7 @@ class BookingController extends Controller
             return response()->json(['message' => 'No bookings found for this user.'], 404);
         }
         return BookingResource::collection($bookings);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         Log::error('Failed to fetch user bookings: ' . $e->getMessage());
         return response()->json(['error' => 'Failed to fetch user bookings.'], 500);
     }
@@ -224,7 +224,7 @@ public function getHotelBookings($hotel_id)
         }
 
         return BookingResource::collection($bookings);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         Log::error('Failed to fetch hotel bookings: ' . $e->getMessage());
         return response()->json(['error' => 'Failed to fetch hotel bookings.'], 500);
     }
@@ -246,9 +246,27 @@ public function getOwnerHotelBookings($owner_id)
         }
 
         return BookingResource::collection($bookings);
-    } catch (\Exception $e) {
+    } catch (Exception $e) {
         Log::error('Failed to fetch bookings for owner\'s hotels: ' . $e->getMessage());
         return response()->json(['error' => 'Failed to fetch bookings for owner\'s hotels.'], 500);
+    }
+}
+
+
+public function cancel(string $id) {
+    try {
+        $booking = Booking::findOrFail($id);
+
+        if ($booking->status === 'completed' || $booking->status === 'cancel') {
+            return response()->json(['error' => 'Booking with status completed or cancel cannot be canceled.'], 403);
+        }
+
+        $booking->status = 'cancel';
+        $booking->save();
+
+        return response()->json(['message' => 'Booking status updated to cancel.'], 200);
+    } catch (Exception $e) {
+        return response()->json(['error' => 'Failed to update booking status: '. $e->getMessage()], 500);
     }
 }
 
