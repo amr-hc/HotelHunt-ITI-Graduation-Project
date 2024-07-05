@@ -31,9 +31,9 @@ export class EditComponent implements OnInit {
       fname: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern('^[a-zA-Z]+$')]],
       lname: ['', [Validators.required, Validators.maxLength(100), Validators.minLength(3), Validators.pattern('^[a-zA-Z]+$')]],
       email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
-      phone: ['', [Validators.required, Validators.maxLength(25)]],
+      phone: ['', [Validators.required, Validators.maxLength(25), Validators.pattern('^[0-9]*$')]],
       address: ['', [Validators.required, Validators.maxLength(255)]],
-      age: ['', [Validators.required, Validators.min(18), Validators.max(80)]],
+      age: ['', [Validators.required, Validators.min(18), Validators.max(80), Validators.pattern('^[0-9]*$')]],
       photo: [''],
     });
   }

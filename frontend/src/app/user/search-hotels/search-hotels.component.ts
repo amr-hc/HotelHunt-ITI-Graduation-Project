@@ -52,6 +52,7 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
   minCheckoutDate: string = '';
   searcherdCheckInDate: string = '';
   searcherdCheckOutDate: string = '';
+  searcheCity: string = '';
   constructor(private searchHotelService: SearchHotelService, private router: Router) { }
 
   validateForm(): boolean {
@@ -159,6 +160,7 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
         }));
         this.searcherdCheckInDate = this.checkinDate;
         this.searcherdCheckOutDate = this.checkoutDate;
+        this.searcheCity = this.city;
       },
       (error: any) => {
         console.error('Error fetching hotels', error);

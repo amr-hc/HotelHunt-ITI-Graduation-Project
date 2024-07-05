@@ -44,7 +44,7 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
     this.hotelService.getHotelForOwner(ownerId).subscribe(
       response => {
         this.hotels = response.data;
-        console.log('Hotels for owner:', this.hotels);
+        console.log('Hotels for owner:', this.hotels[0].image);
 
         // Fetch images and comments for each hotel
         this.hotels.forEach(hotel => {
@@ -129,7 +129,7 @@ starRange(count: number): number[] {
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
-  
+
 
 
 }

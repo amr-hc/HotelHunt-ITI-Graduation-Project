@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
+use App\Policies\AvailabilityPolicy;
 
 use App\Models\Availability;
 use App\Models\Roomtype;
@@ -20,12 +21,16 @@ class AvailabilityController extends Controller
      */
     public function index()
     {
-        // return Availability::all();
+        $this->authorize('isAdmin');
         return AvailabilityResource::collection(Availability::all());
     }
 
     public function specificRoom(Roomtype $room)
     {
+        if(!(new AvailabilityPolicy)->view(auth()->user() , $room)){
+            return response()->json(['message' => 'Unauthorizedz'], 403);
+        }
+
         return AvailabilityResource::collection($room->availability);
     }
 
@@ -42,6 +47,10 @@ class AvailabilityController extends Controller
      */
     public function store(Request $request)
     {
+        $room = Roomtype::find($request->room_type_id);
+        if(!(new AvailabilityPolicy)->view(auth()->user() , $room)){
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
         Availability::create($request->all());
     }
 
@@ -68,6 +77,8 @@ class AvailabilityController extends Controller
     public function update(Request $request, string $id)
     {
         $Availability=Availability::findOrFail($id);
+        $this->authorize('update', $Availability);
+
         $Availability->update($request->all());
         return ["message"=> "updated"];
     }

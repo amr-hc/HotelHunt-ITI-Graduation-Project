@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -11,11 +12,12 @@ import { Router } from '@angular/router';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit, OnDestroy {
   user: User | null = null;
   userId: number | null = null;
   isLoading: boolean = false;
   errorMessage: string = '';
+  private subscriptions: Subscription = new Subscription();
 
   constructor(private userService: UserService, private router: Router) {}
 
@@ -23,7 +25,7 @@ export class ProfileComponent {
     this.userId = Number(localStorage.getItem('userId'));
     if (this.userId) {
       this.isLoading = true;
-      this.userService.getUserById(this.userId).subscribe(
+      const userSubscription = this.userService.getUserById(this.userId).subscribe(
         (response: any) => {
           this.user = response.data;
           this.isLoading = false;
@@ -34,7 +36,12 @@ export class ProfileComponent {
           this.isLoading = false;
         }
       );
+      this.subscriptions.add(userSubscription);
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   editProfile(id: number): void {

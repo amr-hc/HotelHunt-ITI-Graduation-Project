@@ -34,6 +34,7 @@
             <th>ID</th>
             <th>Image</th>
             <th>First Name</th>
+            <th>Active</th>
             <th>Email</th>
             <th>Role</th>
             <th>Actions</th>
@@ -44,6 +45,27 @@
             <td>{{ owner.id }}</td>
             <td><img src="http://127.0.0.1:8000/storage/{{ owner.photo }}" class="rounded-circle" style="height:30px;width:35px"></td>
             <td>{{ owner.fname }}</td>
+            <td>
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="emailVerifiedSwitch{{ owner.id }}"
+                  [checked]="owner.email_verified_at !== null"
+                  (change)="toggleEmailVerified(owner.id, $event)"
+                />
+                <label
+                  class="form-check-label"
+                  for="emailVerifiedSwitch{{ owner.id }}"
+                >
+                  {{
+                    owner.email_verified_at !== null
+                      ? "Active"
+                      : "Not Active"
+                  }}
+                </label>
+              </div>
+            </td>
             <td>{{ owner.email }}</td>
             <td>{{ owner.role }}</td>
             <td>

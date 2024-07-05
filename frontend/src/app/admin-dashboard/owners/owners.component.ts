@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { User } from '../../models/user';
 import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
@@ -6,27 +6,28 @@ import { Router, RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-owners',
   standalone: true,
-  imports: [CommonModule,NgxPaginationModule,FormsModule, RouterLink],
+  imports: [CommonModule, NgxPaginationModule, FormsModule, RouterLink],
   templateUrl: './owners.component.html',
   styleUrl: './owners.component.css'
 })
-export class OwnersComponent {
+export class OwnersComponent implements OnInit, OnDestroy {
   users: User[] = [];
   owners: User[] = [];
   filteredOwners: User[] = [];
   currentPage: number = 1;
   isLoading: boolean = true;
   searchTerm: string = '';
+  private subscriptions: Subscription = new Subscription();
 
   constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
-    this.userService.getAllUsers().subscribe(
+    const userSub = this.userService.getAllUsers().subscribe(
       (response: any) => {
         this.users = response.data;
         this.owners = this.users.filter(user => user.role === 'owner');
@@ -38,6 +39,7 @@ export class OwnersComponent {
         console.error('Error fetching users', error);
       }
     );
+    this.subscriptions.add(userSub);
   }
 
   viewUser(id: number): void {
@@ -65,7 +67,7 @@ export class OwnersComponent {
   }
 
   deleteUser(id: number): void {
-    this.userService.deleteUser(id).subscribe(
+    const deleteSub = this.userService.deleteUser(id).subscribe(
       () => {
         Swal.fire(
           'Deleted!',
@@ -78,6 +80,7 @@ export class OwnersComponent {
         console.error('Error deleting user', error);
       }
     );
+    this.subscriptions.add(deleteSub);
   }
 
   searchOwners(): void {
@@ -86,5 +89,26 @@ export class OwnersComponent {
       owner.fname.toLowerCase().includes(searchTermLower) ||
       owner.email.toLowerCase().includes(searchTermLower)
     );
+  }
+
+  toggleEmailVerified(id: number, event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    const currentDate = isChecked ? new Date() : null;
+    const toggleSub = this.userService.editVerification(id, { email_verified_at: currentDate }).subscribe(
+      (response) => {
+        const user = this.filteredOwners.find(owner => owner.id === id);
+        if (user) {
+          user.email_verified_at = currentDate;
+        }
+      },
+      (error) => {
+        console.error('Error updating email verification status', error);
+      }
+    );
+    this.subscriptions.add(toggleSub);
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }
