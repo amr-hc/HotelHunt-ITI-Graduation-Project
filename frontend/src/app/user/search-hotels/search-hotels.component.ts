@@ -141,7 +141,6 @@ export class SearchHotelsComponent implements OnInit, OnDestroy {
 
     this.searchSubscription = this.searchHotelService.getAllHotels(searchParams).subscribe(
       (data: SearchHotel[]) => {
-        console.log(data);
 
         // Group hotels by hotel_name and calculate rooms available
         const groupedHotels: { [key: string]: SearchHotel[] } = {};
