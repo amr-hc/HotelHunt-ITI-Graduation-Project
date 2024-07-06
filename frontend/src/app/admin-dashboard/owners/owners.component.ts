@@ -87,7 +87,7 @@ export class OwnersComponent implements OnInit, OnDestroy {
   searchOwners(): void {
     const searchTermLower = this.searchTerm.toLowerCase();
     this.filteredOwners = this.owners.filter((owner) =>
-      owner.fname.toLowerCase().includes(searchTermLower) ||
+      (owner.fname + ' ' + owner.lname).toLowerCase().includes(searchTermLower) ||
       owner.email.toLowerCase().includes(searchTermLower)
     );
   }

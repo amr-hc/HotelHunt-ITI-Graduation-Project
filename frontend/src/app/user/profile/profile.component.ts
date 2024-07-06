@@ -25,7 +25,7 @@ import Swal from 'sweetalert2';
 })
 export class UserProfileComponent implements OnInit, OnDestroy {
   user: User | null = null;
-  bookings: Booking[] = []; // Change to array of bookings
+  bookings: Booking[] = []; 
   sub: Subscription | null = null;
   bookingsSub: Subscription | null = null;
   userid: number = 0;

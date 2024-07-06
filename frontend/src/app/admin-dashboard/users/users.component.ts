@@ -90,8 +90,10 @@ export class UsersComponent implements OnInit, OnDestroy {
     const searchTermLower = this.searchTerm.toLowerCase();
     this.filteredUsers = this.users.filter((user) =>
       user.role === 'guest' &&
-      (user.fname.toLowerCase().includes(searchTermLower) ||
-       user.email.toLowerCase().includes(searchTermLower))
+      (
+        (user.fname + ' ' + user.lname).toLowerCase().includes(searchTermLower) ||
+        user.email.toLowerCase().includes(searchTermLower)
+      )
     );
   }
 
