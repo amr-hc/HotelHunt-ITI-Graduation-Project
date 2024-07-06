@@ -55,6 +55,7 @@
                   </thead>
                   <tbody>
                     <tr *ngFor="let detail of book.book_details">
+
                       <td data-label="Room Type">{{ detail.room_name }}</td>
                       <td data-label="Date">{{ detail.date }}</td>
                       <td data-label="Price">{{ detail.price | currency: 'EGP ' }}</td>
@@ -78,3 +79,4 @@
     No bookings found.
   </div>
 </div>
+
