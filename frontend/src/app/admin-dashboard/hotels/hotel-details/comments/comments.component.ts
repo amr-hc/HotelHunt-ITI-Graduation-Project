@@ -46,7 +46,6 @@ export class CommentsComponent {
     this.commentService.getCommentsByHotelId(hotelId).subscribe(
       (comments) => {
         this.hotelComments[hotelId] = comments;
-        console.log(`Comments for hotel ${hotelId}:`, comments);
       },
       (error) => {
         console.error(`Error fetching comments for hotel ${hotelId}:`, error);

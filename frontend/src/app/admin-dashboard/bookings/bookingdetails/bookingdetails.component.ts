@@ -121,7 +121,6 @@ export class BookingDetailsComponent implements OnInit, OnDestroy {
     const bookingSub = this.bookingService.getBookingById(id).subscribe({
       next: (booking) => {
         this.booking = booking;
-        console.log(this.booking);
         this.groupBookings();
         this.isLoading = false;
       },

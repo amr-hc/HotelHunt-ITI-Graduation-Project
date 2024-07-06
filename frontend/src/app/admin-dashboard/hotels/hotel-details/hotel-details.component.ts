@@ -34,7 +34,6 @@ export class HotelDetailsComponent implements OnInit {
       (response: { data: Hotel }) => {
         this.hotel = response.data;
         this.errorMessage = undefined;
-        console.log(this.hotel);
       },
       (error: any) => {
         console.error('Failed to fetch hotel details', error);

@@ -52,7 +52,6 @@ export class BookingsComponent implements OnInit , OnDestroy {
     this.bookingService.getAllBookings().subscribe({
       next: (bookings) => {
         this.bookings = bookings;
-        console.log(this.bookings);
         this.groupBookingsByHotel();
         this.isLoading = false;
       },

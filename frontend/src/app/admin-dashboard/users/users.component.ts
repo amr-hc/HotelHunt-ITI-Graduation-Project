@@ -30,7 +30,6 @@ export class UsersComponent implements OnInit, OnDestroy {
       (response: any) => {
         this.users = response.data;
         this.filteredUsers = this.users.filter((user) => user.role === 'guest');
-        console.log(this.filteredUsers);
         this.isLoading = false;
       },
       (error) => {
