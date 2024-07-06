@@ -21,7 +21,8 @@
           class="btn btn-success ms-1"
           routerLink="/admin-dashboard/users/add"
         >
-          Add User
+        <i class="fas fa-user-plus me-2"></i>
+          <!-- Add User -->
         </button>
       </div>
     </div>
@@ -95,23 +96,14 @@
               <td>{{ user.email }}</td>
               <td>{{ user.role }}</td>
               <td>
-                <button
-                  class="btn btn-primary btn-sm"
-                  (click)="viewUser(user.id)"
-                >
-                  View
+                <button class="btn btn-link btn-sm" (click)="viewUser(user.id)">
+                  <i class="fas fa-eye icon-view"></i>
                 </button>
-                <button
-                  class="btn btn-dark btn-sm ms-1"
-                  (click)="editUser(user.id)"
-                >
-                  Edit
+                <button class="btn btn-link btn-sm" (click)="editUser(user.id)">
+                  <i class="fas fa-edit icon-edit"></i>
                 </button>
-                <button
-                  class="btn btn-danger btn-sm ms-1"
-                  (click)="confirmDelete(user.id)"
-                >
-                  Delete
+                <button class="btn btn-link btn-sm" (click)="confirmDelete(user.id)">
+                  <i class="fas fa-trash-alt icon-delete"></i>
                 </button>
               </td>
             </tr>

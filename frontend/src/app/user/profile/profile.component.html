@@ -31,9 +31,9 @@
           <div class="bg-white rounded px-3 py-4 d-md-flex justify-content-between">
             <div class="d-flex">
               <div>
-                <p>First Name :</p>
-                <p>Last Name :</p>
-                <p>Address :</p>
+                <p><strong>First Name :</strong></p>
+                <p><strong>Last Name :</strong></p>
+                <p><strong>Address :</strong></p>
                 <div class="profile-item">
                   <strong>Status:</strong>
                   <span [ngClass]="{'text-success': verified === 'activated', 'text-danger': verified === 'unactivated'}">{{
@@ -51,9 +51,9 @@
             </div>
             <div class="d-flex">
               <div>
-                <p>Email :</p>
-                <p>Mobile :</p>
-                <p>Age :</p>
+                <p><strong>Email :</strong></p>
+                <p><strong>Mobile :</strong></p>
+                <p><strong>Age :</strong></p>
               </div>
               <div>
                 <p class="mx-2 text-dark font-weight-bold">{{ user?.email }}</p>
@@ -74,9 +74,10 @@
                 <tr>
                   <th class="bg-dark text-light">Hotel</th>
                   <th class="bg-dark text-light">Status</th>
+                  <th class="bg-dark text-light">Check In</th>
                   <th class="bg-dark text-light">Check Out</th>
-                  <th class="bg-dark text-light">Check Out</th>
-                  <th class="bg-dark text-light">Price</th>
+                  <!-- <th class="bg-dark text-light">Duration</th> -->
+                  <th class="bg-dark text-light">Total Price</th>
                   <th class="bg-dark text-light">Action</th>
 
                   <th class="bg-dark text-light">+</th>
@@ -91,6 +92,7 @@
                     <td>{{ booking.status }}</td>
                     <td>{{ booking.check_in }}</td>
                     <td>{{ booking.check_out }}</td>
+                    <!-- <td>{{ booking.duration }}</td> -->
                     <td>{{ booking.total_price }}</td>
                     <td>
                       <button (click)="handleDeleteBooking(booking)" class="btn btn-danger btn-sm">Cancel</button>
@@ -107,20 +109,24 @@
                       <table class="table table-sm">
                         <thead>
                           <tr>
+                            <th>Number Of Nights</th>
                             <th>Number Of Rooms</th>
                             <th>Room Name</th>
                             <!-- <th>Check-in</th>
                             <th>Check-out</th> -->
                             <th>Price</th>
+                            <th>Total Price</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr *ngFor="let detail of booking.grouped_details">
-                            <td>{{ detail.count }}</td> <!-- Display count -->
+                            <td>{{ booking.duration }}</td>
+                            <td>{{ division(detail.count , booking.duration) }}</td>
                             <td>{{ detail.room_name }}</td>
                             <!-- <td>{{ detail.check_in }}</td>
                             <td>{{ detail.check_out }}</td> -->
                             <td>{{ detail.price }}</td>
+                            <td>{{ booking.duration * detail.price * division(detail.count , booking.duration)}}</td>
                           </tr>
                         </tbody>
                       </table>
