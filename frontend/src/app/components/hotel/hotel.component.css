@@ -132,7 +132,7 @@ table.rating {
 
 /* .thumbnail-images img:hover, */
 .thumbnail-images img.active {
-  border-color: rgba(15, 23, 43, 1);
+  border-color: #FEA116;
 }
 
 

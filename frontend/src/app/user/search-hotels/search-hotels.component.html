@@ -66,60 +66,61 @@
       </div>
 
       <!-- Display grouped hotels -->
-      <div class="results">
+      <div class="results container">
         <div *ngIf="result.length === 0" class="bg-danger-subtle text-center p-4 w-100 mx-auto rounded-5 fs-3">No
           results found.</div>
         <div class="row" *ngIf="result.length > 0">
-          <h4 class="text-center">{{ searcheCity|titlecase }}: {{result.length}} properties found</h4>
+          <h4 class="text-center">{{ city }}: {{result.length}} properties found</h4>
           <div *ngFor="let hotelGroup of result | paginate: { itemsPerPage: 3, currentPage: currentPage }">
 
-            <div class="card mb-3 p-3 position-relative">
-              <div class="d-flex">
-                <img [src]="imagePath +hotelGroup.hotels[0].photo" alt="{{ hotelGroup.hotel_name }} image"
-                  class="img-fluid rounded hotel-img">
-                <div class="card-body mx-3">
-                  <h5 class="card-title">{{ hotelGroup.hotel_name }}</h5>
-                  <div class="star-rating">
-                    <span class="text-dark"> Star Rating:</span>
-                    <ng-container *ngIf="hotelGroup.hotels[0].star_rating >=1; else noRatingStars">
-                      <span *ngFor="let star of [].constructor(hotelGroup.hotels[0].star_rating); let i = index"
-                        class="star-icon filled fs-3">&#9733;</span>
-                      <span *ngFor="let star of [].constructor(5 - hotelGroup.hotels[0].star_rating); let i = index"
-                        class="star-icon fs-3">&#9733;</span>
-                    </ng-container>
-                    <ng-template #noRatingStars>
-                      <span *ngFor="let star of [].constructor(5); let i = index" class="star-icon fs-3">&#9733;</span>
-                    </ng-template>
-                  </div>
-                  <div class="average-rating">
-                    <div class="star-rating" *ngIf="hotelGroup.hotels[0].average_rate">
-                      <span class="text-dark"> User Reviews:</span>
-                      <ng-container *ngIf="(hotelGroup.hotels[0].average_rate) >=1; else noRatingStars">
-                        <span *ngFor="let star of [].constructor(hotelGroup.hotels[0].average_rate); let i = index"
+            <div class="card mb-3 p-3 position-relative w-75 mx-auto">
+              <div class="row g-0">
+                <div class="col-md-5">
+                  <img [src]="imagePath +hotelGroup.hotels[0].photo" alt="Not Found"
+                    class="img-fluid rounded-start hotel-img w-100">
+                </div>
+                <div class="col-md-7">
+                  <div class="card-body">
+                    <h5 class="card-title fw-bold text-dark">{{ hotelGroup.hotel_name }}</h5>
+                    <div class="star-rating">
+                      <span class="text-dark"> Star Rating:</span>
+                      <ng-container *ngIf="hotelGroup.hotels[0].star_rating >=1; else noRatingStars">
+                        <span *ngFor="let star of [].constructor(hotelGroup.hotels[0].star_rating); let i = index"
                           class="star-icon filled fs-3">&#9733;</span>
-                        <span *ngFor="let star of [].constructor(5 - hotelGroup.hotels[0].average_rate); let i = index"
+                        <span *ngFor="let star of [].constructor(5 - hotelGroup.hotels[0].star_rating); let i = index"
                           class="star-icon fs-3">&#9733;</span>
                       </ng-container>
                       <ng-template #noRatingStars>
-                        <!-- <span class="no-rating">No rating available</span> -->
                         <span *ngFor="let star of [].constructor(5); let i = index"
                           class="star-icon fs-3">&#9733;</span>
                       </ng-template>
                     </div>
+                    <div class="average-rating">
+                      <div class="star-rating">
+                        <span class="text-dark"> User Reviews:</span>
+                        <ng-container *ngIf="(hotelGroup.hotels[0].average_rate) >=1; else noUserRating">
+                          <span *ngFor="let star of [].constructor(hotelGroup.hotels[0].average_rate); let i = index"
+                            class="star-icon filled fs-3">&#9733;</span>
+                          <span
+                            *ngFor="let star of [].constructor(5 - hotelGroup.hotels[0].average_rate); let i = index"
+                            class="star-icon fs-3">&#9733;</span>
+                        </ng-container>
+                        <ng-template #noUserRating>
+                          <span *ngFor="let star of [].constructor(5); let i = index"
+                            class="star-icon fs-3">&#9733;</span>
+                        </ng-template>
+                      </div>
+                    </div>
+                    <div *ngIf="hotelGroup.roomsAvailable >= 1" class="rooms-available">
+                      <p class="text-dark fw-bold">{{ hotelGroup.roomsAvailable }} rooms available</p>
+                    </div>
+                    <div *ngFor="let room of hotelGroup.hotels" class="room-details mx-3">
+                      <p><span class="text-dark fw-bold">{{ room.name }}</span> - <span class="fw-bold text-primary">${{ room.price }}</span></p>
+                    </div>
+                    <a class="btn btn-primary btn-sm position-absolute bottom-0 end-0 m-1 text-dark see-btn"
+                      (click)="navigateToHotel(hotelGroup.hotels[0].hotel_id)">See Availability</a>
                   </div>
-                  <!-- <div>average rating {{hotelGroup.hotels[0].average_rate}}</div> -->
-                  <div *ngIf="hotelGroup.roomsAvailable >= 1">
-                    <p class="text-danger">{{ hotelGroup.roomsAvailable }} rooms available:</p>
-                  </div>
-                  <div *ngFor="let room of hotelGroup.hotels">
-                    <p class="text-dark">{{ room.name }} - ${{ room.price }}</p>
-                  </div>
-
                 </div>
-                <!-- <a class="btn btn-primary btn-sm position-absolute bottom-0 end-0 m-1 text-dark"
-                [routerLink]="['/hotel',hotelGroup.hotels[0].hotel_id]">See Availability</a> -->
-                <a class="btn btn-primary btn-sm position-absolute bottom-0 end-0 m-1 text-dark"
-                  (click)="navigateToHotel(hotelGroup.hotels[0].hotel_id)">See Availability</a>
               </div>
             </div>
           </div>
