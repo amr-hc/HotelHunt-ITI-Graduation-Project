@@ -27,3 +27,15 @@
     font-size: 0.75rem;
   }
 }
+
+.icon-view {
+  color: #FEA116;
+}
+
+.icon-edit {
+  color: #0F172B;
+}
+
+.icon-delete {
+  color: red;
+}

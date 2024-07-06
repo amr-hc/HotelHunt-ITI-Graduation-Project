@@ -19,7 +19,9 @@
             <select class="form-select" (change)="onHotelChange($event)">
               <option value="select" selected>Select a hotel...</option>
               <option value="all">All Hotels</option>
-              <option *ngFor="let hotel of hotels" [value]="hotel">{{ hotel }}</option>
+              <option *ngFor="let hotel of hotels" [value]="hotel">
+                {{ hotel }}
+              </option>
             </select>
           </div>
         </div>
@@ -33,7 +35,9 @@
             <select class="form-select" (change)="onMonthChange($event)">
               <option value="select" selected>Select a month...</option>
               <option value="all">All Months</option>
-              <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+              <option *ngFor="let month of months" [value]="month">
+                {{ month }}
+              </option>
             </select>
           </div>
         </div>
@@ -44,10 +48,15 @@
     <div class="card">
       <div class="card-header text-center text-primary fs-4 fw-bold">
         Payments
-        <button class="btn btn-danger float-end" (click)="clearSelection()">&times;</button>
+        <button class="btn btn-danger float-end" (click)="clearSelection()">
+          &times;
+        </button>
       </div>
       <div class="card-body">
-        <div *ngIf="getFilteredPayments().length === 0" class="alert alert-info text-center">
+        <div
+          *ngIf="getFilteredPayments().length === 0"
+          class="alert alert-info text-center"
+        >
           No payments found for the selected criteria.
         </div>
         <div *ngIf="getFilteredPayments().length > 0">
@@ -62,18 +71,31 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let payment of getFilteredPayments() | paginate: { itemsPerPage: 8, currentPage: currentPage }">
+              <tr
+                *ngFor="
+                  let payment of getFilteredPayments()
+                    | paginate : { itemsPerPage: 8, currentPage: currentPage }
+                "
+              >
                 <td>{{ payment.hotel }}</td>
                 <td>{{ payment.amount }}</td>
-                <td>{{ payment.date | date:'short' }}</td>
+                <td>{{ payment.date | date : "short" }}</td>
                 <td>{{ payment.method }}</td>
                 <td>
-                  <button class="btn btn-sm btn-danger" (click)="deletePayment(payment.id)">Delete</button>
+                  <button
+                    class="btn btn-link"
+                    (click)="deletePayment(payment.id)"
+                  >
+                    <i class="fas fa-trash-alt icon-delete"></i>
+                  </button>
                 </td>
               </tr>
             </tbody>
           </table>
-          <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
+          <pagination-controls
+            (pageChange)="currentPage = $event"
+            class="text-center"
+          ></pagination-controls>
         </div>
       </div>
     </div>
