@@ -25,7 +25,7 @@ export class ProfileComponent {
     this.userId = Number(localStorage.getItem('userId'));
     const verified = localStorage.getItem('verified');
     console.log(verified);
-    if (verified === 'undefined') {
+    if (verified === 'undefined' || verified ==='null') {
       this.verified = 'unactivated';
     } else {
       this.verified = 'activated';
@@ -60,7 +60,7 @@ export class ProfileComponent {
       this.userService.reVerify(data).subscribe(
         (response) => {
           console.log('Re-verification successful:', response);
-          
+
 
           // Display success alert
           Swal.fire({
