@@ -72,7 +72,7 @@ export class EdituserComponent implements OnDestroy {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(255),
-          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/),
+          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'.\-_]*$/),
         ],
       ],
       age: ['', [Validators.required, Validators.min(18), Validators.max(120)]],
