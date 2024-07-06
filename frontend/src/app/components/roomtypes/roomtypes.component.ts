@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { HeaderComponent } from '../../layouts/header/header.component';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router'; 
 import { HotelService } from './../../services/hotel.service';
 import { RoomType2 } from './../../models/roomtype2';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from '../../layouts/footer/footer.component';
+
 @Component({
   selector: 'app-roomtypes',
   standalone: true,
-  imports: [HeaderComponent,CommonModule,FooterComponent],
+  imports: [HeaderComponent,CommonModule,FooterComponent,RouterModule],
   templateUrl: './roomtypes.component.html',
   styleUrl: './roomtypes.component.css'
 })
@@ -16,6 +17,7 @@ export class RoomtypesComponent implements OnInit  {
   roomTypes: RoomType2[] = [];
   hotelId: number;
   rooms?:string;
+  hotelName: string = '';
   constructor(private route: ActivatedRoute, private hotelService: HotelService) {
     this.hotelId = this.route.snapshot.params['id'];
     // this.hotelId=this.active
@@ -24,7 +26,9 @@ export class RoomtypesComponent implements OnInit  {
   ngOnInit(): void {
     this.hotelService.getHotelById(this.hotelId).subscribe((data:any) => {
       this.roomTypes = data.data.roomtypes;
+      this.hotelName = data.data.name; 
       console.log(data.data.roomtypes)
     });
   }
+  
 }
