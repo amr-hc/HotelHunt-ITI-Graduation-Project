@@ -134,11 +134,14 @@ class usersController extends Controller
                 ->join('booking', 'booking.id', '=', 'book_details.book_id')
                 ->where('hotels.id', $hotel_id)
                 ->pluck('booking.id');
-    
+
+
             DB::table('booking')
                 ->whereIn('id', $bookingIds)
                 ->delete();
         }
+        $user->bookings()->update(['status' => 'cancel']);
+
     
         $user->delete();
     
