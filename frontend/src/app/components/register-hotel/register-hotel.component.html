@@ -22,6 +22,7 @@
                 <div *ngIf="registerForm.get('name')?.errors?.['required']">Hotel Name is required.</div>
                 <div *ngIf="registerForm.get('name')?.errors?.['minlength']">Hotel Name must be at least 3 characters long.</div>
                 <div *ngIf="registerForm.get('name')?.errors?.['maxlength']">Hotel Name cannot exceed 100 characters.</div>
+                <div *ngIf="registerForm.get('name')?.errors?.['pattern']">Hotel Name should only contain letters (A-Z, a-z).</div>
               </div>
             </div>
           </div>
@@ -31,6 +32,11 @@
               <input type="text" formControlName="address" class="form-control" placeholder="Address">
               <div *ngIf="shouldShowError('address')" class="text-danger">
                 <div *ngIf="registerForm.get('address')?.errors?.['required']">Address is required.</div>
+              </div>
+              <div *ngIf="shouldShowError('address')" class="text-danger">
+                <div *ngIf="registerForm.get('address')?.errors?.['pattern']">
+                  Address should only contain letters (A-Z, a-z), numbers (0-9).
+                </div>
               </div>
             </div>
           </div>
@@ -46,12 +52,27 @@
               <div *ngIf="shouldShowError('country')" class="text-danger">
                 <div *ngIf="registerForm.get('country')?.errors?.['required']">Country is required.</div>
               </div>
+              <div *ngIf="shouldShowError('country')" class="text-danger">
+                <div *ngIf="registerForm.get('country')?.errors?.['pattern']">
+                  Country should only contain letters (A-Z, a-z), numbers (0-9).
+
+                </div>
+              </div>
+
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="description" class="text-primary">Description</label>
               <textarea formControlName="description" class="form-control" rows="4" style="height: 50px;" placeholder="Description"></textarea>
+              <div *ngIf="shouldShowError('description')" class="text-danger">
+                <div *ngIf="registerForm.get('description')?.errors?.['required']">description is required.</div>
+              </div>
+              <div *ngIf="shouldShowError('description')" class="text-danger">
+                <div *ngIf="registerForm.get('description')?.errors?.['pattern']">
+                  Address should only contain letters (A-Z, a-z), numbers (0-9).
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -93,7 +114,7 @@
             Invalid file type. Only PNG, JPEG, and JPG files are allowed.
           </div>
           <div *ngIf="registerForm.get('image')?.errors?.['invalidImageSize']" class="text-danger">
-            File size exceeds 2MB.
+            File size exceeds 5MB.
           </div>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Register Hotel</button>
