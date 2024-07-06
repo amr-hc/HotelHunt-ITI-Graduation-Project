@@ -1,62 +1,3 @@
-<!-- <h1 class="text-center text-primary">Room List</h1>
-<div class="d-flex justify-content-end pt-1 mb-2 justify-content-center">
-  <a
-    class="btn btn-primary w-25"
-    routerLink="/admin-dashboard/hotels/{{ hotelId }}/rooms/add"
-    >Add Room Type</a
-  >
-</div>
-
-<div *ngIf="message" class="alert alert-primary">
-  {{ message }}
-</div>
-<div *ngIf="roomTypes.length > 0">
-  <table class="table text-center">
-    <thead class="thead-dark">
-      <tr>
-        <th>#</th>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Capacity</th>
-        <th>Price</th>
-        <th>Action</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let room of roomTypes; let i = index">
-        <th scope="row">{{ i + 1 }}</th>
-        <td>{{ room.name }}</td>
-        <td class="description-field">{{ room.description }}</td>
-        <td>{{ room.capacity }}</td>
-        <td>{{ room.price | currency : "EGP " }}</td>
-        <td>
-          <a
-            routerLink="/admin-dashboard/hotels/{{ hotelId }}/rooms/{{
-              room.id
-            }}"
-            class="btn btn-info btn-sm"
-            >Show</a
-          >
-          <button
-            class="btn btn-danger btn-sm ms-2"
-            (click)="confirmDelete(room.id)"
-          >
-            Remove
-          </button>
-          <a
-            class="btn btn-primary btn-sm ms-2"
-            routerLink="/admin-dashboard/hotels/{{ hotelId }}/rooms/{{room.id}}/edit"
-            >Update</a
-          >
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div class="mt-4 text-center">
-  <a routerLink="/admin-dashboard/hotels/{{hotelId}}" class="btn btn-danger">Back</a>
-</div> -->
-
 <h1 class="text-center text-primary">Room List</h1>
 <div class="d-flex justify-content-end pt-1 mb-2 justify-content-center">
   <a
@@ -66,15 +7,17 @@
   >
 </div>
 
-<div *ngIf="message" class="alert alert-primary">
+<div *ngIf="message" class="alert alert-primary text-center">
   {{ message }}
 </div>
+
 <div *ngIf="isLoading" class="loading text-center mt-3">
   <div class="spinner-border text-primary" role="status">
     <span class="visually-hidden">Loading...</span>
   </div>
   <p class="mt-2">Loading hotels...</p>
 </div>
+
 <div *ngIf="!isLoading && roomTypes.length > 0">
   <table class="table text-center">
     <thead class="thead-dark">
@@ -118,6 +61,7 @@
     </tbody>
   </table>
 </div>
+
 <div class="mt-4 text-center">
   <a routerLink="/admin-dashboard/hotels/{{hotelId}}" class="btn btn-danger">Back</a>
 </div>

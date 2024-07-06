@@ -32,6 +32,7 @@ export class OwnersComponent implements OnInit, OnDestroy {
         this.users = response.data;
         this.owners = this.users.filter(user => user.role === 'owner');
         this.filteredOwners = [...this.owners];
+        console.log(this.filteredOwners);
         this.isLoading = false;
       },
       (error) => {

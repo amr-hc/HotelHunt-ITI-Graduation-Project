@@ -5,11 +5,12 @@ import { HotelsService } from '../../../services/hotels.service';
 import { HotelService } from '../../../services/hotel.service';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-nearhotels',
   standalone: true,
-  imports: [CommonModule,NgxPaginationModule],
+  imports: [CommonModule,NgxPaginationModule,RouterModule],
   templateUrl: './nearhotels.component.html',
   styleUrl: './nearhotels.component.css'
 })

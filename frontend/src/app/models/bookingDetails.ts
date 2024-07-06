@@ -4,7 +4,8 @@ export class BookingDetails2 {
     public room_name:string,
     public date: string,
     public price: number,
-    public count?: number  
+    public duration: number,
+    public count?: number
 
   ){}
 }

@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './roomtypes.component.html',
-  styleUrl: './roomtypes.component.css'
+  styleUrls: ['./roomtypes.component.css']
 })
 export class RoomtypesComponent implements OnInit, OnDestroy {
   message = '';

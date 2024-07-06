@@ -62,7 +62,7 @@ export class AddhotelComponent implements OnInit, OnDestroy {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(255),
-          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/),
+          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'.\-_]*$/),
         ],
       ],
       owner_id: ['', Validators.required],
@@ -72,7 +72,7 @@ export class AddhotelComponent implements OnInit, OnDestroy {
         [
           Validators.minLength(8),
           Validators.maxLength(255),
-          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/),
+          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'.\-_]*$/),
         ],
       ],
       star_rating: ['', Validators.required],

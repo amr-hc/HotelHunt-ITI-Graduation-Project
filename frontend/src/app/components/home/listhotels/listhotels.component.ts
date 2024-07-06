@@ -4,11 +4,12 @@ import { HotelsService } from '../../../services/hotels.service';
 import { HotelService } from '../../../services/hotel.service';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-listhotels',
   standalone: true,
-  imports: [CommonModule,NgxPaginationModule],
+  imports: [CommonModule,NgxPaginationModule,RouterModule],
   templateUrl: './listhotels.component.html',
   styleUrl: './listhotels.component.css'
 })

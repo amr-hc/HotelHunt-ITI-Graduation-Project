@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RoomtypeService } from '../../services/roomtype.service';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router'; // Import Router
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { RoomType2 } from '../../models/roomtype2';
 
@@ -18,7 +18,7 @@ export class UpdateComponent {
   hotel = new RoomType2();
   selectedFile: File | null = null;
 
-  constructor(private serv: RoomtypeService, private activeRoute: ActivatedRoute, private router: Router) { // Inject Router
+  constructor(private serv: RoomtypeService, private activeRoute: ActivatedRoute, private router: Router) {
     this.id = this.activeRoute.snapshot.paramMap.get("id");
     this.serv.getById(this.id).subscribe(
       (data: any) => {
@@ -29,19 +29,31 @@ export class UpdateComponent {
 
   onFileSelected(event: any) {
     const file = event.target.files[0];
-    const allowedTypes = ['image/jpeg', 'image/png','image/jpg', 'image/gif', 'image/bmp'];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/bmp'];
+    const maxSize = 10 * 1024 * 1024; // 5 MB limit
 
-    if (file && allowedTypes.includes(file.type)) {
+    if (file) {
+      if (!allowedTypes.includes(file.type)) {
+        this.message = 'Invalid file type. Please upload an image file (jpeg, png, jpg, gif, bmp).';
+        this.selectedFile = null;
+        return;
+      }
+
+      if (file.size > maxSize) {
+        this.message = 'File size exceeds 10MB. Please upload a smaller image.';
+        this.selectedFile = null;
+        return;
+      }
+
       this.selectedFile = file;
       this.message = '';
     } else {
       this.selectedFile = null;
-      this.message = 'Please upload a valid image file (jpeg, png, gif,jpg, bmp).';
+      this.message = 'Please upload a valid image file.';
     }
   }
 
   update() {
-    // Validate the fields before making the API call
     if (!this.hotel.name || !isNaN(Number(this.hotel.name))) {
       this.message = 'Type must be a string.';
       return;
@@ -51,7 +63,7 @@ export class UpdateComponent {
       return;
     }
     if (isNaN(Number(this.hotel.price)) || this.hotel.price > 100000) {
-      this.message = 'Price can not exceed 100,000';
+      this.message = 'Price cannot exceed 100,000';
       return;
     }
     if (!this.hotel.description || this.hotel.description.length < 8) {
@@ -63,11 +75,7 @@ export class UpdateComponent {
       return;
     }
     if (isNaN(Number(this.hotel.capacity)) || this.hotel.capacity > 12) {
-      this.message = 'Capacity can not be larger than 12';
-      return;
-    }
-    if (!this.selectedFile) {
-      this.message = 'Please select an image file.';
+      this.message = 'Capacity cannot be larger than 12';
       return;
     }
 

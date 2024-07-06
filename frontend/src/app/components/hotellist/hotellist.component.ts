@@ -39,7 +39,6 @@ export class HotellistComponent implements OnInit, OnDestroy {
         this.hotels = response.data;
         this.filteredHotels = this.hotels.filter((hotel) => hotel.status === 'active');
         if (this.hotels.length === 0) {
-          this.errorMessage = 'No hotels found.';
           this.isLoading = false;
         } else {
           this.isLoading = false;

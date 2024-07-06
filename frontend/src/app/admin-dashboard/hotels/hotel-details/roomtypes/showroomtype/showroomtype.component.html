@@ -5,6 +5,10 @@
   <p class="mt-2">Loading room type details...</p>
 </div>
 
+<div *ngIf="message" class="alert alert-primary text-center mt-3">
+  {{ message }}
+</div>
+
 <div class="container mt-2" *ngIf="!isLoading && roomType">
   <div class="card shadow-lg mb-4 text-center">
     <img class="card-img-top mx-auto" [src]="'http://127.0.0.1:8000/storage/' + roomType.photo" alt="Room Type Photo">
@@ -16,6 +20,7 @@
     </div>
   </div>
 </div>
+
 <div class="mt-4 text-center">
   <a routerLink="/admin-dashboard/hotels/{{hotelId}}/rooms" class="btn btn-danger">Back</a>
 </div>

@@ -16,14 +16,19 @@
   flex-wrap: wrap;
 }
 
-.city, .date-range, .sort-option, .search-button {
+.city,
+.date-range,
+.sort-option,
+.search-button {
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
   position: relative;
 }
 
-input[type="text"], input[type="date"], select {
+input[type="text"],
+input[type="date"],
+select {
   width: 100%;
   padding: 10px 16px;
   border: 1px solid #ccc;
@@ -31,7 +36,6 @@ input[type="text"], input[type="date"], select {
   font-size: 16px;
   outline: none;
 }
-
 
 .results {
   margin: 20px auto;
@@ -70,25 +74,24 @@ input[type="text"], input[type="date"], select {
   margin: 0;
 }
 
-
 .styled-label {
   font-weight: bold;
   margin-bottom: 5px;
 }
 
-
 .form-label {
   display: block;
 }
-.search-btn
-{
+.search-btn {
   margin-top: 28px;
 }
-.hotel-img{
+.hotel-img {
   max-width: 40vw;
-   max-height: 80vh;
-   object-fit: cover;
-   margin-right: 20px;
+  /* max-height: 80vh; */
+  height: 100%;
+  object-fit: cover;
+  margin-right: 20px;
+  border-radius: 8px;
 }
 
 .star-rating {
@@ -113,16 +116,24 @@ input[type="text"], input[type="date"], select {
   .search-bar-container {
     flex-wrap: wrap;
   }
-  .city, .date-range, .sort-option, .search-button {
+  .city,
+  .date-range,
+  .sort-option,
+  .search-button {
     width: 100%;
   }
   .card {
+    flex-direction: column;
     margin-bottom: 20px;
   }
   .hotel-img {
-    max-width: 30vw;
+    width: 100%;
     height: auto;
     margin-right: 0;
+    border-radius: 8px 8px 0 0;
+  }
+  .card-body {
+    padding: 10px;
   }
 }
 
@@ -132,7 +143,12 @@ input[type="text"], input[type="date"], select {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(255, 255, 255, 0.7); /* Semi-transparent white background */
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.7
+  ); /* Semi-transparent white background */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -150,7 +166,8 @@ input[type="text"], input[type="date"], select {
   bottom: 0;
   width: 100%;
 } */
-html, body {
+html,
+body {
   height: 100%;
   margin: 0;
   display: flex;
@@ -173,4 +190,25 @@ app-footer {
   height: 30px;
   background-color: #f8f9fa; /* Optional: Add background color */
   border-top: 1px solid #dee2e6; /* Optional: Add top border */
+}
+.rooms-available {
+  /* background-color: #55e7d1; Light blue background color */
+  background-color: #f0bb6d;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.room-details {
+  /* background-color: #8fe2a8; Light green background color */
+  padding: 5px;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  width: fit-content;
+}
+
+.rooms-available p,
+.room-details p {
+  margin: 0;
 }
