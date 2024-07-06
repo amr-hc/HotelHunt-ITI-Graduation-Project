@@ -7,6 +7,7 @@ import { CommonModule } from '@angular/common';
 import { HotelService } from '../../services/hotel.service';
 import Swal from 'sweetalert2';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { UserAuthService } from '../../services/user-auth.service';
 
 @Component({
   selector: 'app-comments',
@@ -28,8 +29,11 @@ export class CommentsComponent implements OnInit, OnDestroy {
   commentError: string = '';
   currentPage = 1;
   itemsPerPage = 2;
+  canComment: boolean = false;
+  private canUserCommentSubscription: Subscription | null = null;
   constructor(private commentService: CommentService
-    , private HotelService: HotelService
+    , private HotelService: HotelService,
+    private userAuthComment: UserAuthService
   ) { }
   ngOnInit(): void {
     this.checkLoggedInUserRole = localStorage.getItem('userRole') || '';
@@ -38,12 +42,25 @@ export class CommentsComponent implements OnInit, OnDestroy {
     this.hotelIdSubscription = this.HotelService.hotelId$.subscribe(
       (id) => {
         this.hotel_id = id;
+        this.checkIfUserCanComment();
       },
       (error: any) => {
         // console.error('Error fetching hotel ID', error);
       }
     )
     this.loadComments();
+  }
+  checkIfUserCanComment(): void {
+    if (this.hotel_id !== null) {
+      this.canUserCommentSubscription = this.userAuthComment.canRateOrComment(this.hotel_id).subscribe(
+        (data) => {
+          this.canComment = data.can;
+        },
+        (error: any) => {
+          console.error('Error fetching canRate', error);
+        }
+      );
+    }
   }
   loadComments() {
     this.commentSubscription = this.commentService.getAllComments().subscribe(
@@ -63,6 +80,15 @@ export class CommentsComponent implements OnInit, OnDestroy {
       Swal.fire({
         title: 'Comment Error',
         text: 'You must be a verified registered user to comment.',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+    if (this.canComment === false) {
+      Swal.fire({
+        title: 'Comment Error',
+        text: `You Can't Add Comment on Hotel Without Reserving. Please Reserve First.`,
         icon: 'warning',
         confirmButtonText: 'OK'
       });
@@ -95,6 +121,9 @@ export class CommentsComponent implements OnInit, OnDestroy {
 
     if (this.hotelIdSubscription) {
       this.hotelIdSubscription.unsubscribe();
+    }
+    if (this.canUserCommentSubscription) {
+      this.canUserCommentSubscription.unsubscribe();
     }
   }
 }
