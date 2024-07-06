@@ -45,6 +45,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     }
 
     this.authService.setprofile();
+    
 
     if (this.userid) {
       this.sub = this.userService.getUserById(this.userid).subscribe(
