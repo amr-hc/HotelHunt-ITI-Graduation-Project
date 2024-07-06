@@ -60,7 +60,7 @@ export class ProfileComponent {
       this.userService.reVerify(data).subscribe(
         (response) => {
           console.log('Re-verification successful:', response);
-          this.verified = 'activated';
+          
 
           // Display success alert
           Swal.fire({
