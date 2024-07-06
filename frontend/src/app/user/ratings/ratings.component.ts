@@ -5,6 +5,8 @@ import { Subscription } from 'rxjs';
 import { RatingService } from '../../services/rating.service';
 import { HotelService } from '../../services/hotel.service';
 import Swal from 'sweetalert2';
+import { User } from '../../models/user';
+import { UserAuthService } from '../../services/user-auth.service';
 @Component({
   selector: 'app-ratings',
   standalone: true,
@@ -22,9 +24,12 @@ export class RatingsComponent implements OnInit, OnDestroy {
   private userRatingSubscription: Subscription | null = null;
   user_id: number | null = 0;
   checkLoggedInUserRole: string = '';
-  isUserVerified: string|null = null;
+  isUserVerified: string | null = null;
+  canRate: boolean = false;
+  private canUserRateSubscription: Subscription | null = null;
   constructor(private ratingService: RatingService,
-    private HotelService: HotelService
+    private HotelService: HotelService,
+    private userAuthRating: UserAuthService
   ) {
 
   }
@@ -36,12 +41,26 @@ export class RatingsComponent implements OnInit, OnDestroy {
     this.hotelIdSubscription = this.HotelService.hotelId$.subscribe(
       (id) => {
         this.hotel_id = id;
+        this.checkIfUserCanRate();
       },
       (error: any) => {
         console.error('Error fetching hotel ID', error);
       }
     )
+
     this.loadRating();
+  }
+  checkIfUserCanRate(): void {
+    if (this.hotel_id !== null) {
+      this.canUserRateSubscription = this.userAuthRating.canRateOrComment(this.hotel_id).subscribe(
+        (data) => {
+          this.canRate = data.can;
+        },
+        (error: any) => {
+          console.error('Error fetching canRate', error);
+        }
+      );
+    }
   }
 
   loadRating() {
@@ -62,6 +81,15 @@ export class RatingsComponent implements OnInit, OnDestroy {
       Swal.fire({
         title: 'Rating Error',
         text: 'You must be a verified registered user to add a rating.',
+        icon: 'warning',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+    if(this.canRate === false){
+      Swal.fire({
+        title: 'Rating Error',
+        text: `You Can't Rate Hotel Without Reserving. Please Reserve First.`,
         icon: 'warning',
         confirmButtonText: 'OK'
       });
@@ -93,6 +121,10 @@ export class RatingsComponent implements OnInit, OnDestroy {
     }
     if (this.userRatingSubscription) {
       this.userRatingSubscription.unsubscribe();
+    }
+
+    if (this.canUserRateSubscription) {
+      this.canUserRateSubscription.unsubscribe();
     }
   }
 }
