@@ -34,4 +34,9 @@ export class CommentService {
   deleteComment(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}${id}`);
   }
+  getCommentsByHotelI(hotelId: number, page: number = 1): Observable<Comment[]> {
+    return this.http.get<{ data: Comment[] }>(`${this.apiUrl}hotel/${hotelId}?page=${page}`).pipe(
+      map(response => response.data)
+    );
+  }
 }
