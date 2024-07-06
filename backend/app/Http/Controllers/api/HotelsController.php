@@ -106,20 +106,20 @@ class HotelsController extends Controller
     {
         $this->authorize('isAdmin');
 
-        DB::table('booking')->whereIn('id', 
-        function($query) use ($id) {
-            $query->select('booking.id')
-                ->from('hotels')
-                ->join('roomtypes', 'roomtypes.hotel_id', '=', 'hotels.id')
-                ->join('book_details', 'book_details.roomtype_id', '=', 'roomtypes.id')
-                ->join('booking', 'booking.id', '=', 'book_details.book_id')
-                ->where('hotels.id', $id); 
-        }
-        )
-        ->delete();
+        $bookingIds = DB::table('hotels')
+            ->join('roomtypes', 'roomtypes.hotel_id', '=', 'hotels.id')
+            ->join('book_details', 'book_details.roomtype_id', '=', 'roomtypes.id')
+            ->join('booking', 'booking.id', '=', 'book_details.book_id')
+            ->where('hotels.id', $id)
+            ->pluck('booking.id');
+            
 
+        DB::table('booking')
+            ->whereIn('id', $bookingIds)
+            ->delete();
 
         Hotel::destroy($id);
+
         return response()->json(['message' => 'Hotel deleted successfully'], 200);
     }
 
