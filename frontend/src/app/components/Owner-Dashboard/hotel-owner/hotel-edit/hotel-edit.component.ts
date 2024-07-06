@@ -26,8 +26,8 @@ export class HotelEditComponent implements OnInit {
   ) {
     this.hotelForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      country: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50),Validators.pattern('^[a-zA-Z ]+$')]],
+      country: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50),Validators.pattern('^[a-zA-Z ]+$')]],
       address: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]],
       status: ['', Validators.required],
       description: ['', Validators.maxLength(500)]
