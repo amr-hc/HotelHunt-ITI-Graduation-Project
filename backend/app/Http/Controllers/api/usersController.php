@@ -122,25 +122,29 @@ class usersController extends Controller
     public function destroy(string $id)
     {
         $this->authorize('isAdmin');
-
+    
         $user = User::findOrFail($id);
-
-        $hotel_id=$user?->hotels?->id;
-        DB::table('booking')->whereIn('id', 
-        function($query) use ($hotel_id) {
-            $query->select('booking.id')
-                ->from('hotels')
+    
+        $hotel_id = $user?->hotels?->id;
+    
+        if ($hotel_id) {
+            $bookingIds = DB::table('hotels')
                 ->join('roomtypes', 'roomtypes.hotel_id', '=', 'hotels.id')
                 ->join('book_details', 'book_details.roomtype_id', '=', 'roomtypes.id')
                 ->join('booking', 'booking.id', '=', 'book_details.book_id')
-                ->where('hotels.id', $hotel_id); 
+                ->where('hotels.id', $hotel_id)
+                ->pluck('booking.id');
+    
+            DB::table('booking')
+                ->whereIn('id', $bookingIds)
+                ->delete();
         }
-        )->delete();
-
+    
         $user->delete();
-
-        return response()->json(['message' => 'user deleted successfully'], 200);
+    
+        return response()->json(['message' => 'User deleted successfully'], 200);
     }
+    
 
 
 
