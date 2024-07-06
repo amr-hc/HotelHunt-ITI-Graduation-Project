@@ -48,7 +48,7 @@ export class AddImageComponent {
 
   validateImage(file: File): boolean {
     const validTypes = ['image/jpeg', 'image/png', 'image/gif'];
-    const maxSize = 2 * 1024 * 1024; // 2MB
+    const maxSize = 10 * 1024 * 1024; // 2MB
 
     // Check file type
     if (!validTypes.includes(file.type)) {
@@ -58,7 +58,7 @@ export class AddImageComponent {
 
     // Check file size
     if (file.size > maxSize) {
-      this.imageErrors.push(`${file.name} exceeds the maximum size of 2MB.`);
+      this.imageErrors.push(`${file.name} exceeds the maximum size of 10MB.`);
       return false;
     }
 
