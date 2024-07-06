@@ -9,6 +9,7 @@ export class User {
     public role: 'admin' | 'owner' | 'guest',
     public age: number,
     public photo: string,
-    public email_verified_at?: any
+    public email_verified_at?: any,
+    public hotel?: string
   ) {}
 }

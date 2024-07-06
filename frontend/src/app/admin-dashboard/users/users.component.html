@@ -44,9 +44,9 @@
         <table class="table table-striped table-bordered text-center">
           <thead class="table-dark">
             <tr>
-              <th>ID</th>
+              <th>#</th>
               <th>Image</th>
-              <th>First Name</th>
+              <th>Name</th>
               <th>Active</th>
               <th>Email</th>
               <th>Role</th>
@@ -57,10 +57,10 @@
             <tr
               *ngFor="
                 let user of filteredUsers
-                  | paginate : { itemsPerPage: 8, currentPage: currentPage }
+                  | paginate : { itemsPerPage: 8, currentPage: currentPage };let i = index
               "
             >
-              <td>{{ user.id }}</td>
+              <td>{{i+1}}</td>
               <td>
                 <img
                   src="http://127.0.0.1:8000/storage/{{ user.photo }}"

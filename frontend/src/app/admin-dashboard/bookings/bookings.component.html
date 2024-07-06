@@ -32,7 +32,7 @@
       <table class="table table-striped table-bordered text-center">
         <thead class="table-dark">
           <tr>
-            <th>ID</th>
+            <th>#</th>
             <th>User Name</th>
             <!-- <th>Duration</th> -->
             <th>Status</th>
@@ -41,8 +41,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let booking of groupedBookings[selectedHotel]| paginate: { itemsPerPage: 5, currentPage: currentPage }">
-            <td>{{ booking.id }}</td>
+          <tr *ngFor="let booking of groupedBookings[selectedHotel]| paginate: { itemsPerPage: 5, currentPage: currentPage }; let i=index">
+            <td>{{ i+1}}</td>
             <td>{{ booking.user_name }}</td>
             <!-- <td>{{ booking.duration }} Days</td> -->
             <td>

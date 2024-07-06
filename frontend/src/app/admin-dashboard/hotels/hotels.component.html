@@ -34,7 +34,7 @@
         <table class="table table-striped table-bordered text-center">
           <thead class="table-dark">
             <tr>
-              <th>ID</th>
+              <th>#</th>
               <th>Name</th>
               <th>Owner</th>
               <th>Featured</th>
@@ -45,8 +45,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let hotel of filteredHotels | paginate: { itemsPerPage: 8, currentPage: currentPage }">
-              <td>{{ hotel.id }}</td>
+            <tr *ngFor="let hotel of filteredHotels | paginate: { itemsPerPage: 8, currentPage: currentPage }; let i = index">
+              <td>{{ i+1}}</td>
               <td>{{ hotel.name }}</td>
               <td>{{ hotel.owner_name }}</td>
               <td>
