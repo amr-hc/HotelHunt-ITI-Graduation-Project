@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\HotelResource;
 use Illuminate\Validation\Rule;
 use App\Models\Hotel;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreHotelRequest;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +18,7 @@ class HotelsController extends Controller
      */
     public function index()
     {
-        $hotels=Hotel::all();
+        $hotels = Hotel::orderBy('created_at', 'desc')->get();
         return HotelResource::collection($hotels);
     }
 
@@ -104,6 +105,20 @@ class HotelsController extends Controller
     public function destroy($id)
     {
         $this->authorize('isAdmin');
+
+        DB::table('booking')->whereIn('id', 
+        function($query) use ($id) {
+            $query->select('booking.id')
+                ->from('hotels')
+                ->join('roomtypes', 'roomtypes.hotel_id', '=', 'hotels.id')
+                ->join('book_details', 'book_details.roomtype_id', '=', 'roomtypes.id')
+                ->join('booking', 'booking.id', '=', 'book_details.book_id')
+                ->where('hotels.id', $id); 
+        }
+        )
+        ->delete();
+
+
         Hotel::destroy($id);
         return response()->json(['message' => 'Hotel deleted successfully'], 200);
     }

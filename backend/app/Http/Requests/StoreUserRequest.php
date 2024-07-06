@@ -30,7 +30,7 @@ class StoreUserRequest extends FormRequest
             'fname' => ['required', 'string', 'max:100'],
             'lname' => ['required', 'string', 'max:100'],
             'age' => ['required', 'integer', 'min:18'],
-            'photo' => ['nullable', 'image', 'max:2048']
+            'photo' => ['nullable', 'image', 'max:5120']
         ];
 
     }

@@ -33,7 +33,7 @@ class UpdateUserRequest extends FormRequest
             'fname' => ['nullable', 'string', 'max:100'],
             'lname' => ['nullable', 'string', 'max:100'],
             'age' => ['nullable', 'integer', 'min:18'],
-            'photo' => ['nullable', 'image', 'max:2048'],
+            'photo' => ['nullable', 'image', 'max:5120'],
             'email_verified_at' => ['nullable', 'date']
         ];
 
