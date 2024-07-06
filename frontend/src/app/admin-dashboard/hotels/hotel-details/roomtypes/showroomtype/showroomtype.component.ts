@@ -10,13 +10,14 @@ import { Subscription } from 'rxjs';
   standalone: true,
   imports: [CommonModule, RouterLink],
   templateUrl: './showroomtype.component.html',
-  styleUrl: './showroomtype.component.css'
+  styleUrls: ['./showroomtype.component.css']
 })
 export class ShowroomtypeComponent implements OnInit, OnDestroy {
   roomType: RoomType | undefined;
   roomId: any;
   hotelId: any;
   isLoading = false;
+  message = '';
   private subscriptions: Subscription = new Subscription();
 
   constructor(
@@ -41,10 +42,15 @@ export class ShowroomtypeComponent implements OnInit, OnDestroy {
       (data: any) => {
         this.roomType = data;
         this.isLoading = false;
+        if (!this.roomType) {
+          this.message = 'Room type not found.';
+        }
+        
       },
       (error) => {
         console.error('Error loading room type details', error);
         this.isLoading = false;
+        this.message = 'Error loading room type details.';
       }
     );
     this.subscriptions.add(roomTypeSub);

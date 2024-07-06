@@ -1,4 +1,3 @@
-<!-- hotels/hotel-details/hotel-details.component.html -->
 <div class="container mt-4">
   <div *ngIf="hotel">
     <h2 class="text-primary text-center mb-4 fs-2 fw-bold text-decoration-underline fst-italic">{{ hotel.name }} Details</h2>
@@ -11,7 +10,6 @@
         </div>
         <div class="col-md-8">
           <div class="card-body">
-            <!-- <h5 class="card-title">{{ hotel.name }}</h5> -->
             <div class="row mb-3">
               <div class="col-md-6">
                 <p><strong>ID:</strong> {{ hotel.id }}</p>
@@ -101,10 +99,13 @@
       <a routerLink="/admin-dashboard/hotels" class="btn btn-danger">Back</a>
     </div>
   </div>
-  <div *ngIf="!hotel" class="text-center">
+  <div *ngIf="!hotel && !errorMessage" class="text-center">
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
     <p class="mt-2">Loading hotel details...</p>
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-info text-center" role="alert">
+    {{ errorMessage }}
   </div>
 </div>

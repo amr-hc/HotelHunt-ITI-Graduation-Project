@@ -5,16 +5,16 @@ import { HotelService } from '../../../services/hotel.service';
 import { Hotel } from '../../../models/hotel';
 import { UserService } from '../../../services/user.service';
 
-
 @Component({
   selector: 'app-hotel-details',
   standalone: true,
-  imports: [CommonModule,RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './hotel-details.component.html',
-  styleUrl: './hotel-details.component.css'
+  styleUrls: ['./hotel-details.component.css']
 })
 export class HotelDetailsComponent implements OnInit {
   hotel: Hotel | undefined;
+  errorMessage: string | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -33,12 +33,14 @@ export class HotelDetailsComponent implements OnInit {
     this.hotelService.getHotelById(hotelId).subscribe(
       (response: { data: Hotel }) => {
         this.hotel = response.data;
+        this.errorMessage = undefined;
         console.log(this.hotel);
       },
       (error: any) => {
         console.error('Failed to fetch hotel details', error);
+        this.errorMessage = 'Failed to fetch hotel details. Please try again later.';
+        this.hotel = undefined;
       }
     );
   }
-
 }
