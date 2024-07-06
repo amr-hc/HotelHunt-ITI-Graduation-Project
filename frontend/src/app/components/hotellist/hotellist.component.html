@@ -8,8 +8,9 @@
     </div>
     <section *ngIf="!isLoading" class="sec1">
       <div class="container-fluid">
-        <div style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); padding: 40px 50px;">
-          <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+        <div *ngIf="errorMessage!==''" class="alert alert-danger text-center mx-auto w-50 mt-3 fw-bold fs-3">{{ errorMessage }}</div>
+        <div *ngIf="errorMessage==='' && filteredHotels.length > 0" style="display: grid; gap: 20px; grid-template-columns: repeat(auto-fit, minmax(600px, 1fr)); padding: 40px 50px;">
+
           <div *ngFor="let hotel of filteredHotels | paginate: { itemsPerPage: 6 , currentPage: currentPage }" class="card p-0 rounded border-0 shadow wow fadeInUp" data-wow-delay="0.1s">
             <div class="position-relative row g-0">
               <div class="col-md-4 hotel-image-style" style="height: 200px;">
@@ -37,8 +38,10 @@
               </div>
             </div>
           </div>
+          <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
         </div>
-        <pagination-controls (pageChange)="currentPage = $event" class="text-center"></pagination-controls>
+        <div *ngIf="errorMessage==='' && filteredHotels.length === 0" class="alert alert-danger text-center mx-auto w-50 mt-3 fw-bold fs-3">No hotels found.</div>
+
       </div>
     </section>
   </div>

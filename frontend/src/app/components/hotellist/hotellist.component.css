@@ -158,3 +158,7 @@ height: 30px;
   width: 3rem; /* Reduced width */
   height: 3rem; /* Reduced height */
 }
+pagination-controls {
+  text-align: center;
+  grid-column: span 2;
+}

@@ -50,7 +50,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
 
     const verified = localStorage.getItem('verified');
     console.log(verified);
-    if (verified === 'null') {
+    if (verified === 'null' || verified === 'undefined') {
       this.verified = 'unactivated';
     } else {
       this.verified = 'activated';
@@ -72,7 +72,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
       this.bookingsSub = this.bookingService.getUserBookings(this.userid).subscribe(
         (response: any) => {
           this.bookings = response.data;
-          // console.log("Booking data:", this.bookings);
+          console.log("Booking data:", this.bookings);
           this.groupBookings();
           this.loading=false;
         },
@@ -129,6 +129,7 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     }, {});
 
     booking.grouped_details = Object.values(groupedDetails);
+
   });
 }
 handleDeleteBooking(booking: any): void {
@@ -216,5 +217,8 @@ cancelBooking(bookingId: number, event?: Event): void {
         }
       );
     }
+  }
+  division ( x:any , y : any){
+    return x/y;
   }
 }

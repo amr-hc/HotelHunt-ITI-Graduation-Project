@@ -26,7 +26,7 @@ export class AddpaymentComponent {
     private router: Router
   ) {
     this.addPaymentForm = this.fb.group({
-      amount: ['', [Validators.required, Validators.min(0.01)]]
+      amount: ['', [Validators.required, Validators.min(50),Validators.max(9999999),Validators.pattern('^[0-9]+$') ]]
     });
   }
 

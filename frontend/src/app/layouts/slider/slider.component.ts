@@ -16,11 +16,14 @@ export class SliderComponent {
 
   ngOnInit(): void {
     const verified = localStorage.getItem('verified');
-    if (!verified || !Date.parse(verified)) {
-      this.notActivatedMessage = 'Your account is not activated. Please check your email for the activation link.';
-      setTimeout(() => {
-        this.notActivatedMessage = null;
-      }, 3000);
+    const token = localStorage.getItem('token');
+    if (token){
+      if (!verified || !Date.parse(verified)) {
+        this.notActivatedMessage = 'Your account is not activated. Please check your email for the activation link.';
+        setTimeout(() => {
+          this.notActivatedMessage = null;
+        }, 3000);
+      }
     }
     }
   }

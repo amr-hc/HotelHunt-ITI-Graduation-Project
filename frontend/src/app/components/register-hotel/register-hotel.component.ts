@@ -31,13 +31,13 @@ export class RegisterHotelComponent implements OnInit {
     private cityService: CityService
   ) {
     this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      country: ['', [Validators.required, Validators.maxLength(255)]],
-      city: ['', [Validators.required, Validators.maxLength(255)]],
-      address: ['', [Validators.required, Validators.maxLength(255)]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100),Validators.pattern("^[A-Za-z]+$")]],
+      country: ['', [Validators.required, Validators.maxLength(255),Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/)]],
+      city: ['', [Validators.required, Validators.maxLength(255),Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/)]],
+      address: ['', [Validators.required, Validators.maxLength(255),Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/)]],
       owner_id: ['', [Validators.required, Validators.max(100), Validators.pattern(/^-?(0|[1-9]\d*)?$/)]],
       status: [''], // Optional field based on Laravel rules
-      description: [''], // Ensure description field is defined here
+      description: ['',[Validators.required,Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/)]], // Ensure description field is defined here
       star_rating: ['', Validators.required], // Ensure star_rating field is defined here
       image: [null, [this.validateImageFile]], // Custom validator for image
     });
@@ -61,7 +61,7 @@ export class RegisterHotelComponent implements OnInit {
       if (!allowedTypes.includes(file.type)) {
         return { invalidImageType: true };
       }
-      if (file.size > 2048 * 1024) { // Convert to bytes
+      if (file.size > 5 * 1024 * 1024) { // Convert to bytes
         return { invalidImageSize: true };
       }
     }
