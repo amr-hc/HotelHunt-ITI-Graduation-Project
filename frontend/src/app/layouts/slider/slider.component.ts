@@ -17,7 +17,8 @@ export class SliderComponent {
   ngOnInit(): void {
     const verified = localStorage.getItem('verified');
     const token = localStorage.getItem('token');
-    if (token){
+    const role = localStorage.getItem('userRole');
+    if (token && role == 'guest'){
       if (!verified || !Date.parse(verified)) {
         this.notActivatedMessage = 'Your account is not activated. Please check your email for the activation link.';
         setTimeout(() => {
