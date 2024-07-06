@@ -126,7 +126,7 @@
                             <!-- <td>{{ detail.check_in }}</td>
                             <td>{{ detail.check_out }}</td> -->
                             <td>{{ detail.price }}</td>
-                            <td>{{ detail.price * division(detail.count , booking.duration)}}</td>
+                            <td>{{ booking.duration * detail.price * division(detail.count , booking.duration)}}</td>
                           </tr>
                         </tbody>
                       </table>
