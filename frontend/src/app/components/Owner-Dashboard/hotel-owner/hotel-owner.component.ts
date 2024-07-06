@@ -1,6 +1,6 @@
 import { CommentService } from './../../../services/comment.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { filter, fromEvent, map, pairwise, Subscription, throttleTime } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HotelService } from '../../../services/hotel.service';
@@ -23,7 +23,6 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
   imagePage: { [key: number]: number } = {}; // Track the current page for each hotel's images
   sub: Subscription | null = null;
   isLoading: boolean = false;
-  loadingComments: { [key: number]: boolean } = {};
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -45,14 +44,14 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
     this.hotelService.getHotelForOwner(ownerId).subscribe(
       response => {
         this.hotels = response.data;
-        console.log('Hotels for owner:', this.hotels[0].image);
+        console.log('Hotels for owner:', this.hotels);
 
         // Fetch images and comments for each hotel
         this.hotels.forEach(hotel => {
           console.log('Fetching images for hotel', hotel.id);
           this.fetchHotelImages(hotel.id);
           console.log('Fetching comments for hotel', hotel.id);
-          this.fetchCommentsForHotel(hotel.id,0);
+          this.fetchCommentsForHotel(hotel.id);
         });
         this.isLoading = false; // End loading
       },
@@ -61,20 +60,6 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
         this.isLoading = false; // End loading on error
       }
     );
-  }
-  onScroll(hotelId: number): void {
-    const commentList = document.querySelector('.comment-list');
-    if (commentList) {
-      fromEvent(commentList, 'scroll').pipe(
-        throttleTime(200),
-        map(() => commentList.scrollTop + commentList.clientHeight),
-        pairwise(),
-        filter(([y1, y2]) => y2 > y1 && y2 >= commentList.scrollHeight - 200)
-      ).subscribe(() => {
-        const nextPage = Math.ceil(this.hotelComments[hotelId].length / 10); // Assuming 10 comments per page
-        this.fetchCommentsForHotel(hotelId, nextPage);
-      });
-    }
   }
 
   fetchHotelImages(hotelId: number): void {
@@ -89,18 +74,13 @@ export class HotelOwnerComponent implements OnInit, OnDestroy {
     );
   }
 
-  fetchCommentsForHotel(hotelId: number, page: number): void {
-    this.loadingComments[hotelId] = true;
+  fetchCommentsForHotel(hotelId: number): void {
     this.commentService.getCommentsByHotelId(hotelId).subscribe(
       comments => {
-        if (!this.hotelComments[hotelId]) {
-          this.hotelComments[hotelId] = [];
-        }
-        this.hotelComments[hotelId].push(...comments); // Append new comments
-        this.loadingComments[hotelId] = false;
+        this.hotelComments[hotelId] = comments;
+        console.log(`Comments for hotel ${hotelId}:`, comments);
       },
       error => {
-        this.loadingComments[hotelId] = false;
         console.error(`Error fetching comments for hotel ${hotelId}:`, error);
       }
     );
@@ -149,5 +129,7 @@ starRange(count: number): number[] {
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
+
+
 
 }
