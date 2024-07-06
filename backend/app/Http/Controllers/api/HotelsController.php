@@ -18,7 +18,7 @@ class HotelsController extends Controller
      */
     public function index()
     {
-        $hotels=Hotel::all();
+        $hotels = Hotel::orderBy('created_at', 'desc')->get();
         return HotelResource::collection($hotels);
     }
 

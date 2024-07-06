@@ -32,7 +32,7 @@ class usersController extends Controller
      */
     public function index()
     {
-        return UserResource::collection(User::all());
+        return UserResource::collection(User::orderBy('created_at', 'desc')->get());
     }
 
     /**
