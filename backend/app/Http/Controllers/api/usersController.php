@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+
 
 
 class usersController extends Controller
@@ -120,7 +122,23 @@ class usersController extends Controller
     public function destroy(string $id)
     {
         $this->authorize('isAdmin');
-        $user = User::destroy($id);
+
+        $user = User::findOrFail($id);
+
+        $hotel_id=$user?->hotels?->id;
+        DB::table('booking')->whereIn('id', 
+        function($query) use ($hotel_id) {
+            $query->select('booking.id')
+                ->from('hotels')
+                ->join('roomtypes', 'roomtypes.hotel_id', '=', 'hotels.id')
+                ->join('book_details', 'book_details.roomtype_id', '=', 'roomtypes.id')
+                ->join('booking', 'booking.id', '=', 'book_details.book_id')
+                ->where('hotels.id', $hotel_id); 
+        }
+        )->delete();
+
+        $user->delete();
+
         return response()->json(['message' => 'user deleted successfully'], 200);
     }
 
