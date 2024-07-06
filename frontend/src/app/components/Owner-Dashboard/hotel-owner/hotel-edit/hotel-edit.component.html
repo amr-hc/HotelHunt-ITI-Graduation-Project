@@ -21,6 +21,7 @@
           <div *ngIf="hotelForm.get('city')?.errors?.['required']">City is required.</div>
           <div *ngIf="hotelForm.get('city')?.errors?.['minlength']">City must be at least 3 characters long.</div>
           <div *ngIf="hotelForm.get('city')?.errors?.['maxlength']">City cannot exceed 50 characters.</div>
+          <div *ngIf="hotelForm.get('city')?.errors?.['pattern']">City are characters only.</div>
         </div>
       </div>
 
@@ -32,6 +33,7 @@
           <div *ngIf="hotelForm.get('country')?.errors?.['required']">Country is required.</div>
           <div *ngIf="hotelForm.get('country')?.errors?.['minlength']">Country must be at least 3 characters long.</div>
           <div *ngIf="hotelForm.get('country')?.errors?.['maxlength']">Country cannot exceed 50 characters.</div>
+          <div *ngIf="hotelForm.get('country')?.errors?.['pattern']">Country are characters only.</div>
         </div>
       </div>
 
@@ -58,9 +60,14 @@
           </div>
         </div>
       </div>
+      <!-- <div class="form-group mb-3">
+        <label for="image">Image</label>
+        <input id="image" type="file" class="form-control" (change)="onFileChange($event)">
+      </div> -->
       <div class="form-group mb-3">
         <label for="image">Image</label>
         <input id="image" type="file" class="form-control" (change)="onFileChange($event)">
+        <div *ngIf="imageError" class="text-danger">{{ imageError }}</div>
       </div>
 
       <!-- Save Button -->

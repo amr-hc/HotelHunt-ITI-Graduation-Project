@@ -16,6 +16,7 @@ export class HotelEditComponent implements OnInit {
   hotel: Hotel | null = null;
   hotelForm: FormGroup;
   selectedFile: File | null = null;
+  imageError: string | null = null;
 
   constructor(
     private activateRoute: ActivatedRoute,
@@ -25,8 +26,8 @@ export class HotelEditComponent implements OnInit {
   ) {
     this.hotelForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100)]],
-      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      country: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      city: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50),Validators.pattern('^[a-zA-Z ]+$')]],
+      country: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50),Validators.pattern('^[a-zA-Z ]+$')]],
       address: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(255)]],
       status: ['', Validators.required],
       description: ['', Validators.maxLength(500)]
@@ -57,8 +58,29 @@ export class HotelEditComponent implements OnInit {
   onFileChange(event: any): void {
     const file: File = event.target.files[0];
     if (file) {
-      this.selectedFile = file;
+      if (this.validateImage(file)) {
+        this.selectedFile = file;
+        this.imageError = null;
+      } else {
+        this.selectedFile = null;
+      }
     }
+  }
+  validateImage(file: File): boolean {
+    const validTypes = ['image/jpeg', 'image/png', 'image/gif, image/jpg'];
+    const maxSize = 2 * 1024 * 1024; // 2MB
+
+    if (!validTypes.includes(file.type)) {
+      this.imageError = 'Only JPEG, PNG, GIF and JPG formats are allowed.';
+      return false;
+    }
+
+    if (file.size > maxSize) {
+      this.imageError = 'Image size should not exceed 2MB.';
+      return false;
+    }
+
+    return true;
   }
 
   save(): void {

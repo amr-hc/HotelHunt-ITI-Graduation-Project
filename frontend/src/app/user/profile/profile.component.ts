@@ -33,6 +33,8 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   itemsPerPage = 2;
   visibleDetailsId: number | null = null;
   loading:boolean=true;
+  verified: string = '';
+  errorMessage: string = '';
 
   constructor(private userService: UserService, private router: Router,
               private bookingService: BookingService, private authService:AuthService) { }
@@ -45,6 +47,15 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     }
 
     this.authService.setprofile();
+
+    const verified = localStorage.getItem('verified');
+    console.log(verified);
+    if (verified === 'null') {
+      this.verified = 'unactivated';
+    } else {
+      this.verified = 'activated';
+    }
+
 
     if (this.userid) {
       this.sub = this.userService.getUserById(this.userid).subscribe(
@@ -174,4 +185,36 @@ cancelBooking(bookingId: number, event?: Event): void {
     }
   });
 }
+
+ reVerifyUser(): void {
+    if (this.userid) {
+      const data = { userId: this.userid };
+      this.userService.reVerify(data).subscribe(
+        (response) => {
+          console.log('Re-verification successful:', response);
+         // this.verified = 'activated';
+
+          // Display success alert
+          Swal.fire({
+            title: 'Success!',
+            text: 'A re-verification email has been sent to your email address.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
+        },
+        (error) => {
+          console.error('Re-verification failed:', error);
+          this.errorMessage = 'Failed to re-verify user.';
+
+          // Display error alert
+          Swal.fire({
+            title: 'Error!',
+            text: 'Failed to send re-verification email. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+        }
+      );
+    }
+  }
 }

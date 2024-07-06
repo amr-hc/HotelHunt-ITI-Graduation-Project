@@ -56,7 +56,7 @@
 
 
       <!-- Hotel Images -->
-      <div *ngIf="ownerImages[hotel.id]" class="hotel-images px-3 pb-3">
+      <div *ngIf="ownerImages[hotel.id] && ownerImages[hotel.id].length > 0" class="hotel-images px-3 pb-3">
         <h4 class="text-primary">Images:</h4>
         <div class="image-grid row">
           <div
@@ -74,7 +74,7 @@
       </div>
 
       <!-- Hotel Comments -->
-      <div *ngIf="hotelComments[hotel.id]" class="hotel-comments px-3 pb-3">
+      <div *ngIf="hotelComments[hotel.id] && hotelComments[hotel.id].length>0 " class="hotel-comments px-3 pb-3">
         <h4 class="text-primary mb-4">Comments:</h4>
 
         <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
