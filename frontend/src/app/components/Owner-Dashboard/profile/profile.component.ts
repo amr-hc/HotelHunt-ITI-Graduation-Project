@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { User } from '../../../models/user';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +25,7 @@ export class ProfileComponent {
     this.userId = Number(localStorage.getItem('userId'));
     const verified = localStorage.getItem('verified');
     console.log(verified);
-    if (verified === 'null') {
+    if (verified === 'undefined') {
       this.verified = 'unactivated';
     } else {
       this.verified = 'activated';
@@ -53,4 +54,36 @@ export class ProfileComponent {
     this.router.navigate(['/owner/profile/edit', id]);
     console.log('Edit profile clicked');
   }
-}
+  reVerifyUser(): void {
+    if (this.userId) {
+      const data = { userId: this.userId };
+      this.userService.reVerify(data).subscribe(
+        (response) => {
+          console.log('Re-verification successful:', response);
+          
+
+          // Display success alert
+          Swal.fire({
+            title: 'Success!',
+            text: 'A re-verification email has been sent to your email address.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+          });
+        },
+        (error) => {
+          console.error('Re-verification failed:', error);
+          this.errorMessage = 'Failed to re-verify user.';
+
+          // Display error alert
+          Swal.fire({
+            title: 'Error!',
+            text: 'Failed to send re-verification email. Please try again.',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          });
+        }
+      );
+    }
+  }
+  }
+

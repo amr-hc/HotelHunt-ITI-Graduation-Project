@@ -34,6 +34,14 @@
                 <p>First Name :</p>
                 <p>Last Name :</p>
                 <p>Address :</p>
+                <div class="profile-item">
+                  <strong>Status:</strong>
+                  <span [ngClass]="{'text-success': verified === 'activated', 'text-danger': verified === 'unactivated'}">{{
+                    verified }}</span>
+                  <div *ngIf="verified == 'unactivated'">
+                    <button class="btn btn-danger px-4" (click)="reVerifyUser()">Activate Account</button>
+                  </div>
+                </div>
               </div>
               <div>
                 <p class="mx-2 text-dark font-weight-bold">{{ user?.fname }}</p>

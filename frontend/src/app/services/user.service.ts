@@ -10,6 +10,7 @@ export class UserService {
   private apiUrl = 'http://127.0.0.1:8000/api/users';
   private apiUrl2 = 'http://127.0.0.1:8000/api';
 
+
   constructor(private http:HttpClient) { }
 
   getAllUsers(): Observable<User[]> {
@@ -44,4 +45,9 @@ export class UserService {
   editVerification(id: number, data: Partial<User>): Observable<any> {
     return this.http.post<User>(`${this.apiUrl}/${id}?_method=PATCH`, data);
   }
+  reVerify(data: any): Observable<any> {
+
+    return this.http.post<any>(`${this.apiUrl2}/re-verify`, data);
+  }
+
 }
