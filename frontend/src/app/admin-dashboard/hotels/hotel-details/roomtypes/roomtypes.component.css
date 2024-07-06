@@ -18,3 +18,15 @@
   background-color: #343a40;
   color: #f8f9fa
 }
+
+.icon-view {
+  color: #FEA116;
+}
+
+.icon-edit {
+  color: #0F172B;
+}
+
+.icon-delete {
+  color: red;
+}

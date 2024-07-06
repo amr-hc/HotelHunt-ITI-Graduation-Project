@@ -9,7 +9,7 @@
   {{ message }}
 </div>
 
-<div class="container mt-2" *ngIf="!isLoading && roomType">
+<div class="container mt-4" *ngIf="!isLoading && roomType">
   <div class="card shadow-lg mb-4 text-center">
     <img class="card-img-top mx-auto" [src]="'http://127.0.0.1:8000/storage/' + roomType.photo" alt="Room Type Photo">
     <div class="card-body">

@@ -9,19 +9,19 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-booking',
   standalone: true,
-  imports: [CommonModule,RouterLink,FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './booking.component.html',
-  styleUrl: './booking.component.css'
+  styleUrls: ['./booking.component.css']
 })
-export class BookingComponent implements OnInit , OnDestroy {
+export class BookingComponent implements OnInit, OnDestroy {
   booking: Booking[] = [];
   sub: Subscription | null = null;
   isLoading: boolean = false;
   errorMessage: string = '';
 
   constructor(
-    public activatedRoute: ActivatedRoute,
-    public bookingService: BookingService
+    private activatedRoute: ActivatedRoute,
+    private bookingService: BookingService
   ) {}
 
   ngOnInit(): void {
@@ -43,7 +43,7 @@ export class BookingComponent implements OnInit , OnDestroy {
     this.bookingService.updateStatus(newStatus, bookingId).subscribe({
       next: (response) => {
         console.log('Status updated:', response);
-        // Optionally, you can reload the bookings or update the UI to reflect the change
+        // Update the UI to reflect the change
         const updatedBooking = this.booking.find(b => b.id === bookingId);
         if (updatedBooking) {
           updatedBooking.status = newStatus;
@@ -55,7 +55,7 @@ export class BookingComponent implements OnInit , OnDestroy {
     });
   }
 
-  loadBookings(ownerId: number): void { // Modified to accept ownerId
+  loadBookings(ownerId: number): void {
     this.isLoading = true;
     this.bookingService.getOwnerHotelBookings(ownerId).subscribe({
       next: (bookings) => {
@@ -69,4 +69,16 @@ export class BookingComponent implements OnInit , OnDestroy {
     });
   }
 
+  // Method to get unique room types
+  getUniqueRoomTypes(details: any[]): any[] {
+    const seenRoomTypes = new Set();
+    return details.filter(detail => {
+      if (seenRoomTypes.has(detail.room_name)) {
+        return false;
+      } else {
+        seenRoomTypes.add(detail.room_name);
+        return true;
+      }
+    });
+  }
 }

@@ -48,16 +48,16 @@
                 <table class="nested-table table table-bordered table-light">
                   <thead class="bg-primary text-white">
                     <tr>
+                      <th>Number Of Days</th>
                       <th>Room Type</th>
-                      <th>Date</th>
-                      <th>Price</th>
+                      <th>Price/Night</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let detail of book.book_details">
-
+                    <tr *ngFor="let detail of getUniqueRoomTypes(book.book_details)">
+                      <td>{{book.duration}}</td>
                       <td data-label="Room Type">{{ detail.room_name }}</td>
-                      <td data-label="Date">{{ detail.date }}</td>
+
                       <td data-label="Price">{{ detail.price | currency: 'EGP ' }}</td>
                     </tr>
                   </tbody>

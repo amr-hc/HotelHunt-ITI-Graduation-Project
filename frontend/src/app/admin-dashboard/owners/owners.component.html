@@ -7,7 +7,9 @@
     <div class="col-md-6 offset-md-3">
       <div class="input-group">
         <input type="text" class="form-control" placeholder="Search by name or email" [(ngModel)]="searchTerm" (ngModelChange)="searchOwners()">
-        <button class="btn btn-success ms-1" routerLink="/admin-dashboard/owners/add">Add Owner</button>
+        <button class="btn btn-success ms-1" routerLink="/admin-dashboard/owners/add">
+          <i class="fas fa-user-plus me-2"></i>
+        </button>
       </div>
     </div>
   </div>
@@ -71,9 +73,15 @@
             <td>{{ owner.role }}</td>
             <td>{{ owner.hotel ? owner.hotel : 'No hotel'}}</td>
             <td>
-              <button class="btn btn-primary btn-sm" (click)="viewUser(owner.id)">View</button>
-              <button class="btn btn-dark btn-sm ms-1" (click)="editUser(owner.id)">Edit</button>
-              <button class="btn btn-danger btn-sm ms-1" (click)="confirmDelete(owner.id)">Delete</button>
+              <button class="btn btn-link btn-sm" (click)="viewUser(owner.id)">
+                <i class="fas fa-eye icon-view"></i>
+              </button>
+              <button class="btn btn-link btn-sm" (click)="editUser(owner.id)">
+                <i class="fas fa-edit icon-edit"></i>
+              </button>
+              <button class="btn btn-link btn-sm" (click)="confirmDelete(owner.id)">
+                <i class="fas fa-trash-alt icon-delete"></i>
+              </button>
             </td>
           </tr>
         </tbody>
