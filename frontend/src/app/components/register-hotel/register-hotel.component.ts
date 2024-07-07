@@ -31,7 +31,7 @@ export class RegisterHotelComponent implements OnInit {
     private cityService: CityService
   ) {
     this.registerForm = this.fb.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100),Validators.pattern("^[A-Za-z]+$")]],
+      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(100),Validators.pattern("^[A-Za-z ]+$")]],
       country: ['', [Validators.required, Validators.maxLength(255),Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/)]],
       city: ['', [Validators.required, Validators.maxLength(255),Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/)]],
       address: ['', [Validators.required, Validators.maxLength(255),Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'\-_]*$/)]],

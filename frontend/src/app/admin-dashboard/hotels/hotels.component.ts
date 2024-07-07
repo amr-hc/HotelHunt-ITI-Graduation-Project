@@ -34,7 +34,6 @@ export class HotelsComponent implements OnInit, OnDestroy {
     const hotelsSub = this.hotelService.getAllHotels().subscribe(
       (response) => {
         this.hotels = response.data;
-        console.log(this.hotels);
         this.filteredHotels = this.hotels;
         this.isLoading = false;
       },

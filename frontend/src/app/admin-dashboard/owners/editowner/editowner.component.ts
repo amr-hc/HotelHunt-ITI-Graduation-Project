@@ -84,7 +84,6 @@ export class EditownerComponent implements OnInit, OnDestroy {
       const getUserSubscription = this.userService.getUserById(this.userId).subscribe(
         (response: any) => {
           this.user = response.data;
-          console.log(this.user);
           if (this.user) {
             this.editForm.patchValue(this.user);
             this.editForm.get('photo')?.setValue(this.user.photo);

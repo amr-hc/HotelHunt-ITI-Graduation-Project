@@ -20,7 +20,6 @@ export class BookingsComponent implements OnInit , OnDestroy {
   bookings: Booking[] = [];
   selectedHotel: string = '';
   groupedBookings: { [key: string]: Booking[] } = {};
-  // selectedHotel: string | null = null;
   selectedBooking: Booking | null = null;
   sub: Subscription | null = null;
   isLoading: boolean = false;

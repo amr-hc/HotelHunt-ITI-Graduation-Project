@@ -32,7 +32,6 @@ export class OwnersComponent implements OnInit, OnDestroy {
         this.users = response.data;
         this.owners = this.users.filter(user => user.role === 'owner');
         this.filteredOwners = [...this.owners];
-        console.log(this.filteredOwners);
         this.isLoading = false;
       },
       (error) => {
@@ -87,7 +86,7 @@ export class OwnersComponent implements OnInit, OnDestroy {
   searchOwners(): void {
     const searchTermLower = this.searchTerm.toLowerCase();
     this.filteredOwners = this.owners.filter((owner) =>
-      owner.fname.toLowerCase().includes(searchTermLower) ||
+      (owner.fname + ' ' + owner.lname).toLowerCase().includes(searchTermLower) ||
       owner.email.toLowerCase().includes(searchTermLower)
     );
   }

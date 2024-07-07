@@ -20,7 +20,7 @@
             [(ngModel)]="searchTerm"
             (input)="filterHotels()"
           />
-          <button class="btn btn-success ms-2" routerLink="/admin-dashboard/hotels/add">+<i class="fas fa-hotel me-2"></i></button>
+          <button class="btn btn-success ms-2" routerLink="/admin-dashboard/hotels/add">+ <i class="fas fa-hotel me-2"></i></button>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
               </td>
               <td>{{ hotel.city }}</td>
               <td>
-                <select [(ngModel)]="hotel.status" (change)="updateHotelStatus(hotel)">
+                <select [(ngModel)]="hotel.status" (change)="updateHotelStatus(hotel)"class="form-select">
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
                 </select>

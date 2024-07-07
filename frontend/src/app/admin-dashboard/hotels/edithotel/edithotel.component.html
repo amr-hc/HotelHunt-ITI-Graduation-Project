@@ -145,7 +145,7 @@
 
           <div class="form-group mb-2">
             <label for="image">Image</label>
-            <input type="file" class="form-control-file" id="image" (change)="onFileChange($event)" accept="image/*" />
+            <input type="file" class="form-control" id="image" (change)="onFileChange($event)" accept="image/*" />
             <div *ngIf="formSubmitted && editForm.get('image')?.errors?.['invalidFileType']" class="text-danger">
               The file must be an image.
             </div>

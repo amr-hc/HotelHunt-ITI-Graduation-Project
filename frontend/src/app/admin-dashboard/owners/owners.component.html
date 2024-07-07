@@ -47,7 +47,7 @@
           <tr *ngFor="let owner of filteredOwners | paginate: { itemsPerPage: 8, currentPage: currentPage }; let i =index">
             <td>{{ i+1 }}</td>
             <td><img src="http://127.0.0.1:8000/storage/{{ owner.photo }}" class="rounded-circle" style="height:30px;width:35px"></td>
-            <td>{{ owner.fname }}</td>
+            <td>{{ owner.fname }} {{owner.lname}}</td>
             <td>
               <div class="form-check form-switch">
                 <input

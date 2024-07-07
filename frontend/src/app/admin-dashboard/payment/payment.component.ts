@@ -35,7 +35,6 @@ export class PaymentComponent implements OnInit, OnDestroy {
         this.payments = response.data;
         // Sort payments by date in descending order
         this.payments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        console.log('Payments:', this.payments);
         this.groupPaymentsByHotel();
         this.isLoading = false;
       },

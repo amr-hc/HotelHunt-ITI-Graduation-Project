@@ -85,7 +85,6 @@ export class EdithotelComponent implements OnDestroy {
       const hotelSubscription = this.hotelService.getHotelById(this.hotelId).subscribe(
         (response: any) => {
           this.hotel = response.data;
-          console.log(this.hotel);
           if (this.hotel) {
             this.editForm.patchValue(this.hotel);
             this.editForm.get('image')?.setValue(this.hotel.image);

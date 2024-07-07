@@ -76,12 +76,10 @@ export class EditroomtypeComponent implements OnInit {
   ngOnInit(): void {
     this.roomId = Number(this.route.snapshot.paramMap.get('roomId'));
     this.hotelId = Number(this.route.snapshot.paramMap.get('id'));
-    console.log(this.roomId);
     if (this.roomId) {
       this.roomTypeService.getById(this.roomId).subscribe(
         (response: any) => {
           this.roomType = response;
-          console.log(this.roomType);
           if (this.roomType) {
             this.editForm.patchValue(this.roomType);
             this.editForm.get('photo')?.setValue(this.roomType.photo);
