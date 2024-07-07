@@ -22,7 +22,7 @@
                   Room type name cannot exceed 100 characters.
                 </div>
                 <div *ngIf="roomTypeForm.get('name')?.errors?.['pattern']">
-                  Room type name must contain only letters.
+                  Hotel Name should have at least one alphabetical character and can include letters, numbers, spaces, apostrophes, and hyphens.
                 </div>
               </div>
             </div>
@@ -42,7 +42,7 @@
                   Description cannot exceed 255 characters.
                 </div>
                 <div *ngIf="roomTypeForm.get('description')?.errors?.['pattern']">
-                  Description must contain at least one letter and can include numbers and spaces.
+                  Description must contain at least one letter and can include letters, numbers, spaces, apostrophes, and hyphens.
                 </div>
               </div>
             </div>

@@ -34,7 +34,7 @@ export class AddroomtypeComponent implements OnInit {
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(100),
-          Validators.pattern(/^[a-zA-Z]*$/),
+          Validators.pattern(/^[a-zA-Z0-9]+(?:[ '-][a-zA-Z0-9]+)*$/),
         ],
       ],
       description: [
@@ -43,7 +43,7 @@ export class AddroomtypeComponent implements OnInit {
           Validators.required,
           Validators.minLength(8),
           Validators.maxLength(255),
-          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s]*$/),
+          Validators.pattern(/^(?=.*[a-zA-Z])[a-zA-Z0-9\s,'.\-_]*$/),
         ],
       ],
       price: [

@@ -21,7 +21,7 @@
                   Name cannot exceed 100 characters.
                 </div>
                 <div *ngIf="editForm.get('name')?.errors?.['pattern']">
-                  Name must contain only letters.
+                  Hotel Name should have at least one alphabetical character and can include letters, numbers, spaces, apostrophes, and hyphens.
                 </div>
               </div>
             </div>
@@ -41,7 +41,7 @@
                   Description cannot exceed 255 characters.
                 </div>
                 <div *ngIf="editForm.get('description')?.errors?.['pattern']">
-                  Description must contain at least one letter and can include numbers and spaces.
+                  Description must contain at least one letter and can include letters, numbers, spaces, apostrophes, and hyphens.
                 </div>
               </div>
             </div>
