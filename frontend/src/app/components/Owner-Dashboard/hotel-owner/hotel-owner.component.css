@@ -165,3 +165,7 @@
   font-size: 0.875rem;
 }
 
+.x-delete{
+  position: absolute;
+  right: 0.09rem;
+}
