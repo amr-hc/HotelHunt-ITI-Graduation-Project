@@ -55,6 +55,5 @@ HotelHunt is a comprehensive real estate booking website developed as our gradua
 
     ```bash
     git clone https://github.com/amr-hc/HotelHunt-ITI-Graduation-Project.git
-    cd HotelHunt-ITI-Graduation-Project/backend
     ```
 
